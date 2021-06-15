@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1284309509587163681}
   - component: {fileID: 1284309509587163686}
   - component: {fileID: 512757059032964738}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flux Counter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,3 +272,4 @@ MonoBehaviour:
   maxRad: 1
   radius: 0.1
   inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  waitBeforeResized: 0.2
