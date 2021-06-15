@@ -154,6 +154,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Teleport Start",
+                    "type": "Button",
+                    "id": "6cc8d4c7-1e03-488c-816c-f5c66c172002",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -486,6 +494,17 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5a0e68e6-c413-401d-b386-928c1a39718f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
