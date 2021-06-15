@@ -16,16 +16,37 @@ public class TeleportManager : MonoBehaviour
     Hand hand;
     private string handName;
 
+    [SerializeField]
+    XRRayInteractor rayInteractor;
+
+    [SerializeField]
+    TeleportationProvider provider;
+
     // Start is called before the first frame update
     void Start()
     {
         handName = HandToHand(hand);
         string actionMapName = "XRI " + handName + "Hand";
-        //Debug.Log("Searching for: " + actionMapName);
+        //Debug.Log("Searching for Action Map " + actionMapName);
         teleportAction = actionAsset.FindActionMap(actionMapName).FindAction("Teleport Start");
-        // MAKE THIS FLEXIBLE
-        //Debug.Log("Action found: " + (teleportAction != null));
+        // MAKE THIS FLEXIBLE, somehow. 
+        //Debug.Log("Found action: " + (teleportAction != null));
+
+        teleportAction.started += OnTeleportStart;
+        teleportAction.canceled += OnTeleportRelease;
+
+        rayInteractor.enabled = false;
     }
+
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Debug.Log("Phase: " + teleportAction.phase);
+    }
+
+
 
     private string HandToHand(Hand hand)
     {
@@ -38,9 +59,47 @@ public class TeleportManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTeleportStart(InputAction.CallbackContext context)
     {
+        //Debug.Log("OnTeleportStart called");
+        rayInteractor.enabled = true;
         
+
+    }
+
+    void OnTeleportRelease(InputAction.CallbackContext context)
+    {
+        //Debug.Log("OnTeleportRelease called");
+
+        if(!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        {
+            rayInteractor.enabled = false;
+            return;
+        }
+
+        Vector3 destination = transform.position;
+        TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
+        if (anchor)
+        {
+            destination = anchor.teleportAnchorTransform.position;
+        }
+        else if (hit.transform.GetComponent<TeleportationArea>())
+        {
+            destination = hit.point;
+        }
+        else
+        {
+            rayInteractor.enabled = false;
+            return;
+        }
+
+        TeleportRequest request = new TeleportRequest()
+        {
+            destinationPosition = destination,
+        };
+
+        provider.QueueTeleportRequest(request);
+
+        rayInteractor.enabled = false;
     }
 }

@@ -157,9 +157,9 @@
                 },
                 {
                     "name": "Teleport Start",
-                    "type": "Button",
-                    "id": "6cc8d4c7-1e03-488c-816c-f5c66c172002",
-                    "expectedControlType": "Button",
+                    "type": "Value",
+                    "id": "38067faf-47e4-4e46-8f68-fa5c8a08c1a9",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -497,11 +497,11 @@
                 },
                 {
                     "name": "",
-                    "id": "5a0e68e6-c413-401d-b386-928c1a39718f",
-                    "path": "",
-                    "interactions": "",
+                    "id": "43ec976e-e107-4222-955b-fa5fb5298c77",
+                    "path": "<XRController>{LeftHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=1,sweepBehavior=1)",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Noncontinuous Move",
                     "action": "Teleport Start",
                     "isComposite": false,
                     "isPartOfComposite": false
