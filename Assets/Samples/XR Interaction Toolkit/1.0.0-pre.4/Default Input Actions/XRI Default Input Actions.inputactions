@@ -596,6 +596,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Resize Object",
+                    "type": "Value",
+                    "id": "8139ec4b-88ba-443d-897e-9ee5040c00d8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -917,6 +925,17 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "97756e55-38b3-4f7a-88e3-6c678d9bcb25",
+                    "path": "<XRController>{RightHand}/primary2DAxis",
+                    "interactions": "",
+                    "processors": "StickDeadzone(min=0.5)",
+                    "groups": "Continuous Move",
+                    "action": "Resize Object",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

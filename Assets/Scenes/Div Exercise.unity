@@ -166,10 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35108bb6bceec33438eb86832e307e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xLength: 5
-  yLength: 5
-  zLength: 5
-  spacing: 0.5
+  xLength: 9
+  yLength: 9
+  zLength: 9
+  spacing: 0.25
   computeShader: {fileID: 7200000, guid: adc445077a78f424ea08bad56a208679, type: 3}
   material: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
   mesh: {fileID: -3149996399109167922, guid: 7d58fddf5dd774f44b42b4dc3087bb6b, type: 3}
@@ -350,9 +350,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 512757059032964738, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: radius
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
       propertyPath: m_LocalPosition.x

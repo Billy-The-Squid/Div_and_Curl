@@ -18,6 +18,9 @@ public class Resizable : MonoBehaviour
 
     private InputAction resizeAction;
 
+    [SerializeField, Range(0, 10)]
+    float waitBeforeResized = 0.2f;
+
     private float lastResized;
 
     private void Start()
@@ -33,7 +36,7 @@ public class Resizable : MonoBehaviour
 
     private void Update()
     {
-        if (isGrabbed && (Time.time > lastResized + 0.5) && (resizeAction.phase == InputActionPhase.Started))
+        if (isGrabbed && (Time.time > lastResized + waitBeforeResized) && (resizeAction.phase == InputActionPhase.Started))
         {
             float current = resizeAction.ReadValue<Vector2>().y;
             if (current > 0f)
