@@ -499,7 +499,7 @@
                     "name": "",
                     "id": "43ec976e-e107-4222-955b-fa5fb5298c77",
                     "path": "<XRController>{LeftHand}/Primary2DAxis",
-                    "interactions": "Sector(directions=1,sweepBehavior=1)",
+                    "interactions": "Sector(directions=1,sweepBehavior=3)",
                     "processors": "",
                     "groups": "Noncontinuous Move",
                     "action": "Teleport Start",

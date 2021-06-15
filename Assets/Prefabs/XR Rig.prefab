@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3205746196052225576}
   - component: {fileID: 246175370885294398}
   - component: {fileID: 6885946418284844269}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Teleport Ray (Left)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

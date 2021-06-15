@@ -61,23 +61,26 @@ public class TeleportManager : MonoBehaviour
 
     void OnTeleportStart(InputAction.CallbackContext context)
     {
-        //Debug.Log("OnTeleportStart called");
+        Debug.Log("OnTeleportStart called");
         rayInteractor.enabled = true;
-        
-
     }
 
     void OnTeleportRelease(InputAction.CallbackContext context)
     {
-        //Debug.Log("OnTeleportRelease called");
+        Debug.Log("OnTeleportRelease called");
 
-        if(!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        if(!(rayInteractor.enabled))
+        {
+            return;
+        }
+
+        if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
             rayInteractor.enabled = false;
             return;
         }
 
-        Vector3 destination = transform.position;
+        Vector3 destination; // = transform.position;
         TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
         if (anchor)
         {
