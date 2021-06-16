@@ -1002,6 +1002,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2652347426735425949, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2652347426735425950, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_Name
       value: XR Rig

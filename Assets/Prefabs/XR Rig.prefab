@@ -518,6 +518,7 @@ GameObject:
   - component: {fileID: 5886765858163403418}
   - component: {fileID: 7012503956287063756}
   - component: {fileID: 1611574539170568667}
+  - component: {fileID: 5809074648607462243}
   m_Layer: 6
   m_Name: XR Rig
   m_TagString: Player
@@ -595,7 +596,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2652347426735425950}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0bf296fc962d7184ab14ad1841598d5f, type: 3}
   m_Name: 
@@ -674,6 +675,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 2652347426735425946}
+--- !u!114 &5809074648607462243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347426735425950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8453fe340ffec442ac68260ad0f78c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveProvider: {fileID: 2652347426735425949}
+  teleporter: {fileID: 6885946418284844269}
+  movementMode: 1
 --- !u!1 &2652347426871914215
 GameObject:
   m_ObjectHideFlags: 0
