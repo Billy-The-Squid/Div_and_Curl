@@ -445,25 +445,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 512757059032964738, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
-      propertyPath: radius
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1022,13 +1006,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Rig
       objectReference: {fileID: 0}
-    - target: {fileID: 2652347427364259146, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
-      propertyPath: m_InteractionManager
-      value: 
-      objectReference: {fileID: 996171003}
-    - target: {fileID: 2652347428183578920, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
-      propertyPath: m_InteractionManager
-      value: 
-      objectReference: {fileID: 996171003}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}

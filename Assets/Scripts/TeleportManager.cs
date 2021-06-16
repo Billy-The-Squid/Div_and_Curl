@@ -61,13 +61,13 @@ public class TeleportManager : MonoBehaviour
 
     void OnTeleportStart(InputAction.CallbackContext context)
     {
-        Debug.Log("OnTeleportStart called");
+        //Debug.Log("OnTeleportStart called");
         rayInteractor.enabled = true;
     }
 
     void OnTeleportRelease(InputAction.CallbackContext context)
     {
-        Debug.Log("OnTeleportRelease called");
+        //Debug.Log("OnTeleportRelease called");
 
         if(!(rayInteractor.enabled))
         {
