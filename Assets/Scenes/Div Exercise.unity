@@ -133,7 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6418427}
   - component: {fileID: 6418428}
-  m_Layer: 0
+  - component: {fileID: 6418429}
+  - component: {fileID: 6418430}
+  m_Layer: 10
   m_Name: Vector Field
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -174,6 +176,32 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
   mesh: {fileID: -3149996399109167922, guid: 81af2d59f11fc93458179f030efb5ce6, type: 3}
   prefab: {fileID: 0}
+--- !u!65 &6418429
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 1, y: 1, z: 1}
+--- !u!114 &6418430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486c628e0525c494eb0a88f40c21bb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 6418429}
 --- !u!1 &71402913
 GameObject:
   m_ObjectHideFlags: 0
