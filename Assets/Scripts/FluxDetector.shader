@@ -40,12 +40,23 @@ Shader "Custom/FluxDetector"
             uint id : SV_VertexID;
         };
 
+        struct appdata_id 
+        {
+            float3 normal : NORMAL;
+            float4 vertex : POSITION;
+            float4 texcoord0 : TEXCOOD0; // See if we can drop a couple of these
+            float4 texcoord1 : TEXCOOD1;
+            float4 texcoord2 : TEXCOOD2;
+            float4 texcoord3 : TEXCOOD3;
+            uint id : SV_VertexID;
+        };
+
         struct Input
         {
             float2 uv_MainTex;
             float color;
         };
-          
+        
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
