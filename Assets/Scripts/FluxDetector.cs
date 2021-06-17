@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,27 +6,48 @@ using UnityEngine;
 public class FluxDetector : FieldDetector
 {
     [SerializeField]
+    ComputeShader computeShader;
+    [SerializeField]
     Material activeMaterial, inertMaterial;
-
     [SerializeField]
     MeshRenderer meshRenderer;
 
-    [SerializeField]
-    Mesh mesh; 
+    //[SerializeField]
+    Mesh mesh;
+    int numVertices;
 
-    private void Start()
+    ComputeBuffer positionsBuffer, vectorsBuffer;
+    static readonly int
+        positionsID = Shader.PropertyToID("_Positions"),
+        vectorsID = Shader.PropertyToID("_Vectors"),
+        centerID = Shader.PropertyToID("_CenterPosition");
+
+
+
+    private void OnEnable()
     {
-        if (meshRenderer == null)
-        {
+        // Finding the mesh and meshRenderer components
+        if (meshRenderer == null) {
             meshRenderer = GetComponent<MeshRenderer>();
         }
-        if (mesh == null)
-        {
+        if (mesh == null) {
             mesh = GetComponent<MeshFilter>().mesh;
         }
+        numVertices = mesh.vertexCount;
 
         meshRenderer.material = inField ? activeMaterial : inertMaterial;
-        Debug.Log("Active material? " + (inField ? true : false));
+        //Debug.Log("Active material? " + (inField ? true : false));
+
+        unsafe
+        {
+            positionsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
+            vectorsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
+        }
+    }
+
+    private void OnDisable()
+    {
+        // release the buffers. 
     }
 
     private void Update()
@@ -35,16 +57,34 @@ public class FluxDetector : FieldDetector
             return;
         }
 
-        //Vector3 center = transform.position;
-        //Vector3[] vertices = mesh.vertices;
-        //for (int i = 0; i < vertices.Length; i ++)
-        //{
-        //    Vector3 normal = (vertices[i] - center).normalized; // * 0.5f + Vector3.one * 0.5f;
-        //    mesh.colors[i] = new Color(normal.x, normal.y, normal.z);
-        //}
+        // Sets the vertex data into the position buffer
+        positionsBuffer.SetData(mesh.vertices); // Hopefully right
+
+        // Fills the vector buffer
+        UpdateGPU();
+
+        // Sends the vector buffer to the shader
+        UpdateMaterial();
     }
 
 
+
+    // Sends the vector buffer to the shader
+    private void UpdateMaterial()
+    {
+        activeMaterial.SetBuffer(vectorsID, vectorsBuffer);
+    }
+
+    // Uses the computeshader to calculate the values of the vectors buffer
+    private void UpdateGPU()
+    {
+        computeShader.SetBuffer(0, positionsID, positionsBuffer);
+        computeShader.SetBuffer(0, vectorsID, vectorsBuffer);
+        computeShader.SetVector(centerID, field.centerPosition); // Is this right?
+
+        int numGroups = Mathf.CeilToInt(numVertices / 64);
+        computeShader.Dispatch(0, numGroups, 1, 1);
+    }
 
 
 

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Flux Detector (Active)
-  m_Shader: {fileID: 4800000, guid: 1aaaa8dbc54a6024bb6df142206d1b7c, type: 3}
+  m_Shader: {fileID: 4800000, guid: fcf5775254810d04c80183a7b8c940c4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -73,6 +73,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.31053504, b: 0.98039216, a: 1}
+    - _Color: {r: 0.98039216, g: 0, b: 0.9037836, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
