@@ -1,4 +1,4 @@
-Shader "Custom/FluxUnlit"
+Shader "Custom/FluxDetector"
 {
     Properties
     {
@@ -6,8 +6,10 @@ Shader "Custom/FluxUnlit"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         LOD 100
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -59,9 +61,9 @@ Shader "Custom/FluxUnlit"
                 float dotP = dot(worldNormal, vect); // WROOOOOOONG NORMAL
                 //o.color = float4(dotP, 1.0, 0.0, 1.0);
                 o.color.r = saturate(-abs(dotP + 1)+2);
-                o.color.g = saturate(-abs(dotP - 1)+2);
-                o.color.b = saturate(1-abs(dotP));
-                o.color.a = 0.5;
+                o.color.b = saturate(-abs(dotP - 1)+2);
+                o.color.g = saturate(1-abs(dotP));
+                o.color.a = 0.75;
 
                 //float3 vect = normalize(_Vectors[v.id]);
                 //o.color = float4(vect.r, vect.g, vect.b, 0.5);
