@@ -1,0 +1,17 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel ComputeField
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float3> _Positions;
+RWStructuredBuffer<float3> _Vectors;
+float3 _CenterPosition;
+
+#include "./Vector-Field-Implementation/FieldLibrary.hlsl"
+
+[numthreads(64,1,1)]
+void ComputeField (uint3 id : SV_DispatchThreadID)
+{
+    Outwards field; 
+    _Vectors[id.x] = field.Field(_Positions[id.x]);
+}
