@@ -21,6 +21,8 @@ public class FluxDetector : FieldDetector
         positionsID = Shader.PropertyToID("_Positions"),
         vectorsID = Shader.PropertyToID("_Vectors"),
         centerID = Shader.PropertyToID("_CenterPosition");
+    Vector3[] worldPositions;
+    //Vector3[] debug;
 
 
 
@@ -42,12 +44,18 @@ public class FluxDetector : FieldDetector
         {
             positionsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
             vectorsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
+            worldPositions = new Vector3[numVertices];
+            //debug = new Vector3[numVertices];
         }
     }
 
     private void OnDisable()
     {
-        // release the buffers. 
+        positionsBuffer.Release();
+        vectorsBuffer.Release();
+
+        positionsBuffer = null;
+        vectorsBuffer = null;
     }
 
     private void Update()
@@ -57,11 +65,21 @@ public class FluxDetector : FieldDetector
             return;
         }
 
+        Matrix4x4 matrix = transform.localToWorldMatrix;
+        for(int i = 0; i < numVertices; i++)
+        {
+            worldPositions[i] = matrix.MultiplyPoint3x4(mesh.vertices[i]);
+            //worldPositions[i] = transform.TransformPoint(mesh.vertices[i]);
+        }
         // Sets the vertex data into the position buffer
-        positionsBuffer.SetData(mesh.vertices); // Hopefully right
+        positionsBuffer.SetData(worldPositions); // Hopefully right
 
         // Fills the vector buffer
         UpdateGPU();
+        //vectorsBuffer.GetData(debug);
+        //int index = 0; // Mathf.CeilToInt(UnityEngine.Random.Range(0.0f, (float)numVertices) - 1);
+        //Debug.Log("Array value " + index + ": " + debug[index]);
+        //Debug.Log("World position: " + worldPositions[index]);
 
         // Sends the vector buffer to the shader
         UpdateMaterial();
@@ -81,6 +99,7 @@ public class FluxDetector : FieldDetector
         computeShader.SetBuffer(0, positionsID, positionsBuffer);
         computeShader.SetBuffer(0, vectorsID, vectorsBuffer);
         computeShader.SetVector(centerID, field.centerPosition); // Is this right?
+        // Debug.Log("CenterPosition: " + field.centerPosition); // Currently (3, 1.5, 3)
 
         int numGroups = Mathf.CeilToInt(numVertices / 64);
         computeShader.Dispatch(0, numGroups, 1, 1);
