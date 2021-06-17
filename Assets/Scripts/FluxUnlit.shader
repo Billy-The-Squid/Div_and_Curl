@@ -6,7 +6,7 @@ Shader "Custom/FluxDetector"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" } // Allowing for transparency
         LOD 100
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
@@ -17,13 +17,13 @@ Shader "Custom/FluxDetector"
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
-            #pragma target 4.5
+            #pragma target 4.5 // necessary? I'm not certain. 
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
 
-
+            // The information about each vertex that goes into the vert shader. 
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -32,6 +32,7 @@ Shader "Custom/FluxDetector"
                 float4 normal : NORMAL;
             };
 
+            // The information about each vertex coming out of the vert shader and going into the pixel shader. 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
@@ -43,38 +44,37 @@ Shader "Custom/FluxDetector"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            StructuredBuffer<float3> _Vectors; // any direction, any length;
+            // The values of my vector field at each input. 
+            StructuredBuffer<float3> _Vectors;
 
 
 
+            // The vert shader. Calculates some vertex-specific information. 
             v2f vert (appdata v)
             {
+                // Default stuff: positions, coordinates, "fog."
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
-                float3 vect = normalize(_Vectors[v.id]);   // These are comin
-                float3 worldNormal = normalize(UnityObjectToWorldNormal(v.normal)); // FINISH THIS LINE
-                //o.color = float4(worldNormal.r, worldNormal.g, worldNormal.b, 1.0);
-                //o.color = float4(vect.r, vect.g, vect.b, 1.0);
-                float dotP = dot(worldNormal, vect); // WROOOOOOONG NORMAL
-                //o.color = float4(dotP, 1.0, 0.0, 1.0);
+                // Calculating the flux at each point
+                // The scaling isn't fair if we normalize these. 
+                float3 vect = normalize(_Vectors[v.id]);
+                float3 worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
+                float dotP = dot(worldNormal, vect);
+
                 o.color.r = saturate(-abs(dotP + 1)+2);
                 o.color.b = saturate(-abs(dotP - 1)+2);
                 o.color.g = saturate(1-abs(dotP));
                 o.color.a = 0.75;
 
-                //float3 vect = normalize(_Vectors[v.id]);
-                //o.color = float4(vect.r, vect.g, vect.b, 0.5);
-
-                //float3 vect = normalize(_Vectors[v.id]) * 0.5 + float3(0.5, 0.5, 0.5);
-                //float3 vect = _Vectors[v.id];
-                //o.color = float4(vect.r, vect.g, vect.b, 1.0);
-
                 return o;
             }
 
+
+
+            // The pixel shader. Calculates pixel-specific information. 
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
