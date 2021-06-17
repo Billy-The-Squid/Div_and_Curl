@@ -197,7 +197,7 @@ MonoBehaviour:
   xLength: 9
   yLength: 9
   zLength: 9
-  spacing: 1
+  spacing: 0.25
   centerPosition: {x: 0, y: 0, z: 0}
   computeShader: {fileID: 7200000, guid: 1f089526fd53f834a8214d374f0fd5c5, type: 3}
   material: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
