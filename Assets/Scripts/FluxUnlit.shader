@@ -64,10 +64,17 @@ Shader "Custom/FluxDetector"
                 float3 worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
                 float dotP = dot(worldNormal, vect);
 
-                o.color.r = saturate(-abs(dotP + 1)+2);
-                o.color.b = saturate(-abs(dotP - 1)+2);
-                o.color.g = saturate(1-abs(dotP));
-                o.color.a = 0.75;
+                // Red -> blue colors
+                //o.color.r = saturate(-abs(dotP + 1)+2);
+                //o.color.b = saturate(-abs(dotP - 1)+2);
+                //o.color.g = saturate(1-abs(dotP));
+                //o.color.a = 0.75;
+
+                // Purple -> Orange colors
+                o.color.r = 1 - abs(dotP) / 6 + dotP / 6;
+                o.color.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
+                o.color.b = 1 - abs(dotP) / 2 - dotP / 2;
+                o.color.a = 0.75; 
 
                 return o;
             }
