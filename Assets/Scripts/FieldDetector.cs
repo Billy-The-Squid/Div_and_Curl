@@ -5,15 +5,15 @@ using UnityEngine;
 public class FieldDetector : MonoBehaviour
 {
     protected bool inField;
-    protected GPUGraph field;
+    protected VectorField field;
 
-    public virtual void EnteredField(GPUGraph graph)
+    public virtual void EnteredField(VectorField graph)
     {
         inField = true;
         field = graph;
     }
 
-    public virtual void ExitedField(GPUGraph graph)
+    public virtual void ExitedField(VectorField graph)
     {
         inField = false;
         if(field == graph)

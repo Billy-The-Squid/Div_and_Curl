@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(GPUGraph))]
+[RequireComponent(typeof(VectorField))]
 public class ZoneManager : MonoBehaviour
 {
     [SerializeField]
@@ -26,7 +26,7 @@ public class ZoneManager : MonoBehaviour
         try
         {
             //Debug.Log("Detected collider");
-            other.GetComponent<FieldDetector>().EnteredField(this.GetComponent<GPUGraph>());
+            other.GetComponent<FieldDetector>().EnteredField(this.GetComponent<VectorField>());
         }
         catch (System.NullReferenceException)
         {
@@ -39,7 +39,7 @@ public class ZoneManager : MonoBehaviour
         try
         {
             //Debug.Log("Detected collider");
-            other.GetComponent<FieldDetector>().ExitedField(this.GetComponent<GPUGraph>());
+            other.GetComponent<FieldDetector>().ExitedField(this.GetComponent<VectorField>());
         }
         catch (System.NullReferenceException)
         {

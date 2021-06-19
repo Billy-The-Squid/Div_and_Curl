@@ -107,15 +107,15 @@ public class FluxDetector : FieldDetector
 
 
 
-    public override void EnteredField(GPUGraph graph)
+    public override void EnteredField(VectorField field)
     {
         meshRenderer.material = activeMaterial;
-        base.EnteredField(graph);
+        base.EnteredField(field);
     }
 
-    public override void ExitedField(GPUGraph graph)
+    public override void ExitedField(VectorField field)
     {
         meshRenderer.material = inertMaterial;
-        base.ExitedField(graph);
+        base.ExitedField(field);
     }
 }
