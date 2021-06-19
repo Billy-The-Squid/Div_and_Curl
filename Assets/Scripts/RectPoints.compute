@@ -1,13 +1,13 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel SetPositions
 
-// The positions of each point in worldspace (?)
+// The positions of each point in local space
 RWStructuredBuffer<float3> _Positions;
 
 // Number of points in each direction
-float _XLength;
-float _YLength;
-float _ZLength;
+int _XLength;
+int _YLength;
+int _ZLength;
 
 // Spacing between adjacent points
 float _Spacing;
@@ -24,6 +24,6 @@ void SetPositions (uint3 id : SV_DispatchThreadID)
 {
     if (id.x < (uint) _XLength && id.y < (uint) _YLength && id.z < (uint) _ZLength)
     {
-        _Positions[IDToIndex(id)] = id * _Spacing + _OriginPosition;
+        _Positions[IDToIndex(id)] = id * _Spacing; // +_OriginPosition;
     }
 }

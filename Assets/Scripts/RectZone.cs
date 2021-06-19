@@ -20,7 +20,14 @@ public class RectZone : FieldZone
         spacingID = Shader.PropertyToID("_Spacing"),
         originID = Shader.PropertyToID("_OriginPosition");
 
-
+    private void Start()
+    {
+        if (triggerCollider == null)
+        {
+            triggerCollider = GetComponent<BoxCollider>();
+        }
+        triggerCollider.isTrigger = true;
+    }
 
     public override void SetPositions()
     {
@@ -33,7 +40,7 @@ public class RectZone : FieldZone
         }
 
         // Assign the buffer to the compute shader
-        positionCalculator.SetBuffer(0, "_Positions", positionBuffer);
+        positionCalculator.SetBuffer(0, positionsBufferID, positionBuffer);
         positionCalculator.SetInt(xLengthID, xLength);
         positionCalculator.SetInt(yLengthID, yLength);
         positionCalculator.SetInt(zLengthID, zLength);
@@ -46,13 +53,23 @@ public class RectZone : FieldZone
         int ZGroups = Mathf.CeilToInt(zLength / 4f);
         positionCalculator.Dispatch(0, XGroups, YGroups, ZGroups);
 
+        //// Debugging code
+        //Vector3[] positionArray = new Vector3[numberOfPoints];
+        //Debug.Log("Buffer length: " + positionBuffer.count);
+        //positionBuffer.GetData(positionArray);
+        //Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
+        //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) + 
+        //    positionArray[numberOfPoints - 3]);
+
         // Calculate field origin and bounds
         fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
         bounds = new Bounds(fieldOrigin, 2 * fieldOrigin - transform.position + Vector3.one * maxVectorLength);
 
         // Set Collider size
-        Vector3 colliderScale = new Vector3(xLength, yLength, zLength) * spacing + 2 * Vector3.one * maxVectorLength;
-        triggerCollider.transform.localScale = colliderScale;
+        Vector3 colliderScale = new Vector3(xLength-1, yLength-1, zLength-1) * spacing + 2 * Vector3.one * maxVectorLength;
+        Vector3 colliderShift = -Vector3.one * maxVectorLength;
+        ((BoxCollider)triggerCollider).size = colliderScale;
+        //((BoxCollider)triggerCollider).center += colliderShift;
     }
 
 
