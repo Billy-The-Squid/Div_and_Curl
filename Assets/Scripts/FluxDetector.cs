@@ -98,7 +98,7 @@ public class FluxDetector : FieldDetector
     {
         computeShader.SetBuffer(0, positionsID, positionsBuffer);
         computeShader.SetBuffer(0, vectorsID, vectorsBuffer);
-        computeShader.SetVector(centerID, field.centerPosition); // Is this right?
+        computeShader.SetVector(centerID, field.zone.fieldOrigin); // Is this right?
         // Debug.Log("CenterPosition: " + field.centerPosition); // Currently (3, 1.5, 3)
 
         int numGroups = Mathf.CeilToInt(numVertices / 64);
