@@ -54,11 +54,12 @@ public class RectZone : FieldZone
         positionCalculator.Dispatch(0, XGroups, YGroups, ZGroups);
 
         //// Debugging code
+        //Debug.Log("Tranform position: " + transform.position);
         //Vector3[] positionArray = new Vector3[numberOfPoints];
-        //Debug.Log("Buffer length: " + positionBuffer.count);
+        ////Debug.Log("Buffer length: " + positionBuffer.count);
         //positionBuffer.GetData(positionArray);
         //Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
-        //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) + 
+        //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
         //    positionArray[numberOfPoints - 3]);
 
         // Calculate field origin and bounds
@@ -67,9 +68,7 @@ public class RectZone : FieldZone
 
         // Set Collider size
         Vector3 colliderScale = new Vector3(xLength-1, yLength-1, zLength-1) * spacing + 2 * Vector3.one * maxVectorLength;
-        Vector3 colliderShift = -Vector3.one * maxVectorLength;
         ((BoxCollider)triggerCollider).size = colliderScale;
-        //((BoxCollider)triggerCollider).center += colliderShift;
     }
 
 

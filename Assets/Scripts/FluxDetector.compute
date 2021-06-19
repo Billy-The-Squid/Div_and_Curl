@@ -13,5 +13,5 @@ float3 _CenterPosition;
 void ComputeField (uint3 id : SV_DispatchThreadID)
 {
     Outwards field; 
-    _Vectors[id.x] = field.Field(_Positions[id.x]);
+    _Vectors[id.x] = field.Field(_Positions[id.x] - _CenterPosition);
 }
