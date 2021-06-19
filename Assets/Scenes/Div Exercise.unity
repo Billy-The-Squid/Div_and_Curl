@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 1f089526fd53f834a8214d374f0fd5c5, type: 3}
   material: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
-  mesh: {fileID: -3149996399109167922, guid: b002f291b8c76194eb1ba3d081485138, type: 3}
+  mesh: {fileID: 2586148439552901436, guid: 1e01304a2d026784fa4e9449e08dfe00, type: 3}
 --- !u!65 &6418429
 BoxCollider:
   m_ObjectHideFlags: 0
