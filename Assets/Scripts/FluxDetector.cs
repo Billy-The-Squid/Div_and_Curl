@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(VectorField), typeof(FluxZone))]
 public class FluxDetector : FieldDetector
 {
     [SerializeField]
@@ -11,8 +12,12 @@ public class FluxDetector : FieldDetector
     Material activeMaterial, inertMaterial;
     [SerializeField]
     MeshRenderer meshRenderer;
+    [SerializeField]
+    FluxZone zone;
+    // The vector field that WILL be produced
+    [SerializeField]
+    VectorField vectorField;
 
-    //[SerializeField]
     Mesh mesh;
     int numVertices;
 
@@ -22,7 +27,7 @@ public class FluxDetector : FieldDetector
         vectorsID = Shader.PropertyToID("_Vectors"),
         centerID = Shader.PropertyToID("_CenterPosition");
     Vector3[] worldPositions;
-    //Vector3[] debug;
+
 
 
 
@@ -40,22 +45,23 @@ public class FluxDetector : FieldDetector
         meshRenderer.material = inField ? activeMaterial : inertMaterial;
         //Debug.Log("Active material? " + (inField ? true : false));
 
+        if (zone == null) {
+            zone = GetComponent<FluxZone>();
+        }
+        if (vectorField == null) {
+            vectorField = GetComponent<VectorField>();
+        }
+
+        vectorField.enabled = inField;
+        vectorField.zone = zone; // Hopefully this is fine for a disabled attribute.
+
         unsafe
         {
-            positionsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
-            vectorsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
-            worldPositions = new Vector3[numVertices];
+            //positionsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
+            //vectorsBuffer = new ComputeBuffer(numVertices, sizeof(Vector3));
+            // worldPositions = new Vector3[numVertices];
             //debug = new Vector3[numVertices];
         }
-    }
-
-    private void OnDisable()
-    {
-        positionsBuffer.Release();
-        vectorsBuffer.Release();
-
-        positionsBuffer = null;
-        vectorsBuffer = null;
     }
 
     private void Update()
@@ -65,21 +71,24 @@ public class FluxDetector : FieldDetector
             return;
         }
 
-        Matrix4x4 matrix = transform.localToWorldMatrix;
-        for(int i = 0; i < numVertices; i++)
-        {
-            worldPositions[i] = matrix.MultiplyPoint3x4(mesh.vertices[i]);
-            //worldPositions[i] = transform.TransformPoint(mesh.vertices[i]);
-        }
-        // Sets the vertex data into the position buffer
-        positionsBuffer.SetData(worldPositions); // Hopefully right
+
+
+        //Matrix4x4 matrix = transform.localToWorldMatrix;
+        //for(int i = 0; i < numVertices; i++)
+        //{
+        //    worldPositions[i] = matrix.MultiplyPoint3x4(mesh.vertices[i]);
+        //    //worldPositions[i] = transform.TransformPoint(mesh.vertices[i]);
+        //}
+        //// Sets the vertex data into the position buffer
+        //positionsBuffer.SetData(worldPositions); // Hopefully right
 
         // Fills the vector buffer
-        UpdateGPU();
+        //UpdateGPU();
         //vectorsBuffer.GetData(debug);
         //int index = 0; // Mathf.CeilToInt(UnityEngine.Random.Range(0.0f, (float)numVertices) - 1);
         //Debug.Log("Array value " + index + ": " + debug[index]);
         //Debug.Log("World position: " + worldPositions[index]);
+        vectorsBuffer = vectorField.vectorsBuffer;
 
         // Sends the vector buffer to the shader
         UpdateMaterial();
@@ -94,16 +103,18 @@ public class FluxDetector : FieldDetector
     }
 
     // Uses the computeshader to calculate the values of the vectors buffer
-    private void UpdateGPU()
-    {
-        computeShader.SetBuffer(0, positionsID, positionsBuffer);
-        computeShader.SetBuffer(0, vectorsID, vectorsBuffer);
-        computeShader.SetVector(centerID, field.zone.fieldOrigin); // Is this right?
-        // Debug.Log("CenterPosition: " + field.centerPosition); // Currently (3, 1.5, 3)
+    // Can be disposed of?
+    //private void UpdateGPU()
+    //{
+    //    int kernelID = (int)field.fieldType;
+    //    computeShader.SetBuffer(kernelID, positionsID, positionsBuffer);
+    //    computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
+    //    computeShader.SetVector(centerID, field.zone.fieldOrigin); // Is this right?
+    //    // Debug.Log("CenterPosition: " + field.centerPosition); // Currently (3, 1.5, 3)
 
-        int numGroups = Mathf.CeilToInt(numVertices / 64);
-        computeShader.Dispatch(0, numGroups, 1, 1);
-    }
+    //    int numGroups = Mathf.CeilToInt(numVertices / 64);
+    //    computeShader.Dispatch(kernelID, numGroups, 1, 1);
+    //}
 
 
 
@@ -111,11 +122,13 @@ public class FluxDetector : FieldDetector
     {
         meshRenderer.material = activeMaterial;
         base.EnteredField(field);
+        vectorField.enabled = true;
     }
 
     public override void ExitedField(VectorField field)
     {
         meshRenderer.material = inertMaterial;
         base.ExitedField(field);
+        vectorField.enabled = false;
     }
 }

@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 1284309509587163686}
   - component: {fileID: 512757059032964738}
   - component: {fileID: 1718279740705519841}
+  - component: {fileID: 7379399}
+  - component: {fileID: 7379400}
   m_Layer: 9
   m_Name: Flux Counter
   m_TagString: Untagged
@@ -278,3 +280,39 @@ MonoBehaviour:
   activeMaterial: {fileID: 2100000, guid: 7a76f5a2f831d204996beceb04ee3934, type: 2}
   inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
   meshRenderer: {fileID: 1284309509587163685}
+  zone: {fileID: 0}
+  vectorField: {fileID: 0}
+--- !u!114 &7379399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284309509587163691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 875feba70b0db3f47a9582d7ca63ca44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  computeShader: {fileID: 7200000, guid: 1f089526fd53f834a8214d374f0fd5c5, type: 3}
+  material: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
+  mesh: {fileID: -3149996399109167922, guid: b002f291b8c76194eb1ba3d081485138, type: 3}
+  fieldType: 0
+  canMove: 1
+  isDynamic: 1
+--- !u!114 &7379400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284309509587163691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a30b5ce6f8f88cc4bb27d21d95b19701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxVectorLength: 0.1
+  triggerCollider: {fileID: 1284309509587163690}
+  meshFilter: {fileID: 1284309509587163684}
+  fluxDetector: {fileID: 1718279740705519841}

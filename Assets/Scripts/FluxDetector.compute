@@ -1,5 +1,6 @@
 // Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel ComputeField
+#pragma kernel ComputeOutwards
+#pragma kernel ComputeSwirl
 
 // Create a RenderTexture with enableRandomWrite flag and set it
 // with cs.SetTexture
@@ -9,9 +10,13 @@ float3 _CenterPosition;
 
 #include "./Vector-Field-Implementation/FieldLibrary.hlsl"
 
-[numthreads(64,1,1)]
-void ComputeField (uint3 id : SV_DispatchThreadID)
-{
-    Outwards field; 
-    _Vectors[id.x] = field.Field(_Positions[id.x] - _CenterPosition);
+#define COMPUTE(fieldName) \
+[numthreads(64,1,1)] \
+void Compute##fieldName (uint3 id : SV_DispatchThreadID) \
+{ \
+    fieldName field;  \
+    _Vectors[id.x] = field.Field(_Positions[id.x] - _CenterPosition); \
 }
+
+COMPUTE(Outwards)
+COMPUTE(Swirl)

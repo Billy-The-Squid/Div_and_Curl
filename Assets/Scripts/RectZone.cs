@@ -20,19 +20,21 @@ public class RectZone : FieldZone
         spacingID = Shader.PropertyToID("_Spacing"),
         originID = Shader.PropertyToID("_OriginPosition");
 
+    private bool initialized = false;
+
+
+
+
+
     private void Start()
     {
-        if (triggerCollider == null)
-        {
-            triggerCollider = GetComponent<BoxCollider>();
-        }
-        triggerCollider.isTrigger = true;
+        Initialize();
     }
 
     public override void SetPositions()
     {
+        Initialize();
         // Initialize the buffer
-        int numberOfPoints = xLength * yLength * zLength;
         unsafe {
             if (positionBuffer == null || positionBuffer.count != numberOfPoints || positionBuffer.stride != sizeof(Vector3)) {
                 positionBuffer = new ComputeBuffer(numberOfPoints, sizeof(Vector3));
@@ -61,14 +63,6 @@ public class RectZone : FieldZone
         //Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
         //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
         //    positionArray[numberOfPoints - 3]);
-
-        // Calculate field origin and bounds
-        fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
-        bounds = new Bounds(fieldOrigin, 2 * fieldOrigin - transform.position + Vector3.one * maxVectorLength);
-
-        // Set Collider size
-        Vector3 colliderScale = new Vector3(xLength-1, yLength-1, zLength-1) * spacing + 2 * Vector3.one * maxVectorLength;
-        ((BoxCollider)triggerCollider).size = colliderScale;
     }
 
 
@@ -80,5 +74,29 @@ public class RectZone : FieldZone
             positionBuffer.Release();
             positionBuffer = null;
         }
+
+        initialized = false;
+    }
+
+    public override void Initialize()
+    {
+        if(initialized) { return; }
+        if (triggerCollider == null)
+        {
+            triggerCollider = GetComponent<BoxCollider>();
+        }
+        triggerCollider.isTrigger = true;
+
+        numberOfPoints = xLength * yLength * zLength;
+
+        // Calculate field origin and bounds
+        fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
+        bounds = new Bounds(fieldOrigin, 2 * fieldOrigin - transform.position + Vector3.one * maxVectorLength);
+
+        // Set Collider size
+        Vector3 colliderScale = new Vector3(xLength - 1, yLength - 1, zLength - 1) * spacing + 2 * Vector3.one * maxVectorLength;
+        ((BoxCollider)triggerCollider).size = colliderScale;
+
+        initialized = true;
     }
 }

@@ -160,7 +160,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 7867868617988392254}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_AttachTransform: {fileID: 0}
   m_StartingSelectedInteractable: {fileID: 0}
   m_HoverEntered:
