@@ -64,7 +64,7 @@ public class FluxDetector : FieldDetector
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if(!inField)
         {
@@ -85,10 +85,11 @@ public class FluxDetector : FieldDetector
         // Fills the vector buffer
         //UpdateGPU();
         //vectorsBuffer.GetData(debug);
+        vectorsBuffer = vectorField.vectorsBuffer;
+        //vectorsBuffer.GetData(debug);
         //int index = 0; // Mathf.CeilToInt(UnityEngine.Random.Range(0.0f, (float)numVertices) - 1);
         //Debug.Log("Array value " + index + ": " + debug[index]);
         //Debug.Log("World position: " + worldPositions[index]);
-        vectorsBuffer = vectorField.vectorsBuffer;
 
         // Sends the vector buffer to the shader
         UpdateMaterial();
