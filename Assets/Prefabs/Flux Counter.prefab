@@ -152,7 +152,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 512757059032964738}
         m_TargetAssemblyTypeName: Resizable, Assembly-CSharp
-        m_MethodName: SetGrabbedTrue
+        m_MethodName: SetSelectedTrue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -167,7 +167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 512757059032964738}
         m_TargetAssemblyTypeName: Resizable, Assembly-CSharp
-        m_MethodName: SetGrabbedFalse
+        m_MethodName: SetSelectedFalse
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -264,6 +264,7 @@ MonoBehaviour:
   radius: 0.2
   inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   waitBeforeResized: 0.2
+  resizeIncrement: 0.1
 --- !u!114 &1718279740705519841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,12 +277,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 478a77aa59fb83d46856fc447137ef2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  computeShader: {fileID: 7200000, guid: 17e8f4ce751e1884f8830112d3a59340, type: 3}
   activeMaterial: {fileID: 2100000, guid: 7a76f5a2f831d204996beceb04ee3934, type: 2}
   inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
   meshRenderer: {fileID: 1284309509587163685}
-  zone: {fileID: 0}
-  vectorField: {fileID: 0}
+  zone: {fileID: 7379400}
+  vectorField: {fileID: 7379399}
 --- !u!114 &7379399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,14 +289,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284309509587163691}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 875feba70b0db3f47a9582d7ca63ca44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 1f089526fd53f834a8214d374f0fd5c5, type: 3}
-  material: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
-  mesh: {fileID: -3149996399109167922, guid: b002f291b8c76194eb1ba3d081485138, type: 3}
+  pointerMaterial: {fileID: 2100000, guid: 59b8c799bfc6c774e83d5879c7104a13, type: 2}
+  pointerMesh: {fileID: -3149996399109167922, guid: b002f291b8c76194eb1ba3d081485138, type: 3}
   fieldType: 0
   canMove: 1
   isDynamic: 1
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30b5ce6f8f88cc4bb27d21d95b19701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVectorLength: 0.1
+  maxVectorLength: 0.02
   triggerCollider: {fileID: 1284309509587163690}
   meshFilter: {fileID: 1284309509587163684}
   fluxDetector: {fileID: 1718279740705519841}

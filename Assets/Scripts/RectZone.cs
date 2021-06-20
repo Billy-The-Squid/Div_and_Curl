@@ -2,14 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A vector <cref>FieldZone</cref> that is a rectangular prism and has evenly-spaced points.
+/// 
+/// Does not support changing the dimensions in play mode or rotations in any mode. 
+/// </summary>
 [RequireComponent(typeof(BoxCollider))]
 public class RectZone : FieldZone
 {
+    /// <summary>
+    /// The number of points along the x direction.
+    /// </summary>
     [SerializeField, Min(1)]
-    int xLength = 2, yLength = 2, zLength = 2;
+    int xLength = 2;
+    /// <summary>
+    /// The number of points along the y direction.
+    /// </summary>
+    [SerializeField, Min(1)]
+    int yLength = 2;
+    /// <summary>
+    /// The number of points along the z direction.
+    /// </summary>
+    [SerializeField, Min(1)]
+    int zLength = 2;
     [SerializeField]
     float spacing = 1;
 
+    /// <summary>
+    /// The compute shader used to calculate positions. 
+    /// </summary>
     [SerializeField]
     private ComputeShader positionCalculator;
     private static readonly int
@@ -20,6 +41,9 @@ public class RectZone : FieldZone
         spacingID = Shader.PropertyToID("_Spacing"),
         originID = Shader.PropertyToID("_OriginPosition");
 
+    /// <summary>
+    /// Determines whether the field parameters have been initialized. 
+    /// </summary>
     private bool initialized = false;
 
 
@@ -31,6 +55,7 @@ public class RectZone : FieldZone
         Initialize();
     }
 
+    // Fills the positionBuffer
     public override void SetPositions()
     {
         Initialize();
@@ -69,8 +94,7 @@ public class RectZone : FieldZone
 
     private void OnDisable()
     {
-        if(positionBuffer != null)
-        {
+        if(positionBuffer != null) {
             positionBuffer.Release();
             positionBuffer = null;
         }
@@ -78,18 +102,22 @@ public class RectZone : FieldZone
         initialized = false;
     }
 
+    /// <summary>
+    /// Initializes the variables that will not change until the component is disabled,
+    /// but which must be created before <cref>SetPositions</cref> may be called. 
+    /// </summary>
     public override void Initialize()
     {
         if(initialized) { return; }
-        if (triggerCollider == null)
-        {
+        // Initializes the trigger collider to be certain that it is box shaped. 
+        if (!(triggerCollider is BoxCollider)) {
             triggerCollider = GetComponent<BoxCollider>();
         }
-        triggerCollider.isTrigger = true;
+        //triggerCollider.isTrigger = true;
 
         numberOfPoints = xLength * yLength * zLength;
 
-        // Calculate field origin and bounds
+        // Calculate field origin and bounds --- non-dynamic
         fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
         bounds = new Bounds(fieldOrigin, 2 * fieldOrigin - transform.position + Vector3.one * maxVectorLength);
 
@@ -97,6 +125,7 @@ public class RectZone : FieldZone
         Vector3 colliderScale = new Vector3(xLength - 1, yLength - 1, zLength - 1) * spacing + 2 * Vector3.one * maxVectorLength;
         ((BoxCollider)triggerCollider).size = colliderScale;
 
+        // Ensures that this method will not execute again until after the component has been disabled and reenabled.
         initialized = true;
     }
 }

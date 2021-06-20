@@ -48,6 +48,7 @@ Shader "Vectors/FluxShader"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
+				// This won't work for non-circular detectors
 				float3 normal = _Positions[unity_InstanceID] - float3(_DetectorCenter.x, _DetectorCenter.y, _DetectorCenter.z);
 				float3 vect = _Vectors[unity_InstanceID];
 				float dotP = dot(normalize(vect), normalize(normal));
