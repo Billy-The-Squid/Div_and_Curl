@@ -73,26 +73,16 @@ public class FluxDetector : FieldDetector
 
         vectorField.fieldType = detectedField.fieldType;
 
-        //Matrix4x4 matrix = transform.localToWorldMatrix;
-        //for(int i = 0; i < numVertices; i++)
-        //{
-        //    worldPositions[i] = matrix.MultiplyPoint3x4(mesh.vertices[i]);
-        //    //worldPositions[i] = transform.TransformPoint(mesh.vertices[i]);
-        //}
-        //// Sets the vertex data into the position buffer
-        //positionsBuffer.SetData(worldPositions); // Hopefully right
-
         // Fills the vector buffer
-        //UpdateGPU();
-        //vectorsBuffer.GetData(debug);
         vectorsBuffer = vectorField.vectorsBuffer;
-        //vectorsBuffer.GetData(debug);
-        //int index = 0; // Mathf.CeilToInt(UnityEngine.Random.Range(0.0f, (float)numVertices) - 1);
-        //Debug.Log("Array value " + index + ": " + debug[index]);
-        //Debug.Log("World position: " + worldPositions[index]);
 
         // Sends the vector buffer to the shader
         UpdateMaterial();
+
+        // Send some information to the pointer material
+        Vector3 pos = transform.position;
+        vectorField.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer);
+        vectorField.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
     }
 
 
