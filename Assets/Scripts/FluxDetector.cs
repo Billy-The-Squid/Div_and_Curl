@@ -64,14 +64,14 @@ public class FluxDetector : FieldDetector
         }
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if(!inField)
         {
             return;
         }
 
-
+        vectorField.fieldType = detectedField.fieldType;
 
         //Matrix4x4 matrix = transform.localToWorldMatrix;
         //for(int i = 0; i < numVertices; i++)
@@ -102,20 +102,6 @@ public class FluxDetector : FieldDetector
     {
         activeMaterial.SetBuffer(vectorsID, vectorsBuffer);
     }
-
-    // Uses the computeshader to calculate the values of the vectors buffer
-    // Can be disposed of?
-    //private void UpdateGPU()
-    //{
-    //    int kernelID = (int)field.fieldType;
-    //    computeShader.SetBuffer(kernelID, positionsID, positionsBuffer);
-    //    computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
-    //    computeShader.SetVector(centerID, field.zone.fieldOrigin); // Is this right?
-    //    // Debug.Log("CenterPosition: " + field.centerPosition); // Currently (3, 1.5, 3)
-
-    //    int numGroups = Mathf.CeilToInt(numVertices / 64);
-    //    computeShader.Dispatch(kernelID, numGroups, 1, 1);
-    //}
 
 
 

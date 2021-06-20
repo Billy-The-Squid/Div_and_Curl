@@ -57,12 +57,12 @@ public class RectZone : FieldZone
 
         //// Debugging code
         //Debug.Log("Tranform position: " + transform.position);
-        //Vector3[] positionArray = new Vector3[numberOfPoints];
+        Vector3[] positionArray = new Vector3[numberOfPoints];
         ////Debug.Log("Buffer length: " + positionBuffer.count);
-        //positionBuffer.GetData(positionArray);
-        //Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
-        //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
-        //    positionArray[numberOfPoints - 3]);
+        positionBuffer.GetData(positionArray);
+        Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
+        Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
+            positionArray[numberOfPoints - 3]);
     }
 
 
