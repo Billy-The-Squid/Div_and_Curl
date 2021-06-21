@@ -11,8 +11,9 @@ int _ZLength;
 
 // Spacing between adjacent points
 float _Spacing;
-// Transform.position
-float3 _OriginPosition;
+
+// The matrix that takes points from local space to world space
+float4x4 _LocalToWorldMatrix;
 
 int IDToIndex(float3 id)
 {
@@ -24,6 +25,7 @@ void SetPositions (uint3 id : SV_DispatchThreadID)
 {
     if (id.x < (uint) _XLength && id.y < (uint) _YLength && id.z < (uint) _ZLength)
     {
-        _Positions[IDToIndex(id)] = id * _Spacing + _OriginPosition;
+        float4 localPos = float4(id.x * _Spacing, id.y * _Spacing, id.z * _Spacing, 1.0);
+        _Positions[IDToIndex(id)] = mul(_LocalToWorldMatrix, localPos).xyz;
     }
 }

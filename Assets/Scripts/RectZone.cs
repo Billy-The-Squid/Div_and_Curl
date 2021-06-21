@@ -39,7 +39,7 @@ public class RectZone : FieldZone
         yLengthID = Shader.PropertyToID("_YLength"),
         zLengthID = Shader.PropertyToID("_ZLength"),
         spacingID = Shader.PropertyToID("_Spacing"),
-        originID = Shader.PropertyToID("_OriginPosition");
+        matrixID = Shader.PropertyToID("_LocalToWorldMatrix");
 
     /// <summary>
     /// Determines whether the field parameters have been initialized. 
@@ -78,7 +78,7 @@ public class RectZone : FieldZone
         positionCalculator.SetInt(yLengthID, yLength);
         positionCalculator.SetInt(zLengthID, zLength);
         positionCalculator.SetFloat(spacingID, spacing);
-        positionCalculator.SetVector(originID, transform.position); // Not to be confused with fieldOrigin...
+        positionCalculator.SetMatrix(matrixID, transform.localToWorldMatrix);
 
         // Calls the compute shader
         int XGroups = Mathf.CeilToInt(xLength / 4f);
