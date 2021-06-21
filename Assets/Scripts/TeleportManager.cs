@@ -43,6 +43,11 @@ public class TeleportManager : MonoBehaviour
     [SerializeField]
     TeleportationProvider provider;
 
+    /// <summary>
+    /// Determines whether teleportation is currently available.
+    /// </summary>
+    public bool canTeleport;
+
     void Start()
     {
         handName = HandToHand(hand);
@@ -81,7 +86,10 @@ public class TeleportManager : MonoBehaviour
     void OnTeleportStart(InputAction.CallbackContext context)
     {
         //Debug.Log("OnTeleportStart called");
-        rayInteractor.enabled = true;
+        if(canTeleport)
+        {
+            rayInteractor.enabled = true;
+        }
     }
 
     /// <summary>

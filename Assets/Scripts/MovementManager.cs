@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,10 +16,28 @@ public class MovementManager : MonoBehaviour
     [SerializeField]
     ContinuousMoveProviderBase moveProvider;
     /// <summary>
-    /// The teleport manager. 
+    /// The <cref>TeleportProvider</cref>. 
     /// </summary>
     [SerializeField]
-    TeleportManager teleporter;
+    TeleportationProvider teleporter;
+    /// <summary>
+    /// The <cref>TeleportManager</cref>.
+    /// </summary>
+    [SerializeField]
+    TeleportManager teleportManager;
+
+    /// <summary>
+    /// The continuous turn provider. 
+    /// </summary>
+    [SerializeField]
+    ContinuousTurnProviderBase smoothTurnProvider;
+    /// <summary>
+    /// The snap turn provider.
+    /// </summary>
+    [SerializeField]
+    SnapTurnProviderBase snapTurnProvider;
+
+
 
     /// <summary>
     /// The types of directional movement available. 
@@ -30,12 +49,25 @@ public class MovementManager : MonoBehaviour
     [SerializeField]
     MovementMode movementMode = MovementMode.Teleport;
 
+    /// <summary>
+    /// The types of turning available.
+    /// </summary>
+    private enum TurnMode { Smooth, Snap }
+    /// <summary>
+    /// The turn method.
+    /// </summary>
+    [SerializeField]
+    TurnMode turnMode = TurnMode.Snap;
+
     
 
     void Start()
     {
         UpdateMovementMode();
+        UpdateTurnMode();
     }
+
+
 
 
 
@@ -47,9 +79,28 @@ public class MovementManager : MonoBehaviour
         if(movementMode == MovementMode.Smooth) {
             moveProvider.enabled = true;
             teleporter.enabled = false;
+            teleportManager.canTeleport = false;
         } else {
             moveProvider.enabled = false;
             teleporter.enabled = true;
+            teleportManager.canTeleport = true;
+        }
+    }
+
+    /// <summary>
+    /// Enables and disables turn components based on the turn mode selected. 
+    /// </summary>
+    private void UpdateTurnMode()
+    {
+        if (turnMode == TurnMode.Smooth)
+        {
+            smoothTurnProvider.enabled = true;
+            snapTurnProvider.enabled = false;
+        }
+        else
+        {
+            smoothTurnProvider.enabled = false;
+            snapTurnProvider.enabled = true;
         }
     }
 
@@ -58,7 +109,7 @@ public class MovementManager : MonoBehaviour
     /// <summary>
     /// Sets the directional movement mode to "Smooth."
     /// </summary>
-    public void SetModeSmooth()
+    public void SetMoveModeSmooth()
     {
         movementMode = MovementMode.Smooth;
         UpdateMovementMode();
@@ -67,9 +118,27 @@ public class MovementManager : MonoBehaviour
     /// <summary>
     /// Sets the directional movement mode to "Teleport."
     /// </summary>
-    public void SetModeTeleport()
+    public void SetMoveModeTeleport()
     {
         movementMode = MovementMode.Teleport;
         UpdateMovementMode();
+    }
+
+    /// <summary>
+    /// Sets the turn mode to "Smooth."
+    /// </summary>
+    public void SetTurnModeSmooth()
+    {
+        turnMode = TurnMode.Smooth;
+        UpdateTurnMode();
+    }
+
+    /// <summary>
+    /// Sets the turn mode to "Snap."
+    /// </summary>
+    public void SetTurnModeSnap()
+    {
+        turnMode = TurnMode.Snap;
+        UpdateTurnMode();
     }
 }
