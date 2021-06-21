@@ -35,6 +35,12 @@ public class FluxZone : FieldZone
     /// </summary>
     private Vector3[] positionArray;
 
+    /// <summary>
+    /// Multiplied by scale (x component) to calculate the <cref>maxVectorLength</cref>.
+    /// </summary>
+    [SerializeField]
+    float vectorScalingFactor = 0.1f;
+
 
 
 
@@ -73,6 +79,8 @@ public class FluxZone : FieldZone
         // Creates the bounds used by the GPU.
         Vector3 boundsCenter = transform.TransformPoint(mesh.bounds.center);
         bounds = new Bounds(boundsCenter, mesh.bounds.size + Vector3.one * maxVectorLength);
+
+        maxVectorLength = transform.localScale.x * vectorScalingFactor;
     }
 
     private void OnDisable() {
@@ -102,6 +110,8 @@ public class FluxZone : FieldZone
 
         numberOfPoints = mesh.vertexCount;
         positionArray = new Vector3[numberOfPoints];
+
+        maxVectorLength = transform.localScale.x * vectorScalingFactor;
 
         // Ensures that this will not be called again until the component has been disabled and reenabled. 
         initialized = true;

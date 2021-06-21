@@ -46,6 +46,12 @@ public class RectZone : FieldZone
     /// </summary>
     private bool initialized = false;
 
+    /// <summary>
+    /// Multiplied by spacing to calculate the <cref>maxVectorLength</cref>.
+    /// </summary>
+    [SerializeField]
+    float vectorScalingFactor = 0.5f;
+
 
 
 
@@ -116,6 +122,8 @@ public class RectZone : FieldZone
         //triggerCollider.isTrigger = true;
 
         numberOfPoints = xLength * yLength * zLength;
+
+        maxVectorLength = spacing * vectorScalingFactor;
 
         // Calculate field origin and bounds --- non-dynamic
         fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
