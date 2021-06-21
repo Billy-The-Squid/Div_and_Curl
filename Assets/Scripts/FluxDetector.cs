@@ -95,8 +95,8 @@ public class FluxDetector : FieldDetector
 
         // Send some information to the pointer material
         Vector3 pos = transform.position;
-        vectorField.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer);
-        vectorField.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+        vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer);
+        vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
     }
 
 
