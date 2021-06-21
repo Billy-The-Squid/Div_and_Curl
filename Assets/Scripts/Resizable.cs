@@ -81,7 +81,9 @@ public class Resizable : MonoBehaviour
 
     private void Update()
     {
-        if (isSelected && (Time.time > lastResized + waitBeforeResized) && (resizeAction.phase == InputActionPhase.Started))
+        //Debug.Log("Phase: " + resizeAction.phase);
+        //Debug.Log("Resize action value: " + resizeAction.ReadValue<Vector2>());
+        if (isSelected && (Time.time > lastResized + waitBeforeResized) && (resizeAction.phase == InputActionPhase.Started || resizeAction.phase == InputActionPhase.Performed))
         {
             float current = resizeAction.ReadValue<Vector2>().y;
             if (current > 0f)

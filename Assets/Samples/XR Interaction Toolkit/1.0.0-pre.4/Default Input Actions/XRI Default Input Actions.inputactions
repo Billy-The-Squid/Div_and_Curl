@@ -949,9 +949,9 @@
                     "name": "",
                     "id": "97756e55-38b3-4f7a-88e3-6c678d9bcb25",
                     "path": "<XRController>{RightHand}/primary2DAxis",
-                    "interactions": "",
-                    "processors": "StickDeadzone(min=0.5)",
-                    "groups": "Continuous Move",
+                    "interactions": "Sector(directions=3,sweepBehavior=1)",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
                     "action": "Resize Object",
                     "isComposite": false,
                     "isPartOfComposite": false
