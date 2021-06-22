@@ -51,7 +51,7 @@ public class FluxDetector : FieldDetector
 
 
 
-    private void OnEnable()
+    private void Start()
     {
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {
