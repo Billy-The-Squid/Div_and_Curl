@@ -146,7 +146,7 @@ public class VectorDisplay : Display
 
         maxMagnitude.GetData(maxMagnitudeArray);
 
-        // Debug code
+        //// Debug code
         //float[] magnitudesArray = new float[numOfPoints];
         //magnitudesBuffer.GetData(magnitudesArray);
     }
@@ -169,9 +169,9 @@ public class VectorDisplay : Display
 
         //// Debugging code
         //Vector3[] debugArray = new Vector3[numOfPoints];
-        ////float[] debugArray = new float[numOfPoints];
-        //plotVectorsBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in plot array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in plot array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        //float[] debugArray = new float[numOfPoints];
+        //magnitudesBuffer.GetData(debugArray);
+        //Debug.Log((("First three points in magnitude array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        //Debug.Log((("Last three points in magnitude array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
     }
 }
