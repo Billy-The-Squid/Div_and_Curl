@@ -24,7 +24,7 @@ public class Magnet : MonoBehaviour
     {
         unsafe
         {
-            floatArgs = new ComputeBuffer(5, sizeof(float));
+            floatArgs = new ComputeBuffer(3, sizeof(float));
             vectorArgs = new ComputeBuffer(3, sizeof(Vector3));
         }
 
@@ -40,6 +40,8 @@ public class Magnet : MonoBehaviour
         field.vectorArgsBuffer = vectorArgs;
         //field.floatArgsArray = floatArray;
         //field.vectorArgsArray = vec_array;
+        //Array.Copy(floatArray, field.floatArgsArray, floatArray.Length);
+        //Array.Copy(vec_array, field.vectorArgsArray, vec_array.Length);
     }
 
     // Make sure to wipe the Compute buffers after use. Otherwise, the GPU will complain!
