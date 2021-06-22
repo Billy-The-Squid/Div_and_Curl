@@ -94,6 +94,7 @@ public class RectZone : FieldZone
         //Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
         //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
         //    positionArray[numberOfPoints - 3]);
+        //Debug.Log("Set max vector length: " + maxVectorLength);
     }
 
 
