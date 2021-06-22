@@ -56,35 +56,19 @@ public class RectZone : FieldZone
 
 
 
-    private void Start()
-    {
+    private void Start() {
         Initialize();
     }
 
+
     // Fills the positionBuffer
-    public override void SetPositions()
-    {
+    public override void SetPositions() {
         Initialize();
         // Initialize the buffer
-        unsafe {
-            if (positionBuffer == null || positionBuffer.count != numberOfPoints || positionBuffer.stride != sizeof(Vector3)) {
-                positionBuffer = new ComputeBuffer(numberOfPoints, sizeof(Vector3));
-            }
+
+        if(canMove) {
+            CalculatePositions();
         }
-
-        // Assign the buffer to the compute shader
-        positionCalculator.SetBuffer(0, positionsBufferID, positionBuffer);
-        positionCalculator.SetInt(xLengthID, xLength);
-        positionCalculator.SetInt(yLengthID, yLength);
-        positionCalculator.SetInt(zLengthID, zLength);
-        positionCalculator.SetFloat(spacingID, spacing);
-        positionCalculator.SetMatrix(matrixID, transform.localToWorldMatrix);
-
-        // Calls the compute shader
-        int XGroups = Mathf.CeilToInt(xLength / 4f);
-        int YGroups = Mathf.CeilToInt(yLength / 4f);
-        int ZGroups = Mathf.CeilToInt(zLength / 4f);
-        positionCalculator.Dispatch(0, XGroups, YGroups, ZGroups);
 
         //// Debugging code
         //Vector3[] positionArray = new Vector3[numberOfPoints];
@@ -118,19 +102,45 @@ public class RectZone : FieldZone
             triggerCollider = GetComponent<BoxCollider>();
         }
 
+        // Set some constants
         numberOfPoints = xLength * yLength * zLength;
-
         maxVectorLength = spacing * vectorScalingFactor;
 
         // Calculate field origin and bounds --- non-dynamic
         fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
-        bounds = new Bounds(fieldOrigin, 2 * fieldOrigin - transform.position + Vector3.one * maxVectorLength);
+        bounds = new Bounds(fieldOrigin, new Vector3(xLength, yLength, zLength) * spacing + 2f * Vector3.one * maxVectorLength);
 
         // Set Collider size
         Vector3 colliderScale = new Vector3(xLength - 1, yLength - 1, zLength - 1) * spacing + 2 * Vector3.one * maxVectorLength;
         ((BoxCollider)triggerCollider).size = colliderScale;
 
+        // Create and initialize the position buffer. 
+        unsafe {
+            if (positionBuffer == null || positionBuffer.count != numberOfPoints || positionBuffer.stride != sizeof(Vector3)) {
+                positionBuffer = new ComputeBuffer(numberOfPoints, sizeof(Vector3));
+            }
+        }
+        CalculatePositions();
+
         // Ensures that this method will not execute again until after the component has been disabled and reenabled.
         initialized = true;
+    }
+
+
+    private void CalculatePositions()
+    {
+        // Assign the buffer to the compute shader
+        positionCalculator.SetBuffer(0, positionsBufferID, positionBuffer);
+        positionCalculator.SetInt(xLengthID, xLength);
+        positionCalculator.SetInt(yLengthID, yLength);
+        positionCalculator.SetInt(zLengthID, zLength);
+        positionCalculator.SetFloat(spacingID, spacing);
+        positionCalculator.SetMatrix(matrixID, transform.localToWorldMatrix);
+
+        // Calls the compute shader
+        int XGroups = Mathf.CeilToInt(xLength / 4f);
+        int YGroups = Mathf.CeilToInt(yLength / 4f);
+        int ZGroups = Mathf.CeilToInt(zLength / 4f);
+        positionCalculator.Dispatch(0, XGroups, YGroups, ZGroups);
     }
 }

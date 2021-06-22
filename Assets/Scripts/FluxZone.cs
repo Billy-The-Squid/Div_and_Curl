@@ -78,7 +78,7 @@ public class FluxZone : FieldZone
 
         // Creates the bounds used by the GPU.
         Vector3 boundsCenter = transform.TransformPoint(mesh.bounds.center);
-        bounds = new Bounds(boundsCenter, mesh.bounds.size + Vector3.one * maxVectorLength);
+        bounds = new Bounds(boundsCenter, Vector3.Scale(mesh.bounds.size, transform.localScale) + Vector3.one * maxVectorLength);
 
         maxVectorLength = transform.localScale.x * vectorScalingFactor;
     }
@@ -112,6 +112,8 @@ public class FluxZone : FieldZone
         positionArray = new Vector3[numberOfPoints];
 
         maxVectorLength = transform.localScale.x * vectorScalingFactor;
+
+        canMove = true;
 
         // Ensures that this will not be called again until the component has been disabled and reenabled. 
         initialized = true;

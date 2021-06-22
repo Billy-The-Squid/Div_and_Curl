@@ -172,8 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
   fieldType: 2
-  canMove: 0
-  isDynamic: 1
+  isDynamic: 0
 --- !u!65 &6418429
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -200,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 6418429}
+  canMove: 0
   xLength: 9
   yLength: 9
   zLength: 9
@@ -601,6 +601,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7379400, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: canMove
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284309509587163686, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: m_MovementType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1284309509587163687, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1070,7 +1078,7 @@ MonoBehaviour:
   m_Colliders: []
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_CustomReticle: {fileID: 0}
   m_FirstHoverEntered:
     m_PersistentCalls:
