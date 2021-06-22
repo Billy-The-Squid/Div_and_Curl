@@ -8,17 +8,26 @@ public class Magnet : MonoBehaviour
     /// <summary>
     /// The extra arguments provided to the Coulomb function of the vector field. 
     /// 
-    /// Index 0 is the number of 
+    /// Index 0 is the number of charges, the other indices are the strength of the charges. 
     /// </summary>
-    public ComputeBuffer floatArgs, vectorArgs;
+    public ComputeBuffer floatArgs;
+    /// <summary>
+    /// The extra vector arguments provided to the Coulomb function of the vector field. 
+    /// 
+    /// Index 0 is unused, the others are positions of the charges in floatArgs
+    /// </summary>
+    public ComputeBuffer vectorArgs;
 
+    /// <summary>
+    /// The <cref>VectorField</cref> generating the displayed field.
+    /// </summary>
     [SerializeField]
     VectorField field;
 
     [NonSerialized]
-    public float[] floatArray = { 2f, 2f, 3f };
+    private float[] floatArray = { 2f, 2f, 3f };
     [NonSerialized]
-    public Vector3[] vec_array = { new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0) };
+    private Vector3[] vec_array = { new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0) };
 
     void Start()
     {
