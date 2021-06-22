@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Magnet : MonoBehaviour
 {
+    /// <summary>
+    /// The extra arguments provided to the Coulomb function of the vector field. 
+    /// 
+    /// Index 0 is the number of 
+    /// </summary>
     public ComputeBuffer floatArgs, vectorArgs;
 
     [SerializeField]
@@ -31,17 +36,11 @@ public class Magnet : MonoBehaviour
      
     public void DoThing()
     {
-        //field.computeShader.SetBuffer(2, "_FloatArgs", floatArgs);
-        //field.computeShader.SetBuffer(2, "_VectorArgs", vectorArgs);
-        //field.floatArgsBuffer = floatArgs; // still crashes
-        //field.vectorArgsBuffer = vectorArgs;
-        //Array.Copy(floatArray, field.floatArgsArray, 3);
-        //Debug.Log("Trying to do thing");
-        field.floatArgsArray = floatArray;
-        //Debug.Log("Did thing");
-        field.vectorArgsArray = vec_array;
+        field.floatArgsBuffer = floatArgs; // still crashes
+        field.vectorArgsBuffer = vectorArgs;
     }
 
+    // Make sure to wipe the Compute buffers after use. Otherwise, the GPU will complain!
     private void OnDestroy()
     {
         floatArgs.Release();

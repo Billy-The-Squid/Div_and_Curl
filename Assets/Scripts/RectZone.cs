@@ -87,14 +87,11 @@ public class RectZone : FieldZone
         positionCalculator.Dispatch(0, XGroups, YGroups, ZGroups);
 
         //// Debugging code
-        ////Debug.Log("Tranform position: " + transform.position);
         //Vector3[] positionArray = new Vector3[numberOfPoints];
-        ////Debug.Log("Buffer length: " + positionBuffer.count);
         //positionBuffer.GetData(positionArray);
         //Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
         //Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
         //    positionArray[numberOfPoints - 3]);
-        //Debug.Log("Set max vector length: " + maxVectorLength);
     }
 
 
@@ -120,7 +117,6 @@ public class RectZone : FieldZone
         if (!(triggerCollider is BoxCollider)) {
             triggerCollider = GetComponent<BoxCollider>();
         }
-        //triggerCollider.isTrigger = true;
 
         numberOfPoints = xLength * yLength * zLength;
 
