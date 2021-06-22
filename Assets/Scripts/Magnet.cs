@@ -28,7 +28,7 @@ public class Magnet : MonoBehaviour
     [NonSerialized]
     private float[] floatArray = { 2f, -2f, 3f };
     [NonSerialized]
-    private Vector3[] vec_array = { new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0) };
+    private Vector3[] vec_array = { new Vector3(0, 0, 0), new Vector3(0, 2, 1), new Vector3(0, 1, 0) };
     // Eventually, these will be set based on a position
 
 

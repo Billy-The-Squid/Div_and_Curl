@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 6418429}
-  canMove: 0
+  canMove: 1
   xLength: 9
   yLength: 9
   zLength: 9
@@ -1166,6 +1166,8 @@ GameObject:
   m_Component:
   - component: {fileID: 582561101}
   - component: {fileID: 582561100}
+  - component: {fileID: 582561103}
+  - component: {fileID: 582561102}
   m_Layer: 0
   m_Name: Debugger
   m_TagString: Untagged
@@ -1200,6 +1202,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &582561102
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582561099}
+  m_Mesh: {fileID: -3149996399109167922, guid: ff12a5f336c85c342b644bf6f6d4fb40, type: 3}
+--- !u!114 &582561103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582561099}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e50e8ae075d1e548a0283fe5c557d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
