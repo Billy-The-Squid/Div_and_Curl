@@ -38,6 +38,8 @@ public class Magnet : MonoBehaviour
     {
         field.floatArgsBuffer = floatArgs; // still crashes
         field.vectorArgsBuffer = vectorArgs;
+        //field.floatArgsArray = floatArray;
+        //field.vectorArgsArray = vec_array;
     }
 
     // Make sure to wipe the Compute buffers after use. Otherwise, the GPU will complain!
