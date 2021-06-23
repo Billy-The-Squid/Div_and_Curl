@@ -22,7 +22,7 @@ Shader "Vectors/Shader"
 		#pragma target 4.5
 
 		// This is where the work of calculating transformations is done. 
-		#include "PointsPlot.hlsl"
+		#include "PointsPlot.hlsl" 
 
 		float _MaxMagnitude;
 		float4 _MinColor;
