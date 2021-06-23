@@ -544,7 +544,7 @@
                     "path": "<XRController>{LeftHand}/trigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Generic XR Controller;Noncontinuous Move",
+                    "groups": "Generic XR Controller;Continuous Move",
                     "action": "Pinch",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1100,7 +1100,7 @@
                 {
                     "name": "",
                     "id": "9f48629f-68fd-4547-9c82-6bcb96eaa3eb",
-                    "path": "<XRSimulatedController>{RightHand}/primaryTouch",
+                    "path": "<XRController>{RightHand}/primaryTouched",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
