@@ -162,6 +162,38 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Pinch",
+                    "type": "Value",
+                    "id": "9e90b6c4-ab0d-477d-8111-58fec2b90649",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grip",
+                    "type": "Value",
+                    "id": "9cba9c25-9775-41f1-9940-5cde4afd12b2",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pinch Touch",
+                    "type": "Button",
+                    "id": "afcd7c5c-8d3c-4be1-be69-73a757024e0e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Thumb Touch",
+                    "type": "Button",
+                    "id": "05838fc7-245e-42c3-af71-2dfa8f0eba41",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -505,6 +537,50 @@
                     "action": "Teleport Start",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7f22161e-50e1-4470-8abc-719582550a3c",
+                    "path": "<XRController>{LeftHand}/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller;Noncontinuous Move",
+                    "action": "Pinch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28d34a55-c00e-4c07-92dc-9bc06bb91718",
+                    "path": "<XRController>{LeftHand}/grip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Continuous Move",
+                    "action": "Grip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46281588-96ab-441b-8b4e-ce76d250c8e7",
+                    "path": "<XRController>{LeftHand}/triggerTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pinch Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "185194c1-207f-4d85-a32e-824d631416d3",
+                    "path": "<XRController>{LeftHand}/primaryTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Thumb Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -621,6 +697,38 @@
                     "type": "Value",
                     "id": "8139ec4b-88ba-443d-897e-9ee5040c00d8",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pinch",
+                    "type": "Value",
+                    "id": "15b5e1c9-cb40-443a-82a0-5ba1affe2369",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grip",
+                    "type": "Value",
+                    "id": "8c892e27-a580-4b9f-9f3a-49fb0a4a5330",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pinch Touch",
+                    "type": "Button",
+                    "id": "f51b0021-8af4-4cfc-a72d-86bd4b2d67da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Thumb Touch",
+                    "type": "Button",
+                    "id": "e14ae764-ec63-46d3-928e-5c319c017294",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -953,6 +1061,50 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Resize Object",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f044d05-9863-40f1-bc31-1dd102888d67",
+                    "path": "<XRController>{RightHand}/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Continuous Move",
+                    "action": "Pinch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ede8e63b-9c06-4d4a-821b-8abb5b5740eb",
+                    "path": "<XRController>{RightHand}/grip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Continuous Move",
+                    "action": "Grip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ea71811-31ff-4db8-bb60-443c0511a4fb",
+                    "path": "<XRController>{RightHand}/triggerTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pinch Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f48629f-68fd-4547-9c82-6bcb96eaa3eb",
+                    "path": "<XRSimulatedController>{RightHand}/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Thumb Touch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
