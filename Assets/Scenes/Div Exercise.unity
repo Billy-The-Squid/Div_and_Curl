@@ -1614,5 +1614,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Rig
       objectReference: {fileID: 0}
+    - target: {fileID: 2652347427364259149, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_ModelPrefab
+      value: 
+      objectReference: {fileID: 2445972667545150823, guid: 1e7e3751da832a34fa6ee063be4cb6e8, type: 3}
+    - target: {fileID: 2652347428183578923, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_ModelPrefab
+      value: 
+      objectReference: {fileID: 5130367096261690680, guid: 173d720659c789e4d866c5fe94ffa1e0, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
