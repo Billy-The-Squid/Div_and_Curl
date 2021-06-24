@@ -10,12 +10,17 @@ Shader "Vectors/RainyShader"
 		// _Scaling ("Scaling Factor", float) = 0.1
 	} // This needs to be used somewhere. Where?
 
-		SubShader
+	SubShader
 	{
+		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" } // Allowing for transparency
+		LOD 100
+		ZWrite Off
+		Blend SrcAlpha OneMinusSrcAlpha
+
 		CGPROGRAM
 
 		// Renders the surface. Requires a ConfigureSurface function.
-		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow
+		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow alpha:fade
 		// Does instancing, including(?) placing points. Requires a ConfigureProcedural function.
 		#pragma instancing_options assumeuniformscaling procedural:ConfigureProcedural
 		#pragma editor_sync_compilation
@@ -66,6 +71,7 @@ Shader "Vectors/RainyShader"
 				surface.Albedo = output;
 				
 				surface.Alpha = (_Times[unity_InstanceID] - _Time.y) / _Lifespan;
+				//surface.Alpha = 0.5;
 			}
 		#else
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface)
