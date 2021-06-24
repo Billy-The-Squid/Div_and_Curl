@@ -56,7 +56,7 @@ public class ForcePull : MonoBehaviour
         // Search if your hands aren't occupied. 
         if (!handBusy)
         {
-            nearestGrabbable = SearchForGrabbables();
+            SearchForGrabbables();
         }
 
         // nearestGrabbable.changeColor
@@ -64,10 +64,11 @@ public class ForcePull : MonoBehaviour
         // This should use a separate trigger, probably.
         if(handBusy)
         {
-            if(!nearestGrabbable.isSelected)
+            if(nearestGrabbable != null && !nearestGrabbable.isSelected)
             {
                 //nearestGrabbable.GetComponent<Rigidbody>().MovePosition(transform.position);
-                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(nearestGrabbable.transform.position, transform.position, pullSpeed * Time.deltaTime));
+                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
+                    nearestGrabbable.transform.position, transform.position, pullSpeed * Time.deltaTime));
                 //nearestGrabbable.GetComponent<Rigidbody>().velocity += 
                 //    Time.deltaTime * pullAcceleration * (transform.position - nearestGrabbable.transform.position).normalized;
             }
@@ -83,9 +84,9 @@ public class ForcePull : MonoBehaviour
     }
 
     // Searches for a grabbable within 
-    private XRGrabInteractable SearchForGrabbables()
+    private void SearchForGrabbables()
     {
-        Transform nearest = null;
+        nearestGrabbable = null;
         float dist = float.MaxValue;
         
         foreach(XRGrabInteractable obj in grabbables)
@@ -94,33 +95,28 @@ public class ForcePull : MonoBehaviour
             if(Vector3.Angle((obj.transform.position - transform.position), transform.forward) <= 30) // degrees
             {
                 // Do we have line-of-sight?
-                Physics.Raycast(transform.position, obj.transform.position - transform.position, out RaycastHit hit, 40f, layerMask);
-                if (hit.transform.Equals(obj.transform))
+
+                if (Physics.Raycast(transform.position, obj.transform.position - transform.position, out RaycastHit hit, 40f, layerMask))
                 {
-                    // Is it the closest?
-                    if (nearest == null)
+                    if (hit.transform.Equals(obj.transform))
                     {
-                        nearest = hit.transform;
-                        dist = hit.distance;
-                    }
-                    else
-                    {
-                        if (hit.distance < dist)
+                        // Is it the closest?
+                        if (nearestGrabbable == null)
                         {
-                            nearest = hit.transform;
+                            nearestGrabbable = hit.transform.GetComponent<XRGrabInteractable>();
                             dist = hit.distance;
+                        }
+                        else
+                        {
+                            if (hit.distance < dist)
+                            {
+                                nearestGrabbable = hit.transform.GetComponent<XRGrabInteractable>();
+                                dist = hit.distance;
+                            }
                         }
                     }
                 }
             }
         }
-        return nearest.GetComponent<XRGrabInteractable>();
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        
     }
 }

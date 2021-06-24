@@ -48,6 +48,13 @@ public class TeleportManager : MonoBehaviour
     /// </summary>
     public bool canTeleport;
 
+    [SerializeField]
+    GameObject reticulePrefab;
+    GameObject reticuleInstance;
+
+
+
+
     void Start()
     {
         handName = HandToHand(hand);
@@ -59,6 +66,30 @@ public class TeleportManager : MonoBehaviour
         teleportAction.canceled += OnTeleportRelease;
 
         rayInteractor.enabled = false;
+
+        reticuleInstance = Instantiate(reticulePrefab, transform);
+        reticuleInstance.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(rayInteractor.enabled)
+        {
+            teleportDestination destination = CheckLocation();
+            if (destination.validDestination)
+            {
+                reticuleInstance.SetActive(true);
+                reticuleInstance.transform.position = destination.location;
+                reticuleInstance.transform.up = destination.normal;
+                // Test this last part...
+            } else
+            {
+                reticuleInstance.SetActive(false);
+            }
+        } else
+        {
+            reticuleInstance.SetActive(false);
+        }
     }
 
 
@@ -100,35 +131,99 @@ public class TeleportManager : MonoBehaviour
     {
         //Debug.Log("OnTeleportRelease called");
 
-        // Check that the interactor is enabled and pointing at something. 
-        if(!(rayInteractor.enabled)) {
-            return;
+        //// Check that the interactor is enabled and pointing at something. 
+        //if(!(rayInteractor.enabled)) {
+        //    return;
+        //}
+        //if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit)) {
+        //    rayInteractor.enabled = false;
+        //    return;
+        //}
+
+        //// Verify that the user can teleport to the selected location. 
+        //Vector3 destination; // = transform.position;
+        //TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
+        //if (anchor) {
+        //    destination = anchor.teleportAnchorTransform.position;
+        //}
+        //else if (hit.transform.GetComponent<TeleportationArea>()) {
+        //    destination = hit.point;
+        //}
+        //else {
+        //    rayInteractor.enabled = false;
+        //    return;
+        //}
+
+        teleportDestination destination = CheckLocation();
+
+        if(destination.validDestination)
+        {
+            // Create and file a teleportation request. 
+            TeleportRequest request = new TeleportRequest()
+            {
+                destinationPosition = destination.location,
+            };
+            provider.QueueTeleportRequest(request);
         }
-        if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit)) {
-            rayInteractor.enabled = false;
-            return;
+
+        EndTeleport();
+    }
+
+    // Call to stop rayCasting and disappear the reticle. 
+    void EndTeleport()
+    {
+        rayInteractor.enabled = false;
+        if(reticuleInstance != null)
+        {
+            reticuleInstance.SetActive(false);
+        }
+    }
+
+    struct teleportDestination
+    {
+        public Vector3 location;
+        public bool validDestination;
+        public Vector3 normal;
+    }
+
+    teleportDestination CheckLocation()
+    {
+        teleportDestination destination = new teleportDestination();
+        destination.validDestination = false;
+
+        // Check that the interactor is enabled and pointing at something. 
+        if (!(rayInteractor.enabled))
+        {
+            return destination;
+        }
+        if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        {
+            //rayInteractor.enabled = false;
+            return destination;
         }
 
         // Verify that the user can teleport to the selected location. 
-        Vector3 destination; // = transform.position;
+        //Vector3 destination; // = transform.position;
         TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
-        if (anchor) {
-            destination = anchor.teleportAnchorTransform.position;
+        if (anchor)
+        {
+            destination.validDestination = true;
+            destination.location = anchor.teleportAnchorTransform.position;
+            destination.normal = anchor.transform.up;
         }
-        else if (hit.transform.GetComponent<TeleportationArea>()) {
-            destination = hit.point;
+        else if (hit.transform.GetComponent<TeleportationArea>())
+        {
+            destination.validDestination = true;
+            destination.location = hit.point;
+            destination.normal = hit.normal;
         }
-        else {
-            rayInteractor.enabled = false;
-            return;
+        else
+        {
+            destination.validDestination = false;
+            //rayInteractor.enabled = false;
+            return destination;
         }
 
-        // Create and file a teleportation request. 
-        TeleportRequest request = new TeleportRequest() {
-            destinationPosition = destination,
-        };
-        provider.QueueTeleportRequest(request);
-
-        rayInteractor.enabled = false;
+        return destination;
     }
 }

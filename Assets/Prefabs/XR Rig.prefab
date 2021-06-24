@@ -472,6 +472,7 @@ MonoBehaviour:
   rayInteractor: {fileID: 3877662789442326649}
   provider: {fileID: 1611574539170568667}
   canTeleport: 0
+  reticulePrefab: {fileID: 0}
 --- !u!1 &2579116971795785321
 GameObject:
   m_ObjectHideFlags: 0
