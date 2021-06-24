@@ -3,42 +3,86 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem;
 
+
+// Needs documentation
 public class ForcePull : MonoBehaviour
 {
+    // Every object in the scene that can be grabbed
     XRGrabInteractable[] grabbables;
-    XRGrabInteractable grabbed;
+    // The one that will be pulled if you pull it. 
+    XRGrabInteractable nearestGrabbable;
 
-    bool isGrabbing = false;
-    bool isPulling = false;
+    // Should be false if currently pulling or holding something.
+    bool handBusy = false;
 
-    static int grabLayer = 9;
-    static int terrainLayer = 8;
+    static readonly int grabLayer = 9;
+    static readonly int terrainLayer = 8;
     int layerMask;
 
-    //const static LayerMask
+    [SerializeField]
+    InputActionAsset actionAsset;
+    protected InputAction grab, rightGrab;
+
+    protected enum Hands { Right, Left }
+    [SerializeField]
+    Hands hand;
+    protected string[] handNames = { "Right", "Left" };
+
+    [SerializeField]
+    //float pullAcceleration;
+    float pullSpeed;
+
 
     private void Start()
     {
+        // Initialize the set of possible grab
+        // This should be done frame-by-frame if objects are being added. 
         grabbables = FindObjectsOfType<XRGrabInteractable>();
-        grabbed = null;
+        nearestGrabbable = null;
         layerMask = (1 << grabLayer) | (1 << terrainLayer);
 
-        isPulling = false;
-        isGrabbing = false;
+        handBusy = false;
+        string handName = handNames[(int)hand];
+        grab = actionAsset.FindActionMap("XRI " + handName + "Hand").FindAction("Select");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isPulling)
+        UpdatePull();
+
+        // Search if your hands aren't occupied. 
+        if (!handBusy)
         {
-            SearchForGrabbables();
+            nearestGrabbable = SearchForGrabbables();
         }
 
-        
+        // nearestGrabbable.changeColor
+
+        // This should use a separate trigger, probably.
+        if(handBusy)
+        {
+            if(!nearestGrabbable.isSelected)
+            {
+                //nearestGrabbable.GetComponent<Rigidbody>().MovePosition(transform.position);
+                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(nearestGrabbable.transform.position, transform.position, pullSpeed * Time.deltaTime));
+                //nearestGrabbable.GetComponent<Rigidbody>().velocity += 
+                //    Time.deltaTime * pullAcceleration * (transform.position - nearestGrabbable.transform.position).normalized;
+            }
+        }
     }
 
+    /// <summary>
+    /// Sets the value of handBusy based 
+    /// </summary>
+    private void UpdatePull()
+    { // This could also be done with interactiion events
+        handBusy = !(grab.phase == InputActionPhase.Waiting);
+    }
+
+    // Searches for a grabbable within 
     private XRGrabInteractable SearchForGrabbables()
     {
         Transform nearest = null;
@@ -71,5 +115,12 @@ public class ForcePull : MonoBehaviour
             }
         }
         return nearest.GetComponent<XRGrabInteractable>();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        
     }
 }
