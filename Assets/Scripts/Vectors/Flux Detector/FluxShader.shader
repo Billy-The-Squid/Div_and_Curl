@@ -19,9 +19,9 @@ Shader "Vectors/FluxShader"
 		#pragma target 4.5
 
 		// This is where the work of calculating transformations is done. 
-		#include "PointsPlot.hlsl"
+		#include "../PointsPlot.hlsl"
 
-		float4 _DetectorCenter;
+		float4 _DetectorCenter; 
 
 		struct Input
 		{

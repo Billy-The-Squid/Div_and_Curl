@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,7 @@ public class VectorDisplay : Display
     ComputeShader displayComputer;
 
     protected bool initialized = false;
+    protected bool foundMaxMagnitude = false;
 
 
 
@@ -102,6 +104,7 @@ public class VectorDisplay : Display
             maxMagnitude = null;
         }
 
+        foundMaxMagnitude = false;
         initialized = false;
     }
 
@@ -113,7 +116,27 @@ public class VectorDisplay : Display
 
         CalculateDisplay(positionsBuffer, vectorsBuffer);
 
+        FindMaxMagnitude();
+
         PlotResults(positionsBuffer);
+    }
+
+    private void FindMaxMagnitude()
+    {
+        if(foundMaxMagnitude) { return; }
+        // Calculating the largest vector magnitude.
+        int magnitudeKernel = 1;
+        displayComputer.SetBuffer(magnitudeKernel, magnitudesBufferID, magnitudesBuffer);
+        displayComputer.SetBuffer(magnitudeKernel, maxMagnitudeID, maxMagnitude);
+        displayComputer.Dispatch(magnitudeKernel, 1, 1, 1);
+
+        maxMagnitude.GetData(maxMagnitudeArray);
+
+        //// Debug code
+        //float[] magnitudesArray = new float[numOfPoints];
+        //magnitudesBuffer.GetData(magnitudesArray);
+
+        foundMaxMagnitude = true;
     }
 
     /// <summary>
@@ -137,18 +160,6 @@ public class VectorDisplay : Display
 
         int numGroups = Mathf.CeilToInt(numOfPoints / 64f);
         displayComputer.Dispatch(kernelID, numGroups, 1, 1);
-
-        // Calculating the largest vector magnitude.
-        int magnitudeKernel = 1;
-        displayComputer.SetBuffer(magnitudeKernel, magnitudesBufferID, magnitudesBuffer);
-        displayComputer.SetBuffer(magnitudeKernel, maxMagnitudeID, maxMagnitude);
-        displayComputer.Dispatch(magnitudeKernel, 1, 1, 1);
-
-        maxMagnitude.GetData(maxMagnitudeArray);
-
-        //// Debug code
-        //float[] magnitudesArray = new float[numOfPoints];
-        //magnitudesBuffer.GetData(magnitudesArray);
     }
 
     /// <summary>
