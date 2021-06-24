@@ -1,0 +1,102 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel SetPositions
+#pragma kernel Initialize
+
+// The positions of each point in world space (?)
+RWStructuredBuffer<float3> _Positions;
+
+RWStructuredBuffer<float> _Times;
+
+float _XLength;
+float _YLength;
+float _ZLength;
+
+int _NumberOfPoints;
+
+float _Lifespan;
+//float _DeltaTime;
+float _Time;
+
+// The matrix that takes points from local space to world space
+float4x4 _LocalToWorldMatrix;
+
+static float mod = pow(2, 31) - 1;
+static float coef = pow(2, 30) - 1;
+
+
+
+float PRand(float seed)
+{ // returns a value between zero and mod. 
+    return fmod((coef * seed + 1001 * _Time + 11), mod);
+}
+
+//float PRand(float seed)
+//{
+//    return fmod(seed + 100000 * _Time, mod);
+//}
+
+//float PRand(float seed)
+//{
+//    return seed;
+//}
+
+//void NewPosition(uint index)
+//{
+//    float4 localPos;
+//    localPos.x = fmod(PRand((float) index), _XLength);
+//    localPos.y = fmod(PRand(localPos.x), _YLength);
+//    localPos.z = fmod(PRand(localPos.y), _ZLength);
+//    localPos.w = 1.0; 
+    
+//    _Positions[index] = mul(_LocalToWorldMatrix, localPos).xyz;
+//}
+
+//void NewPosition(uint index)
+//{
+//    float4 localPos;
+//    localPos.x = fmod((float) index, _XLength);
+//    localPos.y = fmod((float) index, _YLength);
+//    localPos.z = fmod((float) index, _ZLength);
+//    localPos.w = 1.0;
+    
+//    _Positions[index] = mul(_LocalToWorldMatrix, localPos).xyz;
+//}
+
+void NewPosition(uint index)
+{
+    float4 localPos;
+    localPos.x = index + 3.0;
+    localPos.y = index + 2.0;
+    localPos.z = index + 1.0;
+    localPos.w = 1.0;
+    _Positions[index] = localPos.xyz;
+    
+    _Positions[index] = mul(_LocalToWorldMatrix, localPos).xyz; // Also works. 
+}
+
+
+[numthreads(64, 1, 1)]
+void Initialize(uint3 id : SV_DispatchThreadID)
+{
+    uint index = id.x;
+    if (index < (uint) _NumberOfPoints) // Triggers correctly now
+    {
+        NewPosition(index);
+        //_Times[index] = _Time + fmod(PRand(_Positions[index].z), _Lifespan);
+        _Times[index] = _Time + _Lifespan;
+    }
+
+}
+
+[numthreads(64, 1, 1)]
+void SetPositions(uint3 id : SV_DispatchThreadID)
+{
+    //if (id.x < (uint) _NumberOfPoints)
+    //{
+    //if (_Times[id.x] > _Time) // This seems to be what's preventing writing?
+    {
+            NewPosition(id.x);
+            _Times[id.x] = _Time + _Lifespan;
+    }
+    //}
+}

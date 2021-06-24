@@ -32,8 +32,8 @@ public class RectZone : FieldZone
     /// The compute shader used to calculate positions. 
     /// </summary>
     [SerializeField]
-    private ComputeShader positionCalculator;
-    private static readonly int
+    protected ComputeShader positionCalculator;
+    protected static readonly int
         positionsBufferID = Shader.PropertyToID("_Positions"),
         xLengthID = Shader.PropertyToID("_XLength"),
         yLengthID = Shader.PropertyToID("_YLength"),
@@ -44,7 +44,7 @@ public class RectZone : FieldZone
     /// <summary>
     /// Determines whether the field parameters have been initialized. 
     /// </summary>
-    private bool initialized = false;
+    protected bool initialized = false;
 
     /// <summary>
     /// Multiplied by spacing to calculate the <cref>maxVectorLength</cref>.
@@ -127,7 +127,7 @@ public class RectZone : FieldZone
     }
 
 
-    private void CalculatePositions()
+    protected void CalculatePositions()
     {
         // Assign the buffer to the compute shader
         positionCalculator.SetBuffer(0, positionsBufferID, positionBuffer);
