@@ -1,0 +1,48 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Initialize
+#pragma kernel AdjustPositions
+
+// The positions of each point in world space (?)
+RWStructuredBuffer<float3> _Positions;
+
+RWStructuredBuffer<float3> _Vectors;
+
+// Number of points in each direction
+int _XLength;
+int _YLength;
+int _ZLength;
+
+// Spacing between adjacent points
+float _Spacing;
+
+// The matrix that takes points from local space to world space
+float4x4 _LocalToWorldMatrix;
+
+float _Shift;
+
+
+
+
+int IDToIndex(float3 id)
+{
+    return id.x + _XLength * id.y + _XLength * _YLength * id.z;
+};
+
+[numthreads(4, 4, 4)]
+void Initialize(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < (uint) _XLength && id.y < (uint) _YLength && id.z < (uint) _ZLength)
+    {
+        float4 localPos = float4(id.x * _Spacing, id.y * _Spacing, id.z * _Spacing, 1.0);
+        _Positions[IDToIndex(id)] = mul(_LocalToWorldMatrix, localPos).xyz;
+    }
+}
+
+[numthreads(4, 4, 4)]
+void AdjustPositions(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < (uint) _XLength && id.y < (uint) _YLength && id.z < (uint) _ZLength)
+    {
+        _Positions[IDToIndex(id)] += _Shift * _Vectors[IDToIndex(id)];
+    }
+}
