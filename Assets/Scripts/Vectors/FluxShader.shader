@@ -1,6 +1,6 @@
 ﻿// This is our fragment shader.
 
-Shader "Vectors/FluxShader"
+Shader "Vectors/FluxShader" 
 {
 	Properties
 	{
@@ -19,7 +19,7 @@ Shader "Vectors/FluxShader"
 		#pragma target 4.5
 
 		// This is where the work of calculating transformations is done. 
-		#include "./Vector-Field-Implementation/PointsPlot.hlsl"
+		#include "PointsPlot.hlsl"
 
 		float4 _DetectorCenter;
 

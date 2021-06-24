@@ -8,8 +8,8 @@ public class RainyRectZone : FieldZone
     [SerializeField, Min(1f)]
     protected float xLength, yLength, zLength;
 
-    [SerializeField, Min(0.0f)]
-    protected float lifespan;
+    [SerializeField]
+    public float lifespan;
 
     [SerializeField]
     int pointsCount;
@@ -29,7 +29,7 @@ public class RainyRectZone : FieldZone
 
     protected bool initialized = false;
 
-    float vectorScalingFactor = 0.5f;
+    public float vectorScalingFactor = 0.5f;
 
 
 
@@ -91,11 +91,11 @@ public class RainyRectZone : FieldZone
             {
                 timesBuffer = new ComputeBuffer(numberOfPoints, sizeof(float));
             }
-            DebugDisplay();
+            //DebugDisplay();
         }
         CalculatePositions(1);
 
-        DebugDisplay();
+        //DebugDisplay();
 
         initialized = true;
     }
@@ -107,7 +107,7 @@ public class RainyRectZone : FieldZone
         //DebugDisplay();
     }
 
-    private void CalculatePositions(int kernelID)
+    protected void CalculatePositions(int kernelID)
     {
         // Assign the buffer to the compute shader
         positionCalculator.SetBuffer(kernelID, positionsBufferID, positionBuffer);
@@ -127,17 +127,17 @@ public class RainyRectZone : FieldZone
 
     void DebugDisplay()
     {
-        //// Debugging code
+        // Debugging code
         Vector3[] positionArray = new Vector3[numberOfPoints];
         positionBuffer.GetData(positionArray);
         Debug.Log((("First three positions: " + positionArray[0]) + positionArray[1]) + positionArray[2]);
         Debug.Log((("Last three positions: " + positionArray[numberOfPoints - 1]) + positionArray[numberOfPoints - 2]) +
             positionArray[numberOfPoints - 3]);
-        float[] timesArray = new float[numberOfPoints];
-        timesBuffer.GetData(timesArray);
-        Debug.Log((("First three times: " + timesArray[0] + ", ") + timesArray[1] + ", ") + timesArray[2]);
-        Debug.Log((("Last three times: " + timesArray[numberOfPoints - 1] + ", ") + timesArray[numberOfPoints - 2] + ", ") +
-            timesArray[numberOfPoints - 3]);
-        Debug.Log("Time: " + Time.time);
+        //float[] timesArray = new float[numberOfPoints];
+        //timesBuffer.GetData(timesArray);
+        //Debug.Log((("First three times: " + timesArray[0] + ", ") + timesArray[1] + ", ") + timesArray[2]);
+        //Debug.Log((("Last three times: " + timesArray[numberOfPoints - 1] + ", ") + timesArray[numberOfPoints - 2] + ", ") +
+        //    timesArray[numberOfPoints - 3]);
+        //Debug.Log("Time: " + Time.time);
     }
 }

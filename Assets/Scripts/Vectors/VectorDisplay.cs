@@ -33,7 +33,7 @@ public class VectorDisplay : Display
     /// <summary>
     /// 
     /// </summary>
-    ComputeBuffer maxMagnitude;
+    protected ComputeBuffer maxMagnitude;
     float[] maxMagnitudeArray;
 
     /// <summary>
@@ -55,13 +55,13 @@ public class VectorDisplay : Display
     [SerializeField]
     ComputeShader displayComputer;
 
-    private bool initialized = false;
+    protected bool initialized = false;
 
 
 
 
 
-    private void Initialize()
+    protected void Initialize()
     {
         if(initialized) { return; }
         unsafe // <-- This could maybe be a source of problems.
@@ -121,7 +121,7 @@ public class VectorDisplay : Display
     /// </summary>
     /// <param name="positionsBuffer"></param>
     /// <param name="vectorsBuffer"></param>
-    private void CalculateDisplay(ComputeBuffer positionsBuffer, ComputeBuffer vectorsBuffer)
+    protected void CalculateDisplay(ComputeBuffer positionsBuffer, ComputeBuffer vectorsBuffer)
     {
         int kernelID = 0;
 
@@ -154,7 +154,7 @@ public class VectorDisplay : Display
     /// <summary>
     /// Interfaces with the <cref>pointerMaterial</cref> to display the vector field. 
     /// </summary>
-    private void PlotResults(ComputeBuffer positionsBuffer)
+    protected virtual void PlotResults(ComputeBuffer positionsBuffer)
     {
         // Then the data from the computeShader is sent to the shader to be rendered.
         pointerMaterial.SetBuffer(positionsBufferID, positionsBuffer);
