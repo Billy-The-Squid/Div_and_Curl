@@ -47,11 +47,11 @@ void CalculateDisplay(uint3 id : SV_DispatchThreadID) {
         int index = id.x;
 
         // First, rescale the vectors for an appropriate display size. 
-        if(dot(_Positions[index] - _CameraPosition, _Positions[index] - _CameraPosition) < _CullDistance * _CullDistance) {
-            _PlotVectors[index] = float3(0.0, 0.0, 0.0);
-        } else {
+        //if(dot(_Positions[index] - _CameraPosition, _Positions[index] - _CameraPosition) < _CullDistance * _CullDistance) {
+        //    _PlotVectors[index] = float3(0.0, 0.0, 0.0);
+        //} else {
             _PlotVectors[index] = _Vectors[index] * Rescale(CalculateMagnitudes(index));
-        }
+        //}
 
         // Calculate the orthogonal vectors, given a vector.
 	    // The other two unit vectors should be orthogonal to the first and have the same magnitude scaling.

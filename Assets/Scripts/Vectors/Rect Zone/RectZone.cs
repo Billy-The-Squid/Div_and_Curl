@@ -68,6 +68,9 @@ public class RectZone : FieldZone
 
         if(canMove) {
             CalculatePositions();
+            // Calculate field origin and bounds --- dynamic
+            fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
+            bounds = new Bounds(fieldOrigin, new Vector3(xLength, yLength, zLength) * spacing + 2f * Vector3.one * maxVectorLength);
         }
 
         //// Debugging code
