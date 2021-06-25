@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
-  m_OverrideInteractorLineLength: 1
+  m_OverrideInteractorLineLength: 0
   m_LineLength: 10
   m_WidthCurve:
     serializedVersion: 2
@@ -394,8 +394,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.66, g: 0, b: 1, a: 1}
+    key1: {r: 0.66, g: 0, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -423,8 +423,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 0.66, g: 0, b: 1, a: 1}
+    key1: {r: 0.66, g: 0, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -472,7 +472,7 @@ MonoBehaviour:
   rayInteractor: {fileID: 3877662789442326649}
   provider: {fileID: 1611574539170568667}
   canTeleport: 0
-  reticulePrefab: {fileID: 0}
+  reticulePrefab: {fileID: 2805569674246215279, guid: c6e5b2d1cd981164bbd3899c0b02eed1, type: 3}
 --- !u!1 &2579116971795785321
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +846,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!81 &2652347426871914212
@@ -948,6 +948,7 @@ GameObject:
   - component: {fileID: 2652347427364259149}
   - component: {fileID: 2652347427364259146}
   - component: {fileID: 2652347427364259147}
+  - component: {fileID: 1382694942}
   m_Layer: 7
   m_Name: RightHand Controller
   m_TagString: Untagged
@@ -1122,7 +1123,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_SelectActionTrigger: 0
-  m_HideControllerOnSelect: 0
+  m_HideControllerOnSelect: 1
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
   m_PlayAudioClipOnSelectExited: 0
@@ -1166,6 +1167,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1382694942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347427364259151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8e77b9c3556f44fb2c270c9bb3ddb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  hand: 0
+  pullSpeed: 20
 --- !u!1 &2652347428183578925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,6 +1194,7 @@ GameObject:
   - component: {fileID: 2652347428183578923}
   - component: {fileID: 2652347428183578920}
   - component: {fileID: 2652347428183578921}
+  - component: {fileID: 416310360}
   m_Layer: 7
   m_Name: LeftHand Controller
   m_TagString: Untagged
@@ -1352,7 +1369,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_SelectActionTrigger: 0
-  m_HideControllerOnSelect: 0
+  m_HideControllerOnSelect: 1
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
   m_PlayAudioClipOnSelectExited: 0
@@ -1396,6 +1413,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &416310360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347428183578925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8e77b9c3556f44fb2c270c9bb3ddb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  hand: 1
+  pullSpeed: 15
 --- !u!1 &5359764850486735665
 GameObject:
   m_ObjectHideFlags: 0

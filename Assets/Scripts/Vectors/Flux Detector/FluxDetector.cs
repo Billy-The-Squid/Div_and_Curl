@@ -48,6 +48,11 @@ public class FluxDetector : FieldDetector
     static readonly int
         vectorsID = Shader.PropertyToID("_Vectors");
 
+    /// <summary>
+    /// Contains the contribution of each vertex to the flux. 
+    /// </summary>
+    ComputeBuffer fluxContributions;
+
 
 
 
@@ -84,19 +89,44 @@ public class FluxDetector : FieldDetector
             return;
         }
 
+        if(fluxContributions != null)
+        {
+            float[] debugArray = new float[vectorsBuffer.count];
+            fluxContributions.GetData(debugArray);
+            Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        }
+
+        // Dump all this stuff in a callback from the vector field's preDisplay.
+        // It might be best to make a compute shader that will run in the gaps here, 
+        // Calculating these values and collecting them. 
+
         // Makes sure the same fields are being plotted...
         vectorField.fieldType = detectedField.fieldType;
 
         // Fills the vector buffer
         vectorsBuffer = vectorField.vectorsBuffer;
+        // Does this properly sync up? 
 
-        // Sends the vector buffer to the shader
-        UpdateMaterial();
+        if(fluxContributions == null)
+        {
+            fluxContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(float));
+        }
+
+        // Sends the vector buffer to the shell shader
+        UpdateShellMaterial();
 
         // Send some information to the pointer material
-        Vector3 pos = transform.position;
-        vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer);
-        vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+        UpdatePointerMaterial();
+    }
+
+    private void OnDisable()
+    {
+        if(fluxContributions != null)
+        {
+            fluxContributions.Release();
+            fluxContributions = null;
+        }
     }
 
 
@@ -104,9 +134,21 @@ public class FluxDetector : FieldDetector
     /// <summary>
     /// Sends the vector buffer to the <cref>activeMaterial</cref>.
     /// </summary>
-    private void UpdateMaterial()
+    private void UpdateShellMaterial()
     {
         activeMaterial.SetBuffer(vectorsID, vectorsBuffer);
+    }
+
+    /// <summary>
+    /// Sends the vector buffer and other information to the pointer material. 
+    /// </summary>
+    private void UpdatePointerMaterial()
+    {
+        vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
+
+        Vector3 pos = transform.position;
+        vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
+        vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
     }
 
 

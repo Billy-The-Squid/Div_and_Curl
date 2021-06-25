@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3695440855715282287
 Transform:
   m_ObjectHideFlags: 0
@@ -77,13 +77,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 3695440855715282286}
   canMove: 1
-  xLength: 2
-  yLength: 2
-  zLength: 2
-  lifespan: 20
-  pointsCount: 729
+  xLength: 5
+  yLength: 3
+  zLength: 5
+  lifespan: 2.61
+  pointsCount: 2500
   positionCalculator: {fileID: 7200000, guid: f988ad8a49c3369468b034d7ce1a24ef, type: 3}
-  vectorScalingFactor: 0.125
+  vectorScalingFactor: 0.25
 --- !u!114 &3695440855715282285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,4 +113,5 @@ MonoBehaviour:
   pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
+  cullDistance: 0.5
   zone: {fileID: 3695440855715282284}

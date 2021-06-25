@@ -5,8 +5,10 @@ using UnityEngine;
 /// <summary>
 /// A vector <cref>FieldZone</cref> that is a rectangular prism and has evenly-spaced points.
 /// 
-/// Does not support changing the dimensions in play mode or rotations in any mode. 
+/// 
 /// </summary>
+// Does not support changing the dimensions in play mode or rotations in any mode. Search
+// "dynamic resizing" in script for notes on this. 
 [RequireComponent(typeof(BoxCollider))]
 public class RectZone : FieldZone
 {
@@ -107,7 +109,7 @@ public class RectZone : FieldZone
 
         // Set some constants
         numberOfPoints = xLength * yLength * zLength;
-        maxVectorLength = spacing * vectorScalingFactor;
+        maxVectorLength = spacing * vectorScalingFactor; // Needs to be recalculated for dynamic resizing
 
         // Calculate field origin and bounds --- non-dynamic
         fieldOrigin = transform.position + new Vector3(xLength - 1, yLength - 1, zLength - 1) * 0.5f * spacing;
@@ -115,7 +117,7 @@ public class RectZone : FieldZone
 
         // Set Collider size
         Vector3 colliderScale = new Vector3(xLength - 1, yLength - 1, zLength - 1) * spacing + 2 * Vector3.one * maxVectorLength;
-        ((BoxCollider)triggerCollider).size = colliderScale;
+        ((BoxCollider)triggerCollider).size = colliderScale; // Needs to be recalculated for dynamic resizing
 
         // Create and initialize the position buffer. 
         unsafe {

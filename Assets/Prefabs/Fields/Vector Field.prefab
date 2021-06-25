@@ -94,9 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointerMaterial: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
-  pointerMesh: {fileID: 4300000, guid: c7b00dc10b1d3f243bf824dc63de5830, type: 2}
+  pointerMesh: {fileID: 4300000, guid: 44aaf01aec2774040a2f251f10cab1a1, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
+  cullDistance: 0.5
 --- !u!114 &8150241527288558683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,5 +111,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  fieldType: 2
+  fieldType: 1
   isDynamic: 1

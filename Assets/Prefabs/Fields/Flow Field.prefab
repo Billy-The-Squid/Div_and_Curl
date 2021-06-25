@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8730831063504582431
 Transform:
   m_ObjectHideFlags: 0
@@ -74,9 +74,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointerMaterial: {fileID: 2100000, guid: 5bcbbf85de164a146ac8b815c7784c2a, type: 2}
-  pointerMesh: {fileID: 4300000, guid: e7b1a40eb697c254d86e829366456516, type: 2}
+  pointerMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
+  cullDistance: 0.5
 --- !u!114 &8730831063504582424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  fieldType: 2
+  fieldType: 1
   isDynamic: 1
 --- !u!114 &590356262639174479
 MonoBehaviour:
@@ -106,11 +107,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 8730831063504582425}
   canMove: 1
-  xLength: 9
-  yLength: 9
-  zLength: 9
-  spacing: 0.25
+  xLength: 17
+  yLength: 17
+  zLength: 17
+  spacing: 0.125
   positionCalculator: {fileID: 7200000, guid: 75d12ac52bb7d2a49819b48868e59e38, type: 3}
-  vectorScalingFactor: 0.5
+  vectorScalingFactor: 0.125
   speed: 0.125
   field: {fileID: 8730831063504582424}

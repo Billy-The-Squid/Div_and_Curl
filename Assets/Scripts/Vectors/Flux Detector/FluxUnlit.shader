@@ -1,3 +1,5 @@
+// This is the flux detector shell shader. 
+
 Shader "Custom/FluxDetector"
 {
     Properties

@@ -1,4 +1,4 @@
-﻿// This is our fragment shader.
+﻿// This is the flux pointer shader.
 
 Shader "Vectors/FluxShader" 
 {
@@ -21,6 +21,10 @@ Shader "Vectors/FluxShader"
 		// This is where the work of calculating transformations is done. 
 		#include "../PointsPlot.hlsl"
 
+		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+			RWStructuredBuffer<float> _FluxContributions;
+		#endif
+		
 		float4 _DetectorCenter; 
 
 		struct Input
@@ -28,23 +32,6 @@ Shader "Vectors/FluxShader"
 			float3 worldPos;
 			float3 worldNormal;
 		};
-
-		// #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-		// 	float2 FindMaxMinMagnitudes() {
-		// 		float max = _Magnitudes[0];
-		// 		float min = _Magnitudes[0];
-		// 		for(int i = 1; i < _Magnitudes.Length; i++) {
-		// 			float mag = _Magnitudes[i];
-		// 			if(mag < min) {
-		// 				min = mag;
-		// 			}
-		// 			if (mag > max) {
-		// 				max = mag;
-		// 			}
-		// 		}
-		// 		return float2(max, min);
-		// 	}
-		// #endif
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
@@ -57,6 +44,8 @@ Shader "Vectors/FluxShader"
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
 				surface.Albedo.b = 1 - abs(dotP) / 2 - dotP / 2;
 				surface.Alpha = 0.75;
+
+				//_FluxContributions[unity_InstanceID] = dotP;
 			}
 		#else
 			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)
