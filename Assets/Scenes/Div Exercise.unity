@@ -1061,6 +1061,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8150241527288558680, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: pointerMesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 44aaf01aec2774040a2f251f10cab1a1, type: 2}
+    - target: {fileID: 8150241527288558680, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: cullDistance
       value: 0.5
       objectReference: {fileID: 0}
@@ -1651,7 +1655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8730831063504582430, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8730831063504582431, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
       propertyPath: m_RootOrder
@@ -1821,7 +1825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3695440855715282281, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695440855715282283, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
+      propertyPath: cullDistance
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3695440855715282284, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
       propertyPath: xLength

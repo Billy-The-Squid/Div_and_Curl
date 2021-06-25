@@ -36,6 +36,7 @@ Shader "Vectors/RainyShader"
 		float4 _MinColor;
 		float4 _MaxColor;
 		float _Lifespan;
+		float _CullDistance;
 
 		struct Input
 		{
@@ -71,7 +72,9 @@ Shader "Vectors/RainyShader"
 				surface.Albedo = output;
 				
 				surface.Alpha = (_Times[unity_InstanceID] - _Time.y) / _Lifespan;
-				//surface.Alpha = 0.5;
+				
+				float3 displ = _Positions[unity_InstanceID] - _WorldSpaceCameraPos;
+				clip(displ.x * displ.x + displ.y * displ.y + displ.z * displ.z - _CullDistance * _CullDistance);
 			}
 		#else
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface)

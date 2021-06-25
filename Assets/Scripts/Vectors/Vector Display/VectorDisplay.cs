@@ -151,12 +151,65 @@ public class VectorDisplay : Display
     }
 
 
+
+    /// <summary>
+    /// Calculates the necessary values to display a vector. 
+    /// </summary>
+    /// <param name="positionsBuffer">A buffer with the positions of each vector.</param>
+    /// <param name="vectorsBuffer">A buffer with the values of each vector.</param>
+    protected void CalculateDisplay(ComputeBuffer positionsBuffer, ComputeBuffer vectorsBuffer)
+    {
+        int kernelID = 0;
+
+        displayComputer.SetInt(numPointsID, numOfPoints);
+
+        displayComputer.SetBuffer(kernelID, positionsBufferID, positionsBuffer);
+        displayComputer.SetBuffer(kernelID, vectorsBufferID, vectorsBuffer);
+        displayComputer.SetBuffer(kernelID, plotVectorsBufferID, plotVectorsBuffer);
+        displayComputer.SetBuffer(kernelID, vector2BufferID, vector2Buffer);
+        displayComputer.SetBuffer(kernelID, vector3BufferID, vector3Buffer);
+        displayComputer.SetBuffer(kernelID, magnitudesBufferID, magnitudesBuffer);
+        displayComputer.SetFloat(maxVectorLengthID, maxVectorLength);
+        //displayComputer.SetFloat(cullDistanceID, cullDistance);
+        //displayComputer.SetVector(cameraPositionID, Camera.main.transform.position);
+        // Does not support multiple cameras
+
+        int numGroups = Mathf.CeilToInt(numOfPoints / 64f);
+        displayComputer.Dispatch(kernelID, numGroups, 1, 1);
+    }
+
+    /// <summary>
+    /// Interfaces with the <cref>pointerMaterial</cref> to display the vector field. 
+    /// </summary>
+    protected virtual void PlotResults(ComputeBuffer positionsBuffer)
+    {
+        // Then the data from the computeShader is sent to the shader to be rendered.
+        pointerMaterial.SetBuffer(positionsBufferID, positionsBuffer);
+        pointerMaterial.SetBuffer(plotVectorsBufferID, plotVectorsBuffer);
+        pointerMaterial.SetBuffer(vector2BufferID, vector2Buffer);
+        pointerMaterial.SetBuffer(vector3BufferID, vector3Buffer);
+        pointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
+        pointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
+        pointerMaterial.SetFloat(cullDistanceID, cullDistance);
+
+        // Setting the bounds and giving a draw call
+        Graphics.DrawMeshInstancedProcedural(pointerMesh, 0, pointerMaterial, bounds, numOfPoints);
+
+        //// Debugging code
+        //Vector3[] debugArray = new Vector3[numOfPoints];
+        //float[] debugArray = new float[numOfPoints];
+        //magnitudesBuffer.GetData(debugArray);
+        //Debug.Log((("First three points in magnitude array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        //Debug.Log((("Last three points in magnitude array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+    }
+
+
     /// <summary>
     /// Finds the maximum magnitude of any of the vectors (used for color bounding).
     /// </summary>
     public void FindMaxMagnitude()
     {
-        if(foundMaxMagnitude) { return; }
+        if (foundMaxMagnitude) { return; }
         // Calculating the largest vector magnitude.
         int magnitudeKernel = 1;
         displayComputer.SetBuffer(magnitudeKernel, magnitudesBufferID, magnitudesBuffer);
@@ -179,55 +232,5 @@ public class VectorDisplay : Display
     {
         foundMaxMagnitude = false;
         FindMaxMagnitude();
-    }
-
-    /// <summary>
-    /// Calculates the necessary values to display a vector. 
-    /// </summary>
-    /// <param name="positionsBuffer">A buffer with the positions of each vector.</param>
-    /// <param name="vectorsBuffer">A buffer with the values of each vector.</param>
-    protected void CalculateDisplay(ComputeBuffer positionsBuffer, ComputeBuffer vectorsBuffer)
-    {
-        int kernelID = 0;
-
-        displayComputer.SetInt(numPointsID, numOfPoints);
-
-        displayComputer.SetBuffer(kernelID, positionsBufferID, positionsBuffer);
-        displayComputer.SetBuffer(kernelID, vectorsBufferID, vectorsBuffer);
-        displayComputer.SetBuffer(kernelID, plotVectorsBufferID, plotVectorsBuffer);
-        displayComputer.SetBuffer(kernelID, vector2BufferID, vector2Buffer);
-        displayComputer.SetBuffer(kernelID, vector3BufferID, vector3Buffer);
-        displayComputer.SetBuffer(kernelID, magnitudesBufferID, magnitudesBuffer);
-        displayComputer.SetFloat(maxVectorLengthID, maxVectorLength);
-        displayComputer.SetFloat(cullDistanceID, cullDistance);
-        displayComputer.SetVector(cameraPositionID, Camera.main.transform.position);
-        // Does not support multiple cameras
-
-        int numGroups = Mathf.CeilToInt(numOfPoints / 64f);
-        displayComputer.Dispatch(kernelID, numGroups, 1, 1);
-    }
-
-    /// <summary>
-    /// Interfaces with the <cref>pointerMaterial</cref> to display the vector field. 
-    /// </summary>
-    protected virtual void PlotResults(ComputeBuffer positionsBuffer)
-    {
-        // Then the data from the computeShader is sent to the shader to be rendered.
-        pointerMaterial.SetBuffer(positionsBufferID, positionsBuffer);
-        pointerMaterial.SetBuffer(plotVectorsBufferID, plotVectorsBuffer);
-        pointerMaterial.SetBuffer(vector2BufferID, vector2Buffer);
-        pointerMaterial.SetBuffer(vector3BufferID, vector3Buffer);
-        pointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
-        pointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
-
-        // Setting the bounds and giving a draw call
-        Graphics.DrawMeshInstancedProcedural(pointerMesh, 0, pointerMaterial, bounds, numOfPoints);
-
-        //// Debugging code
-        //Vector3[] debugArray = new Vector3[numOfPoints];
-        //float[] debugArray = new float[numOfPoints];
-        //magnitudesBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in magnitude array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in magnitude array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
     }
 }

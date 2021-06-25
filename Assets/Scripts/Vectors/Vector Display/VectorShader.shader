@@ -27,6 +27,7 @@ Shader "Vectors/Shader"
 		float _MaxMagnitude;
 		float4 _MinColor;
 		float4 _MaxColor;
+		float _CullDistance;
 
 		struct Input
 		{
@@ -55,12 +56,16 @@ Shader "Vectors/Shader"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
+				// Note: For some reason, input.worldPos gives nonsense. 
+
 				float vect_mag = _Magnitudes[unity_InstanceID];
 				float val = vect_mag / _MaxMagnitude;
 				//float3 output = HUEtoRGB(vect_mag);
 				float3 output = HUEtoRGB(RGBtoH(_MinColor.rgb) + val * (RGBtoH(_MaxColor.rgb) - RGBtoH(_MinColor.rgb)));
 				surface.Albedo = output;
-				//rgb2hsv(_MaxColor)
+
+				float3 displ = _Positions[unity_InstanceID] - _WorldSpaceCameraPos;
+				clip(displ.x * displ.x + displ.y * displ.y + displ.z * displ.z - _CullDistance * _CullDistance);
 			}
 		#else
 			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)
