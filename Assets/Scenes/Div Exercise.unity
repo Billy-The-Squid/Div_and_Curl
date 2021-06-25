@@ -1060,6 +1060,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8150241527288558680, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: cullDistance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8150241527288558683, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: fieldType
       value: 1
@@ -1114,7 +1118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8150241527288558685, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
@@ -1637,6 +1641,10 @@ PrefabInstance:
       propertyPath: pointerMesh
       value: 
       objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 8730831063504582427, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
+      propertyPath: cullDistance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8730831063504582430, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
       propertyPath: m_Name
       value: Flow Field
@@ -1781,6 +1789,10 @@ PrefabInstance:
     - target: {fileID: 2652347426735425950, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_Name
       value: XR Rig
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652347426871914213, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_OcclusionCulling
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2652347427364259146, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_HideControllerOnSelect
