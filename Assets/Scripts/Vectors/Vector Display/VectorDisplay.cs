@@ -51,18 +51,37 @@ public class VectorDisplay : Display
         vector3BufferID = Shader.PropertyToID("_Vectors3"),
         magnitudesBufferID = Shader.PropertyToID("_Magnitudes"),
         maxVectorLengthID = Shader.PropertyToID("_MaxVectorLength"),
-        maxMagnitudeID = Shader.PropertyToID("_MaxMagnitude");
+        maxMagnitudeID = Shader.PropertyToID("_MaxMagnitude"),
+        cullDistanceID = Shader.PropertyToID("_CullDistance"),
+        cameraPositionID = Shader.PropertyToID("_CameraPosition");
 
+
+    /// <summary>
+    /// The compute shader used to calculate the object-to-world matrix
+    /// </summary>
     [SerializeField]
     ComputeShader displayComputer;
 
+    /// <summary>
+    /// Records whether the buffers have been created.
+    /// </summary>
     protected bool initialized = false;
+    /// <summary>
+    /// Records whether the maximum magnitude has been calculated. 
+    /// </summary>
     protected bool foundMaxMagnitude = false;
 
+    /// <summary>
+    /// The distance fro =m the camera inside which vectors are not rendered. 
+    /// </summary>
+    public float cullDistance;
 
 
 
 
+    /// <summary>
+    /// Can only be run once per enable. Creates the buffers necessary for the display
+    /// </summary>
     protected void Initialize()
     {
         if(initialized) { return; }
@@ -80,7 +99,8 @@ public class VectorDisplay : Display
         initialized = true;
     }
 
-    private void OnDestroy()
+    // Release the buffers
+    private void OnDestroy() // Should this be a disable?
     {
         if(plotVectorsBuffer != null) {
             plotVectorsBuffer.Release();
@@ -108,20 +128,33 @@ public class VectorDisplay : Display
         initialized = false;
     }
 
+
+    /// <summary>
+    /// The key function, called by VectorField.
+    /// </summary>
+    /// <param name="positionsBuffer">A buffer with the positions of each vector.</param>
+    /// <param name="vectorsBuffer">A buffer with the values of each vector.</param>
     public override void DisplayVectors(ComputeBuffer positionsBuffer, ComputeBuffer vectorsBuffer)
     {
         numOfPoints = positionsBuffer.count;
 
+        // Make the buffers
         Initialize();
 
+        // Do calculations needed for display
         CalculateDisplay(positionsBuffer, vectorsBuffer);
 
         FindMaxMagnitude();
 
+        // Send data to the shader.
         PlotResults(positionsBuffer);
     }
 
-    private void FindMaxMagnitude()
+
+    /// <summary>
+    /// Finds the maximum magnitude of any of the vectors (used for color bounding).
+    /// </summary>
+    public void FindMaxMagnitude()
     {
         if(foundMaxMagnitude) { return; }
         // Calculating the largest vector magnitude.
@@ -140,10 +173,19 @@ public class VectorDisplay : Display
     }
 
     /// <summary>
+    /// Recalculates the maximum magnitude in this frame. 
+    /// </summary>
+    public void RecalculateMaxMagnitude()
+    {
+        foundMaxMagnitude = false;
+        FindMaxMagnitude();
+    }
+
+    /// <summary>
     /// Calculates the necessary values to display a vector. 
     /// </summary>
-    /// <param name="positionsBuffer"></param>
-    /// <param name="vectorsBuffer"></param>
+    /// <param name="positionsBuffer">A buffer with the positions of each vector.</param>
+    /// <param name="vectorsBuffer">A buffer with the values of each vector.</param>
     protected void CalculateDisplay(ComputeBuffer positionsBuffer, ComputeBuffer vectorsBuffer)
     {
         int kernelID = 0;
@@ -157,6 +199,9 @@ public class VectorDisplay : Display
         displayComputer.SetBuffer(kernelID, vector3BufferID, vector3Buffer);
         displayComputer.SetBuffer(kernelID, magnitudesBufferID, magnitudesBuffer);
         displayComputer.SetFloat(maxVectorLengthID, maxVectorLength);
+        displayComputer.SetFloat(cullDistanceID, cullDistance);
+        displayComputer.SetVector(cameraPositionID, Camera.main.transform.position);
+        // Does not support multiple cameras
 
         int numGroups = Mathf.CeilToInt(numOfPoints / 64f);
         displayComputer.Dispatch(kernelID, numGroups, 1, 1);
