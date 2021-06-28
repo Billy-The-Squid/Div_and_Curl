@@ -75,6 +75,13 @@ public class FluxDetector : FieldDetector
     /// A temporary array. 
     /// </summary>
     float[] totalFluxArray;
+    /// <summary>
+    /// The total flux through the surface. 
+    /// </summary>
+    public float totalFlux { get; protected set; }
+
+    // A debugging array.
+    float[] debugArray;
 
 
 
@@ -148,17 +155,17 @@ public class FluxDetector : FieldDetector
             return;
         }
 
-        //if (fluxContributions != null)
-        //{ // Don't uncomment this. It's throwing weird errors in the first line. 
-        //    float[] debugArray = new float[vectorsBuffer.count];
-        //    fluxContributions.GetData(debugArray);
-        //    Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
-        //}
-
-        // Dump all this stuff in a callback from the vector field's preDisplay.
-        // It might be best to make a compute shader that will run in the gaps here, 
-        // Calculating the flux values at each point and collecting them, then the total. 
+        if (fluxContributions != null)
+        {
+            if (debugArray == null)
+            {
+                debugArray = new float[vectorsBuffer.count];
+            }
+            // For some reason, this gets messed up the second time we put it through the array.
+            fluxContributions.GetData(debugArray);
+            Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
+            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        }
 
         // Makes sure the same field types are being plotted...
         vectorField.fieldType = detectedField.fieldType;
@@ -194,6 +201,12 @@ public class FluxDetector : FieldDetector
         // Calculating the flux contributions
         int kernelID = 0;
 
+        //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
+        ////float[] debugArray = new float[numOfPoints];
+        //normalsBuffer.GetData(debugArray);
+        //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);
         computeShader.SetBuffer(kernelID, fluxContributionsID, fluxContributions);
@@ -205,36 +218,45 @@ public class FluxDetector : FieldDetector
         kernelID = 1;
 
         computeShader.SetBuffer(kernelID, fluxContributionsID, fluxContributions);
-        computeShader.SetFloat("_NumberOfPoints", vectorsBuffer.count);
+        computeShader.SetInt("_NumberOfPoints", vectorsBuffer.count);
         computeShader.SetBuffer(kernelID, totalFluxID, totalFluxBuffer);
+        //Debug.Log("Number of points: " + vectorsBuffer.count); // 515 points on a standard sphere?
 
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
         totalFluxBuffer.GetData(totalFluxArray);
+        totalFlux = totalFluxArray[0];
+
+        //Debug.Log("Total flux: " + totalFlux);
     }
 
 
 
     /// <summary>
     /// Sends the vector buffer to the <cref>activeMaterial</cref>.
+    /// 
+    /// Should link to FluxUnlit.shader.
     /// </summary>
     private void UpdateShellMaterial()
     {
-        activeMaterial.SetBuffer(vectorsID, vectorsBuffer);
+        activeMaterial.SetBuffer(fluxContributionsID, fluxContributions);
     }
 
 
 
     /// <summary>
     /// Sends the vector buffer and other information to the pointer material. 
+    /// 
+    /// Should link to FluxShader.shader.
     /// </summary>
     private void UpdatePointerMaterial()
     {
         vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
 
-        Vector3 pos = transform.position;
-        vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
-        vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+        //Vector3 pos = transform.position;
+        //vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
+        //vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+        //// Should the last value of this be 1f?
     }
 
 

@@ -10,7 +10,8 @@ Shader "Vectors/FluxShader"
 	SubShader
 	{
 		CGPROGRAM
-
+		
+		// The compiler directives. 
 		// Renders the surface. Requires a ConfigureSurface function.
 		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow
 		// Does instancing, including(?) placing points. Requires a ConfigureProcedural function.
@@ -21,31 +22,28 @@ Shader "Vectors/FluxShader"
 		// This is where the work of calculating transformations is done. 
 		#include "../PointsPlot.hlsl"
 
+		// The data about how much this point contributes to flux.
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			RWStructuredBuffer<float> _FluxContributions;
+			StructuredBuffer<float> _FluxContributions;
 		#endif
 		
-		float4 _DetectorCenter; 
+		//float4 _DetectorCenter; 
 
+		// The format of the input taken by ConfigureSurface.
 		struct Input
 		{
 			float3 worldPos;
 			float3 worldNormal;
-		};
+		}; // Verify that both are necessary. 
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				// This won't work for non-circular detectors
-				float3 normal = _Positions[unity_InstanceID] - float3(_DetectorCenter.x, _DetectorCenter.y, _DetectorCenter.z);
-				float3 vect = _Vectors[unity_InstanceID];
-				float dotP = dot(normalize(vect), normalize(normal));
+				float dotP = _FluxContributions[unity_InstanceID];
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
 				surface.Albedo.b = 1 - abs(dotP) / 2 - dotP / 2;
 				surface.Alpha = 0.75;
-
-				//_FluxContributions[unity_InstanceID] = dotP;
 			}
 		#else
 			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)

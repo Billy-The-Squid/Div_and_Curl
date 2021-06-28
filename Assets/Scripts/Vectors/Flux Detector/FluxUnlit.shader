@@ -46,8 +46,8 @@ Shader "Custom/FluxDetector"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            // The values of my vector field at each input. 
-            StructuredBuffer<float3> _Vectors;
+            // The values of the flux contribution at each input. 
+            StructuredBuffer<float> _FluxContributions;
 
 
 
@@ -60,11 +60,7 @@ Shader "Custom/FluxDetector"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
-                // Calculating the flux at each point
-                // The scaling isn't fair if we normalize these. 
-                float3 vect = normalize(_Vectors[v.id]);
-                float3 worldNormal = normalize(UnityObjectToWorldNormal(v.normal));
-                float dotP = dot(worldNormal, vect);
+                float dotP = _FluxContributions[v.id];
 
                 // Red -> blue colors
                 //o.color.r = saturate(-abs(dotP + 1)+2);
