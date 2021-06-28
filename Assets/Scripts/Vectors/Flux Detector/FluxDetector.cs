@@ -84,6 +84,8 @@ public class FluxDetector : FieldDetector
 
     private void Update()
     {
+        CalculateFlux();
+
         //if(!inField)
         //{
         //    return;
