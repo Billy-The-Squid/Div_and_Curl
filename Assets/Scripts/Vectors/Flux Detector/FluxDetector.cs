@@ -84,40 +84,40 @@ public class FluxDetector : FieldDetector
 
     private void Update()
     {
-        if(!inField)
-        {
-            return;
-        }
+        //if(!inField)
+        //{
+        //    return;
+        //}
 
-        if(fluxContributions != null)
-        {
-            float[] debugArray = new float[vectorsBuffer.count];
-            fluxContributions.GetData(debugArray);
-            Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
-        }
+        //if(fluxContributions != null)
+        //{
+        //    float[] debugArray = new float[vectorsBuffer.count];
+        //    fluxContributions.GetData(debugArray);
+        //    Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        //}
 
-        // Dump all this stuff in a callback from the vector field's preDisplay.
-        // It might be best to make a compute shader that will run in the gaps here, 
-        // Calculating these values and collecting them. 
+        //// Dump all this stuff in a callback from the vector field's preDisplay.
+        //// It might be best to make a compute shader that will run in the gaps here, 
+        //// Calculating the flux values at each point and collecting them, then the total. 
 
-        // Makes sure the same fields are being plotted...
-        vectorField.fieldType = detectedField.fieldType;
+        //// Makes sure the same fields are being plotted...
+        //vectorField.fieldType = detectedField.fieldType;
 
-        // Fills the vector buffer
-        vectorsBuffer = vectorField.vectorsBuffer;
-        // Does this properly sync up? 
+        //// Fills the vector buffer
+        //vectorsBuffer = vectorField.vectorsBuffer;
+        //// Does this properly sync up? 
 
-        if(fluxContributions == null)
-        {
-            fluxContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(float));
-        }
+        //if(fluxContributions == null)
+        //{
+        //    fluxContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(float));
+        //}
 
-        // Sends the vector buffer to the shell shader
-        UpdateShellMaterial();
+        //// Sends the vector buffer to the shell shader
+        //UpdateShellMaterial();
 
-        // Send some information to the pointer material
-        UpdatePointerMaterial();
+        //// Send some information to the pointer material
+        //UpdatePointerMaterial();
     }
 
     private void OnDisable()
@@ -130,6 +130,47 @@ public class FluxDetector : FieldDetector
     }
 
 
+    /// <summary>
+    /// Calculates the flux contributions at each point and sets the material buffers. 
+    /// 
+    /// </summary>
+    protected void CalculateFlux()
+    {
+        if (!inField)
+        {
+            return;
+        }
+
+        if (fluxContributions != null)
+        {
+            float[] debugArray = new float[vectorsBuffer.count];
+            fluxContributions.GetData(debugArray);
+            Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        }
+
+        // Dump all this stuff in a callback from the vector field's preDisplay.
+        // It might be best to make a compute shader that will run in the gaps here, 
+        // Calculating the flux values at each point and collecting them, then the total. 
+
+        // Makes sure the same fields are being plotted...
+        vectorField.fieldType = detectedField.fieldType;
+
+        // Fills the vector buffer
+        vectorsBuffer = vectorField.vectorsBuffer;
+        // Does this properly sync up? 
+
+        if (fluxContributions == null)
+        {
+            fluxContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(float));
+        }
+
+        // Sends the vector buffer to the shell shader
+        UpdateShellMaterial();
+
+        // Send some information to the pointer material
+        UpdatePointerMaterial();
+    }
 
     /// <summary>
     /// Sends the vector buffer to the <cref>activeMaterial</cref>.
