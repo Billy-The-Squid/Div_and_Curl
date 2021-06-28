@@ -1,0 +1,27 @@
+#pragma kernel CalculateFluxContributions
+#pragma kernel CalculateTotalFlux
+
+RWStructuredBuffer<float> _Vectors;
+RWStructuredBuffer<float> _Normals;
+RWStructuredBuffer<float> _FluxContributions;
+
+int _NumberOfPoints;
+RWStructuredBuffer<float> _TotalFlux;
+
+[numthreads(64, 1, 1)]
+void CalculateFluxContributions(uint3 id : SV_DispatchThreadID) {
+	//float3 normal = _Positions[id] - float3(_DetectorCenter.x, _DetectorCenter.y, _DetectorCenter.z);
+	float3 normal = _Normals[id.x];
+	float3 vect = _Vectors[id.x];
+	float dotP = dot(normalize(vect), normalize(normal)); // We need to drop this normalization
+
+	_FluxContributions[id.x] = dotP;
+}
+
+[numthreads(1,1,1)] // Add together all the contributions
+void CalculateTotalFlux(uint id : SV_DispatchThreadID) {
+	_TotalFlux[0] = 0;
+	for(int i = 0; i < _NumberOfPoints; i++) {
+		_TotalFlux[0] += _FluxContributions[i]; // * AreaOfTriangle;
+	}
+}

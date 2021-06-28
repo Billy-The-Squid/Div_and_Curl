@@ -41,6 +41,16 @@ public class FluxZone : FieldZone
     [SerializeField]
     float vectorScalingFactor = 0.1f;
 
+    /// <summary>
+    /// The compute buffer that stores the normals of each vertex. 
+    /// </summary>
+    public ComputeBuffer normalsBuffer;
+
+    /// <summary>
+    /// A temporary array used to perform coordinate transformations on the normals. 
+    /// </summary>
+    private Vector3[] normalsArray;
+
 
 
 
@@ -60,17 +70,23 @@ public class FluxZone : FieldZone
             if (positionBuffer == null || positionBuffer.count != numberOfPoints || positionBuffer.stride != sizeof(Vector3)) {
                 positionBuffer = new ComputeBuffer(numberOfPoints, sizeof(Vector3));
             }
+            if (normalsBuffer == null || normalsBuffer.count != numberOfPoints || normalsBuffer.stride != sizeof(Vector3))
+            {
+                normalsBuffer = new ComputeBuffer(numberOfPoints, sizeof(Vector3));
+            }
         }
 
         // Transforms the position data to worldspace and stores it in the buffer. 
-        Vector3 scale = transform.localScale;
-        Vector3 position = transform.position;
-        Array.Copy(mesh.vertices, positionArray, numberOfPoints);
+        Vector3 scale = transform.localScale; // Is this quantity used?
+        Vector3 position = transform.position; // Is this quantity used?
+        Array.Copy(mesh.vertices, positionArray, numberOfPoints); // Skip copy and directly transform?
         for(int i = 0; i < numberOfPoints; i++)
         {
             positionArray[i] = transform.TransformPoint(positionArray[i]);
+            normalsArray[i] = transform.TransformVector(mesh.normals[i]).normalized;
         }
         positionBuffer.SetData(positionArray);
+        normalsBuffer.SetData(normalsArray);
 
         // Retrieves origin information from the detected field. 
         fluxDetector.detectedField.zone.Initialize();
@@ -87,6 +103,11 @@ public class FluxZone : FieldZone
         if(positionBuffer != null) {
             positionBuffer.Release();
             positionBuffer = null;
+        }
+        if(normalsBuffer != null)
+        {
+            normalsBuffer.Release();
+            normalsBuffer = null;
         }
 
         initialized = false;
@@ -109,7 +130,8 @@ public class FluxZone : FieldZone
         }
 
         numberOfPoints = mesh.vertexCount;
-        positionArray = new Vector3[numberOfPoints];
+        positionArray = new Vector3[numberOfPoints]; 
+        normalsArray = new Vector3[numberOfPoints];
 
         maxVectorLength = transform.localScale.x * vectorScalingFactor;
 
@@ -117,5 +139,6 @@ public class FluxZone : FieldZone
 
         // Ensures that this will not be called again until the component has been disabled and reenabled. 
         initialized = true;
+        // Why is the positions buffer not declared here?
     }
 }

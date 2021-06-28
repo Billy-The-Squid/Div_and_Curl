@@ -537,6 +537,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flux Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 1718279740705519841, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+      propertyPath: computeShader
+      value: 
+      objectReference: {fileID: 7200000, guid: 8d9e21016e2423d4696133783a709b67, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
 --- !u!1 &318092836
