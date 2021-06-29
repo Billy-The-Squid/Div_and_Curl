@@ -15,6 +15,18 @@ public class FieldDetector : MonoBehaviour
     // Multiple fields are not supported. 
 
     /// <summary>
+    /// The value measured by the detector. 
+    /// </summary>
+    public float detectorOutput { get; protected set; }
+
+    /// <summary>
+    /// The identifier of the value measured by the detector. 
+    /// </summary>
+    public string quantityName { get; set; }
+
+
+
+    /// <summary>
     /// Called by a <cref>FieldZone</cref> when entering a field.
     /// </summary>
     /// <param name="graph"></param>

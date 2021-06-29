@@ -39,6 +39,7 @@ float CalculateMagnitudes(float index) {
 float Rescale(float vect_mag) {
 	// Renormalizing...
     return _MaxVectorLength * (1 - 1 / pow(vect_mag + 1, 2)) / (vect_mag + 0.000000001);
+    // That last bit is there because we need to first normalize. 
 };
 
 [numthreads(64, 1, 1)]

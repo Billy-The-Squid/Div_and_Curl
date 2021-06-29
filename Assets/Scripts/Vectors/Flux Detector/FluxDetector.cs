@@ -80,6 +80,14 @@ public class FluxDetector : FieldDetector
     /// </summary>
     public float totalFlux { get; protected set; }
 
+    /// <summary>
+    /// A computeBuffer that stores the mesh triangles. 
+    /// </summary>
+    ComputeBuffer trianglesBuffer;
+    // This should really be set inside the flux zone. 
+    ComputeBuffer areasBuffer;
+    ComputeBuffer numTrianglesPerVertBuffer;
+
     // A debugging array.
     float[] debugArray;
 
@@ -113,6 +121,8 @@ public class FluxDetector : FieldDetector
 
         // Initializing the storage array.
         totalFluxArray = new float[1];
+
+        quantityName = "Flux";
     }
 
 
@@ -136,6 +146,24 @@ public class FluxDetector : FieldDetector
         {
             totalFluxBuffer.Release();
             totalFluxBuffer = null;
+        }
+
+        if(trianglesBuffer != null)
+        {
+            trianglesBuffer.Release();
+            trianglesBuffer = null;
+        }
+
+        if(areasBuffer != null)
+        {
+            areasBuffer.Release();
+            areasBuffer = null;
+        }
+
+        if(numTrianglesPerVertBuffer != null)
+        {
+            numTrianglesPerVertBuffer.Release();
+            numTrianglesPerVertBuffer = null;
         }
     }
 
@@ -181,6 +209,21 @@ public class FluxDetector : FieldDetector
             fluxContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(float));
             totalFluxBuffer = new ComputeBuffer(1, sizeof(float));
         }
+        if (trianglesBuffer == null)
+        {
+            trianglesBuffer = new ComputeBuffer(mesh.triangles.Length, sizeof(int));
+            trianglesBuffer.SetData(mesh.triangles);
+        }
+        if (areasBuffer == null)
+        {
+            areasBuffer = new ComputeBuffer(vectorsBuffer.count, sizeof(float));
+        }
+        areasBuffer.SetData(new float[vectorsBuffer.count]);
+        if (numTrianglesPerVertBuffer == null)
+        {
+            numTrianglesPerVertBuffer = new ComputeBuffer(vectorsBuffer.count, sizeof(int));
+        }
+        numTrianglesPerVertBuffer.SetData(new int[vectorsBuffer.count]);
         CalculateFluxContributions();
 
         // Sends the vector buffer to the shell shader
@@ -222,12 +265,21 @@ public class FluxDetector : FieldDetector
         computeShader.SetBuffer(kernelID, totalFluxID, totalFluxBuffer);
         //Debug.Log("Number of points: " + vectorsBuffer.count); // 515 points on a standard sphere?
 
+        // Stuff for triangles method:
+        computeShader.SetBuffer(kernelID, "_Triangles", trianglesBuffer);
+        computeShader.SetBuffer(kernelID, "_Positions", vectorField.positionsBuffer);
+        computeShader.SetInt("_NumberOfTriangles", mesh.triangles.Length);
+        computeShader.SetBuffer(kernelID, "_Areas", areasBuffer);
+        computeShader.SetBuffer(kernelID, "_NumberOfTrianglesPerVertex", numTrianglesPerVertBuffer);
+
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
         totalFluxBuffer.GetData(totalFluxArray);
         totalFlux = totalFluxArray[0];
 
-        //Debug.Log("Total flux: " + totalFlux);
+        detectorOutput = totalFlux; // Delete this redundant totalFlux variable?
+
+        Debug.Log("Total flux: " + totalFlux);
     }
 
 

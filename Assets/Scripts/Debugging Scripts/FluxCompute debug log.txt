@@ -1,0 +1,48 @@
+/* 
+Debug log. 
+
+Issue identified as occurring in second kernel. Changing from `+= _FluxContributions[i]` to `+= 1` stops
+the issue. 
+
+Trying to read from _FluxContributions. Forced the debugging code to behave, then discovered that the values
+stored in fluxContributions are sometimes getting NaN stored. 
+
+Trying to read the values of _Normals and _Vectors now. Right before they're sent to kernel 0.
+* _ Vectors seems reasonable, stuff like (1.2, 0.0, 1.3). Seems to change with position exactly as we'd expect
+* _Normals also seems reasonable, stuff like (0.6, -0.6, -0.6). It's harder to read, but the values are different 
+	from each other.
+
+Adjusting kernel zero to output the x value of each normal. 
+* Debug Array output is roughly as expected, based on what I recall of what goes into _Normals.
+
+Checking with the x value of _Vectors.
+* First value behaves as expected, but second is zero (as if storing the y valye of vect?) and third is independent of
+	other two. 
+
+I suspect this is a type error. Trying to see if I can figure it out. 
+* Issue is that _Vectors and _Normals were declared as float buffers.    &&&&&&&&&&&&&&&&&&&&&&&&&
+
+Changing back to original definition of _FluxContributions.
+* No crash. contributions array values change as you move around in the field
+
+Commented out contributions debug log, uncommented call to second kernel. _TotalFlux still on += 1. 
+* Crash! Same issue as before. 
+
+Commented call to second kernel. Commented entire for loop, uncommented call to second kernel. 
+* No crash, nothing visibly wrong. 
+
+Uncommented for loop, reduced threshhold to ten. 
+* No crash, nothing visibly wrong. 
+
+Increase threshhold to 100.
+* No crash, nothing visibly wrong. 
+
+Increase threshhold to 500.
+* No crash, nothing visibly wrong. 
+
+Changed "SetFloat" to "SetInt." Did not change commenting.     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+* No crash. 
+
+Reverted kernel to original declaration. 
+* Everything seems to be working now. 
+*/
