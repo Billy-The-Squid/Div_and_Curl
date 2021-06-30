@@ -6,8 +6,8 @@ using System;
 /// <summary>
 /// A <cref>FieldZone</cref> that plots vectors across the surface of an object. 
 /// </summary>
-[RequireComponent(typeof(MeshFilter), typeof(CurlDetector))]
-public class CurlZone : FieldZone
+[RequireComponent(typeof(MeshFilter), typeof(CurlSphereDetector))]
+public class CurlSphereZone : FieldZone
 {
     /// <summary>
     /// The <cref>MeshFilter</cref> containing the mesh to be plotted across. 
@@ -23,7 +23,7 @@ public class CurlZone : FieldZone
     /// The main <cref>CurlDetector</cref> object. Used to access the detected field for its origin. 
     /// </summary>
     [SerializeField]
-    CurlDetector curlDetector;
+    CurlSphereDetector curlDetector;
 
     /// <summary>
     /// Determines whether the field has already been initialized. 
@@ -126,7 +126,7 @@ public class CurlZone : FieldZone
         }
         mesh = meshFilter.mesh;
         if (curlDetector == null) {
-            curlDetector = GetComponent<CurlDetector>();
+            curlDetector = GetComponent<CurlSphereDetector>();
         }
 
         numberOfPoints = mesh.vertexCount;

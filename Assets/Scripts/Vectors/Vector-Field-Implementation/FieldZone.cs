@@ -17,7 +17,7 @@ public abstract class FieldZone : MonoBehaviour
     /// <summary>
     /// The worldspace point that the field calculations will treat as (0,0,0).
     /// </summary>
-    public Vector3 fieldOrigin { get; protected set; }
+    public Vector3 fieldOrigin { get; set; }
     /// <summary>
     /// The bounds (worldspace) to be used when drawing the field.
     /// </summary>

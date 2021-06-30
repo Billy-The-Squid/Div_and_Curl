@@ -47,7 +47,7 @@ Shader "Custom/CurlDetector"
             float4 _MainTex_ST;
 
             // The values of the curl contribution at each input. 
-            StructuredBuffer<float> _CurlContributions;
+            StructuredBuffer<float3> _CurlContributions; // RETYPED
 
 
 
@@ -60,7 +60,7 @@ Shader "Custom/CurlDetector"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
-                float dotP = _CurlContributions[v.id];
+                float dotP = length(_CurlContributions[v.id]); // RETYPED (kinda)
 
                 // Red -> blue colors
                 //o.color.r = saturate(-abs(dotP + 1)+2);

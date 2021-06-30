@@ -7,8 +7,8 @@ using UnityEngine;
 /// The flux detector has two forms of display: its color at each point changes based on the contribution of that point to the flux, 
 /// and each vertex displays a "hair" indicating the direction of the field at that point. 
 /// </summary>
-[RequireComponent(typeof(VectorField), typeof(CurlZone))]
-public class CurlDetector : FieldDetector
+[RequireComponent(typeof(VectorField), typeof(CurlSphereZone))]
+public class CurlSphereDetector : FieldDetector
 {
     /// <summary>
     /// The material to be displayed when the detector is inside a vector field. 
@@ -34,7 +34,7 @@ public class CurlDetector : FieldDetector
     /// The <cref>CurlZone</cref> object to be used by the <cref>vectorField</cref>.
     /// </summary>
     [SerializeField]
-    CurlZone zone;
+    CurlSphereZone zone;
     /// <summary>
     /// The <cref>VectorField</cref> that is produced by the detector. Not to be confused with the <cref>detectedField</cref>.
     /// </summary>
@@ -74,11 +74,12 @@ public class CurlDetector : FieldDetector
     /// <summary>
     /// A temporary array. 
     /// </summary>
-    float[] totalCurlArray;
+    Vector3[] totalCurlArray;
+    // RETYPED
     /// <summary>
     /// The total curl through the surface. 
     /// </summary>
-    public float totalCurl { get; protected set; }
+    public Vector3 totalCurl { get; protected set; }
     // RETYPE
 
     /// <summary>
@@ -90,7 +91,7 @@ public class CurlDetector : FieldDetector
     ComputeBuffer numTrianglesPerVertBuffer;
 
     // A debugging array.
-    float[] debugArray;
+    Vector3[] debugArray;
 
 
 
@@ -110,7 +111,7 @@ public class CurlDetector : FieldDetector
 
         // Finding the vectorField and zone components
         if (zone == null) {
-            zone = GetComponent<CurlZone>();
+            zone = GetComponent<CurlSphereZone>();
         }
         if (vectorField == null) {
             vectorField = GetComponent<VectorField>();
@@ -121,7 +122,7 @@ public class CurlDetector : FieldDetector
         vectorField.zone = zone; // Hopefully this is fine for a disabled attribute
 
         // Initializing the storage array.
-        totalCurlArray = new float[1];
+        totalCurlArray = new Vector3[1];
         // RETYPE
 
         quantityName = "Curl"; // Is this what we want to call it?
@@ -189,7 +190,7 @@ public class CurlDetector : FieldDetector
         {
             if (debugArray == null)
             {
-                debugArray = new float[vectorsBuffer.count];
+                debugArray = new Vector3[vectorsBuffer.count];
             }
             // For some reason, this gets messed up the second time we put it through the array.
             curlContributions.GetData(debugArray);
@@ -208,8 +209,11 @@ public class CurlDetector : FieldDetector
         // Calculates the curl contributions at each vertex, plus the total curl. 
         if (curlContributions == null)
         {
-            curlContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(float)); // RETYPE
-            totalCurlBuffer = new ComputeBuffer(1, sizeof(float)); // RETYPE
+            unsafe
+            {
+                curlContributions = new ComputeBuffer(vectorsBuffer.count, sizeof(Vector3)); // RETYPED
+                totalCurlBuffer = new ComputeBuffer(1, sizeof(Vector3)); // RETYPED
+            }
         }
         if (trianglesBuffer == null)
         {
@@ -257,12 +261,12 @@ public class CurlDetector : FieldDetector
         // Calculating the curl contributions
         int kernelID = 0;
 
-        // Debug code.
-        Vector3[] debugArray = new Vector3[vectorsBuffer.count];
-        //float[] debugArray = new float[numOfPoints];
-        normalsBuffer.GetData(debugArray);
-        Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        //// Debug code.
+        //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
+        ////float[] debugArray = new float[numOfPoints];
+        //normalsBuffer.GetData(debugArray);
+        //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
 
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);
@@ -298,7 +302,7 @@ public class CurlDetector : FieldDetector
         totalCurlBuffer.GetData(totalCurlArray);
         totalCurl = totalCurlArray[0];
 
-        detectorOutput = totalCurl; // Delete this redundant totalCurl variable?
+        detectorOutput = totalCurl.magnitude; // Delete this redundant totalCurl variable?
 
         Debug.Log("Total curl: " + totalCurl);
     }

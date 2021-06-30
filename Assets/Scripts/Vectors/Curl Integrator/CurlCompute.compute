@@ -8,12 +8,12 @@ RWStructuredBuffer<float3> _Vectors;
 // The normals, hopefully in worldspace. 
 RWStructuredBuffer<float3> _Normals;
 // The dot product of (currently normalized) vector and normal. 
-RWStructuredBuffer<float> _CurlContributions;
+RWStructuredBuffer<float3> _CurlContributions; // RETYPED
 
 // The number of vertices. 
 int _NumberOfPoints;
 // The total curl through the object. 
-RWStructuredBuffer<float> _TotalCurl;
+RWStructuredBuffer<float3> _TotalCurl; // RETYPED
 
 // Things required for the Triangles kernel
 int _NumberOfTriangles;
@@ -33,9 +33,9 @@ RWStructuredBuffer<int> _NumberOfTrianglesPerVertex;
 void CalculateCurlContributions(uint3 id : SV_DispatchThreadID) {
 	float3 normal = _Normals[id.x];
 	float3 vect = _Vectors[id.x];
-	float dotP = dot((vect), normalize(normal)); // We need to drop this normalization
+	float3 crossP = cross(normalize(normal), vect); // We need to drop this normalization
 
-	_CurlContributions[id.x] = dotP; // Uncomment me. 
+	_CurlContributions[id.x] = crossP; // Uncomment me. 
 }
 
 //[numthreads(1,1,1)] // Add together all the contributions
@@ -95,4 +95,5 @@ void CalculateTotalCurlTriangles(uint3 id : SV_DispatchThreadID) {
 		// * (1.0 / _NumberOfTrianglesPerVertex[i]);
 		//_TotalCurl[0] += _NumberOfTrianglesPerVertex[i];
 	}
+	// There's no curl-specific changes here, are there?
 }

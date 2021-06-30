@@ -24,7 +24,7 @@ Shader "Vectors/CurlShader"
 
 		// The data about how much this point contributes to curl.
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			StructuredBuffer<float> _CurlContributions;
+			StructuredBuffer<float3> _CurlContributions; // RETYPED
 		#endif
 		
 		//float4 _DetectorCenter; 
@@ -38,7 +38,7 @@ Shader "Vectors/CurlShader"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP = _CurlContributions[unity_InstanceID];
+				float dotP = length(_CurlContributions[unity_InstanceID]); // RETYPED (kinda)
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
