@@ -1,0 +1,98 @@
+#pragma kernel CalculateCurlContributions
+#pragma kernel CalculateTotalCurlTriangles
+// Change this line back! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+// How many of these can be just normal StructuredBuffers? %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// The value of the vectors, indexed the same as the positionsBuffer. 
+RWStructuredBuffer<float3> _Vectors;
+// The normals, hopefully in worldspace. 
+RWStructuredBuffer<float3> _Normals;
+// The dot product of (currently normalized) vector and normal. 
+RWStructuredBuffer<float> _CurlContributions;
+
+// The number of vertices. 
+int _NumberOfPoints;
+// The total curl through the object. 
+RWStructuredBuffer<float> _TotalCurl;
+
+// Things required for the Triangles kernel
+int _NumberOfTriangles;
+StructuredBuffer<int> _Triangles;
+StructuredBuffer<float3> _Positions;
+//// The total area of each triangle the vertex is adjacent to.
+RWStructuredBuffer<float> _Areas;  // It's frustrating that I can't declare this dynamically. 
+//// The number of triangles that each vertex contributes to. 
+RWStructuredBuffer<int> _NumberOfTrianglesPerVertex;
+
+
+
+
+
+// Calculate the dot product of the normal and field value at each point. 
+[numthreads(64, 1, 1)]
+void CalculateCurlContributions(uint3 id : SV_DispatchThreadID) {
+	float3 normal = _Normals[id.x];
+	float3 vect = _Vectors[id.x];
+	float dotP = dot((vect), normalize(normal)); // We need to drop this normalization
+
+	_CurlContributions[id.x] = dotP; // Uncomment me. 
+}
+
+//[numthreads(1,1,1)] // Add together all the contributions
+//void CalculateTotalCurl(uint3 id : SV_DispatchThreadID) {
+//	_TotalCurl[0] = 0;
+//	for(int i = 0; i < _NumberOfPoints; i++) {
+//		_TotalCurl[0] += _CurlContributions[i]; // * AreaOfTriangle;
+//	}
+//}
+
+//[numthreads(1,1,1)] // Simpson's rule approximation
+//void CalculateTotalCurlSimpson(uint3 id : SV_DispatchThreadID) {
+//	_TotalCurl[0] = 0;
+//	for(int i = 0; i < _NumberOfSubIntegrals; i++) {
+
+//	}
+//}
+
+[numthreads(1,1,1)]
+void CalculateTotalCurlTriangles(uint3 id : SV_DispatchThreadID) {
+	// This could definitely be split into a couple of kernels. 
+
+	// Iterate through the triangles.
+	//int j = 17; 
+	int j; // index in triangles. 
+	for(j = 0; j < _NumberOfTriangles; j++) 
+	{
+		// The index of the first vertex in the triangle. 
+		int base = 3 * j; // index in triangles. 
+		// The vertex numbers of the vertices in the triangle. 
+		int first = _Triangles[base]; // index in vertices
+		int second = _Triangles[base + 1]; // index in vertices
+		int third = _Triangles[base + 2]; // index in vertices
+
+		// The area of the triangle
+		float area = 0.5 * length(cross(_Positions[first] - _Positions[second], 
+			_Positions[third] - _Positions[second]));
+
+		_Areas[first] += area * (1.0 / 3);
+		_Areas[second] += area * (1.0 / 3);
+		_Areas[third] += area * (1.0 / 3);
+
+		//_NumberOfTrianglesPerVertex[first] += 1;
+		//_NumberOfTrianglesPerVertex[second] += 1;
+		//_NumberOfTrianglesPerVertex[third] += 1;
+	}
+
+	// Iterate through the vertices to calculate the actual curl. 
+	_TotalCurl[0] = 0;
+	//int i = 0; // Debug code
+	for(int i = 0; i < _NumberOfPoints; i++) 
+	{
+		// average of the number of triangles adjacent * 1/3 (bc 3 vertices per triangle)
+		_TotalCurl[0] += _Areas[i] * _CurlContributions[i];
+
+		//Delete me
+		// * (1.0 / _NumberOfTrianglesPerVertex[i]);
+		//_TotalCurl[0] += _NumberOfTrianglesPerVertex[i];
+	}
+}
