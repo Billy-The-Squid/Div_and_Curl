@@ -141,4 +141,17 @@ public class FluxZone : FieldZone
         initialized = true;
         // Why is the positions buffer not declared here?
     }
+
+    private void OnDrawGizmos()
+    {
+        // Debug code
+        if(positionArray != null && positionArray.Length > 0)
+        {
+            Gizmos.DrawSphere(positionArray[0], 0.01f);
+            Gizmos.DrawLine(positionArray[0], normalsArray[0] + positionArray[0]);
+
+            Gizmos.DrawLine(positionArray[406], normalsArray[406] + positionArray[406]);
+            Gizmos.DrawLine(positionArray[494], normalsArray[494] + positionArray[494]);
+        }
+    }
 }

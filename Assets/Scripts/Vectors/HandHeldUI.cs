@@ -49,7 +49,7 @@ public class HandHeldUI : MonoBehaviour
     
 
     /// <summary>
-    /// This method checks the opposite hand for a grabbed flux detector. 
+    /// This method checks the opposite hand for a grabbed flux detector and stores it as <cref>detector</cref>.
     /// </summary>
     private void CheckForGrabbed()
     {
@@ -57,10 +57,11 @@ public class HandHeldUI : MonoBehaviour
 
         if(grabbing && !measuring)
         {
-            //if(otherHand.)
+            if (otherHand.selectTarget.GetComponent<FieldDetector>()) // Is this even a valid check?
+            {
+                SetDetector(otherHand.selectTarget.GetComponent<FieldDetector>());
+            }
         }
-
-        throw new NotImplementedException();
     }
 
 

@@ -59,32 +59,41 @@ void CalculateTotalFluxTriangles(uint3 id : SV_DispatchThreadID) {
 	// This could definitely be split into a couple of kernels. 
 
 	// Iterate through the triangles.
-	for(int j = 0; j < _NumberOfTriangles; j++) {
+	//int j = 17; 
+	int j; // index in triangles. 
+	for(j = 0; j < _NumberOfTriangles; j++) 
+	{
 		// The index of the first vertex in the triangle. 
-		int base = 3 * j;
+		int base = 3 * j; // index in triangles. 
 		// The vertex numbers of the vertices in the triangle. 
-		int first = _Triangles[base];
-		int second = _Triangles[base + 1];
-		int third = _Triangles[base + 2];
+		int first = _Triangles[base]; // index in vertices
+		int second = _Triangles[base + 1]; // index in vertices
+		int third = _Triangles[base + 2]; // index in vertices
 
 		// The area of the triangle
-		float area = length(cross(_Positions[first] - _Positions[second], 
+		float area = 0.5 * length(cross(_Positions[first] - _Positions[second], 
 			_Positions[third] - _Positions[second]));
 
-		_Areas[first] += area;
-		_Areas[second] += area;
-		_Areas[third] += area;
+		_Areas[first] += area * (1.0 / 3);
+		_Areas[second] += area * (1.0 / 3);
+		_Areas[third] += area * (1.0 / 3);
 
-		_NumberOfTrianglesPerVertex[first] += 1;
-		_NumberOfTrianglesPerVertex[second] += 1;
-		_NumberOfTrianglesPerVertex[third] += 1;
+		//_NumberOfTrianglesPerVertex[first] += 1;
+		//_NumberOfTrianglesPerVertex[second] += 1;
+		//_NumberOfTrianglesPerVertex[third] += 1;
 	}
 
 	// Iterate through the vertices to calculate the actual flux. 
 	_TotalFlux[0] = 0;
-	for(int i = 0; i < _NumberOfPoints; i++) {
+	//int i = 0; // Debug code
+	for(int i = 0; i < _NumberOfPoints; i++) 
+	{
 		// average of the number of triangles adjacent * 1/3 (bc 3 vertices per triangle)
-		_TotalFlux[0] += _Areas[i] * (1 / 3.0) * (1.0 / _NumberOfTrianglesPerVertex[i]) * _FluxContributions[i];
+		_TotalFlux[0] += _Areas[i] * _FluxContributions[i];
+
+		//Delete me
+		// * (1.0 / _NumberOfTrianglesPerVertex[i]);
+		//_TotalFlux[0] += _NumberOfTrianglesPerVertex[i];
 	}
 }
 
@@ -111,7 +120,7 @@ Allow the division in.
 * Returning about 0.24. Not the area we expect, again. 
 
 Multiply by _NumberOfTrianglesPerVertex[i], to check whether we can access it all right. 
-* Functional, returning about 1.8. Which means each vertex is connected to, on average, nine trianges? 
+* Functional, returning about 1.8. Which means each vertex is connected to, on average, nine triangles? 
 * That's not right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Remove last step, uncomment division. This *should* give us the area.
@@ -148,4 +157,70 @@ Re-disable the plane and reinstate the sphere.
 Enter debug mode, set a debug array + breakpoint to the positions, and try to figure out which vertex is at index 0. 
 * Well, there's at least one redundancy: points 0, 406, and 494 are identical. They're all at 
 	(0.6, -0.6, -0.6), and identical to seven decimal places.m 
+
+
+
+Next: Attempting to figure out if areas are being calculated correctly. 
+
+Commented out the loop parts of the for loops in the kernel. Now they just run once. 
+* Getting NaNs for some flux values. I think we have to be careful that j = 0 returns a triangle with vertex 0. 
+
+Added Gizmo to draw both vertex 0 and its respective normal. Added Gizmos to draw normals for vertices 406 and 494. 
+* Only one line is visible---hopefully due to overlap. The vertex and line both transform appropriately under rotation. 
+
+The surface area of a sphere is 4 pi r^2, so the surface area of a 0.2m radius sphere should be 0.502655m^2. 
+Reverting the loops, but commenting out multiplying by the fluxContribution. This should return the surface area. 
+* Gives roughly 0.05368145. This does not vary with x or z rotation, but the last digit fluctuates with y rotation. 
+* I'm not super concerned with that miniscule fluctuation, but the face that we're an order of magnitude off bothers me. 
+
+Setting a debug point to examine the triangles. It's hard to tell, but it looks like the vertex 0 (or its companions) 
+should be attached to five triangles. 
+* 0 appears at: 51, 54. 406 appears at 918, 921. 494 appears at 1922. 
+* The triangle at 51 is: 0, 47, 170.
+* The triangle at 54 is: 0, 170, 26.
+* The triangle at 918 is: 406, 242, 407.
+* The triangle at 921 is: 406, 83, 242.
+* The triangle at 1922 is: 494, 492, 359.
+
+Remove the loop part of the two for loops, set the one to calculate at triange 51 (j = 17) while the other outputs just vertex i = 0;
+For the total flux, commented out everything past _Areas[i].
+* "Total flux": 0.0001673863. Last two digits vary with the z rotation, but not with x or y.
+* Last two digits also vary with translation in any direction. 
+
+Going to manually calculate this now. I'll set a debug point, get the positions of 0, 47, and 170, and do the math myself. 
+* Using the exact formula I got above, I got an answer that agreed. I also realized that I forgot the 0.5, so I added that to both. 
+
+
+
+Next test: see if total area increases with r^2.
+Reinstated loops (still calculating just total area) [Note: not total area: the sum of all the areas of the triangles, * # of vertices. ]
+* Total flux is now 0.3726286
+
+Increased scale factors to 1. 
+* Total flux is now 9.315715 (off from expected 12.6). [Note: 12.6 is total area.]
+
+Verified that it is, in fact, scaling with r^2. But the value is still wack. 
+
+Divided areas added to vertex logs by 3. I don't think we need to average over the number of triangles, so moved that (but kept it commented.)
+* Total area calculated is 0.1242095. Still very not right. 
+
+
+
+Fixed the bounds on the first for loop. That didn't change anything.
+
+Summed over number of triangles per vertex. Got 3 * number of triangles, as expected. 
+
+Checked the area of the plane. It was almost exact. 
+
+On a hunch, checked the radius of the scale-1 sphere. It's actually 0.5, so its area should be pi. This lines up with calculations. 
+
+Recalculated area of scale-0.2 sphere. We're getting the correct value. 
+
+Reinstate _FluxContributions part of total flux, now without average over number of triangles. 
+* Very little variation with rotation (only after 3 or 4 sig figs.) In Outwards field, similar results.
+
+
+
+
+Can we decrease the variation if we make everything into doubles instead of floats?
 */
