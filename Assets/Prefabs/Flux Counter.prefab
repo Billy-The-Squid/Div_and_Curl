@@ -365,7 +365,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 1284309509587163685}
   zone: {fileID: 7379400}
   vectorField: {fileID: 0}
-  computeShader: {fileID: 0}
+  computeShader: {fileID: 7200000, guid: 8d9e21016e2423d4696133783a709b67, type: 3}
 --- !u!114 &7379400
 MonoBehaviour:
   m_ObjectHideFlags: 0

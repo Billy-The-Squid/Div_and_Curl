@@ -11,12 +11,22 @@ public class HandHeldUI : MonoBehaviour
     /// Is the UI currently measuring the output of a device?
     /// </summary>
     protected bool measuring;
-
     /// <summary>
     /// A reference to the device the UI is reading from. 
     /// </summary>
     protected FieldDetector detector;
 
+    // The parts of the display itself. 
+    /// <summary>
+    /// The canvas with the text readout. 
+    /// </summary>
+    [SerializeField]
+    Canvas canvas;
+    /// <summary>
+    /// The mesh renderer hosting the display. 
+    /// </summary>
+    [SerializeField]
+    MeshRenderer meshRenderer;
     /// <summary>
     /// The display with the text readout or output.
     /// </summary>
@@ -51,16 +61,21 @@ public class HandHeldUI : MonoBehaviour
     /// <summary>
     /// This method checks the opposite hand for a grabbed flux detector and stores it as <cref>detector</cref>.
     /// </summary>
-    private void CheckForGrabbed()
+    public void CheckForGrabbed()
     {
-        bool grabbing = otherHand.isSelectActive; // Confirm that this does what we want. 
+        bool grabbing = otherHand.isSelectActive; // Is true whenever the action itself is active
 
+        // If the hand is grabbing but there's nothing we're measuring, check what's being held. 
         if(grabbing && !measuring)
         {
-            if (otherHand.selectTarget.GetComponent<FieldDetector>()) // Is this even a valid check?
+            // Getting a null ref error here sometimes. 
+            if (otherHand.selectTarget != null && otherHand.selectTarget.GetComponent<FieldDetector>()) // Is this even a valid check?
             {
                 SetDetector(otherHand.selectTarget.GetComponent<FieldDetector>());
             }
+        } else if (!grabbing || !measuring)
+        {
+            UnsetDetector();
         }
     }
 
@@ -73,7 +88,7 @@ public class HandHeldUI : MonoBehaviour
     /// </summary>
     private void UpdateDisplay()
     {
-        display.SetText(detector.quantityName + ": \n{0:0}" + detector.detectorOutput);
+        display.SetText(detector.quantityName + ": \n{0:0}", detector.detectorOutput);
     }
 
 
@@ -86,6 +101,9 @@ public class HandHeldUI : MonoBehaviour
     {
         measuring = true;
         detector = measuredDetector;
+
+        meshRenderer.enabled = true;
+        canvas.enabled = true;
     }
 
 
@@ -97,5 +115,8 @@ public class HandHeldUI : MonoBehaviour
     {
         measuring = false;
         detector = null;
+
+        meshRenderer.enabled = false;
+        canvas.enabled = false;
     }
 }

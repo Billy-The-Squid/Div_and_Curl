@@ -296,7 +296,7 @@ public class FluxDetector : FieldDetector
         totalFluxBuffer.GetData(totalFluxArray);
         totalFlux = totalFluxArray[0];
 
-        detectorOutput = totalFlux; // Delete this redundant totalFlux variable?
+        detectorOutput = totalFlux; // Delete this redundant totalCurl variable?
 
         Debug.Log("Total flux: " + totalFlux);
     }
@@ -348,5 +348,6 @@ public class FluxDetector : FieldDetector
         meshRenderer.material = inertMaterial;
         base.ExitedField(field);
         vectorField.enabled = false;
+        detectorOutput = 0.0f;
     }
 }
