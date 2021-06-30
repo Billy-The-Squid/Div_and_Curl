@@ -136,5 +136,16 @@ Creating a plane flux detector.
 
 Improving plane flux detector: unpacking, setting correct collider, removing inner surface. 
 
+
+
+
 Next: add debug outputs for the normals and examine those. 
+
+Uncommented normalize debugger and examined the outputs for the plane. 
+* When unrotated, gives (0.0, 1.0, 0.0). Similarly, when rotating, gives the outputs expected. 
+
+Re-disable the plane and reinstate the sphere. 
+Enter debug mode, set a debug array + breakpoint to the positions, and try to figure out which vertex is at index 0. 
+* Well, there's at least one redundancy: points 0, 406, and 494 are identical. They're all at 
+	(0.6, -0.6, -0.6), and identical to seven decimal places.m 
 */

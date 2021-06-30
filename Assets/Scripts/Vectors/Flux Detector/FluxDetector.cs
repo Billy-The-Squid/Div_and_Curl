@@ -244,11 +244,12 @@ public class FluxDetector : FieldDetector
         // Calculating the flux contributions
         int kernelID = 0;
 
-        //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
-        ////float[] debugArray = new float[numOfPoints];
-        //normalsBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        // Debug code.
+        Vector3[] debugArray = new Vector3[vectorsBuffer.count];
+        //float[] debugArray = new float[numOfPoints];
+        normalsBuffer.GetData(debugArray);
+        Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
 
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);
@@ -271,6 +272,13 @@ public class FluxDetector : FieldDetector
         computeShader.SetInt("_NumberOfTriangles", mesh.triangles.Length);
         computeShader.SetBuffer(kernelID, "_Areas", areasBuffer);
         computeShader.SetBuffer(kernelID, "_NumberOfTrianglesPerVertex", numTrianglesPerVertBuffer);
+
+        // More debug code (for triangles)
+        Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
+        //float[] debugArray2 = new float[numOfPoints];
+        normalsBuffer.GetData(debugArray2);
+        //Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
+        //Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
 
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
