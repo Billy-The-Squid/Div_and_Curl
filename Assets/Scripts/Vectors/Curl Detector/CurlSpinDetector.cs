@@ -27,6 +27,11 @@ public class CurlSpinDetector : FieldDetector
     /// </summary>
     [SerializeField]
     Rigidbody displayRigidBody;
+    /// <summary>
+    /// The parent of the displayRigidBody. Must be free to rotate
+    /// </summary>
+    [SerializeField]
+    Transform displayParent;
 
     /// <summary>
     /// The buffer used to get the value of the curl. 
@@ -78,6 +83,7 @@ public class CurlSpinDetector : FieldDetector
         // This should be attached to preDisplay
         CalculateCurl();
 
+        displayParent.up = curl.normalized; // This doesn't do anything with the GrabInteractable
         displayRigidBody.angularVelocity = curl; // Scale this so that the visual rate of spin matches the rate that particles will move
     }
 
