@@ -77,14 +77,14 @@ public class CurlSpinDetector : FieldDetector
         if(!inField) { return; } // What should this detector do when it isn't in a field?
 
         // These should be attached to preCalculation
-        computationField.fieldType = detectedField.fieldType;
+        computationField.fieldType = detectedField.fieldType; // Why does this line throw null exceptions?
         computationField.zone.fieldOrigin = detectedField.zone.fieldOrigin;
 
         // This should be attached to preDisplay
         CalculateCurl();
 
         displayParent.up = curl.normalized; // This doesn't do anything with the GrabInteractable
-        displayRigidBody.angularVelocity = curl; // Scale this so that the visual rate of spin matches the rate that particles will move
+        displayRigidBody.angularVelocity = - 0.5f * curl; // Scale this so that the visual rate of spin matches the rate that particles will move
     }
 
 

@@ -186,17 +186,17 @@ public class CurlSphereDetector : FieldDetector
             return;
         }
 
-        if (curlContributions != null)
-        {
-            if (debugArray == null)
-            {
-                debugArray = new Vector3[vectorsBuffer.count];
-            }
-            // For some reason, this gets messed up the second time we put it through the array.
-            curlContributions.GetData(debugArray);
-            Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
-            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
-        }
+        //if (curlContributions != null)
+        //{
+        //    if (debugArray == null)
+        //    {
+        //        debugArray = new Vector3[vectorsBuffer.count];
+        //    }
+        //    // For some reason, this gets messed up the second time we put it through the array.
+        //    curlContributions.GetData(debugArray);
+        //    Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
+        //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        //}
 
         // Makes sure the same field types are being plotted...
         vectorField.fieldType = detectedField.fieldType;
@@ -304,7 +304,7 @@ public class CurlSphereDetector : FieldDetector
 
         detectorOutput = totalCurl.magnitude; // Delete this redundant totalCurl variable?
 
-        Debug.Log("Total curl: " + totalCurl);
+        //Debug.Log("Total curl: " + totalCurl);
     }
 
 

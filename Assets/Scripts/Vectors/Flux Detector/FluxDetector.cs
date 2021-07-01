@@ -183,17 +183,17 @@ public class FluxDetector : FieldDetector
             return;
         }
 
-        if (fluxContributions != null)
-        {
-            if (debugArray == null)
-            {
-                debugArray = new float[vectorsBuffer.count];
-            }
-            // For some reason, this gets messed up the second time we put it through the array.
-            fluxContributions.GetData(debugArray);
-            Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
-            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
-        }
+        //if (fluxContributions != null)
+        //{
+        //    if (debugArray == null)
+        //    {
+        //        debugArray = new float[vectorsBuffer.count];
+        //    }
+        //    // For some reason, this gets messed up the second time we put it through the array.
+        //    fluxContributions.GetData(debugArray);
+        //    Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
+        //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        //}
 
         // Makes sure the same field types are being plotted...
         vectorField.fieldType = detectedField.fieldType;
@@ -255,12 +255,12 @@ public class FluxDetector : FieldDetector
         // Calculating the flux contributions
         int kernelID = 0;
 
-        // Debug code.
-        Vector3[] debugArray = new Vector3[vectorsBuffer.count];
-        //float[] debugArray = new float[numOfPoints];
-        normalsBuffer.GetData(debugArray);
-        Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        //// Debug code.
+        //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
+        ////float[] debugArray = new float[numOfPoints];
+        //normalsBuffer.GetData(debugArray);
+        //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+        //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
 
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);

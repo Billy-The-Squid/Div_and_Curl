@@ -54,5 +54,15 @@ float3 Coulomb(float3 position)
 
 // Every type that's added must also be present in the enum in VectorFields.cs and have a kernel in VectorCompute.compute
 
+#define PI 3.14159265358979
+
+float3 Vortices(float3 position) {
+    float3 val;
+    val.x = -sin(PI * position.y);
+    val.y = sin(PI * position.x) * cos(PI * position.z);
+    val.z = 0; // cos(PI * position.x);// One day...
+    return val;
+}
+
 #define FIELD_LIBRARY
 #endif

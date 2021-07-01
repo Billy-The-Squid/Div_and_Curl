@@ -1,6 +1,7 @@
 ﻿#pragma kernel OutwardsField
 #pragma kernel SwirlField
 #pragma kernel CoulombField
+#pragma kernel VorticesField
 
 
 // The buffer storing the positions
@@ -45,3 +46,4 @@ StructuredBuffer<float3> _VectorArgs;
 KERNEL_NAME(Outwards)
 KERNEL_NAME(Swirl)
 KERNEL_NAME(Coulomb)
+KERNEL_NAME(Vortices)

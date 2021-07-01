@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 121798810}
   - component: {fileID: 121798815}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,7 +368,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: af4b81ab060c13b41aa4332d3b8d9b31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -397,7 +397,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121798809}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2765577547532117337, guid: 92f8316ed2d37904382bd6792ea1b7fa, type: 3}
 --- !u!4 &121798814
 Transform:
   m_ObjectHideFlags: 0
@@ -1415,7 +1415,7 @@ Transform:
   m_GameObject: {fileID: 731660456}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -2}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 1447914574}
   m_Father: {fileID: 0}
@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 731660457}
   canMove: 1
-  deltaX: 0.01
+  deltaX: 0.001
 --- !u!114 &731660467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,9 +1504,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8150241527288558680, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: pointerMesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
+    - target: {fileID: 8150241527288558681, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: canMove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558681, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: spacing
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558681, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: xLength
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558681, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: yLength
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558681, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: zLength
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558681, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: vectorScalingFactor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8150241527288558683, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: fieldType
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8150241527288558684, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: m_RootOrder
@@ -1555,6 +1583,10 @@ PrefabInstance:
     - target: {fileID: 8150241527288558685, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: m_Name
       value: Vector Field
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558685, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
@@ -2163,9 +2195,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8730831063504582424, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
+      propertyPath: fieldType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8730831063504582430, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
       propertyPath: m_Name
       value: Flow Field
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730831063504582430, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8730831063504582431, guid: 4ce4f7e9dd0ff1a429d81090b4dd708d, type: 3}
       propertyPath: m_RootOrder
@@ -2575,6 +2615,14 @@ PrefabInstance:
     - target: {fileID: 3695440855715282281, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
       propertyPath: m_Name
       value: Rain Field
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695440855715282281, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695440855715282282, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
+      propertyPath: fieldType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3695440855715282287, guid: dfa6b19d42e27c8408eff305817b01b8, type: 3}
       propertyPath: m_RootOrder
