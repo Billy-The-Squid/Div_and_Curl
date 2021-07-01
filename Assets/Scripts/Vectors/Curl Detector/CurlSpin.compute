@@ -1,0 +1,22 @@
+#pragma kernel ComputeCurl
+
+// The input vectors
+StructuredBuffer<float3> _Vectors;
+// 
+float _DeltaX;
+
+// The curl vector (a single entry)
+RWStructuredBuffer<float3> _Curl;
+
+[numthreads(1,1,1)]
+void ComputeCurl(uint3 id : SV_DispatchThreadID) {
+	float3 curl;
+	// Real-world components:
+	// 1, 2: x
+	// 3, 4: y
+	// 5, 6: z
+	curl.x = (_Vectors[3].y-_Vectors[4].y - (_Vectors[5].z-_Vectors[6].z)) * (1 / (2 * _DeltaX));
+	curl.y = (_Vectors[1].z-_Vectors[2].z - (_Vectors[3].x-_Vectors[4].x)) * (1 / (2 * _DeltaX));
+	curl.z = (_Vectors[5].x-_Vectors[6].x - (_Vectors[1].y-_Vectors[2].y)) * (1 / (2 * _DeltaX));
+	_Curl[0] = curl;
+}

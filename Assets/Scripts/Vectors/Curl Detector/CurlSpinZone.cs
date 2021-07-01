@@ -22,9 +22,19 @@ public class CurlSpinZone : FieldZone
     /// <summary>
     /// The distance used in the derivative computation.
     /// </summary>
-    [SerializeField]
-    float deltaX = 0.01f;
+    public float deltaX = 0.01f;
 
+
+
+
+    private void OnDisable()
+    {
+        if(positionBuffer != null)
+        {
+            positionBuffer.Release();
+            positionBuffer = null;
+        }
+    }
 
     public override void Initialize()
     {

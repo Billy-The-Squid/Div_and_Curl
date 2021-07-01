@@ -25,7 +25,15 @@ public class CurlSpinDetector : FieldDetector
     /// <summary>
     /// The detector's RigidBody.
     /// </summary>
-    Rigidbody rigidBody;
+    [SerializeField]
+    Rigidbody displayRigidBody;
+
+    /// <summary>
+    /// The buffer used to get the value of the curl. 
+    /// </summary>
+    protected ComputeBuffer curlBuffer;
+    // Temporary array
+    Vector3[] tempCurlArray = new Vector3[1];
 
 
 
@@ -35,10 +43,27 @@ public class CurlSpinDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
-        if(!inField)
-        {
+        // Set up the vector field
+        if(computationField == null) {
+            computationField = GetComponent<VectorField>();
+        }
+        if(!inField) {
             computationField.enabled = false; // I hope this is safe...
         }
+
+        // initialize the curl buffer
+        unsafe
+        {
+            curlBuffer = new ComputeBuffer(1, sizeof(Vector3));
+        }
+
+        // Find the RigidBody
+        if(displayRigidBody == null)
+        {
+            displayRigidBody = GetComponent<Rigidbody>();
+        }
+
+        quantityName = "Curl";
     }
 
     // Update is called once per frame
@@ -53,7 +78,18 @@ public class CurlSpinDetector : FieldDetector
         // This should be attached to preDisplay
         CalculateCurl();
 
-        rigidBody.angularVelocity = curl; // Scale this so that the visual rate of spin matches the rate that particles will move
+        displayRigidBody.angularVelocity = curl; // Scale this so that the visual rate of spin matches the rate that particles will move
+    }
+
+
+
+    private void OnDisable()
+    {
+        if(curlBuffer != null)
+        {
+            curlBuffer.Release();
+            curlBuffer = null;
+        }
     }
 
 
@@ -63,16 +99,26 @@ public class CurlSpinDetector : FieldDetector
     /// </summary>
     private void CalculateCurl()
     {
-        
+        int kernelID = 0;
 
-        throw new NotImplementedException();
+        curlComputer.SetBuffer(kernelID, "_Vectors", computationField.vectorsBuffer);
+        curlComputer.SetBuffer(kernelID, "_Curl", curlBuffer);
+        curlComputer.SetFloat("_DeltaX", ((CurlSpinZone)computationField.zone).deltaX);
+        // Throw an error or something if this cast doesn't work. 
+
+        curlComputer.Dispatch(kernelID, 1, 1, 1);
+
+        curlBuffer.GetData(tempCurlArray);
+        curl = tempCurlArray[0];
+
+        detectorOutput = curl.magnitude;
     }
 
 
 
     public override void EnteredField(VectorField graph)
     {
-        computationField.enabled = true;
+        computationField.enabled = true; // Welp.
         base.EnteredField(graph);
     }
 
@@ -80,6 +126,7 @@ public class CurlSpinDetector : FieldDetector
     {
         computationField.enabled = false;
         base.ExitedField(graph);
-        rigidBody.angularVelocity = Vector3.zero;
+        displayRigidBody.angularVelocity = Vector3.zero;
+        detectorOutput = (curl = Vector3.zero).magnitude;
     }
 }
