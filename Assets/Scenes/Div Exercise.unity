@@ -1382,6 +1382,7 @@ GameObject:
   - component: {fileID: 1214386469}
   - component: {fileID: 1214386468}
   - component: {fileID: 1214386467}
+  - component: {fileID: 1214386471}
   m_Layer: 9
   m_Name: Divergence Detector
   m_TagString: Untagged
@@ -1568,6 +1569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   computeField: {fileID: 1214386468}
   divergenceComputer: {fileID: 7200000, guid: 592813a2792950946b7023801ec82a52, type: 3}
+  divRenderer: {fileID: 1214386471}
 --- !u!114 &1214386468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1613,6 +1615,25 @@ MonoBehaviour:
   triggerCollider: {fileID: 0}
   canMove: 0
   deltaX: 0.01
+--- !u!114 &1214386471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214386461}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40dd77aedfd53684f9edfabf9a8ccbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: b750ca4a01632de41a6db6ed94b9da45, type: 2}
+  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  positionComputer: {fileID: 7200000, guid: 9f3cb2157d9b4864ba27ffebcb4753b2, type: 3}
+  radius: 0.1
+  travelDistance: 0.1
+  particlesPerStream: 3
+  startingScale: 0.1
 --- !u!1 &1232239004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +1892,7 @@ Transform:
   m_GameObject: {fileID: 1950693780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 82341267}
   m_RootOrder: 0

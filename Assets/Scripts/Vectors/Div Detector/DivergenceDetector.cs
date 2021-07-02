@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(VectorField), typeof(DerivativeZone))]
+[RequireComponent(typeof(VectorField), typeof(DerivativeZone), typeof(DivRender))]
 public class DivergenceDetector : FieldDetector
 {
     /// <summary>
@@ -33,6 +33,12 @@ public class DivergenceDetector : FieldDetector
     protected ComputeBuffer divBuffer;
     private Vector3[] tempDivArray = new Vector3[1];
 
+    /// <summary>
+    /// The component used to make the visual display of the flux. 
+    /// </summary>
+    [SerializeField]
+    protected DivRender divRenderer;
+
 
 
 
@@ -44,17 +50,17 @@ public class DivergenceDetector : FieldDetector
         if(computeField == null) {
             computeField = GetComponent<VectorField>();
         }
-        if(!inField) {
+        if(!inField) { // This check doesn't work properly. 
             computeField.enabled = false;
+            divRenderer.enabled = false;
         }
 
         // This should be called before the display function is called. 
         computeField.preDisplay += CalculateDiv;
 
-        // Initialize the divergence buffer field. 
-        unsafe
-        {
-            divBuffer = new ComputeBuffer(1, sizeof(Vector3));
+        // Initialize the divRenderer
+        if(divRenderer == null) {
+            divRenderer = GetComponent<DivRender>();
         }
 
         quantityName = "Div";
@@ -65,7 +71,16 @@ public class DivergenceDetector : FieldDetector
     {
         if(!inField) { return; }
 
-        //CalculateDiv(); // Bind this to preDisplay
+        divRenderer.divBuffer = divBuffer; // Make sure order of events here is correct
+    }
+
+    private void OnEnable()
+    {
+        // Initialize the divergence buffer field. 
+        unsafe
+        {
+            divBuffer = new ComputeBuffer(1, sizeof(Vector3));
+        }
     }
 
     private void OnDisable()
@@ -86,8 +101,6 @@ public class DivergenceDetector : FieldDetector
     /// </summary>
     private void CalculateDiv()
     {
-        Debug.Log("CalculateDiv is being called.");
-
         int kernelID = 0;
 
         // Calling the compute shader. 
@@ -104,22 +117,23 @@ public class DivergenceDetector : FieldDetector
 
         detectorOutput = divergence;
 
-        // Debug Code
-        Debug.Log("Divergence components: " + tempDivArray[0]);
-        Debug.Log("Stored divergence: " + divergence);
+        //// Debug Code
+        //Debug.Log("Divergence components: " + tempDivArray[0]);
+        //Debug.Log("Stored divergence: " + divergence);
     }
 
     public override void EnteredField(VectorField graph)
     {
         computeField.enabled = true;
-        // Insert something to control the display...
+        divRenderer.divBuffer = divBuffer;
+        divRenderer.enabled = true;
         base.EnteredField(graph);
     }
 
     public override void ExitedField(VectorField graph)
     {
         computeField.enabled = false;
-        // Insert something to control the display...
+        divRenderer.enabled = false;
         detectorOutput = 0;
         base.ExitedField(graph);
     }
