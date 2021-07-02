@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  fieldType: 1
+  fieldType: 3
   isDynamic: 1
 --- !u!114 &590356262639174479
 MonoBehaviour:

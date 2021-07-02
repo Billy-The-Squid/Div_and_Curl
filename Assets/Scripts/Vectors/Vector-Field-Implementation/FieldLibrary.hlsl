@@ -62,7 +62,25 @@ float3 Vortices(float3 position) {
     val.y = sin(PI * position.x) * cos(PI * position.z);
     val.z = 0; // cos(PI * position.x);// One day...
     return val;
-}
+};
+
+
+float3 Galaxy(float3 position) {
+    float distance = length(position) + 0.000000001;
+    float3 val;
+    val.x = (position.y - 0.5 * position.x) / pow(distance, 3);
+    val.y = (-position.x - 0.5 * position.y) / pow(distance, 3);
+    val.z = -  position.z;
+    return val * 0.2; // Magnitudes scaling factor
+};
+
+float3 PlaneWave(float3 position) {
+    float3 val;
+    val.x = 0;
+    val.y = sin(1.5 * PI * position.x);
+    val.z = 0;
+    return val;
+};
 
 #define FIELD_LIBRARY
 #endif

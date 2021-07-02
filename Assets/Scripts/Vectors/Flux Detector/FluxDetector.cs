@@ -284,12 +284,12 @@ public class FluxDetector : FieldDetector
         computeShader.SetBuffer(kernelID, "_Areas", areasBuffer);
         computeShader.SetBuffer(kernelID, "_NumberOfTrianglesPerVertex", numTrianglesPerVertBuffer);
 
-        //// More debug code (for triangles)
-        Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
-        ////float[] debugArray2 = new float[numOfPoints];
-        vectorField.positionsBuffer.GetData(debugArray2);
-        //Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
-        //Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
+        ////// More debug code (for triangles)
+        //Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
+        //////float[] debugArray2 = new float[numOfPoints];
+        //vectorField.positionsBuffer.GetData(debugArray2);
+        ////Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
+        ////Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
 
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
@@ -298,7 +298,7 @@ public class FluxDetector : FieldDetector
 
         detectorOutput = totalFlux; // Delete this redundant totalCurl variable?
 
-        Debug.Log("Total flux: " + totalFlux);
+        //Debug.Log("Total flux: " + totalFlux);
     }
 
 

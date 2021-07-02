@@ -67,7 +67,7 @@ public class VectorField : MonoBehaviour
     /// The possible types of field to display. 
     /// It is the user's responsibility to make sure that these selections align with those in FieldLibrary.hlsl
     /// </summary>
-    public enum FieldType { Outwards, Swirl, Coulomb, Vortices }
+    public enum FieldType { Outwards, Swirl, Coulomb, Vortices, Galaxy, PlaneWave }
     /// <summary>
     /// The type of field to be displayed. Cannot be changed in Play Mode if <cref>isDynamic</cref> is set to False.
     /// </summary>

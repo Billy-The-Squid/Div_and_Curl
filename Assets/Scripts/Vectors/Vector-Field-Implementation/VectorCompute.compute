@@ -2,6 +2,8 @@
 #pragma kernel SwirlField
 #pragma kernel CoulombField
 #pragma kernel VorticesField
+#pragma kernel GalaxyField
+#pragma kernel PlaneWaveField
 
 
 // The buffer storing the positions
@@ -47,3 +49,5 @@ KERNEL_NAME(Outwards)
 KERNEL_NAME(Swirl)
 KERNEL_NAME(Coulomb)
 KERNEL_NAME(Vortices)
+KERNEL_NAME(Galaxy)
+KERNEL_NAME(PlaneWave)

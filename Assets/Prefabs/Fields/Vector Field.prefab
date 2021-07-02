@@ -61,13 +61,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 8150241527288558682}
-  canMove: 1
-  xLength: 9
-  yLength: 9
-  zLength: 9
-  spacing: 0.25
+  canMove: 0
+  xLength: 17
+  yLength: 17
+  zLength: 17
+  spacing: 0.125
   positionCalculator: {fileID: 7200000, guid: 83db4afd4906faf40a0f2ed13236a710, type: 3}
-  vectorScalingFactor: 0.5
+  vectorScalingFactor: 1
 --- !u!114 &8150241527288556455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointerMaterial: {fileID: 2100000, guid: 7417f163cf0ad934a8c70abcf120f5d9, type: 2}
-  pointerMesh: {fileID: 4300000, guid: 44aaf01aec2774040a2f251f10cab1a1, type: 2}
+  pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0.5
@@ -111,5 +111,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  fieldType: 2
+  fieldType: 5
   isDynamic: 1
