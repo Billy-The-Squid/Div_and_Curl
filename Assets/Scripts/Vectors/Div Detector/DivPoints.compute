@@ -59,7 +59,7 @@ void InitializePositions (uint3 id : SV_DispatchThreadID) {
     //}
 
     // The divergence along this axis (hopefully)
-    float div = _Divergence[0][id.x / ((uint) 2)];
+    float div = _Divergence[0][IDToAxis(id)];
 
     // Check if the divergence is zero. IS THIS NECESSARY?
     if(div == 0) { // I hope this indexing thing works. 
@@ -94,15 +94,14 @@ void InitializePositions (uint3 id : SV_DispatchThreadID) {
 void ComputePositions (uint3 id : SV_DispatchThreadID)
 {
     // The divergence along this axis (hopefully)
-    float div = _Divergence[0][id.x / ((uint) 2)];
+    float div = _Divergence[0][IDToAxis(id)];
 
     if(id.x < (uint) 6 && id.y < (uint) _ParticlesPerStream) { // Checks that it's a valid index
-        float distance = (_Positions[IDToIndex(id)] - _CenterPosition - IDToStream(id) * _StartDistance)[id.x / ((uint) 2)];
-        
-        //// The distance of the particle from its starting point
-        //distance = i * _TravelDistance / _ParticlesPerStream;
-        //_Positions[id.x * _ParticlesPerStream + i] = _CenterPosition + IDToStream(id) * _StartDistance +  distance * IDToStream(id) * div / abs(div);
-        //_Sizes[id.x * _ParticlesPerStream + i] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
+        float distance = abs((_Positions[IDToIndex(id)] - _CenterPosition - IDToStream(id) * _StartDistance)[IDToAxis(id)]);
+        distance = fmod(distance + div * _DeltaTime * 0.1, _TravelDistance);
+
+        _Positions[IDToIndex(id)] = _CenterPosition + IDToStream(id) * (_StartDistance +  distance * div / abs(div));
+        _Sizes[IDToIndex(id)] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
 
         // Warning: because past values of _CenterPosition cannot be determined, this may produce unpredictable effects with motion. 
     }

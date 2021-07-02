@@ -107,22 +107,23 @@ public class DivRender : MonoBehaviour
     {
         if(this.enabled == false) { return; }
 
-        //int kernelID = 1;
+        int kernelID = 1;
 
-        //// Update the positions and sizes
-        //positionComputer.SetBuffer(kernelID, "_Positions", posBuffer); // RW
-        //positionComputer.SetBuffer(kernelID, "_Sizes", sizeBuffer); // RW
-        //positionComputer.SetBuffer(kernelID, "_Divergence", divBuffer);
+        // Update the positions and sizes
+        positionComputer.SetBuffer(kernelID, "_Positions", posBuffer); // RW
+        positionComputer.SetBuffer(kernelID, "_Sizes", sizeBuffer); // RW
+        positionComputer.SetBuffer(kernelID, "_Divergence", divBuffer);
 
-        //positionComputer.SetInt("_ParticlesPerStream", particlesPerStream);
-        //positionComputer.SetFloat("_StartDistance", radius);
-        //positionComputer.SetFloat("_TravelDistance", travelDistance);
-        //positionComputer.SetFloat("_StartingSize", startingScale * transform.localScale.x);
+        positionComputer.SetInt("_ParticlesPerStream", particlesPerStream);
+        positionComputer.SetFloat("_StartDistance", radius);
+        positionComputer.SetFloat("_TravelDistance", travelDistance);
+        positionComputer.SetFloat("_StartingSize", startingScale * transform.localScale.x);
 
-        //positionComputer.SetVector("_CenterPosition", transform.position);
-        //positionComputer.SetFloat("_DeltaTime", Time.deltaTime);
+        positionComputer.SetVector("_CenterPosition", transform.position);
+        positionComputer.SetFloat("_DeltaTime", Time.deltaTime);
 
-        //Debug.LogError("Don't forget to dispatch the correct kernel");
+        int numGroups = Mathf.CeilToInt(particlesPerStream / 4f);
+        positionComputer.Dispatch(kernelID, 1, numGroups, 1);
 
         // Display the particles
         material.SetBuffer("_Positions", posBuffer);
@@ -156,10 +157,10 @@ public class DivRender : MonoBehaviour
 
         positionComputer.Dispatch(kernelID, 1, 1, 1);
 
-        // Debug code
-        Vector3[] debugArray = new Vector3[posBuffer.count];
-        float[] debugFloatArray = new float[sizeBuffer.count];
-        posBuffer.GetData(debugArray);
-        sizeBuffer.GetData(debugFloatArray);
+        //// Debug code
+        //Vector3[] debugArray = new Vector3[posBuffer.count];
+        //float[] debugFloatArray = new float[sizeBuffer.count];
+        //posBuffer.GetData(debugArray);
+        //sizeBuffer.GetData(debugFloatArray);
     }
 }
