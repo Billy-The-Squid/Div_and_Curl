@@ -1,0 +1,20 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel ComputeDivergence
+
+// The buffer that stores the input array. 
+StructuredBuffer<float3> _Vectors;
+// The distance each point is from the center. 
+float _DeltaX;
+
+// The output buffer. Single entry. 
+RWStructuredBuffer<float3> _Divergence;
+
+[numthreads(1,1,1)]
+void ComputeDivergence (uint3 id : SV_DispatchThreadID)
+{
+    float3 div;
+    div.x = (_Vectors[1].x - _Vectors[2].x) * (1/ (2 * _DeltaX));
+    div.y = (_Vectors[5].y - _Vectors[6].y) * (1/ (2 * _DeltaX));
+    div.z = (_Vectors[3].z - _Vectors[4].z) * (1/ (2 * _DeltaX));
+    _Divergence[0] = div;
+}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CurlSpinZone : FieldZone
+public class DerivativeZone : FieldZone
 {
     /// <summary>
     /// Checks whether we've initialized things.

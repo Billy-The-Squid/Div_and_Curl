@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(VectorField), typeof(Rigidbody), typeof(CurlSpinZone))]
+[RequireComponent(typeof(VectorField), typeof(Rigidbody), typeof(DerivativeZone))]
 public class CurlSpinDetector : FieldDetector
 {
     /// <summary>
@@ -109,7 +109,7 @@ public class CurlSpinDetector : FieldDetector
 
         curlComputer.SetBuffer(kernelID, "_Vectors", computationField.vectorsBuffer);
         curlComputer.SetBuffer(kernelID, "_Curl", curlBuffer);
-        curlComputer.SetFloat("_DeltaX", ((CurlSpinZone)computationField.zone).deltaX);
+        curlComputer.SetFloat("_DeltaX", ((DerivativeZone)computationField.zone).deltaX);
         // Throw an error or something if this cast doesn't work. 
 
         curlComputer.Dispatch(kernelID, 1, 1, 1);
