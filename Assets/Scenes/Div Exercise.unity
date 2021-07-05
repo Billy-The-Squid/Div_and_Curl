@@ -1738,7 +1738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1315301252}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fishes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1772,7 +1772,8 @@ GameObject:
   - component: {fileID: 1507395651}
   - component: {fileID: 1507395650}
   - component: {fileID: 1507395649}
-  m_Layer: 0
+  - component: {fileID: 1507395652}
+  m_Layer: 11
   m_Name: Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1806,6 +1807,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistanceFromCenter: 5
+  maxWaitTime: 1.5
+  maxDriftSpeed: 0.1
+  maxDartSpeed: 1
+  dartAcceleration: 5
+  turnSpeed: 180
+  turnMoveSpeed: 0.7
 --- !u!23 &1507395650
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1855,6 +1862,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1507395647}
   m_Mesh: {fileID: 4300000, guid: e7b1a40eb697c254d86e829366456516, type: 2}
+--- !u!143 &1507395652
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507395647}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.2
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1599944457
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,7 +2122,7 @@ GameObject:
   - component: {fileID: 2031767765}
   - component: {fileID: 2031767764}
   - component: {fileID: 2031767763}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2127,11 +2152,11 @@ MeshCollider:
   m_GameObject: {fileID: 2031767761}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 1902116fa948f4342ae89211dfdd5214, type: 2}
 --- !u!23 &2031767764
 MeshRenderer:
   m_ObjectHideFlags: 0
