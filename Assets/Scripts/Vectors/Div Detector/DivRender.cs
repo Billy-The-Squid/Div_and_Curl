@@ -30,18 +30,18 @@ public class DivRender : MonoBehaviour
     /// </summary>
     public ComputeBuffer divBuffer;
 
-    /// <summary>
-    /// The buffer in which the position of each particle is stored. 
-    /// </summary>
-    protected ComputeBuffer posBuffer;
-    /// <summary>
-    /// The buffer in which the size of each particle is stored.
-    /// </summary>
-    protected ComputeBuffer sizeBuffer;
+    ///// <summary>
+    ///// The buffer in which the position of each particle is stored. 
+    ///// </summary>
+    //protected ComputeBuffer posBuffer;
+    ///// <summary>
+    ///// The buffer in which the size of each particle is stored.
+    ///// </summary>
+    //protected ComputeBuffer sizeBuffer;
     /// <summary>
     /// A six-entry buffer keeping track of an internal variable used to determine the positions of the particles. 
     /// </summary>
-    // NOT NECESSARY?
+    protected ComputeBuffer distancesBuffer;
 
     /// <summary>
     /// The compute shader that calculates the positions each frame. 
@@ -81,24 +81,32 @@ public class DivRender : MonoBehaviour
 
     private void OnEnable()
     {
-        // Initialize the position buffer.
-        unsafe {
-            posBuffer = new ComputeBuffer(particlesPerStream * 6, sizeof(Vector3));
-        }
-        sizeBuffer = new ComputeBuffer(particlesPerStream * 6, sizeof(float));
+        //// Initialize the position buffer.
+        //unsafe {
+        //    posBuffer = new ComputeBuffer(particlesPerStream * 6, sizeof(Vector3));
+        //}
+        //sizeBuffer = new ComputeBuffer(particlesPerStream * 6, sizeof(float));
+
+        // Initialize the distances buffer.
+        distancesBuffer = new ComputeBuffer(6, sizeof(float));
 
         Initialize();
     }
 
     private void OnDisable()
     {
-        if(posBuffer != null) {
-            posBuffer.Release();
-            posBuffer = null;
-        }
-        if(sizeBuffer != null) {
-            sizeBuffer.Release();
-            sizeBuffer = null;
+        //if(posBuffer != null) {
+        //    posBuffer.Release();
+        //    posBuffer = null;
+        //}
+        //if(sizeBuffer != null) {
+        //    sizeBuffer.Release();
+        //    sizeBuffer = null;
+        //}
+        if(distancesBuffer != null)
+        {
+            distancesBuffer.Release();
+            distancesBuffer = null;
         }
     }
 
@@ -110,27 +118,43 @@ public class DivRender : MonoBehaviour
         int kernelID = 1;
 
         // Update the positions and sizes
-        positionComputer.SetBuffer(kernelID, "_Positions", posBuffer); // RW
-        positionComputer.SetBuffer(kernelID, "_Sizes", sizeBuffer); // RW
+        //positionComputer.SetBuffer(kernelID, "_Positions", posBuffer); // RW
+        //positionComputer.SetBuffer(kernelID, "_Sizes", sizeBuffer); // RW
+        positionComputer.SetBuffer(kernelID, "_Distances", distancesBuffer);
         positionComputer.SetBuffer(kernelID, "_Divergence", divBuffer);
 
-        positionComputer.SetInt("_ParticlesPerStream", particlesPerStream);
-        positionComputer.SetFloat("_StartDistance", radius);
+        //positionComputer.SetInt("_ParticlesPerStream", particlesPerStream);
+        //positionComputer.SetFloat("_StartDistance", radius);
         positionComputer.SetFloat("_TravelDistance", travelDistance);
-        positionComputer.SetFloat("_StartingSize", startingScale * transform.localScale.x);
+        //positionComputer.SetFloat("_StartingSize", startingScale * transform.localScale.x);
 
-        positionComputer.SetVector("_CenterPosition", transform.position);
+        //positionComputer.SetVector("_CenterPosition", transform.position);
         positionComputer.SetFloat("_DeltaTime", Time.deltaTime);
 
-        int numGroups = Mathf.CeilToInt(particlesPerStream / 4f);
-        positionComputer.Dispatch(kernelID, 1, numGroups, 1);
+        //int numGroups = Mathf.CeilToInt(particlesPerStream / 4f);
+        //Debug.LogError("Set the number of groups.");
+        positionComputer.Dispatch(kernelID, 1, 1, 1);
+
+        // Debug code
+        float[] debugArray = new float[6];
+        distancesBuffer.GetData(debugArray);
+        Debug.Log("Distances [0]: " + debugArray[0]);
 
         // Display the particles
-        material.SetBuffer("_Positions", posBuffer);
-        material.SetBuffer("_Sizes", sizeBuffer);
+        //material.SetBuffer("_Positions", posBuffer);
+        //material.SetBuffer("_Sizes", sizeBuffer);
+        material.SetBuffer("_Distances", distancesBuffer);
+        material.SetBuffer("_Divergence", divBuffer);
+
+        material.SetInt("_ParticlesPerStream", particlesPerStream);
+        material.SetFloat("_StartDistance", radius);
+        material.SetFloat("_TravelDistance", travelDistance);
+        material.SetFloat("_StartingSize", startingScale * transform.localScale.x);
+
+        material.SetVector("_CenterPosition", transform.position);
 
         Bounds bounds = new Bounds(transform.position, radius * travelDistance * Vector3.one * 2);
-        Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, 6 * particlesPerStream);
+        Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, 6 * particlesPerStream); // should be 6 * particlesPerStream
     }
 
 
@@ -144,16 +168,17 @@ public class DivRender : MonoBehaviour
 
         int kernelID = 0;
         // Set the initial positions of each particle. 
-        positionComputer.SetBuffer(kernelID, "_Positions", posBuffer); // RW
-        positionComputer.SetBuffer(kernelID, "_Sizes", sizeBuffer); // RW
+        //positionComputer.SetBuffer(kernelID, "_Positions", posBuffer); // RW
+        //positionComputer.SetBuffer(kernelID, "_Sizes", sizeBuffer); // RW
+        positionComputer.SetBuffer(kernelID, "_Distances", distancesBuffer);
         positionComputer.SetBuffer(kernelID, "_Divergence", divBuffer);
 
-        positionComputer.SetInt("_ParticlesPerStream", particlesPerStream);
-        positionComputer.SetFloat("_StartDistance", radius);
-        positionComputer.SetFloat("_TravelDistance", travelDistance);
-        positionComputer.SetFloat("_StartingSize", startingScale * transform.localScale.x);
+        //positionComputer.SetInt("_ParticlesPerStream", particlesPerStream);
+        //positionComputer.SetFloat("_StartDistance", radius);
+        //positionComputer.SetFloat("_TravelDistance", travelDistance);
+        //positionComputer.SetFloat("_StartingSize", startingScale * transform.localScale.x);
 
-        positionComputer.SetVector("_CenterPosition", transform.position);
+        //positionComputer.SetVector("_CenterPosition", transform.position);
 
         positionComputer.Dispatch(kernelID, 1, 1, 1);
 

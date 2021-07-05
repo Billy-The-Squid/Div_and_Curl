@@ -3407,6 +3407,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vector Field
       objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558685, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
 --- !u!1001 &791896894
@@ -7344,6 +7348,10 @@ PrefabInstance:
     - target: {fileID: 8150241527288558685, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: m_Name
       value: Vector Field (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150241527288558685, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}

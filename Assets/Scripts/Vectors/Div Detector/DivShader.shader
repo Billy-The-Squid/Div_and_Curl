@@ -5,10 +5,10 @@ Shader "Custom/DivShader"
 {
 	Properties
 	{
-		_Color ("Color", Color) = (0,0,1,1)
-	} 
+		_Color("Color", Color) = (0,0,1,1)
+	}
 
-	SubShader
+		SubShader
 	{
 		CGPROGRAM
 
@@ -23,27 +23,70 @@ Shader "Custom/DivShader"
 		//#include "../PointsPlot.hlsl" 
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			StructuredBuffer<float3> _Positions;
-			StructuredBuffer<float> _Sizes;
+			//StructuredBuffer<float3> _Positions;
+			//StructuredBuffer<float> _Sizes;
+			StructuredBuffer<float> _Distances;
+			StructuredBuffer<float3> _Divergence;
 		#endif
 		// Why is this check necessary?
+
+		int _ParticlesPerStream;
+		float _StartDistance;
+		float _TravelDistance;
+		float _StartingSize;
+		float3 _CenterPosition;
+
+		float3 IDToStream(int id) {
+			float3 IDToStreamList[6] =
+			{
+				float3(1, 0, 0),
+				float3(-1, 0, 0),
+				float3(0, 1, 0),
+				float3(0, -1, 0),
+				float3(0, 0, 1),
+				float3(0, 0, -1)
+			};
+			return IDToStreamList[id];
+		}
+
+		int StreamToAxis(int stream) {
+			return stream / ((int) 2);
+		}
+
+
+
 
 		void ConfigureProcedural () 
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+				int streamNumber = (((int) unity_InstanceID) / _ParticlesPerStream);
+				int particleNumber = fmod(unity_InstanceID, 6);
+				float dist;
+
+				if (_Divergence[0][StreamToAxis(streamNumber)] > 0) {
+					dist = fmod(_Distances[streamNumber] + particleNumber * _TravelDistance / _ParticlesPerStream, _TravelDistance);
+				}
+				else if (_Divergence[0][StreamToAxis(streamNumber)] < 0) {
+					dist = fmod(_Distances[streamNumber] - particleNumber * _TravelDistance / _ParticlesPerStream, _TravelDistance);
+				}
+				else { dist = 0; }
+
+				float3 position = _CenterPosition + IDToStream(streamNumber) * (_StartDistance + dist);
+				float size = _StartingSize * (_TravelDistance - abs(dist)) / _TravelDistance;
+
 				float4x4 transformation = 0.0; 
 				transformation._m33 = 1.0;
-				float3 position = _Positions[unity_InstanceID];
-				float3 size = float3(1, 1, 1) * _Sizes[unity_InstanceID];
 
 				// The position is, well, the position. 
 				transformation._m03_m13_m23 = position;
-				transformation._m00_m11_m22 = size;
+				transformation._m00_m11_m22 = size; // Might be a type issue here...
 	
 				// And exporting it. 
 				unity_ObjectToWorld = transformation;
 			#endif
 		}
+
+
 
 		float4 _Color;
 
@@ -51,8 +94,6 @@ Shader "Custom/DivShader"
 		{
 			float3 worldPos;
 		};
-
-
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {

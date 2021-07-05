@@ -2,29 +2,21 @@
 #pragma kernel InitializePositions
 #pragma kernel ComputePositions
 
-// The position of each particle. The first _ParticlesPerStream entries come 
-//  from the +x stream, the next _ParticlesPerStream from -x, etc. (see 
-//  IDToStream for the order of this). 
-RWStructuredBuffer<float3> _Positions;
-// The global scale of each particle. Same indexing scheme as _Positions.
-RWStructuredBuffer<float> _Sizes;
+//// The position of each particle. The first _ParticlesPerStream entries come 
+////  from the +x stream, the next _ParticlesPerStream from -x, etc. (see 
+////  IDToStream for the order of this). 
+//RWStructuredBuffer<float3> _Positions;
+//// The global scale of each particle. Same indexing scheme as _Positions.
+//RWStructuredBuffer<float> _Sizes;
+
+// Six entries: the distance of one of the particles in each stream from its starting position. 
+// Value is positive for a positive divergence component, negative for a negative divergence component
+RWStructuredBuffer<float> _Distances;
 // Single entry, ith component holds dfi/dxi
 StructuredBuffer<float3> _Divergence;
 
-
-// The number of particles to display in each stream. 
-int _ParticlesPerStream;
-// The (worldspace) distance from the center of the detector that
-// each particle starts. 
-float _StartDistance;
 // The (worldspace) distance that each particle will travel before disappearing. 
 float _TravelDistance;
-// The (worldspace) scale with which each particle begins its life. 
-float _StartingSize;
-
-// The worldspace position of the center of the detector.
-float3 _CenterPosition;
-
 float _DeltaTime;
 
 
@@ -45,54 +37,45 @@ float IDToAxis(uint3 id) {
     return id.x / ((uint) 2);
 }
 
-int IDToIndex(uint3 id) { // Assumes a valid index
-    return (int) (id.x * _ParticlesPerStream + id.y);
-}
+//int IDToIndex(uint3 id) { // Assumes a valid index
+//    return (int) (id.x * _ParticlesPerStream + id.y);
+//}
 
 [numthreads(6,1,1)]
 void InitializePositions (uint3 id : SV_DispatchThreadID) {
-    //// x value identifies the stream, y identifies the particle number.
-    //if(id.x < (uint) 6 && id.y < (uint) _ParticlesPerStream) { // Checks that it's a valid index
-    //    float distance;
-
-    //    //_Positions[IDToIndex(id)] = 
-    //}
-
     // The divergence along this axis (hopefully)
     float div = _Divergence[0][IDToAxis(id)];
-
-    // Check if the divergence is zero. IS THIS NECESSARY?
-    if(div == 0) { // I hope this indexing thing works. 
-        for(int i = 0; i < _ParticlesPerStream; i++) {
-            //_Positions[id.x * _ParticlesPerStream + i] =  
-            // WHAT DOES THIS EQUAL?
-        }
+    if (div != 0)
+    {
+        _Distances[id.x] = 0.1 * div;
     }
-
-    // Set the position and size of each particle in this stream. 
-    float distance;
-    for(int i = 0; i < _ParticlesPerStream; i++) {
-        // The distance of the particle from its starting point
-        distance = i * _TravelDistance / _ParticlesPerStream;
-        _Positions[id.x * _ParticlesPerStream + i] = _CenterPosition + IDToStream(id) * _StartDistance +  distance * IDToStream(id) * div / abs(div);
-        _Sizes[id.x * _ParticlesPerStream + i] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
+    else
+    {
+        _Distances[id.x] = 0;
     }
+    
 }
 
 
-[numthreads(8,4,1)]
+[numthreads(6,1,1)]
 void ComputePositions (uint3 id : SV_DispatchThreadID)
 {
     // The divergence along this axis (hopefully)
     float div = _Divergence[0][IDToAxis(id)];
-
-    if(id.x < (uint) 6 && id.y < (uint) _ParticlesPerStream) { // Checks that it's a valid index
-        float distance = abs((_Positions[IDToIndex(id)] - _CenterPosition - IDToStream(id) * _StartDistance)[IDToAxis(id)]);
-        distance = fmod(distance + abs(div * _DeltaTime * 0.1), _TravelDistance);
-
-        _Positions[IDToIndex(id)] = _CenterPosition + IDToStream(id) * (_StartDistance +  distance * div / abs(div));
-        _Sizes[IDToIndex(id)] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
-
-        // Warning: because past values of _CenterPosition cannot be determined, this may produce unpredictable effects with motion. 
+    
+    if (_Distances[id.x] * div < 0) // Check if opposite signs 
+    {
+        _Distances[id.x] *= -1;
     }
+    _Distances[id.x] = fmod(_Distances[id.x] + div * _DeltaTime * 0.1, _TravelDistance);
+
+    //if(id.x < (uint) 6 && id.y < (uint) _ParticlesPerStream) { // Checks that it's a valid index
+    //    float distance = abs((_Positions[IDToIndex(id)] - _CenterPosition - IDToStream(id) * _StartDistance)[IDToAxis(id)]);
+    //    distance = fmod(distance + abs(div * _DeltaTime * 0.1), _TravelDistance);
+
+    //    _Positions[IDToIndex(id)] = _CenterPosition + IDToStream(id) * (_StartDistance +  distance * div / abs(div));
+    //    _Sizes[IDToIndex(id)] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
+
+    //    // Warning: because past values of _CenterPosition cannot be determined, this may produce unpredictable effects with motion. 
+    //}
 }
