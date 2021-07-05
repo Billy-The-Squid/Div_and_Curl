@@ -77,16 +77,6 @@ void InitializePositions (uint3 id : SV_DispatchThreadID) {
         _Positions[id.x * _ParticlesPerStream + i] = _CenterPosition + IDToStream(id) * _StartDistance +  distance * IDToStream(id) * div / abs(div);
         _Sizes[id.x * _ParticlesPerStream + i] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
     }
-
-
-
-
-    // NEXT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-    /*
-    X Do debug tests on the initial positions.  
-    X Build the render shader
-    Build the update kernel
-    */
 }
 
 
@@ -98,7 +88,7 @@ void ComputePositions (uint3 id : SV_DispatchThreadID)
 
     if(id.x < (uint) 6 && id.y < (uint) _ParticlesPerStream) { // Checks that it's a valid index
         float distance = abs((_Positions[IDToIndex(id)] - _CenterPosition - IDToStream(id) * _StartDistance)[IDToAxis(id)]);
-        distance = fmod(distance + div * _DeltaTime * 0.1, _TravelDistance);
+        distance = fmod(distance + abs(div * _DeltaTime * 0.1), _TravelDistance);
 
         _Positions[IDToIndex(id)] = _CenterPosition + IDToStream(id) * (_StartDistance +  distance * div / abs(div));
         _Sizes[IDToIndex(id)] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;

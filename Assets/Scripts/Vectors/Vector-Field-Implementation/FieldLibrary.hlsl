@@ -82,5 +82,10 @@ float3 PlaneWave(float3 position) {
     return val;
 };
 
+float3 Inwards(float3 position)
+{
+    return -1 * position;
+}
+
 #define FIELD_LIBRARY
 #endif

@@ -71,14 +71,17 @@ public class DivergenceDetector : FieldDetector
     {
         if(!inField) { return; }
 
+        computeField.fieldType = detectedField.fieldType;
+
         divRenderer.divBuffer = divBuffer; // Make sure order of events here is correct
+        // Does this need to be set every frame? Maybe just on enter/exit field
     }
 
     private void OnEnable()
     {
         // Initialize the divergence buffer field. 
         unsafe
-        {
+        {   // Each component of this vector is the partial derivative in one direction. 
             divBuffer = new ComputeBuffer(1, sizeof(Vector3));
         }
     }
@@ -112,14 +115,13 @@ public class DivergenceDetector : FieldDetector
 
         divBuffer.GetData(tempDivArray);
 
-        divergence = tempDivArray[0].x * tempDivArray[0].x + tempDivArray[0].y * tempDivArray[0].y +
-            tempDivArray[0].z * tempDivArray[0].z;
+        divergence = tempDivArray[0].x + tempDivArray[0].y + tempDivArray[0].z;
 
         detectorOutput = divergence;
 
-        //// Debug Code
-        //Debug.Log("Divergence components: " + tempDivArray[0]);
-        //Debug.Log("Stored divergence: " + divergence);
+        // Debug Code
+        Debug.Log("Divergence components: " + tempDivArray[0]);
+        Debug.Log("Stored divergence: " + divergence);
     }
 
     public override void EnteredField(VectorField graph)
