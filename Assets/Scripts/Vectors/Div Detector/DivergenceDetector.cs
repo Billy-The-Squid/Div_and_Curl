@@ -120,8 +120,8 @@ public class DivergenceDetector : FieldDetector
         detectorOutput = divergence;
 
         // Debug Code
-        Debug.Log("Divergence components: " + tempDivArray[0]);
-        Debug.Log("Stored divergence: " + divergence);
+        //Debug.Log("Divergence components: " + tempDivArray[0]);
+        //Debug.Log("Stored divergence: " + divergence);
     }
 
     public override void EnteredField(VectorField graph)

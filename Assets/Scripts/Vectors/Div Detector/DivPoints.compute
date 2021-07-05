@@ -2,13 +2,6 @@
 #pragma kernel InitializePositions
 #pragma kernel ComputePositions
 
-//// The position of each particle. The first _ParticlesPerStream entries come 
-////  from the +x stream, the next _ParticlesPerStream from -x, etc. (see 
-////  IDToStream for the order of this). 
-//RWStructuredBuffer<float3> _Positions;
-//// The global scale of each particle. Same indexing scheme as _Positions.
-//RWStructuredBuffer<float> _Sizes;
-
 // Six entries: the distance of one of the particles in each stream from its starting position. 
 // Value is positive for a positive divergence component, negative for a negative divergence component
 RWStructuredBuffer<float> _Distances;
@@ -20,26 +13,12 @@ float _TravelDistance;
 float _DeltaTime;
 
 
-float3 IDToStream(uint3 id) {
-    float3 IDToStreamList[6] = 
-    {
-        float3(1, 0, 0),
-        float3(-1, 0, 0),
-        float3(0, 1, 0),
-        float3(0, -1, 0),
-        float3(0, 0, 1),
-        float3(0, 0, -1)
-    };
-    return IDToStreamList[id.x];
-}
+
+
 
 float IDToAxis(uint3 id) {
     return id.x / ((uint) 2);
 }
-
-//int IDToIndex(uint3 id) { // Assumes a valid index
-//    return (int) (id.x * _ParticlesPerStream + id.y);
-//}
 
 [numthreads(6,1,1)]
 void InitializePositions (uint3 id : SV_DispatchThreadID) {
@@ -67,15 +46,5 @@ void ComputePositions (uint3 id : SV_DispatchThreadID)
     {
         _Distances[id.x] *= -1;
     }
-    _Distances[id.x] = fmod(_Distances[id.x] + div * _DeltaTime * 0.1, _TravelDistance);
-
-    //if(id.x < (uint) 6 && id.y < (uint) _ParticlesPerStream) { // Checks that it's a valid index
-    //    float distance = abs((_Positions[IDToIndex(id)] - _CenterPosition - IDToStream(id) * _StartDistance)[IDToAxis(id)]);
-    //    distance = fmod(distance + abs(div * _DeltaTime * 0.1), _TravelDistance);
-
-    //    _Positions[IDToIndex(id)] = _CenterPosition + IDToStream(id) * (_StartDistance +  distance * div / abs(div));
-    //    _Sizes[IDToIndex(id)] = _StartingSize * (_TravelDistance - distance) / _TravelDistance;
-
-    //    // Warning: because past values of _CenterPosition cannot be determined, this may produce unpredictable effects with motion. 
-    //}
+    _Distances[id.x] = fmod(_Distances[id.x] + div * _DeltaTime * 0.05, _TravelDistance);
 }

@@ -8,23 +8,25 @@ Shader "Custom/DivShader"
 		_Color("Color", Color) = (0,0,1,1)
 	}
 
-		SubShader
+	SubShader
 	{
+		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" } // Allowing for transparency
+		LOD 100
+		ZWrite Off
+		Blend SrcAlpha OneMinusSrcAlpha
+
 		CGPROGRAM
 
 		// Renders the surface. Requires a ConfigureSurface function.
-		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow
+		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow alpha:fade
 		// Does instancing, including(?) placing points. Requires a ConfigureProcedural function.
 		#pragma instancing_options assumeuniformscaling procedural:ConfigureProcedural
 		#pragma editor_sync_compilation
 		#pragma target 4.5
 
-		//// This is where the work of calculating transformations is done. 
-		//#include "../PointsPlot.hlsl" 
+
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			//StructuredBuffer<float3> _Positions;
-			//StructuredBuffer<float> _Sizes;
 			StructuredBuffer<float> _Distances;
 			StructuredBuffer<float3> _Divergence;
 		#endif
@@ -73,6 +75,10 @@ Shader "Custom/DivShader"
 
 				float3 position = _CenterPosition + IDToStream(streamNumber) * (_StartDistance + dist);
 				float size = _StartingSize * (_TravelDistance - abs(dist)) / _TravelDistance;
+
+				if (_Divergence[0][StreamToAxis(streamNumber)] = 0) {
+					size = 0;
+				}
 
 				float4x4 transformation = 0.0; 
 				transformation._m33 = 1.0;
