@@ -76,7 +76,7 @@ Shader "Custom/DivShader"
 				float3 position = _CenterPosition + IDToStream(streamNumber) * (_StartDistance + dist);
 				float size = _StartingSize * (_TravelDistance - abs(dist)) / _TravelDistance;
 
-				if (_Divergence[0][StreamToAxis(streamNumber)] = 0) {
+				if (_Divergence[0][StreamToAxis(streamNumber)] == 0) {
 					size = 0;
 				}
 
