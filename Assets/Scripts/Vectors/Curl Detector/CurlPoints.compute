@@ -1,0 +1,43 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel InitializePositions
+#pragma kernel ComputePositions
+
+// Six entries: the distance of one of the particles in each stream from its starting position. 
+// Value is positive.
+// DECIDE HOW THIS IS READ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RWStructuredBuffer<float> _Distances;
+// Single entry, ith component holds dfi/dxi
+StructuredBuffer<float3> _Curl;
+
+// The (worldspace) distance that each particle will travel before disappearing. 
+float _TravelDistance;
+float _DeltaTime;
+
+
+
+
+
+uint IDToAxis(uint3 id) {
+    return id.x / ((uint) 2); // Are y and z components getting mixed up?
+}
+
+[numthreads(6,1,1)]
+void InitializePositions (uint3 id : SV_DispatchThreadID) {
+    float componentMag = sqrt(pow(_Curl[IDToAxis(id)][0], 2) + pow(_Curl[IDToAxis(id)][1], 2) + pow(_Curl[IDToAxis(id)][2], 2));
+    if (componentMag != 0) {
+        _Distances[id.x] = 0.1 * componentMag;
+    }
+    else
+    {
+        _Distances[id.x] = 0;
+    }
+}
+
+
+[numthreads(6,1,1)]
+void ComputePositions (uint3 id : SV_DispatchThreadID)
+{
+    float componentMag = sqrt(pow(_Curl[IDToAxis(id)][0], 2) + pow(_Curl[IDToAxis(id)][1], 2) + pow(_Curl[IDToAxis(id)][2], 2));
+
+    _Distances[id.x] = fmod(_Distances[id.x] + componentMag * _DeltaTime * 0.05, _TravelDistance);
+}

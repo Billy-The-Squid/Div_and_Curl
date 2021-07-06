@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(VectorField), typeof(Rigidbody), typeof(DerivativeZone))]
+[RequireComponent(typeof(VectorField), typeof(DerivativeZone), typeof(CurlRenderer))]
 public class CurlSpinDetector : FieldDetector
 {
     /// <summary>
@@ -22,16 +22,16 @@ public class CurlSpinDetector : FieldDetector
     /// </summary>
     VectorField computationField;
 
-    /// <summary>
-    /// The detector's RigidBody.
-    /// </summary>
-    [SerializeField]
-    Rigidbody displayRigidBody;
-    /// <summary>
-    /// The parent of the displayRigidBody. Must be free to rotate
-    /// </summary>
-    [SerializeField]
-    Transform displayParent;
+    ///// <summary>
+    ///// The detector's RigidBody.
+    ///// </summary>
+    //[SerializeField]
+    //Rigidbody displayRigidBody;
+    ///// <summary>
+    ///// The parent of the displayRigidBody. Must be free to rotate
+    ///// </summary>
+    //[SerializeField]
+    //Transform displayParent;
 
     /// <summary>
     /// The buffer used to get the components of the curl. 
@@ -39,6 +39,12 @@ public class CurlSpinDetector : FieldDetector
     protected ComputeBuffer curlBuffer;
     // Temporary array
     Vector3[] tempCurlArray = new Vector3[3];
+
+    /// <summary>
+    /// The script in charge of displaying the curl.
+    /// </summary>
+    [SerializeField]
+    protected CurlRenderer curlRenderer;
 
 
 
@@ -63,11 +69,16 @@ public class CurlSpinDetector : FieldDetector
             //Debug.LogError("Set the curl buffer correctly");
         }
 
-        // Find the RigidBody
-        if(displayRigidBody == null)
+        if(curlRenderer == null)
         {
-            displayRigidBody = GetComponent<Rigidbody>();
+            curlRenderer = GetComponent<CurlRenderer>();
         }
+
+        //// Find the RigidBody
+        //if(displayRigidBody == null)
+        //{
+        //    displayRigidBody = GetComponent<Rigidbody>();
+        //}
 
         quantityName = "Curl";
     }
@@ -84,8 +95,10 @@ public class CurlSpinDetector : FieldDetector
         // This should be attached to preDisplay
         CalculateCurl();
 
-        displayParent.up = curl.normalized; // This doesn't do anything with the GrabInteractable
-        displayRigidBody.angularVelocity = - 0.5f * curl; // Scale this so that the visual rate of spin matches the rate that particles will move
+        curlRenderer.curlBuffer = curlBuffer;
+
+        //displayParent.up = curl.normalized; // This doesn't do anything with the GrabInteractable
+        //displayRigidBody.angularVelocity = - 0.5f * curl; // Scale this so that the visual rate of spin matches the rate that particles will move
     }
 
 
@@ -129,15 +142,18 @@ public class CurlSpinDetector : FieldDetector
 
     public override void EnteredField(VectorField graph)
     {
-        computationField.enabled = true; // Welp.
+        computationField.enabled = true;
+        curlRenderer.curlBuffer = curlBuffer;
+        curlRenderer.enabled = true;
         base.EnteredField(graph);
     }
 
     public override void ExitedField(VectorField graph)
     {
         computationField.enabled = false;
+        curlRenderer.enabled = false;
         base.ExitedField(graph);
-        displayRigidBody.angularVelocity = Vector3.zero;
+        //displayRigidBody.angularVelocity = Vector3.zero;
         detectorOutput = (curl = Vector3.zero).magnitude;
     }
 }
