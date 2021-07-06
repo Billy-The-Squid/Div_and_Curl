@@ -2,21 +2,33 @@
 
 // The input vectors
 StructuredBuffer<float3> _Vectors;
-// 
+
 float _DeltaX;
 
-// The curl vector (a single entry)
+// The curl vector components. This has three vectors. 
 RWStructuredBuffer<float3> _Curl;
 
 [numthreads(1,1,1)]
 void ComputeCurl(uint3 id : SV_DispatchThreadID) {
-	float3 curl;
 	// Real-world components:
 	// 1, 2: x
 	// 3, 4: y
 	// 5, 6: z
-	curl.x = (_Vectors[3].y-_Vectors[4].y - (_Vectors[5].z-_Vectors[6].z)) * (1 / (2 * _DeltaX));
-	curl.y = (_Vectors[1].z-_Vectors[2].z - (_Vectors[3].x-_Vectors[4].x)) * (1 / (2 * _DeltaX));
-	curl.z = (_Vectors[5].x-_Vectors[6].x - (_Vectors[1].y-_Vectors[2].y)) * (1 / (2 * _DeltaX));
-	_Curl[0] = curl;
+	float3 Xcurl; 
+	Xcurl.x = 0;
+	Xcurl.y = (_Vectors[1].y - _Vectors[2].y) / (2 * _DeltaX);
+	Xcurl.z = (_Vectors[1].z - _Vectors[2].z) / (2 * _DeltaX);
+	_Curl[0] = Xcurl;
+
+	float3 Ycurl; // Unity y, real-world z
+	Ycurl.x = (_Vectors[5].x - _Vectors[6].x) / (2 * _DeltaX);
+	Ycurl.y = 0;
+	Ycurl.z = (_Vectors[5].z - _Vectors[6].z) / (2 * _DeltaX);
+	_Curl[1] = Ycurl;
+
+	float3 Zcurl;
+	Zcurl.x = (_Vectors[3].x - _Vectors[4].x) / (2 * _DeltaX);
+	Zcurl.y = (_Vectors[3].y - _Vectors[4].y) / (2 * _DeltaX);
+	Zcurl.z = 0;
+	_Curl[2] = Zcurl;
 }

@@ -52,7 +52,7 @@ Shader "Custom/DivShader"
 		}
 
 		int StreamToAxis(int stream) {
-			return stream / ((int) 2);
+			return stream / ((int) 2); // "int divides are slow, try uint"
 		}
 
 
@@ -61,7 +61,7 @@ Shader "Custom/DivShader"
 		void ConfigureProcedural () 
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-				int streamNumber = (((int) unity_InstanceID) / _ParticlesPerStream);
+				int streamNumber = (((int) unity_InstanceID) / _ParticlesPerStream); // "int divides are slow, try uint"
 				int particleNumber = fmod(unity_InstanceID, 6);
 				float dist;
 

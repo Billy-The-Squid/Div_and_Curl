@@ -34,11 +34,11 @@ public class CurlSpinDetector : FieldDetector
     Transform displayParent;
 
     /// <summary>
-    /// The buffer used to get the value of the curl. 
+    /// The buffer used to get the components of the curl. 
     /// </summary>
     protected ComputeBuffer curlBuffer;
     // Temporary array
-    Vector3[] tempCurlArray = new Vector3[1];
+    Vector3[] tempCurlArray = new Vector3[3];
 
 
 
@@ -59,7 +59,8 @@ public class CurlSpinDetector : FieldDetector
         // initialize the curl buffer
         unsafe
         {
-            curlBuffer = new ComputeBuffer(1, sizeof(Vector3));
+            curlBuffer = new ComputeBuffer(3, sizeof(Vector3));
+            //Debug.LogError("Set the curl buffer correctly");
         }
 
         // Find the RigidBody
@@ -113,9 +114,13 @@ public class CurlSpinDetector : FieldDetector
         // Throw an error or something if this cast doesn't work. 
 
         curlComputer.Dispatch(kernelID, 1, 1, 1);
+        //Debug.LogError("Dispatch the threads correctly");
 
         curlBuffer.GetData(tempCurlArray);
-        curl = tempCurlArray[0];
+        curl = new Vector3(0, 0, 0);
+        curl.x = tempCurlArray[2].y - tempCurlArray[1].z;
+        curl.y = tempCurlArray[0].z - tempCurlArray[2].x;
+        curl.z = tempCurlArray[1].x - tempCurlArray[0].y;
 
         detectorOutput = curl.magnitude;
     }
