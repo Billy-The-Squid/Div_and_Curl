@@ -2388,7 +2388,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582561099}
-  m_Mesh: {fileID: -3149996399109167922, guid: ff12a5f336c85c342b644bf6f6d4fb40, type: 3}
+  m_Mesh: {fileID: -7558847548113600828, guid: e2eb2e98c149bdc44a97b243f60d8d08, type: 3}
 --- !u!114 &582561103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2396,7 +2396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582561099}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e50e8ae075d1e548a0283fe5c557d19, type: 3}
   m_Name: 
@@ -7159,7 +7159,7 @@ Transform:
   m_GameObject: {fileID: 1683244466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.53, y: 2.98, z: 2.29}
-  m_LocalScale: {x: 0, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 1315301252}
   m_RootOrder: 4
@@ -8197,6 +8197,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5910009872251884604, guid: b5d4521e2495e7246910932221ac8187, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: e0950fa44109fb1438570c9d1dbbfeea, type: 2}
     - target: {fileID: 5910009872585249801, guid: b5d4521e2495e7246910932221ac8187, type: 3}
       propertyPath: m_Name
       value: Curl Detector
