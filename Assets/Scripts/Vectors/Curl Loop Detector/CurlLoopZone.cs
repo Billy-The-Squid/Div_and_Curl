@@ -78,9 +78,9 @@ public class CurlLoopZone : FieldZone
 
         for(int i = 0; i < resolution; i++)
         {
-            //posArray[i] = 
+            posArray[i] = new Vector3(Mathf.Cos(2 * Mathf.PI * i / resolution), 0f, Mathf.Sin(2 * Mathf.PI * i / resolution));
+            posArray[i] = transform.TransformPoint(posArray[i]);
         }
-
-        throw new System.NotImplementedException();
+        positionBuffer.SetData(posArray);
     }
 }
