@@ -49,11 +49,21 @@ public class CurlLoopDetector : FieldDetector
     /// </summary>
     [SerializeField]
     Rigidbody displayRigidBody;
-    ///// <summary>
-    ///// The parent of the displayRigidBody. Must be free to rotate
-    ///// </summary>
-    //[SerializeField]
-    //Transform displayParent;
+
+
+    // Stuff used for displaying the axis. 
+    /// <summary>
+    /// Stores the transform position for the axis vector display. Single-entry.
+    /// </summary>
+    public ComputeBuffer axisPosition { get; protected set; }
+    /// <summary>
+    /// Stores the axis vector. Single-entry.
+    /// </summary>
+    public ComputeBuffer axisLength { get; protected set; }
+    /// <summary>
+    /// The display used to plot the axis vector.
+    /// </summary>
+    public VectorDisplay axisDisplay;
 
 
 
@@ -79,6 +89,12 @@ public class CurlLoopDetector : FieldDetector
         contributionsBuffer = new ComputeBuffer(zone.resolution, sizeof(float));
         curlBuffer = new ComputeBuffer(1, sizeof(float));
 
+        // Initializing the buffers for the axis display.
+        unsafe {
+            axisPosition = new ComputeBuffer(1, sizeof(Vector3));
+            axisLength = new ComputeBuffer(1, sizeof(Vector3));
+        } 
+
         //localField.preCalculations += 
     }
 
@@ -88,6 +104,8 @@ public class CurlLoopDetector : FieldDetector
         Integrate();
 
         displayRigidBody.angularVelocity = -0.5f * averageCurl * transform.up;
+
+        DisplayAxis();
     }
 
     private void OnDisable()
@@ -101,6 +119,16 @@ public class CurlLoopDetector : FieldDetector
         {
             curlBuffer.Release();
             curlBuffer = null;
+        }
+        if(axisPosition != null)
+        {
+            axisPosition.Release();
+            axisPosition = null;
+        }
+        if(axisLength != null)
+        {
+            axisLength.Release();
+            axisLength = null;
         }
     }
 
@@ -131,7 +159,7 @@ public class CurlLoopDetector : FieldDetector
         //contributionsBuffer.GetData(debugArray);
 
 
-        // Total the integral // UNCOMMENT ME
+        // Total the integral
         kernelID = 1;
         integrator.SetBuffer(kernelID, "_Contributions", contributionsBuffer);
         integrator.SetBuffer(kernelID, "_Result", curlBuffer);
@@ -143,6 +171,21 @@ public class CurlLoopDetector : FieldDetector
         averageCurl = curlArray[0] / (Mathf.PI * transform.localScale.x * transform.localScale.y);
         detectorOutput = averageCurl;
         // Won't work for general shapes, but should for circles and ellipses. 
+    }
+
+
+
+    /// <summary>
+    /// Displays a vector with the magnitude of the curl component perpendicular to the loop. 
+    /// </summary>
+    private void DisplayAxis()
+    {
+        axisPosition.SetData(new Vector3[1] { transform.position }); // Will this work? I don't know. 
+        axisLength.SetData(new Vector3[1] { transform.up * averageCurl });
+
+        axisDisplay.maxVectorLength = transform.localScale.x; // This is really arbitrary. 
+        axisDisplay.bounds = new Bounds(transform.position, 2 * Vector3.one * transform.localScale.x);
+        axisDisplay.DisplayVectors(axisPosition, axisLength);
     }
 
     public override void EnteredField(VectorField graph)

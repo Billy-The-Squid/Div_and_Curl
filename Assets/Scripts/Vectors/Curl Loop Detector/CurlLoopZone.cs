@@ -30,8 +30,6 @@ public class CurlLoopZone : FieldZone
     /// </summary>
     Vector3[] tanArray;
 
-    //// DELETE ME %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    //public Display debugDisplay;
 
     
 
