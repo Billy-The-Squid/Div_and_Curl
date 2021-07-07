@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))] // Required for collision detection
 public class FieldDetector : MonoBehaviour
 {
     /// <summary>

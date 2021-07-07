@@ -1,12 +1,34 @@
 // Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CalculateContributions
 #pragma kernel IntegrateCurl
 
+StructuredBuffer<float3> _Vectors;
+StructuredBuffer<float3> _Tangents;
+// The "integrand" at each point. 
+RWStructuredBuffer<float> _Contributions;
+// The magnitude of the component of the curl in this direction
+RWStructuredBuffer<float> _Result;
+
+int _NumberOfPoints;
 
 
+
+[numthreads(64, 1, 1)]
+void CalculateContributions(uint3 id : SV_DispatchThreadID) {
+    if(id.x < (uint) _NumberOfPoints) {
+        _Contributions[id.x] = dot(_Vectors[id.x], _Tangents[id.x]);
+    }
+}
 
 
 [numthreads(1,1,1)]
 void IntegrateCurl(uint3 id : SV_DispatchThreadID)
 {
-    ;
+    float curl = 0;
+
+    for(int i = 0; i < _NumberOfPoints; i++) {
+        curl += _Contributions[id.x];
+    }
+
+    _Result[0] = curl;
 }

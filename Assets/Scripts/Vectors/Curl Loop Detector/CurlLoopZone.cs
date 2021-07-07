@@ -8,7 +8,7 @@ public class CurlLoopZone : FieldZone
     /// The number of points to take the integral at.
     /// </summary>
     [SerializeField, Min(4)]
-    protected int resolution = 20;
+    public int resolution = 20;
 
     /// <summary>
     /// Has the field been initialized?
@@ -19,6 +19,19 @@ public class CurlLoopZone : FieldZone
     /// The array storing the positions. 
     /// </summary>
     Vector3[] posArray;
+
+    /// <summary>
+    /// Stores the tangent vectors going around the loop. 
+    /// </summary>
+    public ComputeBuffer tangentBuffer { get; protected set; }
+
+    /// <summary>
+    /// Array storing the tangent vectors
+    /// </summary>
+    Vector3[] tanArray;
+
+    //// DELETE ME %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //public Display debugDisplay;
 
     
 
@@ -46,6 +59,11 @@ public class CurlLoopZone : FieldZone
             positionBuffer.Release();
             positionBuffer = null;
         }
+        if(tangentBuffer != null)
+        {
+            tangentBuffer.Release();
+            tangentBuffer = null;
+        }
     }
 
 
@@ -56,19 +74,23 @@ public class CurlLoopZone : FieldZone
     {
         if(initialized) { return; }
 
+        // Set the positions
         unsafe {
             positionBuffer = new ComputeBuffer(resolution, sizeof(Vector3));
+            tangentBuffer = new ComputeBuffer(resolution, sizeof(Vector3));
         }
         posArray = new Vector3[resolution];
+        tanArray = new Vector3[resolution];
 
+        // Other important variables
         maxVectorLength = 2 * Mathf.PI * transform.localScale.x / resolution; // Not the best programming practice...
-
         numberOfPoints = resolution;
-
         canMove = true;
 
         initialized = true;
     }
+
+
 
     public override void SetPositions()
     {
@@ -80,7 +102,16 @@ public class CurlLoopZone : FieldZone
         {
             posArray[i] = new Vector3(Mathf.Cos(2 * Mathf.PI * i / resolution), 0f, Mathf.Sin(2 * Mathf.PI * i / resolution));
             posArray[i] = transform.TransformPoint(posArray[i]);
+
+            tanArray[i] = new Vector3(-1 * Mathf.Sin(2 * Mathf.PI * i / resolution), 0f, Mathf.Cos(2 * Mathf.PI * i / resolution)) 
+                * 2 * Mathf.PI / resolution; // won't work on other shapes. 
+            tanArray[i] = transform.TransformVector(tanArray[i]);
         }
         positionBuffer.SetData(posArray);
+        tangentBuffer.SetData(tanArray);
+
+        //// Debug code
+        //debugDisplay.bounds = bounds;
+        //debugDisplay.DisplayVectors(positionBuffer, tangentBuffer);
     }
 }
