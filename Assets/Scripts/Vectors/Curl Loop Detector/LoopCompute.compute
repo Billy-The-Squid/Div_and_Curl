@@ -27,7 +27,7 @@ void IntegrateCurl(uint3 id : SV_DispatchThreadID)
     float curl = 0;
 
     for(int i = 0; i < _NumberOfPoints; i++) {
-        curl += _Contributions[id.x];
+        curl += _Contributions[i];
     }
 
     _Result[0] = curl;

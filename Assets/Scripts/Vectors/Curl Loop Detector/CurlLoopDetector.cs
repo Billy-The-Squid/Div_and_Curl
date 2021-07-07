@@ -30,11 +30,30 @@ public class CurlLoopDetector : FieldDetector
     protected ComputeBuffer curlBuffer;
 
     /// <summary>
+    /// Array storing the value in curlBuffer;
+    /// </summary>
+    protected float[] curlArray = new float[1];
+
+    /// <summary>
     /// The buffer that stores the contributions to the integral. Float buffer.
     /// </summary>
     protected ComputeBuffer contributionsBuffer;
 
+    /// <summary>
+    /// The magnitude of the average curl
+    /// </summary>
+    protected float averageCurl;
 
+    /// <summary>
+    /// The detector's RigidBody.
+    /// </summary>
+    [SerializeField]
+    Rigidbody displayRigidBody;
+    ///// <summary>
+    ///// The parent of the displayRigidBody. Must be free to rotate
+    ///// </summary>
+    //[SerializeField]
+    //Transform displayParent;
 
 
 
@@ -54,7 +73,7 @@ public class CurlLoopDetector : FieldDetector
 
         localField.enabled = inField;
 
-        quantityName = "Curl";
+        quantityName = "Average Curl";
 
         // Initializing the compute buffers
         contributionsBuffer = new ComputeBuffer(zone.resolution, sizeof(float));
@@ -67,6 +86,8 @@ public class CurlLoopDetector : FieldDetector
     void Update()
     {
         Integrate();
+
+        displayRigidBody.angularVelocity = -0.5f * averageCurl * transform.up;
     }
 
     private void OnDisable()
@@ -105,9 +126,9 @@ public class CurlLoopDetector : FieldDetector
         int numGroups = Mathf.CeilToInt(zone.resolution / 64f);
         integrator.Dispatch(kernelID, numGroups, 1, 1);
 
-        // Debug Code
-        float[] debugArray = new float[zone.resolution];
-        contributionsBuffer.GetData(debugArray);
+        //// Debug Code
+        //float[] debugArray = new float[zone.resolution];
+        //contributionsBuffer.GetData(debugArray);
 
 
         // Total the integral // UNCOMMENT ME
@@ -117,12 +138,11 @@ public class CurlLoopDetector : FieldDetector
 
         integrator.Dispatch(kernelID, 1, 1, 1);
 
-        // Debug Code
-        float[] debugResult = new float[1];
-        curlBuffer.GetData(debugResult);
-
         // Next: do stuff with these values. 
-        throw new NotImplementedException();
+        curlBuffer.GetData(curlArray);
+        averageCurl = curlArray[0] / (Mathf.PI * transform.localScale.x * transform.localScale.y);
+        detectorOutput = averageCurl;
+        // Won't work for general shapes, but should for circles and ellipses. 
     }
 
     public override void EnteredField(VectorField graph)
