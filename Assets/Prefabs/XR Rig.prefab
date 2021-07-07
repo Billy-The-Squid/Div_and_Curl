@@ -1180,9 +1180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8e77b9c3556f44fb2c270c9bb3ddb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busy: 0
   actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   hand: 0
   pullSpeed: 20
+  directInteractor: {fileID: 0}
 --- !u!1 &2652347428183578925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,9 +1429,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8e77b9c3556f44fb2c270c9bb3ddb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busy: 0
   actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   hand: 1
   pullSpeed: 15
+  directInteractor: {fileID: 0}
 --- !u!1 &5359764850486735665
 GameObject:
   m_ObjectHideFlags: 0

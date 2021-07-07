@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 7379400}
   - component: {fileID: 8735591306580901515}
   - component: {fileID: 8455812260723138574}
+  - component: {fileID: 1821420372}
   m_Layer: 9
   m_Name: Flux Counter
   m_TagString: Untagged
@@ -415,3 +416,21 @@ MonoBehaviour:
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
   fieldType: 0
   isDynamic: 1
+--- !u!114 &1821420372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284309509587163691}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

@@ -81,7 +81,7 @@ public class CurlLoopDetector : FieldDetector
             localField = GetComponent<VectorField>();
         }
 
-        localField.enabled = inField;
+        localField.enabled = axisDisplay.enabled = inField;
 
         quantityName = "Average Curl";
 
@@ -191,6 +191,7 @@ public class CurlLoopDetector : FieldDetector
     public override void EnteredField(VectorField graph)
     {
         localField.enabled = true;
+        axisDisplay.enabled = true;
         base.EnteredField(graph);
     }
 
@@ -198,6 +199,7 @@ public class CurlLoopDetector : FieldDetector
     {
         localField.enabled = false;
         detectorOutput = 0.0f;
+        axisDisplay.enabled = false;
         base.ExitedField(graph);
     }
 }

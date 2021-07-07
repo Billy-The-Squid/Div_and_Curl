@@ -9,41 +9,90 @@ using UnityEngine.InputSystem;
 // Needs documentation
 public class ForcePull : MonoBehaviour
 {
-    // Every object in the scene that can be grabbed
-    XRGrabInteractable[] grabbables;
-    // The one that will be pulled if you pull it. 
-    XRGrabInteractable nearestGrabbable;
+    // More frequent updates needed. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    /// <summary>
+    /// Every object in the scene that can be grabbed. 
+    /// 
+    /// Updated at Start. 
+    /// </summary> 
+    public static XRGrabInteractable[] grabbables { get; protected set; }
+    
+    /// <summary>
+    /// The object that either will be pulled or is being pulled.
+    /// </summary>
+    public XRGrabInteractable nearestGrabbable { get; protected set; }
+    /// <summary>
+    /// Last frame's nearestGrabbable.
+    /// </summary>
+    protected XRGrabInteractable lastGrabbable;
 
-    // Should be false if currently pulling or holding something.
-    bool handBusy = false;
+    //// This isn't used properly %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    ///// <summary>
+    ///// Should be false if the user is currently pulling something or holding something. 
+    ///// </summary>
+    //bool handBusy = false;
 
+    public enum HandState { Empty, Holding, Pulling };
+    public HandState busy = HandState.Empty;
+
+    // The layers that matter for grabbing. 
     static readonly int grabLayer = 9;
     static readonly int terrainLayer = 8;
     int layerMask;
 
+    /// <summary>
+    /// The input actions asset that the grab actions will be read from. 
+    /// </summary>
     [SerializeField]
     InputActionAsset actionAsset;
-    protected InputAction grab, rightGrab;
+
+    /// <summary>
+    /// The grab action.
+    /// </summary>
+    protected InputAction grab;
 
     protected enum Hands { Right, Left }
+    /// <summary>
+    /// Which hand is this?
+    /// </summary>
     [SerializeField]
     Hands hand;
     protected string[] handNames = { "Right", "Left" };
 
+    /// <summary>
+    /// The speed at which the grabbable is pulled towards you.
+    /// </summary>
     [SerializeField]
-    //float pullAcceleration;
     float pullSpeed;
+
+    /// <summary>
+    /// The XRDirect Interactor attached to this hand. 
+    /// </summary>
+    public XRDirectInteractor directInteractor;
+
+
+
+
 
 
     private void Start()
     {
-        // Initialize the set of possible grab
-        // This should be done frame-by-frame if objects are being added. 
+        if(directInteractor == null)
+        {
+            directInteractor = GetComponent<XRDirectInteractor>();
+        }
+
+        // Initialize the set of possible grabbables
+        // Do this better. &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         grabbables = FindObjectsOfType<XRGrabInteractable>();
         nearestGrabbable = null;
+        lastGrabbable = null;
         layerMask = (1 << grabLayer) | (1 << terrainLayer);
 
-        handBusy = false;
+        //handBusy = false;
+        busy = HandState.Empty;
+
+        // Find the input action. 
         string handName = handNames[(int)hand];
         grab = actionAsset.FindActionMap("XRI " + handName + "Hand").FindAction("Select");
     }
@@ -54,36 +103,47 @@ public class ForcePull : MonoBehaviour
         UpdatePull();
 
         // Search if your hands aren't occupied. 
-        if (!handBusy)
-        {
+        if (busy == HandState.Empty) {
             SearchForGrabbables();
         }
 
-        // nearestGrabbable.changeColor
+        // Turn off highlight if we're already holding the object
+        if(busy == HandState.Holding) {
+            nearestGrabbable = null;
+            UpdateColors();
+        }
 
-        // This should use a separate trigger, probably.
-        if(handBusy)
-        {
-            if(nearestGrabbable != null && !nearestGrabbable.isSelected)
-            {
-                //nearestGrabbable.GetComponent<Rigidbody>().MovePosition(transform.position);
+        // Pull if you're pulling
+        if(busy == HandState.Pulling) {
+            if(nearestGrabbable != null && !nearestGrabbable.isSelected) {
                 nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
                     nearestGrabbable.transform.position, transform.position, pullSpeed * Time.deltaTime));
-                //nearestGrabbable.GetComponent<Rigidbody>().velocity += 
-                //    Time.deltaTime * pullAcceleration * (transform.position - nearestGrabbable.transform.position).normalized;
             }
         }
     }
 
+
+
     /// <summary>
-    /// Sets the value of handBusy based 
+    /// Sets the value of busy. 
     /// </summary>
     private void UpdatePull()
     { // This could also be done with interactiion events
-        handBusy = !(grab.phase == InputActionPhase.Waiting);
+        if(grab.phase == InputActionPhase.Waiting)
+        {
+            busy = HandState.Empty;
+        } else if (directInteractor.isSelectActive && directInteractor.selectTarget != null) // verify that this works as intended.
+        {
+            busy = HandState.Holding;
+        } else // I think this is right?
+        {
+            busy = HandState.Pulling;
+        }
     }
 
-    // Searches for a grabbable within 
+    /// <summary>
+    /// Updates the value of nearestGrabbable
+    /// </summary>
     private void SearchForGrabbables()
     {
         nearestGrabbable = null;
@@ -117,6 +177,40 @@ public class ForcePull : MonoBehaviour
                     }
                 }
             }
+        }
+
+        UpdateColors();
+    }
+
+
+
+    /// <summary>
+    /// Updates the color of the current and most recent nearestGrabbable
+    /// </summary>
+    private void UpdateColors()
+    {
+        if(nearestGrabbable != lastGrabbable) {
+            try {
+                lastGrabbable.GetComponent<Outline>().enabled = false;
+            }
+            catch (NullReferenceException) {
+                if (lastGrabbable != null)
+                {
+                    Debug.LogWarning("Last grabbable " + lastGrabbable.name + " does not have outline component.");
+                }
+            }
+
+            try {
+                nearestGrabbable.GetComponent<Outline>().enabled = true;
+            }
+            catch (NullReferenceException) {
+                if (nearestGrabbable != null)
+                {
+                    Debug.LogWarning("Grabbable " + nearestGrabbable.name + " does not have outline component.");
+                }
+            }
+            
+            lastGrabbable = nearestGrabbable;
         }
     }
 }
