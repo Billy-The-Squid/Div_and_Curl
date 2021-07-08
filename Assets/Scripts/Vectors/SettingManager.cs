@@ -72,8 +72,8 @@ public class SettingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
         {
-        currentScene = 0;
-        pastScene = 0;
+        //currentScene = 0;
+        pastScene = currentScene;
         mainVectorField.isDynamic = true;
 
         refreshColors = false;
