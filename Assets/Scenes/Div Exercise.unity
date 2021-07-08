@@ -5100,7 +5100,7 @@ MonoBehaviour:
   fluxDetector: {fileID: 1284309509587163691, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
   loopIntegrator: {fileID: 5740770948582930838, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}
   basicInteractor: {fileID: 6887369352125190341, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}
-  currentScene: 6
+  currentScene: 0
   actionAsset: {fileID: -944628639613478452, guid: ffb74a02c28650647bdb7e344cd2debf, type: 3}
 --- !u!1001 &1199508440
 PrefabInstance:

@@ -77,6 +77,9 @@ public class Resizable : MonoBehaviour
         isSelected = false;
 
         resizeAction = inputActions.FindActionMap("XRI RightHand").FindAction("Resize Object");
+
+        //// Debug code:
+        //Debug.Log("Found action: " + resizeAction.name);
     }
 
     private void Update()

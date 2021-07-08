@@ -71,9 +71,9 @@ public class SettingManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-        {
+    {
         //currentScene = 0;
-        pastScene = currentScene;
+        pastScene = currentScene + 1;
         mainVectorField.isDynamic = true;
 
         refreshColors = false;
@@ -91,8 +91,6 @@ public class SettingManager : MonoBehaviour
             loopIntegrator
         };
 
-        UpdateScene();
-
         actionAsset.FindActionMap("Scene transition").Enable();
         next = actionAsset.FindActionMap("Scene transition").FindAction("Next Scene");
         previous = actionAsset.FindActionMap("Scene transition").FindAction("Previous Scene");
@@ -104,10 +102,12 @@ public class SettingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(refreshColors)
-        {
-            RefreshColors();
-        }
+        ////Debug.Log("Manager update");
+        //if(refreshColors && mainVectorField.fieldType == fieldTypes[(int)currentScene])
+        //{
+        //    mainVectorField.preDisplay += RefreshColors;
+        //    //Debug.Log("Manager has bound call to refresh");
+        //}
 
         //Debug.Log("Next triggered: " + next.triggered);
         //Debug.Log("Next val: " + next.ReadValue<float>());
@@ -130,7 +130,8 @@ public class SettingManager : MonoBehaviour
     private void UpdateScene()
     {
         mainVectorField.fieldType = fieldTypes[(int)currentScene];
-        if(currentDetector != null)
+        //Debug.Log("changed field type.");
+        if (currentDetector != null)
         {
             Destroy(currentDetector);
         }
@@ -144,13 +145,20 @@ public class SettingManager : MonoBehaviour
         pastScene = currentScene;
 
         refreshColors = true;
+
+        StartCoroutine(RefreshColors());
         //mainVectorField.preDisplay += RefreshColors;
     }
 
-    public void RefreshColors()
+    //public void RefreshColors()
+    public IEnumerator RefreshColors()
     {
+        yield return new WaitForSeconds(0.1f);
+
         // Raising ArgumentNullException (VectorDisplay.cs line 215)
-        ((VectorDisplay)mainVectorField.display).RecalculateMaxMagnitude();
-        mainVectorField.preDisplay -= RefreshColors;
+        ((VectorDisplay)mainVectorField.display).RecalculateMaxMagnitude(); 
+        //mainVectorField.preDisplay -= RefreshColors;
+
+        refreshColors = false;
     }
 }
