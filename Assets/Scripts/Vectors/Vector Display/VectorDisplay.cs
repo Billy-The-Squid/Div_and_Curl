@@ -69,7 +69,7 @@ public class VectorDisplay : Display
     /// <summary>
     /// Records whether the maximum magnitude has been calculated. 
     /// </summary>
-    protected bool foundMaxMagnitude = false;
+    public bool foundMaxMagnitude = false;
 
     /// <summary>
     /// The distance fro =m the camera inside which vectors are not rendered. 

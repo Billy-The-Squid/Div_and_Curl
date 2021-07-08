@@ -85,6 +85,19 @@ float3 PlaneWave(float3 position) {
 float3 Inwards(float3 position)
 {
     return -1 * position;
+};
+
+float3 Squish(float3 position)
+{
+    float3 val;
+    val.x = -sin((PI + 0.5) * position.x);
+    val.y = -sin((PI + 0.5) * position.y);
+    val.z = -sin((PI + 0.5) * position.z);
+    return val;
+}
+
+float3 Empty(float3 position) {
+    return float3(0, 0, 0);
 }
 
 #define FIELD_LIBRARY

@@ -100,6 +100,9 @@ public class ForcePull : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Find a better way to do this. 
+        grabbables = FindObjectsOfType<XRGrabInteractable>();
+
         UpdatePull();
 
         // Search if your hands aren't occupied. 

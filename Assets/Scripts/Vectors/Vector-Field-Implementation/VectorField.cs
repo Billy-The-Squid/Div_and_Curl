@@ -67,7 +67,7 @@ public class VectorField : MonoBehaviour
     /// The possible types of field to display. 
     /// It is the user's responsibility to make sure that these selections align with those in FieldLibrary.hlsl
     /// </summary>
-    public enum FieldType { Outwards, Swirl, Coulomb, Vortices, Galaxy, PlaneWave, Inwards }
+    public enum FieldType { Outwards, Swirl, Coulomb, Vortices, Galaxy, PlaneWave, Inwards, Squish, Empty }
     /// <summary>
     /// The type of field to be displayed. Cannot be changed in Play Mode if <cref>isDynamic</cref> is set to False.
     /// </summary>
@@ -82,7 +82,7 @@ public class VectorField : MonoBehaviour
     /// toggled back off. 
     /// </summary>
     [SerializeField]
-    bool isDynamic;
+    public bool isDynamic;
     /// <summary>
     /// Indicates whether the vectors buffer has been initialized. For non-dynamic fields. 
     /// </summary>
@@ -175,6 +175,11 @@ public class VectorField : MonoBehaviour
         //vectorsBuffer.GetData(debugArray);
         //Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
         //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+
+        if(fieldType == FieldType.Empty)
+        {
+            Debug.LogWarning("Using empty field");
+        }
     }
 
     private void LateUpdate() // WHAT REQUIRES THIS? %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

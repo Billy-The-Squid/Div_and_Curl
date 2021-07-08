@@ -5,6 +5,8 @@
 #pragma kernel GalaxyField
 #pragma kernel PlaneWaveField
 #pragma kernel InwardsField
+#pragma kernel SquishField
+#pragma kernel EmptyField
 
 
 // The buffer storing the positions
@@ -53,3 +55,5 @@ KERNEL_NAME(Vortices)
 KERNEL_NAME(Galaxy)
 KERNEL_NAME(PlaneWave)
 KERNEL_NAME(Inwards)
+KERNEL_NAME(Squish)
+KERNEL_NAME(Empty)

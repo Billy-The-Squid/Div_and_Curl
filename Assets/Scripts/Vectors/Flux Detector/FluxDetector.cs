@@ -122,7 +122,7 @@ public class FluxDetector : FieldDetector
         // Initializing the storage array.
         totalFluxArray = new float[1];
 
-        quantityName = "Flux";
+        quantityName = "Flux / V";
     }
 
 
@@ -296,9 +296,10 @@ public class FluxDetector : FieldDetector
         totalFluxBuffer.GetData(totalFluxArray);
         totalFlux = totalFluxArray[0];
 
-        detectorOutput = totalFlux; // Delete this redundant totalCurl variable?
 
-        //Debug.Log("Total flux: " + totalFlux);
+        // ONLY WORKS FOR SPHERE
+        detectorOutput = totalFlux / (4f/3 * Mathf.PI * 1/8f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
+        // The 1/8 is in there bc radius is HALF of scale. 
     }
 
 
