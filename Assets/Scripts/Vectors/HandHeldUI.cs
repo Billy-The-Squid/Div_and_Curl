@@ -28,10 +28,15 @@ public class HandHeldUI : MonoBehaviour
     [SerializeField]
     MeshRenderer meshRenderer;
     /// <summary>
-    /// The display with the text readout or output.
+    /// The display with the name of the output value.
     /// </summary>
     [SerializeField]
-    TextMeshProUGUI display;
+    TextMeshProUGUI nameDisplay;
+    /// <summary>
+    /// The display with the number value. 
+    /// </summary>
+    [SerializeField]
+    protected TextMeshProUGUI numberDisplay;
 
     /// <summary>
     /// The hand in which the detector should be. 
@@ -88,7 +93,9 @@ public class HandHeldUI : MonoBehaviour
     /// </summary>
     private void UpdateDisplay()
     {
-        display.SetText(detector.quantityName + ": \n{0:0}", detector.detectorOutput);
+        //display.SetText(detector.quantityName + ": \n{0:0}", detector.detectorOutput);
+        nameDisplay.SetText(detector.quantityName + ":");
+        numberDisplay.SetText("{0:1}", detector.detectorOutput);
     }
 
 
