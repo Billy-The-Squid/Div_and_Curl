@@ -16,7 +16,7 @@
 
 float3 Outwards(float3 position)
 {
-    return position;
+    return position;// / 1.7;
 };
 
 
