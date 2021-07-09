@@ -81,7 +81,6 @@ public class CurlLoopZone : FieldZone
         tanArray = new Vector3[resolution];
 
         // Other important variables
-        maxVectorLength = 2 * Mathf.PI * transform.localScale.x / resolution; // Not the best programming practice...
         numberOfPoints = resolution;
         canMove = true;
 
@@ -95,8 +94,9 @@ public class CurlLoopZone : FieldZone
         Initialize();
 
         bounds = new Bounds(transform.position, transform.localScale * 2 + Vector3.one * maxVectorLength * 2);
+        maxVectorLength = 2 * Mathf.PI * transform.localScale.x / resolution; // Not the best programming practice...
 
-        for(int i = 0; i < resolution; i++)
+        for (int i = 0; i < resolution; i++)
         {
             posArray[i] = new Vector3(Mathf.Cos(2 * Mathf.PI * i / resolution), 0f, Mathf.Sin(2 * Mathf.PI * i / resolution));
             posArray[i] = transform.TransformPoint(posArray[i]);

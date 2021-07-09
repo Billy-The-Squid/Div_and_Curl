@@ -56,6 +56,7 @@ public class SettingManager : MonoBehaviour
     public InputActionAsset actionAsset;
     protected InputAction next, previous;
 
+    public Transform spawnPoint;
 
 
 
@@ -139,7 +140,7 @@ public class SettingManager : MonoBehaviour
         if(detectorPrefab != null)
         {
             currentDetector = Instantiate(detectorPrefab);
-            currentDetector.transform.position = new Vector3(0, 1, -2);
+            currentDetector.transform.position = spawnPoint.transform.position;
         }
 
         pastScene = currentScene;

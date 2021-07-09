@@ -32,6 +32,15 @@ public class PointZone : FieldZone
         }
     }
 
+    private void OnDisable()
+    {
+        if(positionBuffer != null)
+        {
+            positionBuffer.Release();
+            positionBuffer = null;
+        }
+    }
+
 
 
     public override void Initialize()
