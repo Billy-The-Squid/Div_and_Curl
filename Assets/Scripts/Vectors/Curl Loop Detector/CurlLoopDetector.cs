@@ -180,6 +180,8 @@ public class CurlLoopDetector : FieldDetector
     /// </summary>
     private void DisplayAxis()
     {
+        if (!inField) { return; }
+
         axisPosition.SetData(new Vector3[1] { transform.position }); // Will this work? I don't know. 
         axisLength.SetData(new Vector3[1] { transform.up * averageCurl });
 
@@ -187,6 +189,8 @@ public class CurlLoopDetector : FieldDetector
         axisDisplay.bounds = new Bounds(transform.position, 2 * Vector3.one * transform.localScale.x);
         axisDisplay.DisplayVectors(axisPosition, axisLength);
     }
+
+
 
     public override void EnteredField(VectorField graph)
     {
