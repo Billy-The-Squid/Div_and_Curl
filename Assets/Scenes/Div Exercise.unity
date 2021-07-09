@@ -3180,6 +3180,7 @@ GameObject:
   - component: {fileID: 722675355}
   - component: {fileID: 722675354}
   - component: {fileID: 722675353}
+  - component: {fileID: 722675356}
   m_Layer: 8
   m_Name: Pedestal
   m_TagString: Untagged
@@ -3250,6 +3251,19 @@ Transform:
   m_Father: {fileID: 32453616}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &722675356
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722675352}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.90000004, z: 0.40000004}
+  m_Center: {x: 0, y: 0.45000002, z: -0.000000022351742}
 --- !u!1 &730118960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3499,6 +3513,10 @@ PrefabInstance:
       propertyPath: pointerMesh
       value: 
       objectReference: {fileID: 4300000, guid: 52f346d0cf889ff48a66b692ac169387, type: 2}
+    - target: {fileID: 8150241527288558680, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
+      propertyPath: cullDistance
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8150241527288558683, guid: 5c36f1dcb4860c3469daa60144ec406b, type: 3}
       propertyPath: fieldType
       value: 3
