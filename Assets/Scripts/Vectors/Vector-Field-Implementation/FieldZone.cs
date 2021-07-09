@@ -25,7 +25,7 @@ public abstract class FieldZone : MonoBehaviour
     /// <summary>
     /// The number of points in the position buffer.
     /// </summary>
-    protected int numberOfPoints;
+    public int numberOfPoints { get; protected set; }
 
     /// <summary>
     /// A triggering collider, to be used in conjuction with field detectors. 
