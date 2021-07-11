@@ -93,15 +93,14 @@ public class CurlLoopDetector : FieldDetector
         unsafe {
             axisPosition = new ComputeBuffer(1, sizeof(Vector3));
             axisLength = new ComputeBuffer(1, sizeof(Vector3));
-        } 
+        }
 
-        //localField.preCalculations += 
+        localField.preDisplay += Integrate;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Integrate();
+        //Integrate();
 
         displayRigidBody.angularVelocity = -0.5f * averageCurl * transform.up;
 

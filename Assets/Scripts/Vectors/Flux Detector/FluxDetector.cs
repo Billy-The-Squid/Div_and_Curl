@@ -123,14 +123,16 @@ public class FluxDetector : FieldDetector
         totalFluxArray = new float[1];
 
         quantityName = "Flux / V";
+
+        vectorField.preDisplay += CalculateFlux;
     }
 
 
 
-    private void Update()
-    {
-        CalculateFlux();
-    }
+    //private void Update()
+    //{
+    //    CalculateFlux();
+    //}
 
 
 
@@ -183,17 +185,19 @@ public class FluxDetector : FieldDetector
             return;
         }
 
-        //if (fluxContributions != null)
-        //{
-        //    if (debugArray == null)
-        //    {
-        //        debugArray = new float[vectorsBuffer.count];
-        //    }
-        //    // For some reason, this gets messed up the second time we put it through the array.
-        //    fluxContributions.GetData(debugArray);
-        //    Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
-        //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
-        //}
+        {
+            //if (fluxContributions != null)
+            //{
+            //    if (debugArray == null)
+            //    {
+            //        debugArray = new float[vectorsBuffer.count];
+            //    }
+            //    // For some reason, this gets messed up the second time we put it through the array.
+            //    fluxContributions.GetData(debugArray);
+            //    Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
+            //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+            //}
+        }
 
         // Makes sure the same field types are being plotted...
         vectorField.fieldType = detectedField.fieldType;
@@ -214,16 +218,17 @@ public class FluxDetector : FieldDetector
             trianglesBuffer = new ComputeBuffer(mesh.triangles.Length, sizeof(int));
             trianglesBuffer.SetData(mesh.triangles);
 
-            //// Debug code
-            //List<int> debugTriangles = new List<int>();
-            //for (int i = 0; i < mesh.triangles.Length; i++)
-            //{
-            //    if (mesh.triangles[i] == 0 || mesh.triangles[i] == 406 || mesh.triangles[i] == 494)
-            //    {
-            //        debugTriangles.Add(i);
-            //    }
-            //}
-            //;
+            { //// Debug code
+                //List<int> debugTriangles = new List<int>();
+                //for (int i = 0; i < mesh.triangles.Length; i++)
+                //{
+                //    if (mesh.triangles[i] == 0 || mesh.triangles[i] == 406 || mesh.triangles[i] == 494)
+                //    {
+                //        debugTriangles.Add(i);
+                //    }
+                //}
+                //;
+            }
         }
         if (areasBuffer == null)
         {
@@ -255,12 +260,14 @@ public class FluxDetector : FieldDetector
         // Calculating the flux contributions
         int kernelID = 0;
 
-        //// Debug code.
-        //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
-        ////float[] debugArray = new float[numOfPoints];
-        //normalsBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        {
+            //// Debug code.
+            //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
+            ////float[] debugArray = new float[numOfPoints];
+            //normalsBuffer.GetData(debugArray);
+            //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+            //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        }
 
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);
@@ -284,12 +291,14 @@ public class FluxDetector : FieldDetector
         computeShader.SetBuffer(kernelID, "_Areas", areasBuffer);
         computeShader.SetBuffer(kernelID, "_NumberOfTrianglesPerVertex", numTrianglesPerVertBuffer);
 
-        ////// More debug code (for triangles)
-        //Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
-        //////float[] debugArray2 = new float[numOfPoints];
-        //vectorField.positionsBuffer.GetData(debugArray2);
-        ////Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
-        ////Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
+        {
+            ////// More debug code (for triangles)
+            //Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
+            //////float[] debugArray2 = new float[numOfPoints];
+            //vectorField.positionsBuffer.GetData(debugArray2);
+            ////Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
+            ////Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
+        }
 
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
@@ -325,10 +334,12 @@ public class FluxDetector : FieldDetector
     {
         vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
 
-        //Vector3 pos = transform.position;
-        //vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
-        //vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
-        //// Should the last value of this be 1f?
+        {
+            //Vector3 pos = transform.position;
+            //vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
+            //vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+            //// Should the last value of this be 1f?
+        }
     }
 
 
