@@ -24,6 +24,8 @@ RWStructuredBuffer<float> _Areas;  // It's frustrating that I can't declare this
 //// The number of triangles that each vertex contributes to. 
 RWStructuredBuffer<int> _NumberOfTrianglesPerVertex;
 
+RWStructuredBuffer<float3> _Projections;
+
 
 
 
@@ -33,9 +35,11 @@ RWStructuredBuffer<int> _NumberOfTrianglesPerVertex;
 void CalculateCurlContributions(uint3 id : SV_DispatchThreadID) {
 	float3 normal = _Normals[id.x];
 	float3 vect = _Vectors[id.x];
-	float3 crossP = cross(normalize(normal), vect); // We need to drop this normalization
+	float3 crossP = -cross(normalize(normal), vect); // We need to drop this normalization
 
 	_CurlContributions[id.x] = crossP; // Uncomment me. 
+    _Projections[id.x] = crossP;
+
 }
 
 //[numthreads(1,1,1)] // Add together all the contributions

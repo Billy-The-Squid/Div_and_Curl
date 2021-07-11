@@ -93,6 +93,16 @@ public class CurlSphereDetector : FieldDetector
     // A debugging array.
     Vector3[] debugArray;
 
+    /// <summary>
+    /// Stores the cross products from the calculations at each vertex.
+    /// </summary>
+    ComputeBuffer projectionsBuffer;
+    /// <summary>
+    /// Used to draw the projections
+    /// </summary>
+    public Display projectionDisplay;
+
+
 
 
 
@@ -125,7 +135,7 @@ public class CurlSphereDetector : FieldDetector
         totalCurlArray = new Vector3[1];
         // RETYPE
 
-        quantityName = "Curl"; // Is this what we want to call it?
+        quantityName = "Curl / V"; // Is this what we want to call it?
     }
 
 
@@ -168,6 +178,12 @@ public class CurlSphereDetector : FieldDetector
             numTrianglesPerVertBuffer.Release();
             numTrianglesPerVertBuffer = null;
         }
+
+        if(projectionsBuffer != null)
+        {
+            projectionsBuffer.Release();
+            projectionsBuffer = null;
+        }
     }
 
 
@@ -186,17 +202,19 @@ public class CurlSphereDetector : FieldDetector
             return;
         }
 
-        //if (curlContributions != null)
-        //{
-        //    if (debugArray == null)
-        //    {
-        //        debugArray = new Vector3[vectorsBuffer.count];
-        //    }
-        //    // For some reason, this gets messed up the second time we put it through the array.
-        //    curlContributions.GetData(debugArray);
-        //    Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
-        //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
-        //}
+        {
+            //if (curlContributions != null)
+            //{
+            //    if (debugArray == null)
+            //    {
+            //        debugArray = new Vector3[vectorsBuffer.count];
+            //    }
+            //    // For some reason, this gets messed up the second time we put it through the array.
+            //    curlContributions.GetData(debugArray);
+            //    Debug.Log((("First three points in contributions array: " + debugArray[0] + ", ") + debugArray[1] + ", ") + debugArray[2]);
+            //    //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+            //}
+        }
 
         // Makes sure the same field types are being plotted...
         vectorField.fieldType = detectedField.fieldType;
@@ -220,16 +238,18 @@ public class CurlSphereDetector : FieldDetector
             trianglesBuffer = new ComputeBuffer(mesh.triangles.Length, sizeof(int));
             trianglesBuffer.SetData(mesh.triangles);
 
-            //// Debug code
-            //List<int> debugTriangles = new List<int>();
-            //for (int i = 0; i < mesh.triangles.Length; i++)
-            //{
-            //    if (mesh.triangles[i] == 0 || mesh.triangles[i] == 406 || mesh.triangles[i] == 494)
-            //    {
-            //        debugTriangles.Add(i);
-            //    }
-            //}
-            //;
+            {
+                //// Debug code
+                //List<int> debugTriangles = new List<int>();
+                //for (int i = 0; i < mesh.triangles.Length; i++)
+                //{
+                //    if (mesh.triangles[i] == 0 || mesh.triangles[i] == 406 || mesh.triangles[i] == 494)
+                //    {
+                //        debugTriangles.Add(i);
+                //    }
+                //}
+                //;
+            }
         }
         if (areasBuffer == null)
         {
@@ -241,6 +261,13 @@ public class CurlSphereDetector : FieldDetector
             numTrianglesPerVertBuffer = new ComputeBuffer(vectorsBuffer.count, sizeof(int));
         }
         numTrianglesPerVertBuffer.SetData(new int[vectorsBuffer.count]);
+        if (projectionsBuffer == null)
+        {
+            unsafe
+            {
+                projectionsBuffer = new ComputeBuffer(vectorsBuffer.count, sizeof(Vector3));
+            }
+        }
         CalculateCurlContributions();
 
         // Sends the vector buffer to the shell shader
@@ -261,15 +288,18 @@ public class CurlSphereDetector : FieldDetector
         // Calculating the curl contributions
         int kernelID = 0;
 
-        //// Debug code.
-        //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
-        ////float[] debugArray = new float[numOfPoints];
-        //normalsBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        {
+            //// Debug code.
+            //Vector3[] debugArray = new Vector3[vectorsBuffer.count];
+            ////float[] debugArray = new float[numOfPoints];
+            //normalsBuffer.GetData(debugArray);
+            //Debug.Log((("First three points in normals array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+            //Debug.Log((("Last three points in normals array: " + debugArray[vectorsBuffer.count - 1]) + debugArray[vectorsBuffer.count - 2]) + debugArray[vectorsBuffer.count - 3]);
+        }
 
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);
+        computeShader.SetBuffer(kernelID, "_Projections", projectionsBuffer);
         computeShader.SetBuffer(kernelID, CurlContributionsID, curlContributions);
 
         int numGroups = Mathf.CeilToInt(vectorsBuffer.count / 64f);
@@ -290,21 +320,23 @@ public class CurlSphereDetector : FieldDetector
         computeShader.SetBuffer(kernelID, "_Areas", areasBuffer);
         computeShader.SetBuffer(kernelID, "_NumberOfTrianglesPerVertex", numTrianglesPerVertBuffer);
 
-        //// More debug code (for triangles)
-        Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
-        ////float[] debugArray2 = new float[numOfPoints];
-        vectorField.positionsBuffer.GetData(debugArray2);
-        //Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
-        //Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
+        {
+            //// More debug code (for triangles)
+            //Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
+            ////float[] debugArray2 = new float[numOfPoints];
+            //vectorField.positionsBuffer.GetData(debugArray2);
+            //Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
+            //Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
+        }
 
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
         totalCurlBuffer.GetData(totalCurlArray);
         totalCurl = totalCurlArray[0];
 
-        detectorOutput = totalCurl.magnitude; // Delete this redundant totalCurl variable?
+        detectorOutput = totalCurl.magnitude / (4f / 3 * Mathf.PI * 1 / 8f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
 
-        //Debug.Log("Total curl: " + totalCurl);
+        //Debug.Log("Total curl / V: " + totalCurl / (4f / 3 * Mathf.PI * 1 / 8f * transform.localScale.x * transform.localScale.y * transform.localScale.z));
     }
 
 
@@ -330,10 +362,16 @@ public class CurlSphereDetector : FieldDetector
     {
         vectorField.display.pointerMaterial.SetBuffer("_CurlContributions", curlContributions);
 
-        //Vector3 pos = transform.position;
-        //vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
-        //vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
-        //// Should the last value of this be 1f?
+        projectionDisplay.maxVectorLength = zone.maxVectorLength;
+        projectionDisplay.bounds = zone.bounds;
+        projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
+
+        {
+            //Vector3 pos = transform.position;
+            //vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
+            //vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+            //// Should the last value of this be 1f?
+        }
     }
 
 

@@ -176,6 +176,12 @@ public class FluxDetector : FieldDetector
             numTrianglesPerVertBuffer.Release();
             numTrianglesPerVertBuffer = null;
         }
+
+        if(projectionsBuffer != null)
+        {
+            projectionsBuffer.Release();
+            projectionsBuffer = null;
+        }
     }
 
 
