@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 8735591306580901515}
   - component: {fileID: 8455812260723138574}
   - component: {fileID: 1821420372}
+  - component: {fileID: 1892496973}
   m_Layer: 9
   m_Name: Flux Counter
   m_TagString: Untagged
@@ -365,8 +366,9 @@ MonoBehaviour:
   inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
   meshRenderer: {fileID: 1284309509587163685}
   zone: {fileID: 7379400}
-  vectorField: {fileID: 0}
+  vectorField: {fileID: 8455812260723138574}
   computeShader: {fileID: 7200000, guid: 8d9e21016e2423d4696133783a709b67, type: 3}
+  projectionDisplay: {fileID: 1892496973}
 --- !u!114 &7379400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,3 +436,20 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &1892496973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284309509587163691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointerMaterial: {fileID: 2100000, guid: ef4e2026ee1172349bd1d623feab7cc0, type: 2}
+  pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
+  maxVectorLength: 0
+  displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
+  cullDistance: 0
