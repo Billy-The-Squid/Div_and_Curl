@@ -2,12 +2,14 @@
 #pragma kernel CalculateContributions
 #pragma kernel IntegrateCurl
 
-RWStructuredBuffer<float3> _Vectors;
+StructuredBuffer<float3> _Vectors;
 StructuredBuffer<float3> _Tangents;
 // The "integrand" at each point. 
 RWStructuredBuffer<float> _Contributions;
 // The magnitude of the component of the curl in this direction
 RWStructuredBuffer<float> _Result;
+
+RWStructuredBuffer<float3> _Projections;
 
 int _NumberOfPoints;
 
@@ -18,7 +20,7 @@ void CalculateContributions(uint3 id : SV_DispatchThreadID) {
     if(id.x < (uint) _NumberOfPoints) {
         float contribution = dot(_Vectors[id.x], _Tangents[id.x]);
         _Contributions[id.x] = contribution;
-        _Vectors[id.x] = contribution * _Tangents[id.x] / pow(length(_Tangents[id.x]), 2);
+        _Projections[id.x] = contribution * _Tangents[id.x] / pow(length(_Tangents[id.x]), 2);
     }
 }
 

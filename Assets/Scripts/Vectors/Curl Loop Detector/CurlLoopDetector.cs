@@ -66,6 +66,17 @@ public class CurlLoopDetector : FieldDetector
     public VectorDisplay axisDisplay;
 
 
+    /// <summary>
+    /// The buffer storing the vector projections.
+    /// </summary>
+    public ComputeBuffer projectionBuffer { get; protected set; }
+    /// <summary>
+    /// The Display used to display the projection vectors
+    /// </summary>
+    public VectorDisplay projectionDisplay;
+    // It's not the end of the world if these various displays get mixed up, so long as they're different. 
+
+
 
 
 
@@ -100,11 +111,17 @@ public class CurlLoopDetector : FieldDetector
 
     void Update()
     {
-        //Integrate();
+        if(projectionBuffer == null && localField.enabled) {
+            unsafe {
+                projectionBuffer = new ComputeBuffer(localField.vectorsBuffer.count, sizeof(Vector3));
+                // I think this has been initialized?
+            }
+        }
 
         displayRigidBody.angularVelocity = -0.5f * averageCurl * transform.up;
 
         DisplayAxis();
+        DisplayProjections();
     }
 
     private void OnDisable()
@@ -129,6 +146,11 @@ public class CurlLoopDetector : FieldDetector
             axisLength.Release();
             axisLength = null;
         }
+        if(projectionBuffer != null)
+        {
+            projectionBuffer.Release();
+            projectionBuffer = null;
+        }
     }
 
 
@@ -147,16 +169,18 @@ public class CurlLoopDetector : FieldDetector
         integrator.SetBuffer(kernelID, "_Vectors", localField.vectorsBuffer);
         integrator.SetBuffer(kernelID, "_Tangents", zone.tangentBuffer);
         integrator.SetBuffer(kernelID, "_Contributions", contributionsBuffer);
+        integrator.SetBuffer(kernelID, "_Projections", projectionBuffer);
         integrator.SetInt("_NumberOfPoints", zone.resolution);
 
         // Change the grouping. 
         int numGroups = Mathf.CeilToInt(zone.resolution / 64f);
         integrator.Dispatch(kernelID, numGroups, 1, 1);
 
-        //// Debug Code
-        //float[] debugArray = new float[zone.resolution];
-        //contributionsBuffer.GetData(debugArray);
-
+        {
+            //// Debug Code
+            //float[] debugArray = new float[zone.resolution];
+            //contributionsBuffer.GetData(debugArray);
+        }
 
         // Total the integral
         kernelID = 1;
@@ -187,6 +211,22 @@ public class CurlLoopDetector : FieldDetector
         axisDisplay.maxVectorLength = transform.localScale.x; // This is really arbitrary. 
         axisDisplay.bounds = new Bounds(transform.position, 2 * Vector3.one * transform.localScale.x);
         axisDisplay.DisplayVectors(axisPosition, axisLength);
+    }
+
+
+
+    /// <summary>
+    /// Displays the projections of the vectors onto the tangents.
+    /// </summary>
+    private void DisplayProjections()
+    {
+        if(!inField) { return; }
+
+        Debug.Log("Calling PisplayProjections");
+
+        projectionDisplay.maxVectorLength = localField.zone.maxVectorLength;
+        projectionDisplay.bounds = localField.zone.bounds;
+        projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionBuffer);
     }
 
 

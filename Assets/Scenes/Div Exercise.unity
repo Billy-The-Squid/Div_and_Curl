@@ -9091,12 +9091,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4997470354706758, guid: 1cc0c5c38c65aa24b8e3cd794eec392a, type: 3}
   m_PrefabInstance: {fileID: 1865859936}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1892496972 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1284309509587163691, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+  m_PrefabInstance: {fileID: 1782532232}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1892496973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892496972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointerMaterial: {fileID: 2100000, guid: ef4e2026ee1172349bd1d623feab7cc0, type: 2}
+  pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
+  maxVectorLength: 0
+  displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
+  cullDistance: 0
 --- !u!114 &1892496974 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8455812260723138574, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
   m_PrefabInstance: {fileID: 1782532232}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1892496972}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
@@ -10262,6 +10284,7 @@ MonoBehaviour:
   zone: {fileID: 394605204}
   vectorField: {fileID: 0}
   computeShader: {fileID: 7200000, guid: 8d9e21016e2423d4696133783a709b67, type: 3}
+  projectionDisplay: {fileID: 0}
 --- !u!1001 &2652347427263480726
 PrefabInstance:
   m_ObjectHideFlags: 0

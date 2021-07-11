@@ -91,6 +91,15 @@ public class FluxDetector : FieldDetector
     // A debugging array.
     float[] debugArray;
 
+    /// <summary>
+    /// A buffer storing the projected vectors.
+    /// </summary>
+    ComputeBuffer projectionsBuffer;
+    /// <summary>
+    /// The Display used to create the projected vectors. 
+    /// </summary>
+    public Display projectionDisplay;
+
 
 
 
@@ -240,13 +249,20 @@ public class FluxDetector : FieldDetector
             numTrianglesPerVertBuffer = new ComputeBuffer(vectorsBuffer.count, sizeof(int));
         }
         numTrianglesPerVertBuffer.SetData(new int[vectorsBuffer.count]);
+        if (projectionsBuffer == null)
+        {
+            unsafe
+            {
+                projectionsBuffer = new ComputeBuffer(vectorsBuffer.count, sizeof(Vector3));
+            } 
+        }
         CalculateFluxContributions();
 
         // Sends the vector buffer to the shell shader
         UpdateShellMaterial();
 
         // Send some information to the pointer material
-        UpdatePointerMaterial();
+        UpdatePointerMaterials();
     }
 
 
@@ -272,6 +288,7 @@ public class FluxDetector : FieldDetector
         computeShader.SetBuffer(kernelID, vectorsID, vectorsBuffer);
         computeShader.SetBuffer(kernelID, normalsID, normalsBuffer);
         computeShader.SetBuffer(kernelID, fluxContributionsID, fluxContributions);
+        computeShader.SetBuffer(kernelID, "_Projections", projectionsBuffer);
 
         int numGroups = Mathf.CeilToInt(vectorsBuffer.count / 64f);
         computeShader.Dispatch(kernelID, numGroups, 1, 1);
@@ -330,9 +347,15 @@ public class FluxDetector : FieldDetector
     /// 
     /// Should link to FluxShader.shader.
     /// </summary>
-    private void UpdatePointerMaterial()
+    private void UpdatePointerMaterials()
     {
         vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
+        projectionDisplay.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
+        // This should only be done after checking that it's the correct shader, really. 
+
+        projectionDisplay.maxVectorLength = vectorField.zone.maxVectorLength;
+        projectionDisplay.bounds = vectorField.zone.bounds;
+        projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
 
         {
             //Vector3 pos = transform.position;

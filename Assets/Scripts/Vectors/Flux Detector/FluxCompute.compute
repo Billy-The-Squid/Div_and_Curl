@@ -24,6 +24,8 @@ RWStructuredBuffer<float> _Areas;  // It's frustrating that I can't declare this
 //// The number of triangles that each vertex contributes to. 
 RWStructuredBuffer<int> _NumberOfTrianglesPerVertex;
 
+RWStructuredBuffer<float3> _Projections;
+
 
 
 
@@ -35,9 +37,8 @@ void CalculateFluxContributions(uint3 id : SV_DispatchThreadID) {
 	float3 vect = _Vectors[id.x];
 	float dotP = dot((vect), normalize(normal)); // We need to drop this normalization
 
-	_FluxContributions[id.x] = dotP; // Uncomment me. 
-    _Vectors[id.x] = dotP * normal;
-	// Can we modify _Vectors here without consequence?
+	_FluxContributions[id.x] = dotP;
+    _Projections[id.x] = dotP * normalize(normal);
 }
 
 //[numthreads(1,1,1)] // Add together all the contributions
