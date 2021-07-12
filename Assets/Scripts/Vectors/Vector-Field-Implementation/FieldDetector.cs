@@ -25,6 +25,11 @@ public class FieldDetector : MonoBehaviour
     /// </summary>
     public string quantityName { get; set; }
 
+    /// <summary>
+    /// The name displayed in the selector menu
+    /// </summary>
+    public string displayName { get; set; }
+
 
 
     /// <summary>

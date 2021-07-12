@@ -54,6 +54,8 @@ public class CurlSpinDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
+        displayName = "Drag sphere";
+
         // Set up the vector field
         if(computationField == null) {
             computationField = GetComponent<VectorField>();

@@ -124,9 +124,16 @@ public class ForcePull : MonoBehaviour
 
         // Pull if you're pulling
         if(busy == HandState.Pulling) {
-            if(nearestGrabbable != null && !nearestGrabbable.isSelected) {
-                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
+            if(nearestGrabbable != null ){ //&& !nearestGrabbable.isSelected) {
+                if (nearestGrabbable.isSelected && nearestGrabbable.selectingInteractor is XRSocketInteractor)
+                {
+                    StartCoroutine(StealFromSocket((XRSocketInteractor)nearestGrabbable.selectingInteractor));
+                }
+                else
+                {
+                    nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
                     nearestGrabbable.transform.position, attachAnchorTransform.position, pullSpeed * Time.deltaTime));
+                }
             }
         }
     }
@@ -170,18 +177,10 @@ public class ForcePull : MonoBehaviour
                     if (hit.transform.Equals(obj.transform))
                     {
                         // Is it the closest?
-                        if (nearestGrabbable == null)
+                        if (hit.distance < dist)
                         {
                             nearestGrabbable = hit.transform.GetComponent<XRGrabInteractable>();
                             dist = hit.distance;
-                        }
-                        else
-                        {
-                            if (hit.distance < dist)
-                            {
-                                nearestGrabbable = hit.transform.GetComponent<XRGrabInteractable>();
-                                dist = hit.distance;
-                            }
                         }
                     }
                 }
@@ -221,5 +220,21 @@ public class ForcePull : MonoBehaviour
             
             lastGrabbable = nearestGrabbable;
         }
+    }
+
+
+
+    /// <summary>
+    /// When trying to grab an object from a socket, temporarily disables the socket's grab interaction. 
+    /// </summary>
+    /// <param name="socket">The socket to disable</param>
+    /// <returns></returns>
+    protected IEnumerator StealFromSocket(XRSocketInteractor socket)
+    {
+        socket.allowSelect = false;
+
+        yield return new WaitForSeconds(0.5f);
+
+        socket.allowSelect = true;
     }
 }

@@ -108,6 +108,8 @@ public class CurlSphereDetector : FieldDetector
 
     private void Start()
     {
+        displayName = "Curl Loop";
+
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {
             meshRenderer = GetComponent<MeshRenderer>();
