@@ -161,7 +161,7 @@ public class ForcePull : MonoBehaviour
         foreach(XRGrabInteractable obj in grabbables)
         {
             // Is it in the general direction?
-            if(Vector3.Angle((obj.transform.position - transform.position), transform.forward) <= 30) // degrees
+            if(Vector3.Angle((obj.transform.position - transform.position), attachAnchorTransform.position - transform.position) <= 30) // degrees
             {
                 // Do we have line-of-sight?
 
