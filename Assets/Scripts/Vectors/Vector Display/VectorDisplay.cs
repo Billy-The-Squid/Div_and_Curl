@@ -55,7 +55,6 @@ public class VectorDisplay : Display
         cullDistanceID = Shader.PropertyToID("_CullDistance"),
         cameraPositionID = Shader.PropertyToID("_CameraPosition");
 
-
     /// <summary>
     /// The compute shader used to calculate the object-to-world matrix
     /// </summary>
@@ -75,6 +74,9 @@ public class VectorDisplay : Display
     /// The distance fro =m the camera inside which vectors are not rendered. 
     /// </summary>
     public float cullDistance;
+
+
+
 
 
 
@@ -129,6 +131,9 @@ public class VectorDisplay : Display
     }
 
 
+
+
+
     /// <summary>
     /// The key function, called by VectorField.
     /// </summary>
@@ -178,6 +183,8 @@ public class VectorDisplay : Display
         displayComputer.Dispatch(kernelID, numGroups, 1, 1);
     }
 
+
+
     /// <summary>
     /// Interfaces with the <cref>pointerMaterial</cref> to display the vector field. 
     /// </summary>
@@ -204,6 +211,7 @@ public class VectorDisplay : Display
     }
 
 
+
     /// <summary>
     /// Finds the maximum magnitude of any of the vectors (used for color bounding).
     /// </summary>
@@ -224,6 +232,8 @@ public class VectorDisplay : Display
 
         foundMaxMagnitude = true;
     }
+
+
 
     /// <summary>
     /// Recalculates the maximum magnitude in this frame. 

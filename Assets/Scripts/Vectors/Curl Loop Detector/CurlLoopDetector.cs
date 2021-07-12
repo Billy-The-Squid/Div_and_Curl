@@ -220,12 +220,18 @@ public class CurlLoopDetector : FieldDetector
     /// </summary>
     private void DisplayProjections()
     {
-        if(!inField) { return; }
-
-        Debug.Log("Calling PisplayProjections");
+        if(!inField) { return; } 
 
         projectionDisplay.maxVectorLength = localField.zone.maxVectorLength;
         projectionDisplay.bounds = localField.zone.bounds;
+        projectionDisplay.pointerMaterial.SetBuffer("_CurlContributions", contributionsBuffer);
+
+        {
+            // Debug code
+            float[] debugArray = new float[contributionsBuffer.count];
+            contributionsBuffer.GetData(debugArray);
+        }
+
         projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionBuffer);
     }
 
