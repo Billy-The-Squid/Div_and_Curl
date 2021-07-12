@@ -70,6 +70,12 @@ public class ForcePull : MonoBehaviour
     /// </summary>
     public XRDirectInteractor directInteractor;
 
+    /// <summary>
+    /// The transform towards which to pull the object.
+    /// </summary>
+    public Transform attachAnchorTransform;
+    // Should be able to find this automatically
+
 
 
 
@@ -120,7 +126,7 @@ public class ForcePull : MonoBehaviour
         if(busy == HandState.Pulling) {
             if(nearestGrabbable != null && !nearestGrabbable.isSelected) {
                 nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
-                    nearestGrabbable.transform.position, transform.position, pullSpeed * Time.deltaTime));
+                    nearestGrabbable.transform.position, attachAnchorTransform.position, pullSpeed * Time.deltaTime));
             }
         }
     }
