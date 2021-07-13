@@ -202,10 +202,12 @@ public class ForcePull : MonoBehaviour
                 lastGrabbable.GetComponent<Outline>().enabled = false;
             }
             catch (NullReferenceException) {
-                if (lastGrabbable != null)
-                {
+                if (lastGrabbable != null) {
                     Debug.LogWarning("Last grabbable " + lastGrabbable.name + " does not have outline component.");
                 }
+            }
+            catch (MissingReferenceException) {
+                // Object has been destroyed.
             }
 
             try {
