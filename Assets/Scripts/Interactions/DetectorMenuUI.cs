@@ -66,6 +66,11 @@ public class DetectorMenuUI : MenuUI
     /// </summary>
     public float waitTime = 0.5f;
 
+    ///// <summary>
+    ///// Is there an object hovering over the socket?
+    ///// </summary>
+    //protected bool isHovering = false;
+
 
 
 
@@ -93,6 +98,11 @@ public class DetectorMenuUI : MenuUI
         {
             detectorsArray[i].menuIndex = i;
         }
+
+        if(waitTime < socket.recycleDelayTime)
+        {
+            Debug.LogWarning("Detector menu wait time is less than the socket refresh time.");
+        }
     }
 
 
@@ -106,7 +116,10 @@ public class DetectorMenuUI : MenuUI
         {
             UpdateDisplay();
             UpdateDetector();
+            // MAKE SURE DISPLAYNEEDSUPDATE ONLY RESET AFTER SUCCESSFUL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         }
+
+        //Debug.Log(socket.isHoverActive ? "Hovering" : "Not hovering");
     }
 
 
@@ -174,7 +187,6 @@ public class DetectorMenuUI : MenuUI
     protected void UpdateDisplay()
     {
         Grabbable currentDetector = detectorsArray[currentlyDisplayedDetector];
-        Debug.Log("Calling UpdateDisplay");
 
         detectorNameDisplay.SetText(currentDetector.displayName);
 
@@ -256,23 +268,31 @@ public class DetectorMenuUI : MenuUI
     {
         XRBaseInteractable socketed = socket.selectTarget;
         List<XRBaseInteractable> hovered = new List<XRBaseInteractable>();
-        socket.GetHoverTargets(hovered);
         Grabbable instantiated = null;
 
 
+        // Has something just been removed from the socket?
         if(socketed == null)
         {
             // Don't forget to check limits! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             StartCoroutine(WaitToMake());
         }
-        // Only display names if the object socketed is a detector. 
         else if (socketed.GetComponent<Grabbable>() != null)
         {
-            if (currentlyDisplayedDetector == socketed.GetComponent<Grabbable>().menuIndex) {
-                // Do nothing.
-            }
-            else
+            // Is there something hovering over the socket? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            socket.GetHoverTargets(hovered); 
+            if(hovered.Count != 0)
             {
+                // That's not what we just made, right?
+                if(hovered.Count != 1 || hovered[0] != socketed)
+                {
+                    Destroy(socketed.gameObject);
+                }
+            }
+
+
+            // Did we just change to the next item in the menu?
+            else if (currentlyDisplayedDetector != socketed.GetComponent<Grabbable>().menuIndex) { // Check limits! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 Destroy(socketed.gameObject);
                 Debug.Log("Thing was destroyed: " + (socketed == null));
                 instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
@@ -284,10 +304,18 @@ public class DetectorMenuUI : MenuUI
         IEnumerator WaitToMake()
         {
             yield return new WaitForSeconds(waitTime);
-            if(socket.selectTarget == null)
+
+            socket.GetHoverTargets(hovered);
+
+            // If there's nothing in the socket or hovering, refill.
+            if (socket.selectTarget == null && hovered.Count == 0)
             {
                 instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
                 instantiated.transform.position = socket.transform.position;
+            }
+            else
+            {
+                Debug.Log("Opted not to instantiate new thing.");
             }
         }
     }

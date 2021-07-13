@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_InteractableCantHoverMeshMaterial: {fileID: 0}
   m_SocketActive: 1
   m_InteractableHoverScale: 1
-  m_RecycleDelayTime: 1
+  m_RecycleDelayTime: 0.1
 --- !u!135 &238110842
 SphereCollider:
   m_ObjectHideFlags: 0
