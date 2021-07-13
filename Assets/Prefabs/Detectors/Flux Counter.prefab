@@ -385,7 +385,7 @@ MonoBehaviour:
   canMove: 1
   meshFilter: {fileID: 1284309509587163684}
   fluxDetector: {fileID: 1718279740705519841}
-  vectorScalingFactor: 0.1
+  vectorScalingFactor: 0.2
 --- !u!114 &8735591306580901515
 MonoBehaviour:
   m_ObjectHideFlags: 0

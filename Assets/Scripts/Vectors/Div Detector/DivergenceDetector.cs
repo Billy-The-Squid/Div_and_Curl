@@ -46,6 +46,8 @@ public class DivergenceDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
+        displayName = "Divergence";
+
         // Initialize the computation field
         if(computeField == null) {
             computeField = GetComponent<VectorField>();

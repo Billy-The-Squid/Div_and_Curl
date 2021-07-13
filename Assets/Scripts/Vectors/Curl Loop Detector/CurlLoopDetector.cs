@@ -83,6 +83,8 @@ public class CurlLoopDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
+        displayName = "Curl Loop";
+
         // Setting some variables
         if(zone == null) {
             zone = GetComponent<CurlLoopZone>();

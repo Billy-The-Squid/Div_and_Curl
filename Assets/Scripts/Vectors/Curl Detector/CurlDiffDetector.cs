@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(VectorField), typeof(DerivativeZone), typeof(CurlRenderer))]
-public class CurlSpinDetector : FieldDetector
+public class CurlDiffDetector : FieldDetector
 {
     /// <summary>
     /// The vector curl at the center of the detector.
@@ -54,7 +54,7 @@ public class CurlSpinDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
-        displayName = "Drag sphere";
+        displayName = "Curl (Differential)";
 
         // Set up the vector field
         if(computationField == null) {

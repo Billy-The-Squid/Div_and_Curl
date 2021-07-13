@@ -22,6 +22,8 @@ public class Pointer : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
+        displayName = "Field value";
+
         // Find the local field.
         if(localField == null) {
             localField = GetComponent<VectorField>();

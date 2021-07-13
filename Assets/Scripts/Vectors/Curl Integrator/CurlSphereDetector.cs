@@ -108,7 +108,7 @@ public class CurlSphereDetector : FieldDetector
 
     private void Start()
     {
-        displayName = "Curl Loop";
+        displayName = "Drag Sphere";
 
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {

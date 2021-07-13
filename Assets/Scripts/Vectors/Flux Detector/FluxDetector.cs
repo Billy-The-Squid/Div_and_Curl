@@ -105,6 +105,8 @@ public class FluxDetector : FieldDetector
 
     private void Start()
     {
+        displayName = "Flux per Volume";
+
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {
             meshRenderer = GetComponent<MeshRenderer>();
