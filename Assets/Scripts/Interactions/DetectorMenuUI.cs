@@ -23,18 +23,26 @@ public class DetectorMenuUI : MenuUI
     public List<Grabbable> detectorsInScene; // Necessary?
 
 
-    // Should this be an int?
     /// <summary>
     /// The detector type to be currently displaying.
     /// </summary>
-    public int currentlyDisplayedDetector;
+    public int currentlyDisplayedDetector //;
+    { get => _currentIndex;
+        set { _currentIndex = value;
+            displayNeedsUpdate = true; } }
+
+    private int _currentIndex;
 
 
     /// <summary>
     /// Indicates that the display is in need of an update.
     /// </summary>
     protected bool displayNeedsUpdate = false;
-    // Should be set true if: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    /* Should be set true if: 
+     *  Going to next or previous detector
+     *  De-socketing
+     *  Re-socketing (specifically, on hover)
+     */
 
     /// <summary>
     /// The display text bearing the detector name. 
@@ -53,6 +61,11 @@ public class DetectorMenuUI : MenuUI
     /// </summary>
     public bool limitDetectors = false;
 
+    /// <summary>
+    /// The amount of time to wait before making a new detector.
+    /// </summary>
+    public float waitTime = 0.5f;
+
 
 
 
@@ -64,7 +77,7 @@ public class DetectorMenuUI : MenuUI
 
     private void Start()
     {
-        if(!limitDetectors) {
+        if (!limitDetectors) {
             List<int> detsList = new List<int>();
             for (int i = 0; i < detectorsArray.Length; i++)
             {
@@ -76,7 +89,7 @@ public class DetectorMenuUI : MenuUI
             throw new System.Exception("I don't have a list to limit the detectors to.");
         }
 
-        for(int i = 0; i < detectorsArray.Length; i++) // I really don't know that this is safe.
+        for (int i = 0; i < detectorsArray.Length; i++) // I really don't know that this is safe.
         {
             detectorsArray[i].menuIndex = i;
         }
@@ -92,6 +105,7 @@ public class DetectorMenuUI : MenuUI
         if (displayNeedsUpdate)
         {
             UpdateDisplay();
+            UpdateDetector();
         }
     }
 
@@ -141,36 +155,140 @@ public class DetectorMenuUI : MenuUI
     /// </summary>
     public void DisplaySocketed()
     {
-        // Only display names if the object socketed is a detector. 
-        if (socket.selectTarget != null && socket.selectTarget.GetComponent<FieldDetector>() != null)
-        {
-            //currentlyDisplayedDetector = 
-            
-            //detectorNameDisplay.SetText(socket.selectTarget.GetComponent<FieldDetector>().displayName);
-        }
-        else
-        {
-            //canvas.enabled = false;
-        }
+        XRBaseInteractable socketed = socket.selectTarget;
 
-        displayNeedsUpdate = true;
+        // Only display names if the object socketed is a detector. 
+        if (socketed != null && socketed.GetComponent<Grabbable>() != null) {
+            currentlyDisplayedDetector = socketed.GetComponent<Grabbable>().menuIndex;
+        }
+        else {
+            displayNeedsUpdate = true;
+        }
     }
 
 
 
     /// <summary>
-    /// Update display.
+    /// Updates the display.
     /// </summary>
     protected void UpdateDisplay()
     {
         Grabbable currentDetector = detectorsArray[currentlyDisplayedDetector];
+        Debug.Log("Calling UpdateDisplay");
 
-        //if (currentDetector.GetComponent<FieldDetector>() != null) 
-        {
-            detectorNameDisplay.SetText(currentDetector.displayName);
-        }
-        
+        detectorNameDisplay.SetText(currentDetector.displayName);
 
         displayNeedsUpdate = false;
+    }
+
+
+
+    /// <summary>
+    /// Retrieves the index of the next detector, or -1 if there is no next detector.
+    /// </summary>
+    /// <returns>The index of the next available detector, or -1 if there is none.</returns>
+    protected int NextDetector()
+    {
+        int cursor = availableDetectors.IndexOf(currentlyDisplayedDetector);
+
+        if (cursor == -1) {
+            throw new System.Exception("That detector isn't in the list of available detectors");
+        }
+
+        if (cursor + 1 < availableDetectors.Count) {
+            return availableDetectors[cursor + 1];
+        }
+        else {
+            return -1;
+        }
+    }
+
+    /// <summary>
+    /// Retrieves the index of the previous detector, or -1 if there is no previous detector.
+    /// </summary>
+    /// <returns>The index of the previous available detector, or -1 if there is none.</returns>
+    protected int PreviousDetector()
+    {
+        int cursor = availableDetectors.IndexOf(currentlyDisplayedDetector);
+
+        if (cursor == -1) {
+            throw new System.Exception("That detector isn't in the list of available detectors");
+        }
+
+        if (cursor - 1 >= 0) {
+            return availableDetectors[cursor - 1];
+        }
+        else {
+            return -1;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Brings up the next detector in the menu.
+    /// </summary>
+    public void BringUpNext() {
+        int temp = NextDetector();
+        if (temp >= 0)
+        {
+            currentlyDisplayedDetector = temp;
+        }
+    }
+
+    /// <summary>
+    /// Brings up the previous detector in the menu.
+    /// </summary>
+    public void BringUpPrevious() {
+        int temp = PreviousDetector();
+        if (temp >= 0)
+        {
+            currentlyDisplayedDetector = temp;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Checks whether the currentDisplayedDetector and the socketed detector are the same. If they are not, destroys the one and creates the other.
+    /// </summary>
+    protected void UpdateDetector()
+    {
+        XRBaseInteractable socketed = socket.selectTarget;
+        List<XRBaseInteractable> hovered = new List<XRBaseInteractable>();
+        socket.GetHoverTargets(hovered);
+        Grabbable instantiated = null;
+
+
+        if(socketed == null)
+        {
+            // Don't forget to check limits! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            StartCoroutine(WaitToMake());
+        }
+        // Only display names if the object socketed is a detector. 
+        else if (socketed.GetComponent<Grabbable>() != null)
+        {
+            if (currentlyDisplayedDetector == socketed.GetComponent<Grabbable>().menuIndex) {
+                // Do nothing.
+            }
+            else
+            {
+                Destroy(socketed.gameObject);
+                Debug.Log("Thing was destroyed: " + (socketed == null));
+                instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
+                instantiated.transform.position = socket.transform.position;
+            }
+        }
+
+
+        IEnumerator WaitToMake()
+        {
+            yield return new WaitForSeconds(waitTime);
+            if(socket.selectTarget == null)
+            {
+                instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
+                instantiated.transform.position = socket.transform.position;
+            }
+        }
     }
 }

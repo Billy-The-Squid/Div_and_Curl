@@ -6,7 +6,7 @@ public class BasicInteractor : Grabbable
 {
     public float angularSpeed = 2;
 
-    protected Rigidbody rigidBody;
+    public Rigidbody rigidBody;
 
     private static string nameToDisplay = "Thing";
     private static string description = "A thing. What does it do?";
@@ -22,7 +22,7 @@ public class BasicInteractor : Grabbable
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+        //rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame

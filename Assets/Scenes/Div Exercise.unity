@@ -1157,7 +1157,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 207499865}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 543305536}
+        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
+        m_MethodName: BringUpPrevious
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &207499865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3024,19 +3036,19 @@ MonoBehaviour:
   canvas: {fileID: 147308251}
   visibleDistance: 2
   detectorsArray:
-  - {fileID: 6887369352125190341, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}
-  - {fileID: 7192881086067594969, guid: 0816841dba5597d4c87f7a8ef547f5e2, type: 3}
-  - {fileID: 1284309509587163691, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
-  - {fileID: 6520425705519372569, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
-  - {fileID: 5740770948582930838, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}
-  - {fileID: 731022300670848641, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}
-  - {fileID: 5484386669841562291, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}
+  - {fileID: -2784523897245137300, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}
+  - {fileID: 7192881086067594963, guid: 0816841dba5597d4c87f7a8ef547f5e2, type: 3}
+  - {fileID: 1718279740705519841, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
+  - {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
+  - {fileID: 4270039084551078667, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}
+  - {fileID: 731022300670848666, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}
+  - {fileID: 5484386669841562316, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}
   availableDetectors: 
   detectorsInScene: []
-  currentlyDisplayedDetector: 0
   detectorNameDisplay: {fileID: 451898628}
   socket: {fileID: 238110841}
   limitDetectors: 0
+  waitTime: 0.5
 --- !u!1 &559287056
 GameObject:
   m_ObjectHideFlags: 0
@@ -6433,6 +6445,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4920204018511788, guid: 0e694479a50df794491d4b97f42b2b16, type: 3}
   m_PrefabInstance: {fileID: 1150021158}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1154247249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1154247250}
+  m_Layer: 0
+  m_Name: Generated Detectors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1154247250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154247249}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1159993792
 GameObject:
   m_ObjectHideFlags: 0
@@ -10676,7 +10718,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2110713404}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 543305536}
+        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
+        m_MethodName: BringUpNext
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2110713404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10739,7 +10793,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114755153}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2068611714}
@@ -10856,6 +10910,7 @@ GameObject:
   - component: {fileID: 8735591306321663447}
   - component: {fileID: 8455812260864854866}
   - component: {fileID: 1284309509835911548}
+  - component: {fileID: 1284309509835911550}
   m_Layer: 9
   m_Name: Flux Counter (Plane)
   m_TagString: Untagged
@@ -11086,6 +11141,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1284309509835911550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284309509835911543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 15
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &1718279741057078205
 MonoBehaviour:
   m_ObjectHideFlags: 0
