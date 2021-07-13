@@ -1,6 +1,6 @@
-// This is the flux detector shell shader. 
+// The vert/frag shader for the surface of the curl sphere. 
 
-Shader "Custom/FluxDetector"
+Shader "Vectors/Detectors/CurlSphereShell"
 {
     Properties
     {
@@ -46,8 +46,8 @@ Shader "Custom/FluxDetector"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            // The values of the flux contribution at each input. 
-            StructuredBuffer<float> _FluxContributions;
+            // The values of the curl contribution at each input. 
+            StructuredBuffer<float3> _CurlContributions; // RETYPED
 
 
 
@@ -60,7 +60,7 @@ Shader "Custom/FluxDetector"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
-                float dotP = _FluxContributions[v.id];
+                float dotP = length(_CurlContributions[v.id]); // RETYPED (kinda)
 
                 // Red -> blue colors
                 //o.color.r = saturate(-abs(dotP + 1)+2);

@@ -251,6 +251,7 @@ MonoBehaviour:
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
+  colorScheme: 0
 --- !u!114 &5740770948582930859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +302,7 @@ MonoBehaviour:
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
+  colorScheme: 1
 --- !u!114 &1375565727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +338,7 @@ MonoBehaviour:
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
+  colorScheme: 0
 --- !u!1 &5740770950265390583
 GameObject:
   m_ObjectHideFlags: 0
