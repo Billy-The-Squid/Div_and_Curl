@@ -16,14 +16,21 @@ public class Pointer : FieldDetector
     protected Vector3[] vecArray = new Vector3[1];
 
 
+    private static string nameToDisplay = "Field Value";
+    private static string description = "A thing. What does it do?";
+    private static int index;
+
+    public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
+    public override string displayDescription { get { return description; } set => throw new System.NotImplementedException("I'm not allowing description changing right now"); }
+    public override int menuIndex { get { return index; } set { index = value; } }
+
+
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        displayName = "Field value";
-
         // Find the local field.
         if(localField == null) {
             localField = GetComponent<VectorField>();

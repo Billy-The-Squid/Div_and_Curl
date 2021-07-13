@@ -100,13 +100,19 @@ public class FluxDetector : FieldDetector
     /// </summary>
     public Display projectionDisplay;
 
+    private static string nameToDisplay = "Flux";
+    private static string description = "A thing. What does it do?";
+    private static int index;
+
+    public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
+    public override string displayDescription { get { return description; } set => throw new System.NotImplementedException("I'm not allowing description changing right now"); }
+    public override int menuIndex { get { return index; } set { index = value; } }
+
 
 
 
     private void Start()
     {
-        displayName = "Flux per Volume";
-
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {
             meshRenderer = GetComponent<MeshRenderer>();

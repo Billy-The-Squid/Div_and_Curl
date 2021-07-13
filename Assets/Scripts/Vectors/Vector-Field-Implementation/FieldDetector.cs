@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))] // Required for collision detection
-public class FieldDetector : MonoBehaviour
+public abstract class FieldDetector : Grabbable
 {
     /// <summary>
     /// True if the transform is within the collider of a <cref>FieldZone</cref>.
@@ -24,11 +24,6 @@ public class FieldDetector : MonoBehaviour
     /// The identifier of the value measured by the detector. 
     /// </summary>
     public string quantityName { get; set; }
-
-    /// <summary>
-    /// The name displayed in the selector menu
-    /// </summary>
-    public string displayName { get; set; }
 
 
 

@@ -1424,10 +1424,34 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 543305536}
+        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
+        m_MethodName: DisplaySocketed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 543305536}
+        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
+        m_MethodName: DisplaySocketed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnHoverEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -3007,7 +3031,7 @@ MonoBehaviour:
   - {fileID: 5740770948582930838, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}
   - {fileID: 731022300670848641, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}
   - {fileID: 5484386669841562291, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}
-  availableDetectors: []
+  availableDetectors: 
   detectorsInScene: []
   currentlyDisplayedDetector: 0
   detectorNameDisplay: {fileID: 451898628}

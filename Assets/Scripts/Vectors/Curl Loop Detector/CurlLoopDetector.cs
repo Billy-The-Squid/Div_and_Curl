@@ -77,14 +77,21 @@ public class CurlLoopDetector : FieldDetector
     // It's not the end of the world if these various displays get mixed up, so long as they're different. 
 
 
+    private static string nameToDisplay = "Curl (Line Integral)";
+    private static string description = "A thing. What does it do?";
+    private static int index;
+
+    public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
+    public override string displayDescription { get { return description; } set => throw new System.NotImplementedException("I'm not allowing description changing right now"); }
+    public override int menuIndex { get { return index; } set { index = value; } }
+
+
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        displayName = "Curl Loop";
-
         // Setting some variables
         if(zone == null) {
             zone = GetComponent<CurlLoopZone>();

@@ -39,6 +39,14 @@ public class DivergenceDetector : FieldDetector
     [SerializeField]
     protected DivRender divRenderer;
 
+    private static string nameToDisplay = "Divergence";
+    private static string description = "A thing. What does it do?";
+    private static int index;
+
+    public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
+    public override string displayDescription { get { return description; } set => throw new System.NotImplementedException("I'm not allowing description changing right now"); }
+    public override int menuIndex { get { return index; } set { index = value; } }
+
 
 
 
@@ -46,8 +54,6 @@ public class DivergenceDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
-        displayName = "Divergence";
-
         // Initialize the computation field
         if(computeField == null) {
             computeField = GetComponent<VectorField>();

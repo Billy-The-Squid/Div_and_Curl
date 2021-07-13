@@ -46,6 +46,14 @@ public class CurlDiffDetector : FieldDetector
     [SerializeField]
     protected CurlRenderer curlRenderer;
 
+    private static string nameToDisplay = "Curl (Differential)";
+    private static string description = "A thing. What does it do?";
+    private static int index;
+
+    public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
+    public override string displayDescription { get { return description; } set => throw new System.NotImplementedException("I'm not allowing description changing right now"); }
+    public override int menuIndex { get { return index; } set { index = value; } }
+
 
 
 
@@ -54,8 +62,6 @@ public class CurlDiffDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
-        displayName = "Curl (Differential)";
-
         // Set up the vector field
         if(computationField == null) {
             computationField = GetComponent<VectorField>();
