@@ -1,17 +1,21 @@
-﻿// This is the flux pointer shader.
+﻿// A instancing/surface shader for standard vectors. Single color. 
 
-Shader "Vectors/FluxShader" 
+Shader "Vectors/SingleColor"
 {
 	Properties
 	{
-		// _Scaling ("Scaling Factor", float) = 0.1
-	} // This needs to be used somewhere. Where?
+		_Color ("Color", Color) = (0,0,1,1)
+	}
 
 	SubShader
 	{
+		//Tags { "RenderType" = "Transparent" "Queue" = "Transparent" } // Allowing for transparency
+		//LOD 100
+		//ZWrite Off // makes the rendering weird
+		//Blend SrcAlpha OneMinusSrcAlpha
+
 		CGPROGRAM
-		
-		// The compiler directives. 
+
 		// Renders the surface. Requires a ConfigureSurface function.
 		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow
 		// Does instancing, including(?) placing points. Requires a ConfigureProcedural function.
@@ -20,30 +24,26 @@ Shader "Vectors/FluxShader"
 		#pragma target 4.5
 
 		// This is where the work of calculating transformations is done. 
-		#include "../PointsPlot.hlsl"
+		#include "../PointsPlot.hlsl" 
 
-		// The data about how much this point contributes to flux.
-		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			StructuredBuffer<float> _FluxContributions;
-		#endif
-		
-		//float4 _DetectorCenter; 
+		float _MaxMagnitude;
+		float4 _Color;
+		float _CullDistance;
 
-		// The format of the input taken by ConfigureSurface.
 		struct Input
 		{
 			float3 worldPos;
-			float3 worldNormal;
-		}; // Verify that both are necessary. 
+		};
+
+
+
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP = _FluxContributions[unity_InstanceID];
+				surface.Albedo = _Color.rgb;
 
-				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
-				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
-				surface.Albedo.b = 1 - abs(dotP) / 2 - dotP / 2;
-				surface.Alpha = 0.75;
+				float3 displ = _Positions[unity_InstanceID] - _WorldSpaceCameraPos;
+				clip(displ.x * displ.x + displ.y * displ.y + displ.z * displ.z - _CullDistance * _CullDistance);
 			}
 		#else
 			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)

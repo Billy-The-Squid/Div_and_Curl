@@ -83,12 +83,13 @@ public class CurlLoopDetector : FieldDetector
     // Start is called before the first frame update
     void Start()
     {
+        displayName = "Curl Loop";
+
         // Setting some variables
         if(zone == null) {
             zone = GetComponent<CurlLoopZone>();
         }
-        if(localField == null)
-        {
+        if(localField == null) {
             localField = GetComponent<VectorField>();
         }
 
@@ -237,6 +238,21 @@ public class CurlLoopDetector : FieldDetector
 
 
 
+    /// <summary>
+    /// Sets the color max of the local field to the same as that of the detected field. 
+    /// </summary>
+    protected void BindColors()
+    {
+        var disp = detectedField.display; // Might not work with RainyField?
+        if(disp is VectorDisplay || disp is RainyDisplay)
+        {
+            ((VectorDisplay)localField.display).RecalculateMaxMagnitude();
+        }
+    }
+
+
+
+    /// <inheritdoc/>
     public override void EnteredField(VectorField graph)
     {
         localField.enabled = true;
@@ -244,6 +260,7 @@ public class CurlLoopDetector : FieldDetector
         base.EnteredField(graph);
     }
 
+    /// <inheritdoc/>
     public override void ExitedField(VectorField graph)
     {
         localField.enabled = false;

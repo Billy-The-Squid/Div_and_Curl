@@ -75,6 +75,22 @@ public class VectorDisplay : Display
     /// </summary>
     public float cullDistance;
 
+    // Just use this stuff to generate a material, please?
+    /// <summary>
+    /// Defines the choices of shaders for the vector field.
+    /// </summary>
+    public enum VectorStyle { MinMaxColors, SingleColor };
+    /// <summary>
+    /// The type of shader used in the material. Is not dynamic.
+    /// </summary>
+    public VectorStyle colorScheme = VectorStyle.MinMaxColors;
+    // Default set for backwards compatibility.
+
+
+    // We need a way to set the properties of the different shaders. Material.HasProperty will be useful, plus a custom editor.
+    protected Material testPointerMaterial;
+    public Shader testShader;
+
 
 
 
@@ -99,6 +115,9 @@ public class VectorDisplay : Display
         maxMagnitudeArray = new float[1];
 
         initialized = true;
+
+        // Testing...
+        testPointerMaterial = new Material(testShader);
     }
 
     // Release the buffers
@@ -149,10 +168,13 @@ public class VectorDisplay : Display
         // Do calculations needed for display
         CalculateDisplay(positionsBuffer, vectorsBuffer);
 
-        FindMaxMagnitude();
+        if(colorScheme == VectorStyle.MinMaxColors) {
+            FindMaxMagnitude();
+        }
 
-        // Send data to the shader.
-        PlotResults(positionsBuffer);
+        //// Send data to the shader.
+        //PlotResults(positionsBuffer);
+        TestPlotResults(positionsBuffer);
     }
 
 
@@ -195,19 +217,44 @@ public class VectorDisplay : Display
         pointerMaterial.SetBuffer(plotVectorsBufferID, plotVectorsBuffer);
         pointerMaterial.SetBuffer(vector2BufferID, vector2Buffer);
         pointerMaterial.SetBuffer(vector3BufferID, vector3Buffer);
-        pointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
-        pointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
+        if (colorScheme == VectorStyle.MinMaxColors) {
+            pointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
+            pointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
+        }
         pointerMaterial.SetFloat(cullDistanceID, cullDistance);
 
         // Setting the bounds and giving a draw call
         Graphics.DrawMeshInstancedProcedural(pointerMesh, 0, pointerMaterial, bounds, numOfPoints);
 
-        //// Debugging code
-        //Vector3[] debugArray = new Vector3[numOfPoints];
-        //float[] debugArray = new float[numOfPoints];
-        //magnitudesBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in magnitude array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in magnitude array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        {
+            //// Debugging code
+            //Vector3[] debugArray = new Vector3[numOfPoints];
+            //float[] debugArray = new float[numOfPoints];
+            //magnitudesBuffer.GetData(debugArray);
+            //Debug.Log((("First three points in magnitude array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+            //Debug.Log((("Last three points in magnitude array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        }
+    }
+
+
+
+    // EITHER DELETE THIS OR MERGE IT INTO PlotResults
+    protected virtual void TestPlotResults(ComputeBuffer positionsBuffer)
+    {
+        // Then the data from the computeShader is sent to the shader to be rendered.
+        testPointerMaterial.SetBuffer(positionsBufferID, positionsBuffer);
+        testPointerMaterial.SetBuffer(plotVectorsBufferID, plotVectorsBuffer);
+        testPointerMaterial.SetBuffer(vector2BufferID, vector2Buffer);
+        testPointerMaterial.SetBuffer(vector3BufferID, vector3Buffer);
+        if (colorScheme == VectorStyle.MinMaxColors)
+        {
+            testPointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
+            testPointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
+        }
+        testPointerMaterial.SetFloat(cullDistanceID, cullDistance);
+
+        // Setting the bounds and giving a draw call
+        Graphics.DrawMeshInstancedProcedural(pointerMesh, 0, testPointerMaterial, bounds, numOfPoints);
     }
 
 

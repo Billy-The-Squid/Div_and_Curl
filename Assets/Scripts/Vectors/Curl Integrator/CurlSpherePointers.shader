@@ -1,6 +1,6 @@
-﻿// This is the curl pointer shader.
+﻿// The instancing/surface shader for the full vectors on a curl integral surface.
 
-Shader "Vectors/CurlShader" 
+Shader "Vectors/Detectors/CurlSpherePointers" 
 {
 	Properties
 	{

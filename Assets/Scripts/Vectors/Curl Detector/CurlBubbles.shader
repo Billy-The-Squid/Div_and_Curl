@@ -1,7 +1,6 @@
-// This is our fragment shader.
-// Requires that GPU instancing be enabled for the material.
+// The instancing/surface shader used to create bubbles for the curl detector
 
-Shader "Custom/CurlBubbleShader"
+Shader "Vectors/Detectors/CurlBubbles"
 {
 	Properties
 	{

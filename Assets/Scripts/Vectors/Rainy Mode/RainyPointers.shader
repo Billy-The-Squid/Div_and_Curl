@@ -1,7 +1,6 @@
-// This is our fragment shader.
-// Requires that GPU instancing be enabled for the material.
+// The instancing/surface shader for the rainy mode vectors. 
 
-Shader "Vectors/RainyShader"
+Shader "Vectors/RainyPointers"
 {
 	Properties
 	{

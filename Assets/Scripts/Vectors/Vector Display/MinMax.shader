@@ -1,14 +1,12 @@
-﻿// This is our fragment shader.
-// Requires that GPU instancing be enabled for the material.
+﻿// An instancing/surface shader for standard vectors. Min/Max colors. 
 
-Shader "Vectors/Shader"
+Shader "Vectors/MinMax"
 {
 	Properties
 	{
 		_MinColor ("Minimum strength color", Color) = (0,0,1,1)
 		_MaxColor ("Maximum strength color", Color) = (1,1,0,1)
-		// _Scaling ("Scaling Factor", float) = 0.1
-	} // This needs to be used somewhere. Where?
+	}
 
 	SubShader
 	{

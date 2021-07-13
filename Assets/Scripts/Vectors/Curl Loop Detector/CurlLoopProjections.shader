@@ -1,11 +1,11 @@
-// This is the curl loop pointer shader.
+// The instancing/surface shader for the projections of the vectors onto the curl loop integral
 
-Shader "Custom/LoopShader"
+Shader "Vectors/Detectors/CurlLoopProjections"
 {
 	Properties
 	{
 		// _Scaling ("Scaling Factor", float) = 0.1
-	} // This needs to be used somewhere. Where?
+	} 
 
 	SubShader
 	{
