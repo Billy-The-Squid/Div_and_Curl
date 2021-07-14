@@ -293,9 +293,9 @@ MonoBehaviour:
   m_KeepSelectedTargetValid: 1
   m_HoverToSelect: 0
   m_HoverTimeToSelect: 0.5
-  m_EnableUIInteraction: 1
+  m_EnableUIInteraction: 0
   m_AllowAnchorControl: 1
-  m_UseForceGrab: 1
+  m_UseForceGrab: 0
   m_RotateSpeed: 180
   m_TranslateSpeed: 1
   m_AnchorRotateReferenceFrame: {fileID: 0}
@@ -474,8 +474,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.66, g: 0, b: 1, a: 1}
-    key1: {r: 0.66, g: 0, b: 1, a: 1}
+    key0: {r: 0.66, g: 1, b: 1, a: 1}
+    key1: {r: 0.66, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1451,6 +1451,7 @@ GameObject:
   - component: {fileID: 2811090797860988285}
   - component: {fileID: 7169481673912909149}
   - component: {fileID: 8285812572077271501}
+  - component: {fileID: 531360673}
   m_Layer: 0
   m_Name: UI Interactor
   m_TagString: Untagged
@@ -1548,7 +1549,7 @@ MonoBehaviour:
   m_HapticHoverCancelDuration: 0
   m_LineType: 0
   m_BlendVisualLinePoints: 1
-  m_MaxRaycastDistance: 30
+  m_MaxRaycastDistance: 5
   m_ReferenceFrame: {fileID: 0}
   m_Velocity: 16
   m_Acceleration: 9.8
@@ -1563,7 +1564,7 @@ MonoBehaviour:
   m_SphereCastRadius: 0.1
   m_RaycastMask:
     serializedVersion: 2
-    m_Bits: 288
+    m_Bits: 32
   m_RaycastTriggerInteraction: 1
   m_HitClosestOnly: 0
   m_KeepSelectedTargetValid: 1
@@ -1694,7 +1695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
   m_OverrideInteractorLineLength: 1
-  m_LineLength: 10
+  m_LineLength: 5
   m_WidthCurve:
     serializedVersion: 2
     m_Curve:
@@ -1782,6 +1783,21 @@ MonoBehaviour:
   m_SnapThresholdDistance: 10
   m_Reticle: {fileID: 0}
   m_StopLineAtFirstRaycastHit: 1
+--- !u!114 &531360673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995252956313465338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2625b8b346a67d841a9ce7ea7f532f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIs:
+  - {fileID: 0}
+  ray: {fileID: 2811090797860988285}
 --- !u!1 &5359764850486735665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,7 +1809,7 @@ GameObject:
   - component: {fileID: 3451507843012492355}
   - component: {fileID: 7867868617988392254}
   m_Layer: 0
-  m_Name: XR Interaction Manager
+  m_Name: Rig Interaction Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1834,7 +1850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4129526924824879359}
-  - component: {fileID: 5961666555685488587}
+  - component: {fileID: 502300861}
   m_Layer: 0
   m_Name: Left Hand
   m_TagString: Untagged
@@ -1859,7 +1875,7 @@ Transform:
   m_Father: {fileID: 2652347426887486500}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5961666555685488587
+--- !u!114 &502300861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1874,7 +1890,7 @@ MonoBehaviour:
   m_UpdateTrackingType: 0
   m_EnableInputTracking: 1
   m_EnableInputActions: 1
-  m_ModelPrefab: {fileID: 0}
+  m_ModelPrefab: {fileID: 6951047999305641073, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
   m_ModelParent: {fileID: 0}
   m_Model: {fileID: 0}
   m_AnimateModel: 0

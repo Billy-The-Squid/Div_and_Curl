@@ -47,6 +47,10 @@ public class DetectorMenuUI : MenuUI
     /// The display text bearing the detector name. 
     /// </summary>
     public TextMeshProUGUI detectorNameDisplay;
+    /// <summary>
+    /// The display text bearing the detector description.
+    /// </summary>
+    public TextMeshProUGUI detectorDescriptionDisplay;
 
     /// <summary>
     /// The socket into which detectors will be placed.
@@ -181,6 +185,7 @@ public class DetectorMenuUI : MenuUI
         Grabbable currentDetector = detectorsArray[currentlyDisplayedDetector];
 
         detectorNameDisplay.SetText(currentDetector.displayName);
+        detectorDescriptionDisplay.SetText(currentDetector.displayDescription);
 
         displayNeedsUpdate = false;
     }
@@ -282,15 +287,18 @@ public class DetectorMenuUI : MenuUI
 
         IEnumerator WaitToMake()
         {
-            yield return new WaitForSeconds(waitTime);
-
-            socket.GetHoverTargets(hovered);
-
-            // If there's nothing in the socket or hovering, refill.
-            if (socket.selectTarget == null && hovered.Count == 0)
+            while(instantiated == null)
             {
-                instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
-                instantiated.transform.position = socket.transform.position;
+                yield return new WaitForSeconds(waitTime);
+
+                socket.GetHoverTargets(hovered);
+
+                // If there's nothing in the socket or hovering, refill.
+                if (socket.selectTarget == null && hovered.Count == 0)
+                {
+                    instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
+                    instantiated.transform.position = socket.transform.position;
+                }
             }
         }
     }
