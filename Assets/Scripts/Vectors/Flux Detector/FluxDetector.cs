@@ -13,13 +13,17 @@ public class FluxDetector : FieldDetector
     /// <summary>
     /// The material to be displayed when the detector is inside a vector field. 
     /// </summary>
-    [SerializeField]
-    Material activeMaterial;
+    [NonSerialized]
+    public Material activeMaterial;
     /// <summary>
     /// The material to be displayed when the detector is not inside a vector field. 
     /// </summary>
-    [SerializeField]
-    Material inertMaterial;
+    public Material inertMaterial;
+    /// <summary>
+    /// The <see cref="Shader"/> used to create the active material.
+    /// </summary>
+    public Shader activeShader;
+
     /// <summary>
     /// The <cref>meshRenderer</cref> for the flux detector
     /// </summary>
@@ -122,6 +126,9 @@ public class FluxDetector : FieldDetector
         }
 
         // Setting the starting material
+        if(activeMaterial == null || activeMaterial.shader != activeShader) {
+            activeMaterial = new Material(activeShader);
+        }
         meshRenderer.material = inField ? activeMaterial : inertMaterial;
 
         // Finding the vectorField and zone components

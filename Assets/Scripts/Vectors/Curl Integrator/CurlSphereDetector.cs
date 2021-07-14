@@ -13,15 +13,20 @@ public class CurlSphereDetector : FieldDetector
     /// <summary>
     /// The material to be displayed when the detector is inside a vector field. 
     /// </summary>
-    [SerializeField]
-    Material activeMaterial;
+    [NonSerialized]
+    public Material activeMaterial;
     /// <summary>
     /// The material to be displayed when the detector is not inside a vector field. 
     /// </summary>
     [SerializeField]
     Material inertMaterial;
     /// <summary>
-    /// The <cref>meshRenderer</cref> for the curl detector
+    /// The <see cref="Shader"/> used to create the <see cref="activeMaterial"/>.
+    /// </summary>
+    public Shader activeShader;
+
+    /// <summary>
+    /// The <see cref="meshRenderer"/> for the curl detector
     /// </summary>
     [SerializeField]
     MeshRenderer meshRenderer;
@@ -127,6 +132,10 @@ public class CurlSphereDetector : FieldDetector
         }
 
         // Setting the starting material
+        if(activeMaterial == null || activeMaterial.shader != activeShader)
+        {
+            activeMaterial = new Material(activeShader);
+        }
         meshRenderer.material = inField ? activeMaterial : inertMaterial;
 
         // Finding the vectorField and zone components

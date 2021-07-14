@@ -11149,8 +11149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 478a77aa59fb83d46856fc447137ef2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeMaterial: {fileID: 2100000, guid: 7a76f5a2f831d204996beceb04ee3934, type: 2}
-  inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
+  inertMaterial: {fileID: 0}
+  activeShader: {fileID: 0}
   meshRenderer: {fileID: 1284309509835911545}
   zone: {fileID: 394605204}
   vectorField: {fileID: 0}
