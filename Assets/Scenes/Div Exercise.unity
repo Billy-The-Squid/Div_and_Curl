@@ -11489,6 +11489,10 @@ PrefabInstance:
       propertyPath: UIs.Array.data[0]
       value: 
       objectReference: {fileID: 543305536}
+    - target: {fileID: 1382694942, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: pullSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2652347426735425948, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -11536,6 +11540,10 @@ PrefabInstance:
     - target: {fileID: 2652347426735425950, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_Name
       value: XR Rig
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652347427364259151, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_Name
+      value: Right Direct Interactor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}

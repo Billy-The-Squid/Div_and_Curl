@@ -26,13 +26,10 @@ public class ForcePull : MonoBehaviour
     /// </summary>
     protected XRGrabInteractable lastGrabbable;
 
-    //// This isn't used properly %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    ///// <summary>
-    ///// Should be false if the user is currently pulling something or holding something. 
-    ///// </summary>
-    //bool handBusy = false;
-
-    public enum HandState { Empty, Holding, Pulling };
+    public enum HandState 
+      { Empty,      // If there is no input.
+        Holding,    // If select is active AND has a target. (redundant?)
+        AttemptingPull };  // If there is input, but nothing is selected (regardless of whether there is a valid target.
     public HandState busy = HandState.Empty;
 
     // The layers that matter for grabbing. 
@@ -45,7 +42,6 @@ public class ForcePull : MonoBehaviour
     /// </summary>
     [SerializeField]
     InputActionAsset actionAsset;
-
     /// <summary>
     /// The grab action.
     /// </summary>
@@ -74,7 +70,6 @@ public class ForcePull : MonoBehaviour
     /// The transform towards which to pull the object.
     /// </summary>
     public Transform attachAnchorTransform;
-    // Should be able to find this automatically
 
 
 
@@ -123,7 +118,7 @@ public class ForcePull : MonoBehaviour
         }
 
         // Pull if you're pulling
-        if(busy == HandState.Pulling) {
+        if(busy == HandState.AttemptingPull) {
             if(nearestGrabbable != null ){ //&& !nearestGrabbable.isSelected) {
                 if (nearestGrabbable.isSelected && nearestGrabbable.selectingInteractor is XRSocketInteractor)
                 {
@@ -148,12 +143,12 @@ public class ForcePull : MonoBehaviour
         if(grab.phase == InputActionPhase.Waiting)
         {
             busy = HandState.Empty;
-        } else if (directInteractor.isSelectActive && directInteractor.selectTarget != null) // verify that this works as intended.
+        } else if (directInteractor.isSelectActive && directInteractor.selectTarget != null) // Is first condition necessary?
         {
             busy = HandState.Holding;
         } else // I think this is right?
         {
-            busy = HandState.Pulling;
+            busy = HandState.AttemptingPull;
         }
     }
 
