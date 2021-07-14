@@ -88,7 +88,8 @@ public class VectorDisplay : Display
 
 
     // We need a way to set the properties of the different shaders. Material.HasProperty will be useful, plus a custom editor.
-    protected Material testPointerMaterial;
+    [NonSerialized]
+    public Material testPointerMaterial;
     public Shader testShader;
 
 
@@ -172,9 +173,9 @@ public class VectorDisplay : Display
             FindMaxMagnitude();
         }
 
-        //// Send data to the shader.
-        //PlotResults(positionsBuffer);
-        TestPlotResults(positionsBuffer);
+        // Send data to the shader.
+        PlotResults(positionsBuffer);
+        //TestPlotResults(positionsBuffer);
     }
 
 
