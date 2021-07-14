@@ -115,7 +115,7 @@ public class SettingManager : MonoBehaviour
 
         if(next.triggered && (next.ReadValue<float>() != 0))
         {
-            currentScene = (Scene) (((int) (currentScene + 1)) % 9); // Not the best way to do this. 
+            currentScene = (Scene) (((int) (currentScene + 1)) % Enum.GetNames(typeof(Scene)).Length); // Not the best way to do this. 
         }
         if(previous.triggered && (previous.ReadValue<float>() != 0))
         {
