@@ -286,11 +286,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 2100000, guid: 47f11c50427aadf4d956429b01f11d95, type: 2}
+  pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: c7b00dc10b1d3f243bf824dc63de5830, type: 2}
   maxVectorLength: 0.25
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
+  colorScheme: 0
+  shader: {fileID: 4800000, guid: c1fb88faf78b93b42b210eb3595fb0d6, type: 3}
 --- !u!114 &7192881086067594961
 MonoBehaviour:
   m_ObjectHideFlags: 0
