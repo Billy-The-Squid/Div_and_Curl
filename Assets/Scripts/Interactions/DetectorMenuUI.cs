@@ -41,7 +41,6 @@ public class DetectorMenuUI : MenuUI
     /* Should be set true if: 
      *  Going to next or previous detector
      *  De-socketing
-     *  Re-socketing (specifically, on hover)
      */
 
     /// <summary>
@@ -65,11 +64,6 @@ public class DetectorMenuUI : MenuUI
     /// The amount of time to wait before making a new detector.
     /// </summary>
     public float waitTime = 0.5f;
-
-    ///// <summary>
-    ///// Is there an object hovering over the socket?
-    ///// </summary>
-    //protected bool isHovering = false;
 
 
 
@@ -118,8 +112,6 @@ public class DetectorMenuUI : MenuUI
             UpdateDetector();
             // MAKE SURE DISPLAYNEEDSUPDATE ONLY RESET AFTER SUCCESSFUL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         }
-
-        //Debug.Log(socket.isHoverActive ? "Hovering" : "Not hovering");
     }
 
 
@@ -279,22 +271,9 @@ public class DetectorMenuUI : MenuUI
         }
         else if (socketed.GetComponent<Grabbable>() != null)
         {
-            // Is there something hovering over the socket? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-            socket.GetHoverTargets(hovered); 
-            if(hovered.Count != 0)
-            {
-                // That's not what we just made, right?
-                if(hovered.Count != 1 || hovered[0] != socketed)
-                {
-                    Destroy(socketed.gameObject);
-                }
-            }
-
-
             // Did we just change to the next item in the menu?
-            else if (currentlyDisplayedDetector != socketed.GetComponent<Grabbable>().menuIndex) { // Check limits! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            if (currentlyDisplayedDetector != socketed.GetComponent<Grabbable>().menuIndex) { // Check limits! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 Destroy(socketed.gameObject);
-                Debug.Log("Thing was destroyed: " + (socketed == null));
                 instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
                 instantiated.transform.position = socket.transform.position;
             }
@@ -312,10 +291,6 @@ public class DetectorMenuUI : MenuUI
             {
                 instantiated = Instantiate(detectorsArray[currentlyDisplayedDetector]);
                 instantiated.transform.position = socket.transform.position;
-            }
-            else
-            {
-                Debug.Log("Opted not to instantiate new thing.");
             }
         }
     }
