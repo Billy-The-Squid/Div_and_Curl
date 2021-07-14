@@ -1,4 +1,4 @@
-﻿// The instancing/surface shader for the full vectors on a curl integral surface.
+﻿// The instancing/surface shader for the projection vectors on a curl integral surface.
 
 Shader "Vectors/Detectors/CurlSpherePointers" 
 {

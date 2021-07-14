@@ -246,12 +246,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 2100000, guid: 63495297385db0c46b4c3ebb68b617ff, type: 2}
+  pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: c7b00dc10b1d3f243bf824dc63de5830, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
   colorScheme: 0
+  shader: {fileID: 4800000, guid: cb81eed0fbf067b408ae552aad573732, type: 3}
 --- !u!114 &5740770948582930859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,12 +298,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 2100000, guid: caac6642852265442b6e70d317f505f7, type: 2}
+  pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
   colorScheme: 1
+  shader: {fileID: 4800000, guid: c1fb88faf78b93b42b210eb3595fb0d6, type: 3}
 --- !u!114 &1375565727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,12 +335,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 2100000, guid: 6b9ad8d8c17e8794bb1dbf25d17233d2, type: 2}
+  pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
   colorScheme: 0
+  shader: {fileID: 4800000, guid: 894330f9bd2919144aa5ad6585af613c, type: 3}
 --- !u!1 &5740770950265390583
 GameObject:
   m_ObjectHideFlags: 0

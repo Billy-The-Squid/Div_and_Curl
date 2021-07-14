@@ -230,6 +230,11 @@ public class CurlLoopDetector : FieldDetector
     {
         if(!inField) { return; } 
 
+        if(!projectionDisplay.initialized)
+        {
+            projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionBuffer);
+        }
+
         projectionDisplay.maxVectorLength = localField.zone.maxVectorLength;
         projectionDisplay.bounds = localField.zone.bounds;
         projectionDisplay.pointerMaterial.SetBuffer("_CurlContributions", contributionsBuffer);

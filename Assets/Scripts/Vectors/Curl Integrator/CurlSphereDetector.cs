@@ -100,7 +100,7 @@ public class CurlSphereDetector : FieldDetector
     /// <summary>
     /// Used to draw the projections
     /// </summary>
-    public Display projectionDisplay;
+    public VectorDisplay projectionDisplay;
 
 
 
@@ -370,7 +370,12 @@ public class CurlSphereDetector : FieldDetector
     /// </summary>
     private void UpdatePointerMaterial()
     {
-        vectorField.display.pointerMaterial.SetBuffer("_CurlContributions", curlContributions);
+        if(!projectionDisplay.initialized)
+        {
+            projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
+        }
+
+        projectionDisplay.pointerMaterial.SetBuffer("_CurlContributions", curlContributions);
 
         projectionDisplay.maxVectorLength = zone.maxVectorLength;
         projectionDisplay.bounds = zone.bounds;

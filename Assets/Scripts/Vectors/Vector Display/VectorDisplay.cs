@@ -64,7 +64,9 @@ public class VectorDisplay : Display
     /// <summary>
     /// Records whether the buffers have been created.
     /// </summary>
-    protected bool initialized = false;
+    public bool initialized { get; protected set; }
+        
+        // = false;
     /// <summary>
     /// Records whether the maximum magnitude has been calculated. 
     /// </summary>
@@ -88,15 +90,19 @@ public class VectorDisplay : Display
 
 
     // We need a way to set the properties of the different shaders. Material.HasProperty will be useful, plus a custom editor.
-    [NonSerialized]
-    public Material testPointerMaterial;
-    public Shader testShader;
+    public Shader shader;
 
 
 
 
 
 
+
+
+    private void Awake()
+    {
+        initialized = false;
+    }
 
     /// <summary>
     /// Can only be run once per enable. Creates the buffers necessary for the display
@@ -117,8 +123,7 @@ public class VectorDisplay : Display
 
         initialized = true;
 
-        // Testing...
-        testPointerMaterial = new Material(testShader);
+        pointerMaterial = new Material(shader);
     }
 
     // Release the buffers
@@ -175,7 +180,6 @@ public class VectorDisplay : Display
 
         // Send data to the shader.
         PlotResults(positionsBuffer);
-        //TestPlotResults(positionsBuffer);
     }
 
 
@@ -235,27 +239,6 @@ public class VectorDisplay : Display
             //Debug.Log((("First three points in magnitude array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
             //Debug.Log((("Last three points in magnitude array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
         }
-    }
-
-
-
-    // EITHER DELETE THIS OR MERGE IT INTO PlotResults
-    protected virtual void TestPlotResults(ComputeBuffer positionsBuffer)
-    {
-        // Then the data from the computeShader is sent to the shader to be rendered.
-        testPointerMaterial.SetBuffer(positionsBufferID, positionsBuffer);
-        testPointerMaterial.SetBuffer(plotVectorsBufferID, plotVectorsBuffer);
-        testPointerMaterial.SetBuffer(vector2BufferID, vector2Buffer);
-        testPointerMaterial.SetBuffer(vector3BufferID, vector3Buffer);
-        if (colorScheme == VectorStyle.MinMaxColors)
-        {
-            testPointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
-            testPointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
-        }
-        testPointerMaterial.SetFloat(cullDistanceID, cullDistance);
-
-        // Setting the bounds and giving a draw call
-        Graphics.DrawMeshInstancedProcedural(pointerMesh, 0, testPointerMaterial, bounds, numOfPoints);
     }
 
 

@@ -98,7 +98,7 @@ public class FluxDetector : FieldDetector
     /// <summary>
     /// The Display used to create the projected vectors. 
     /// </summary>
-    public Display projectionDisplay;
+    public VectorDisplay projectionDisplay;
 
     private static string nameToDisplay = "Flux";
     private static string description = "A thing. What does it do?";
@@ -363,7 +363,12 @@ public class FluxDetector : FieldDetector
     /// </summary>
     private void UpdatePointerMaterials()
     {
-        vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
+        if(!projectionDisplay.initialized)
+        {
+            projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
+        }
+
+        //vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
         projectionDisplay.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
         // This should only be done after checking that it's the correct shader, really. 
 
