@@ -56,8 +56,12 @@ public class HandManager : MonoBehaviour
     protected bool canPull {
         get => _canPull; 
         set {
-            //_canPull = value; 
-            //value ? forcePuller.CanPullNow() : forcePuller.CantPullNow(); // IMPLEMENT &&&&
+            if (_canPull != value)
+            {
+                //value ? forcePuller.CanPullNow() : forcePuller.CantPullNow(); // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&
+                // necessary? 
+            }
+            _canPull = value;
         } 
     }
     /* Should be false if:
@@ -77,35 +81,51 @@ public class HandManager : MonoBehaviour
         {
             if(_willBePulled != value)
             {
-                // Call to update colors. &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+                //UpdateColors(value); // pretty sure this doesn't go here.
+                // Update forcePuller &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
             }
+            _willBePulled = value;
         }
     }
     /* Updated each frame if:
+     * * canPull
      * * not currently pulling (extract from forcePuller) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-     * * not currently aiming teleport.
      */
     /// <summary> Every object in the scene that can be grabbed. </summary> 
-    public static XRGrabInteractable[] grabbables { get; protected set; }
+    public static Grabbable[] grabbables { get; protected set; }
     /* Should be updated each frame that willBePulled is updated. Check that not null */
+    // The layers that matter for grabbing. 
+    static readonly int grabLayer = 9;
+    static readonly int terrainLayer = 8;
+    int pullLayerMask;
 
-    /* If the action is non-waiting, an object will be pulled if
-     * canPull is true
-     * willBePulled is not null
+    /* If the action is non-waiting, an object will be pulled if willBePulled is not null
      */
+
+
 
 
     // HIGHLIGHT ----------------------------------------------------------------------------
+    protected Outline _highlightedObject;
     /// <summary> If the interact button is pressed, this should be the next object to 
     /// interact with.  
     /// </summary>
-    protected Outline highlightedObject; // Type? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    protected Outline highlightedObject // Type? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    {
+        get => _highlightedObject;
+        set
+        {
+            if(_highlightedObject != value)
+            {
+                UpdateColors(value);
+            }
+            _highlightedObject = value;
+        }
+    }
     /* Should be updated each frame if either canPull or hovering are true.
-     * Should be disabled (pull version only) if pointedAtUI is true // redundant
-     * 
-     * on Update (after calculating this), set the highlightedObject's Outline component to 
-     * enabled (may not need OutlineExtension after this.)
      */
+
+
 
     // TELEPORT -----------------------------------------------------------------------------
     /// <summary> Is this hand ever able to teleport? (Requires teleport ray) </summary>
@@ -130,6 +150,8 @@ public class HandManager : MonoBehaviour
      */
     /// <summary> Is this hand currently aiming a teleport ray? </summary>
     protected bool attemptingTeleport; // Redundant with teleportRay.enabled? or LineVisual.enabled?
+
+
 
     // UI RAY -------------------------------------------------------------------------------
     [SerializeField]
@@ -199,6 +221,7 @@ public class HandManager : MonoBehaviour
     private void Start()
     {
         if(teleporter == null) { teleportEnabled = false; }
+        pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
     }
 
 
@@ -222,7 +245,6 @@ public class HandManager : MonoBehaviour
         }
 
 
-
         // Can we teleport?
         if (!teleportEnabled || pointedAtUI || (directInteractor.selectTarget != null
             && directInteractor.selectTarget.GetComponent<Resizable>() != null))
@@ -243,36 +265,41 @@ public class HandManager : MonoBehaviour
             attemptingTeleport = teleporter.rayInteractor.enabled;
         }
 
+
         // Can we pull?
         //if (forcePuller.pulling) { // is this necessary? // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&
         //    canPull = true;
         //} else
         if (hovering || directInteractor.selectTarget != null || pointedAtUI || attemptingTeleport) {
-            if (canPull) { canPull = false; } // Make the appropriate call &&&&&&&&&&&&&&&&&&
-        } else if (!canPull) {
+            canPull = false; // Make the appropriate call &&&&&&&&&&&&&&&&&&
+        }
+        else {
             canPull = true; // Make the appropriate call &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         }
 
-        // What's the best object to pull?
-        //if(!forcePuller.pulling && !attemptingTeleport) // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        {
-            FindWillBePulled(); // Uncomment me &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-            //forcePuller.nearestGrabbable = willBePulled;
+
+        if (canPull) {
+            // What's the best object to pull?
+            //if(!forcePuller.pulling) // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            {
+                FindWillBePulled();
+            }
+        }
+        else {
+            willBePulled = null;
         }
 
-        //// What will be highlighted? // Uncomment me &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        //if(canPull) {
-        //    highlightedObject = willBePulled.GetComponent<Outline>();
-        //} else if (hovering) {
-        //    List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
-        //    directInteractor.GetHoverTargets(hoverTargets);
-        //    highlightedObject = hoverTargets[0].GetComponent<Outline>(); 
-        //}
-        //// Highlight it.
-        //if(highlightedObject != null)
-        //{
-        //    highlightedObject.enabled = true;
-        //} // OutlineExtension is unecessary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        // What will be highlighted? // Uncomment me &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        if (canPull) {
+            highlightedObject = willBePulled == null ? null : willBePulled.GetComponent<Outline>();
+        }
+        else if (hovering) {
+            List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
+            directInteractor.GetHoverTargets(hoverTargets);
+            highlightedObject = hoverTargets[0].GetComponent<Outline>();
+        }
+        else { highlightedObject = null; }
+        // OutlineExtension is unecessary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     }
 
 
@@ -282,7 +309,69 @@ public class HandManager : MonoBehaviour
     /// </summary>
     protected void FindWillBePulled()
     {
-        throw new NotImplementedException();
+        grabbables = FindObjectsOfType<Grabbable>();
+
+        Grabbable bestYet = null;
+        float dist = float.MaxValue;
+
+        foreach (Grabbable obj in grabbables)
+        {
+            // Is it in the general direction?
+            if (Vector3.Angle((obj.transform.position - transform.position), attachTransform.position - transform.position) <= 30) // degrees
+            {
+                // Do we have line-of-sight?
+                if (Physics.Raycast(transform.position, obj.transform.position - transform.position, out RaycastHit hit, 40f, pullLayerMask))
+                {
+                    if (hit.transform.Equals(obj.transform))
+                    {
+                        // I'm not holding it already, right?
+                        if((!obj.GetComponent<XRGrabInteractable>().isSelected || !(obj.GetComponent<XRGrabInteractable>().selectingInteractor is XRDirectInteractor)))
+                        {
+                            // Is it the closest?
+                            if (hit.distance < dist)
+                            {
+                                bestYet = hit.transform.GetComponent<Grabbable>();
+                                dist = hit.distance;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        willBePulled = bestYet;
+    }
+
+    /// <summary> Updates the color of the current and most recent willBeGrabbed </summary>
+    private void UpdateColors(Outline next)
+    {
+        try
+        {
+            _highlightedObject.GetComponent<Outline>().enabled = false;
+        }
+        catch (NullReferenceException)
+        {
+            if (_highlightedObject != null)
+            {
+                Debug.LogWarning("Last grabbable " + _highlightedObject.name + " does not have outline component.");
+            }
+        }
+        catch (MissingReferenceException)
+        {
+            // Object has been destroyed.
+        }
+
+        try
+        {
+            next.GetComponent<Outline>().enabled = true;
+        }
+        catch (NullReferenceException)
+        {
+            if (next != null)
+            {
+                Debug.LogWarning("Grabbable " + next.name + " does not have outline component.");
+            }
+        }
     }
 
 
@@ -324,6 +413,7 @@ public class HandManager : MonoBehaviour
     public void GrabSelectEntered()
     {
         objectLastHeld = directInteractor.selectTarget;
+        willBePulled = null;
     }
 
     // Should be bound to the SelectExitevent on the directInteractor
@@ -343,4 +433,6 @@ public class HandManager : MonoBehaviour
     {
         hovering = false;
     }
+
+
 }
