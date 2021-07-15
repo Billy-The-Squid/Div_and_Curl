@@ -14,6 +14,10 @@ public class MenuUI : MonoBehaviour
     /// </summary>
     public Canvas canvas;
     /// <summary>
+    /// The background for the menu.
+    /// </summary>
+    public Collider background;
+    /// <summary>
     /// The distance from the player at which the UI disappears
     /// </summary>
     [Min(1f)]
@@ -58,8 +62,10 @@ public class MenuUI : MonoBehaviour
             if (!canvas.enabled)
             {
                 canvas.enabled = true;
-                //UIAppear(canvas);
                 UIAppearEvent.Invoke(canvas);
+                if(background != null) {
+                    background.enabled = true;
+                }
             }
         }
         else
@@ -67,8 +73,10 @@ public class MenuUI : MonoBehaviour
             if (canvas.enabled)
             {
                 canvas.enabled = false;
-                //UIDisappear(canvas);
                 UIDisppearEvent.Invoke(canvas);
+                if(background != null) {
+                    background.enabled = false;
+                }
             }
         }
     }

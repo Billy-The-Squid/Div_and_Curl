@@ -33,8 +33,17 @@ public class HandManager : MonoBehaviour
     public enum HandMode { Hand, Wand }
     [SerializeField] // Not the greatest solution %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     protected HandMode _mode;
-    public HandMode mode { get => _mode; set { _mode = value; handModeNeedsUpdate = true; } }
-    protected bool handModeNeedsUpdate;
+    public HandMode mode 
+    { 
+        get => _mode; 
+        set { 
+            if(_mode != value)
+            {
+                UpdateHandMode();
+            }
+            _mode = value;
+        } 
+    }
 
 
     // GRAB ---------------------------------------------------------------------------------
@@ -58,8 +67,7 @@ public class HandManager : MonoBehaviour
         set {
             if (_canPull != value)
             {
-                //value ? forcePuller.CanPullNow() : forcePuller.CantPullNow(); // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&
-                // necessary? 
+
             }
             _canPull = value;
         } 
@@ -185,7 +193,6 @@ public class HandManager : MonoBehaviour
             _pointedAtUI = value;
         }
     }
-    // redundant with uiRay.enabled? &&&&&&&&&&&&&&&&&&&&&&&&&&&&
     /* Should be false if:
      * * nearUI is false
      * * currently pulling (extract from forcePuller)
@@ -221,6 +228,7 @@ public class HandManager : MonoBehaviour
 
     private void Start()
     {
+        UpdateHandMode();
         if(teleporter == null) { teleportEnabled = false; }
         pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
         pointedAtUI = true;
@@ -229,8 +237,6 @@ public class HandManager : MonoBehaviour
 
     private void Update()
     {
-        if(handModeNeedsUpdate) { UpdateHandMode(); }
-
         // Are we pointed at a UI?
         if(uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
@@ -302,7 +308,6 @@ public class HandManager : MonoBehaviour
             highlightedObject = hoverTargets[0].GetComponent<Outline>();
         }
         else { highlightedObject = null; }
-        // OutlineExtension is unecessary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
         //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
     }
@@ -386,8 +391,7 @@ public class HandManager : MonoBehaviour
     /// </summary>
     protected void UpdateHandMode()
     {
-        throw new System.NotImplementedException("Updating hand mode not yet implemented");
-        handModeNeedsUpdate = false;
+        Debug.LogWarning("UpdateHandMode not yet implemented");
     }
 
 
