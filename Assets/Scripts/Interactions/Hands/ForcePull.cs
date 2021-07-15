@@ -14,16 +14,10 @@ public class ForcePull : MonoBehaviour
     /// </summary>
     public XRGrabInteractable nearestGrabbable { get; set; }
 
-    //public enum HandState 
-    //  { Empty,      // If there is no input.
-    //    Holding,    // If select is active AND has a target. (redundant?)
-    //    AttemptingPull };  // If there is input, but nothing is selected (regardless of whether there is a valid target.
-    //public HandState busy = HandState.Empty;
-
-    //// The layers that matter for grabbing. 
-    //static readonly int grabLayer = 9;
-    //static readonly int terrainLayer = 8;
-    //int layerMask;
+    /// <summary>
+    /// Is this hand currently pulling?
+    /// </summary>
+    public bool pulling;
 
     /// <summary>
     /// The input actions asset that the grab actions will be read from. 
@@ -66,23 +60,16 @@ public class ForcePull : MonoBehaviour
 
     private void Start()
     {
-        if(directInteractor == null) {
-            directInteractor = GetComponent<XRDirectInteractor>();
-        }
-
-        // Initialize the set of possible grabbables
-        // Do this better. &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        //grabbables = FindObjectsOfType<XRGrabInteractable>();
-        //nearestGrabbable = null;
-        //lastGrabbable = null;
-        //layerMask = (1 << grabLayer) | (1 << terrainLayer);
-
-        //handBusy = false;
-        busy = HandState.Empty;
-
         // Find the input action. 
         string handName = handNames[(int)hand];
         grab = actionAsset.FindActionMap("XRI " + handName + "Hand").FindAction("Select");
+
+        pulling = false;
+
+        if (directInteractor == null)
+        {
+            directInteractor = GetComponent<XRDirectInteractor>();
+        }
     }
 
 
@@ -90,90 +77,19 @@ public class ForcePull : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //// Find a better way to do this. 
-        //grabbables = FindObjectsOfType<XRGrabInteractable>();
-
-        //UpdatePull();
-
-        //// Search if your hands aren't occupied. 
-        //if (busy == HandState.Empty) {
-        //    SearchForGrabbables();
-        //}
-
-        //// Turn off highlight if we're already holding the object
-        //if(busy == HandState.Holding) {
-        //    nearestGrabbable = null;
-        //    UpdateColors();
-        //}
-
-        // Pull if you're pulling
-        //if(busy == HandState.AttemptingPull) {
-        //    if(nearestGrabbable != null ){ //&& !nearestGrabbable.isSelected) {
-        //        if (nearestGrabbable.isSelected && nearestGrabbable.selectingInteractor is XRSocketInteractor)
-        //        {
-        //            StartCoroutine(StealFromSocket((XRSocketInteractor)nearestGrabbable.selectingInteractor));
-        //        }
-        //        else
-        //        {
-        //            nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
-        //            nearestGrabbable.transform.position, attachAnchorTransform.position, pullSpeed * Time.deltaTime));
-        //        }
-        //    }
-        //}
-    }
-
-
-
-    /// <summary>
-    /// Sets the value of busy. 
-    /// </summary>
-    private void UpdatePull()
-    { // This could also be done with interactiion events
-        if(grab.phase == InputActionPhase.Waiting)
+        if(grab.phase != InputActionPhase.Waiting && nearestGrabbable != null)
         {
-            busy = HandState.Empty;
-        } else if (directInteractor.isSelectActive && directInteractor.selectTarget != null) // Is first condition necessary?
-        {
-            busy = HandState.Holding;
-        } else // I think this is right?
-        {
-            busy = HandState.AttemptingPull;
+            if (nearestGrabbable.isSelected && nearestGrabbable.selectingInteractor is XRSocketInteractor) {
+                StartCoroutine(StealFromSocket((XRSocketInteractor)nearestGrabbable.selectingInteractor));
+            }
+            else {
+                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
+                nearestGrabbable.transform.position, attachAnchorTransform.position, pullSpeed * Time.deltaTime));
+            }
+
+            pulling = directInteractor.selectTarget == null;
         }
     }
-
-
-
-    ///// <summary>
-    ///// Updates the color of the current and most recent nearestGrabbable
-    ///// </summary>
-    //private void UpdateColors()
-    //{
-    //    if(nearestGrabbable != lastGrabbable) {
-    //        try {
-    //            lastGrabbable.GetComponent<Outline>().enabled = false;
-    //        }
-    //        catch (NullReferenceException) {
-    //            if (lastGrabbable != null) {
-    //                Debug.LogWarning("Last grabbable " + lastGrabbable.name + " does not have outline component.");
-    //            }
-    //        }
-    //        catch (MissingReferenceException) {
-    //            // Object has been destroyed.
-    //        }
-
-    //        try {
-    //            nearestGrabbable.GetComponent<Outline>().enabled = true;
-    //        }
-    //        catch (NullReferenceException) {
-    //            if (nearestGrabbable != null)
-    //            {
-    //                Debug.LogWarning("Grabbable " + nearestGrabbable.name + " does not have outline component.");
-    //            }
-    //        }
-            
-    //        lastGrabbable = nearestGrabbable;
-    //    }
-    //}
 
 
 

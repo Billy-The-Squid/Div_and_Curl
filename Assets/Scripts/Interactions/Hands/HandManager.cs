@@ -81,8 +81,8 @@ public class HandManager : MonoBehaviour
         {
             if(_willBePulled != value)
             {
-                //UpdateColors(value); // pretty sure this doesn't go here.
-                // Update forcePuller &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+                forcePuller.nearestGrabbable = value == null ? 
+                    null : value.GetComponent<XRGrabInteractable>();
             }
             _willBePulled = value;
         }
@@ -204,6 +204,7 @@ public class HandManager : MonoBehaviour
     /* To do:
      * * Readout support
      * * on internals, call public methods only if value shifts
+     * * Resizables
      */
 
 
@@ -222,6 +223,7 @@ public class HandManager : MonoBehaviour
     {
         if(teleporter == null) { teleportEnabled = false; }
         pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
+        pointedAtUI = true;
     }
 
 
@@ -267,10 +269,11 @@ public class HandManager : MonoBehaviour
 
 
         // Can we pull?
-        //if (forcePuller.pulling) { // is this necessary? // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&
-        //    canPull = true;
-        //} else
-        if (hovering || directInteractor.selectTarget != null || pointedAtUI || attemptingTeleport) {
+        if (forcePuller.pulling)
+        { // is this necessary?
+            canPull = true;
+        }
+        else if (hovering || directInteractor.selectTarget != null || pointedAtUI || attemptingTeleport) {
             canPull = false; // Make the appropriate call &&&&&&&&&&&&&&&&&&
         }
         else {
@@ -280,7 +283,7 @@ public class HandManager : MonoBehaviour
 
         if (canPull) {
             // What's the best object to pull?
-            //if(!forcePuller.pulling) // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            if (!forcePuller.pulling)
             {
                 FindWillBePulled();
             }
@@ -289,7 +292,7 @@ public class HandManager : MonoBehaviour
             willBePulled = null;
         }
 
-        // What will be highlighted? // Uncomment me &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        // What will be highlighted?
         if (canPull) {
             highlightedObject = willBePulled == null ? null : willBePulled.GetComponent<Outline>();
         }
@@ -300,6 +303,8 @@ public class HandManager : MonoBehaviour
         }
         else { highlightedObject = null; }
         // OutlineExtension is unecessary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+        //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
     }
 
 

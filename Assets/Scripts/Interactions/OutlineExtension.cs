@@ -16,6 +16,11 @@ public class OutlineExtension : Outline
     //    }
     //}
 
+    private void Start()
+    {
+        enabled = false;
+    }
+
     public void TurnOutlineOn()
     {
         this.enabled = true;
