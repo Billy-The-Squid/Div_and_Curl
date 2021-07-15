@@ -55,6 +55,9 @@ public class HandMotion : MonoBehaviour
 
         animator.SetLayerWeight(thumbLayerIndex, 1f - thumbTouch.ReadValue<float>()); // Or is it 1-x?
         animator.SetLayerWeight(pointLayerIndex, 1f - pinchTouch.ReadValue<float>());
+
+        //Debug.Log("Pinch: " + animator.GetFloat("Pinch"));
+        //Debug.Log("Flex: " + animator.GetFloat("Flex"));
     }
 
     void DebugAction(InputAction action)

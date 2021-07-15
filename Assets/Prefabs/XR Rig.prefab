@@ -1043,6 +1043,9 @@ MonoBehaviour:
   uiRay: {fileID: 531360673}
   attachTransform: {fileID: 671737789}
   _mode: 1
+  handPrefab: {fileID: 0}
+  wandPrefab: {fileID: 0}
+  _hand: 0
   teleportEnabled: 0
 --- !u!1 &2652347426735425950
 GameObject:
@@ -2381,6 +2384,9 @@ MonoBehaviour:
   uiRay: {fileID: 376876033}
   attachTransform: {fileID: 1411779589}
   _mode: 0
+  handPrefab: {fileID: 0}
+  wandPrefab: {fileID: 0}
+  _hand: 0
   teleportEnabled: 1
 --- !u!1001 &2652347426687522597
 PrefabInstance:
