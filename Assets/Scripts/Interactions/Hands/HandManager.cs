@@ -17,8 +17,8 @@ public class HandManager : MonoBehaviour
      * *************************************************************************************/
     public XRDirectInteractor directInteractor;
     public ForcePull forcePuller;
-    public XRRayInteractor teleportRay;
-    public XRRayInteractor UiRay;
+    public TeleportManager teleporter;
+    public UIRay uiRay;
     public Transform attachTransform;
 
 
@@ -27,6 +27,7 @@ public class HandManager : MonoBehaviour
      * State variables measure what your hand is doing right now.
      * *************************************************************************************/
 
+
     // HAND MODE ----------------------------------------------------------------------------
     // Which type of hand is being displayed?
     public enum HandMode { Hand, Wand }
@@ -34,6 +35,7 @@ public class HandManager : MonoBehaviour
     protected HandMode _mode;
     public HandMode mode { get => _mode; set { _mode = value; handModeNeedsUpdate = true; } }
     protected bool handModeNeedsUpdate;
+
 
     // GRAB ---------------------------------------------------------------------------------
     /// <summary> Are we grabbing anything? </summary>
@@ -46,13 +48,18 @@ public class HandManager : MonoBehaviour
     /* Updated by HoverEntered (or similar) from the direct interactor.
      */
 
+
     // PULL ---------------------------------------------------------------------------------
     // Re-assess these %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     protected bool _canPull;
     /// <summary> If we tried to pull now, would it go through? </summary>
-    protected bool canPull { get => _canPull; set { _canPull = value; 
+    protected bool canPull {
+        get => _canPull; 
+        set {
+            //_canPull = value; 
             //value ? forcePuller.CanPullNow() : forcePuller.CantPullNow(); // IMPLEMENT &&&&
-        } }
+        } 
+    }
     /* Should be false if:
      * * Holding an object
      * * Hovering
@@ -61,16 +68,32 @@ public class HandManager : MonoBehaviour
      * Must be true:
      * * while pulling (hopefully doesn't need explicit set?)
      */
+    protected Grabbable _willBePulled;
     /// <summary> Which object would be pulled if we pressed the grip? </summary>
-    protected Grabbable willBePulled;
+    protected Grabbable willBePulled
+    {
+        get => _willBePulled;
+        set
+        {
+            if(_willBePulled != value)
+            {
+                // Call to update colors. &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            }
+        }
+    }
     /* Updated each frame if:
      * * not currently pulling (extract from forcePuller) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     * * not currently aiming teleport.
      */
+    /// <summary> Every object in the scene that can be grabbed. </summary> 
+    public static XRGrabInteractable[] grabbables { get; protected set; }
+    /* Should be updated each frame that willBePulled is updated. Check that not null */
 
     /* If the action is non-waiting, an object will be pulled if
      * canPull is true
      * willBePulled is not null
      */
+
 
     // HIGHLIGHT ----------------------------------------------------------------------------
     /// <summary> If the interact button is pressed, this should be the next object to 
@@ -85,13 +108,21 @@ public class HandManager : MonoBehaviour
      */
 
     // TELEPORT -----------------------------------------------------------------------------
-    [NonSerialized]
     /// <summary> Is this hand ever able to teleport? (Requires teleport ray) </summary>
     public bool teleportEnabled;
-    /* Should be set on start based on the presence of a teleport ray.
-     */
+    protected bool _canTeleport;
     /// <summary> Is this hand currently able to teleport? </summary>
-    protected bool canTeleport;
+    protected bool canTeleport
+    {
+        get => _canTeleport;
+        set
+        {
+            if(_canTeleport != value) {
+                teleporter.canTeleport = value;
+            }
+            _canTeleport = value;
+        }
+    }
     /* Should be false if:
      * * teleportEnabled is false;
      * * pointedAtUI is true;
@@ -104,12 +135,35 @@ public class HandManager : MonoBehaviour
     [SerializeField]
     public static int UILayer = 5;
     public static int UIBackLayer = 14;
+    protected bool _nearUI;
     /// <summary> Is there a visible UI? </summary>
-    protected bool nearUI;
+    protected bool nearUI 
+    { 
+        get => _nearUI;
+        set { 
+            if (value != _nearUI) { // If this is a true update
+                if (value) { uiRay.EnableRay(); }
+                else { uiRay.DisableRay(); }
+            }
+            _nearUI = value;
+        }
+    }
     /// <summary> Which UIs are Visible? </summary>
     protected List<Canvas> UIsVisible = new List<Canvas>(); // This should really be a set, not a list. 
+    protected bool _pointedAtUI;
     /// <summary> Is the player's hand pointing roughly towards a UI? </summary>
-    protected bool pointedAtUI; // redundant with UiRay.enabled? &&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    protected bool pointedAtUI 
+    { 
+        get => _pointedAtUI;
+        set { 
+            if (value != _pointedAtUI) {
+                if (value) { uiRay.DrawRay(); }
+                else { uiRay.StopDrawRay(); } 
+            }
+            _pointedAtUI = value;
+        }
+    }
+    // redundant with uiRay.enabled? &&&&&&&&&&&&&&&&&&&&&&&&&&&&
     /* Should be false if:
      * * nearUI is false
      * * currently pulling (extract from forcePuller)
@@ -124,9 +178,27 @@ public class HandManager : MonoBehaviour
 
 
 
+
+    /* To do:
+     * * Readout support
+     * * on internals, call public methods only if value shifts
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void Start()
     {
-        teleportEnabled = teleportRay == null;
+        if(teleporter == null) { teleportEnabled = false; }
     }
 
 
@@ -135,61 +207,72 @@ public class HandManager : MonoBehaviour
         if(handModeNeedsUpdate) { UpdateHandMode(); }
 
         // Are we pointed at a UI?
-        UiRay.TryGetCurrent3DRaycastHit(out RaycastHit hit);
-        if(hit.transform.gameObject.layer == UIBackLayer 
+        if(uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        {
+            if (hit.transform.gameObject.layer == UIBackLayer
             || hit.transform.gameObject.layer == UIBackLayer) {
-            if(!pointedAtUI) {
-                pointedAtUI = true; // Make a call? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+                pointedAtUI = true;
             }
-        } else if(pointedAtUI) {
-            pointedAtUI = false; // Make a call? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            else {
+                pointedAtUI = false;
+            }
+        } 
+        else {
+            pointedAtUI = false;
         }
 
+
+
         // Can we teleport?
-        if (!teleportEnabled || pointedAtUI || (directInteractor.selectTarget != null 
-            && directInteractor.selectTarget.GetComponent<Resizable>() != null ))
+        if (!teleportEnabled || pointedAtUI || (directInteractor.selectTarget != null
+            && directInteractor.selectTarget.GetComponent<Resizable>() != null))
         {
-            if(canTeleport) {
-                canTeleport = false; // Make the appropriate call &&&&&&&&&&&&&&&&&&&&&&&&&&&
+            //if(canTeleport) 
+            {
+                canTeleport = false;
             }
-        } else if (!canTeleport) {
-            canTeleport = true; // Make the appropriate call &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        }
+        else //if (!canTeleport) 
+        {
+            canTeleport = true;
         }
 
         // Are we attempting to teleport?
         // Is this necessary?
-        attemptingTeleport = teleportRay.enabled;
+        if(teleporter != null) {
+            attemptingTeleport = teleporter.rayInteractor.enabled;
+        }
 
         // Can we pull?
         //if (forcePuller.pulling) { // is this necessary? // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&
         //    canPull = true;
         //} else
-        if(hovering || directInteractor.selectTarget != null || pointedAtUI || attemptingTeleport) {
+        if (hovering || directInteractor.selectTarget != null || pointedAtUI || attemptingTeleport) {
             if (canPull) { canPull = false; } // Make the appropriate call &&&&&&&&&&&&&&&&&&
         } else if (!canPull) {
             canPull = true; // Make the appropriate call &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         }
 
         // What's the best object to pull?
-        //if(!forcePuller.pulling) // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        //if(!forcePuller.pulling && !attemptingTeleport) // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         {
-            FindWillBePulled();
+            FindWillBePulled(); // Uncomment me &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
             //forcePuller.nearestGrabbable = willBePulled;
         }
 
-        // What will be highlighted?
-        if(canPull) {
-            highlightedObject = willBePulled.GetComponent<Outline>();
-        } else if (hovering) {
-            List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
-            directInteractor.GetHoverTargets(hoverTargets);
-            highlightedObject = hoverTargets[0].GetComponent<Outline>(); 
-        }
-        // Highlight it.
-        if(highlightedObject != null)
-        {
-            highlightedObject.enabled = true;
-        } // OutlineExtension is unecessary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        //// What will be highlighted? // Uncomment me &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        //if(canPull) {
+        //    highlightedObject = willBePulled.GetComponent<Outline>();
+        //} else if (hovering) {
+        //    List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
+        //    directInteractor.GetHoverTargets(hoverTargets);
+        //    highlightedObject = hoverTargets[0].GetComponent<Outline>(); 
+        //}
+        //// Highlight it.
+        //if(highlightedObject != null)
+        //{
+        //    highlightedObject.enabled = true;
+        //} // OutlineExtension is unecessary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     }
 
 
@@ -222,7 +305,7 @@ public class HandManager : MonoBehaviour
         if (!UIsVisible.Contains(UI)) {
             UIsVisible.Add(UI);
         }
-        nearUI = true;
+        nearUI = true; // Call the appropriate function &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     }
 
     /// <summary>
@@ -232,7 +315,7 @@ public class HandManager : MonoBehaviour
         if (UIsVisible.Contains(UI)) {
             UIsVisible.Remove(UI);
         }
-        nearUI = UIsVisible.Count != 0;
+        nearUI = UIsVisible.Count != 0; // Call the appropriate function &&&&&&&&&&&&&&&&&&&&
     }
 
 

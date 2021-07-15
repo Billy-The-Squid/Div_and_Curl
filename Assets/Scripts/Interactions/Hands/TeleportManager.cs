@@ -34,8 +34,7 @@ public class TeleportManager : MonoBehaviour
     /// <summary>
     /// The <cref>XRRayInteractor</cref> with which the user selects a teleport location. 
     /// </summary>
-    [SerializeField]
-    XRRayInteractor rayInteractor;
+    public XRRayInteractor rayInteractor;
 
     /// <summary>
     /// The <cref>TeleportatioProvider</cref> used to move the player. 
@@ -43,10 +42,22 @@ public class TeleportManager : MonoBehaviour
     [SerializeField]
     TeleportationProvider provider;
 
+    protected bool _canTeleport;
     /// <summary>
     /// Determines whether teleportation is currently available.
     /// </summary>
-    public bool canTeleport;
+    public bool canTeleport
+    {
+        get => _canTeleport;
+        set
+        {
+            _canTeleport = value;
+            if(!value && rayInteractor.enabled)
+            {
+                EndTeleport();
+            }
+        }
+    }
 
     [SerializeField]
     GameObject reticulePrefab;
@@ -57,16 +68,19 @@ public class TeleportManager : MonoBehaviour
 
     void Start()
     {
+        // Find the teleport action.
         handName = HandToHand(hand);
         string actionMapName = "XRI " + handName + "Hand";
         teleportAction = actionAsset.FindActionMap(actionMapName).FindAction("Teleport Start");
         // MAKE THIS FLEXIBLE, somehow. 
 
+        // Bind to the teleport action.
         teleportAction.started += OnTeleportStart;
         teleportAction.canceled += OnTeleportRelease;
 
         rayInteractor.enabled = false;
 
+        // Set the teleport reticule.
         reticuleInstance = Instantiate(reticulePrefab, transform);
         reticuleInstance.SetActive(false);
     }
@@ -97,8 +111,8 @@ public class TeleportManager : MonoBehaviour
     /// <summary>
     /// Changes the <cref>Hand</cref> enum type to a string. Very poorly implemented. 
     /// </summary>
-    /// <param name="hand">The <cref>Hand</cref> object selected.</param>
-    /// <returns>The string corresponding to <cref>hand</cref>.</returns>
+    /// <param name="hand">The <see cref="Hand"/> object selected.</param>
+    /// <returns>The string corresponding to hand.</returns>
     private string HandToHand(Hand hand)
     {
         if(hand == (Hand)0)
@@ -116,8 +130,7 @@ public class TeleportManager : MonoBehaviour
     /// <param name="context"></param>
     void OnTeleportStart(InputAction.CallbackContext context)
     {
-        //Debug.Log("OnTeleportStart called");
-        if(canTeleport)
+        if (canTeleport)
         {
             rayInteractor.enabled = true;
         }
@@ -129,31 +142,6 @@ public class TeleportManager : MonoBehaviour
     /// <param name="context"></param>
     void OnTeleportRelease(InputAction.CallbackContext context)
     {
-        //Debug.Log("OnTeleportRelease called");
-
-        //// Check that the interactor is enabled and pointing at something. 
-        //if(!(rayInteractor.enabled)) {
-        //    return;
-        //}
-        //if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit)) {
-        //    rayInteractor.enabled = false;
-        //    return;
-        //}
-
-        //// Verify that the user can teleport to the selected location. 
-        //Vector3 destination; // = transform.position;
-        //TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
-        //if (anchor) {
-        //    destination = anchor.teleportAnchorTransform.position;
-        //}
-        //else if (hit.transform.GetComponent<TeleportationArea>()) {
-        //    destination = hit.point;
-        //}
-        //else {
-        //    rayInteractor.enabled = false;
-        //    return;
-        //}
-
         teleportDestination destination = CheckLocation();
 
         if(destination.validDestination)
@@ -168,6 +156,8 @@ public class TeleportManager : MonoBehaviour
 
         EndTeleport();
     }
+
+
 
     // Call to stop rayCasting and disappear the reticle. 
     void EndTeleport()

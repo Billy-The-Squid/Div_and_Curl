@@ -522,7 +522,6 @@ MonoBehaviour:
   hand: 1
   rayInteractor: {fileID: 3877662789442326649}
   provider: {fileID: 1611574539170568667}
-  canTeleport: 0
   reticulePrefab: {fileID: 2805569674246215279, guid: c6e5b2d1cd981164bbd3899c0b02eed1, type: 3}
 --- !u!1 &2579116971795785321
 GameObject:

@@ -9,22 +9,22 @@ using UnityEngine.InputSystem;
 // Needs documentation
 public class ForcePull : MonoBehaviour
 {
-    // More frequent updates needed. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    /// <summary>
-    /// Every object in the scene that can be grabbed. 
-    /// 
-    /// Updated at Start. 
-    /// </summary> 
-    public static XRGrabInteractable[] grabbables { get; protected set; }
+    //// More frequent updates needed. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    ///// <summary>
+    ///// Every object in the scene that can be grabbed. 
+    ///// 
+    ///// Updated at Start. 
+    ///// </summary> 
+    //public static XRGrabInteractable[] grabbables { get; protected set; }
     
-    /// <summary>
-    /// The object that either will be pulled or is being pulled.
-    /// </summary>
-    public XRGrabInteractable nearestGrabbable { get; protected set; }
-    /// <summary>
-    /// Last frame's nearestGrabbable.
-    /// </summary>
-    protected XRGrabInteractable lastGrabbable;
+    ///// <summary>
+    ///// The object that either will be pulled or is being pulled.
+    ///// </summary>
+    //public XRGrabInteractable nearestGrabbable { get; protected set; }
+    ///// <summary>
+    ///// Last frame's nearestGrabbable.
+    ///// </summary>
+    //protected XRGrabInteractable lastGrabbable;
 
     public enum HandState 
       { Empty,      // If there is no input.
@@ -78,16 +78,15 @@ public class ForcePull : MonoBehaviour
 
     private void Start()
     {
-        if(directInteractor == null)
-        {
+        if(directInteractor == null) {
             directInteractor = GetComponent<XRDirectInteractor>();
         }
 
         // Initialize the set of possible grabbables
         // Do this better. &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        grabbables = FindObjectsOfType<XRGrabInteractable>();
-        nearestGrabbable = null;
-        lastGrabbable = null;
+        //grabbables = FindObjectsOfType<XRGrabInteractable>();
+        //nearestGrabbable = null;
+        //lastGrabbable = null;
         layerMask = (1 << grabLayer) | (1 << terrainLayer);
 
         //handBusy = false;
@@ -98,24 +97,26 @@ public class ForcePull : MonoBehaviour
         grab = actionAsset.FindActionMap("XRI " + handName + "Hand").FindAction("Select");
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
-        // Find a better way to do this. 
-        grabbables = FindObjectsOfType<XRGrabInteractable>();
+        //// Find a better way to do this. 
+        //grabbables = FindObjectsOfType<XRGrabInteractable>();
 
-        UpdatePull();
+        //UpdatePull();
 
-        // Search if your hands aren't occupied. 
-        if (busy == HandState.Empty) {
-            SearchForGrabbables();
-        }
+        //// Search if your hands aren't occupied. 
+        //if (busy == HandState.Empty) {
+        //    SearchForGrabbables();
+        //}
 
-        // Turn off highlight if we're already holding the object
-        if(busy == HandState.Holding) {
-            nearestGrabbable = null;
-            UpdateColors();
-        }
+        //// Turn off highlight if we're already holding the object
+        //if(busy == HandState.Holding) {
+        //    nearestGrabbable = null;
+        //    UpdateColors();
+        //}
 
         // Pull if you're pulling
         if(busy == HandState.AttemptingPull) {

@@ -1610,8 +1610,8 @@ MonoBehaviour:
   UIAppearEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 531360673}
-        m_TargetAssemblyTypeName: UIRay, Assembly-CSharp
+      - m_Target: {fileID: 502300861}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
         m_MethodName: SetUIVisible
         m_Mode: 0
         m_Arguments:
@@ -1622,16 +1622,40 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIRay, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   UIDisppearEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 531360673}
-        m_TargetAssemblyTypeName: UIRay, Assembly-CSharp
+      - m_Target: {fileID: 502300861}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
         m_MethodName: RemoveUIVisible
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIRay, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3473,21 +3497,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directInteractor: {fileID: 1923565153}
   forcePuller: {fileID: 1923565154}
-  teleportRay: {fileID: 983202970}
-  UiRay: {fileID: 376876036}
+  teleporter: {fileID: 983202969}
+  uiRay: {fileID: 376876033}
   attachTransform: {fileID: 873508095}
   _mode: 0
---- !u!114 &531360673 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 531360673, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
-  m_PrefabInstance: {fileID: 2652347427263480726}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2625b8b346a67d841a9ce7ea7f532f91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  teleportEnabled: 1
 --- !u!1 &537617250
 GameObject:
   m_ObjectHideFlags: 0
@@ -6122,15 +6136,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4920204018511788, guid: 0e694479a50df794491d4b97f42b2b16, type: 3}
   m_PrefabInstance: {fileID: 978350468}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &983202970 stripped
+--- !u!114 &983202969 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3877662789442326649, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6885946418284844269, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
   m_PrefabInstance: {fileID: 2652347427263480726}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6803edce0201f574f923fd9d10e5b30a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0985a0c00e3a63844a278a7c1bdd6d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &990547439
@@ -6706,7 +6720,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103467792}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9145,7 +9159,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559851647}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

@@ -23,46 +23,35 @@ public class UIRay : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //UpdateRay();
+    /// <summary>
+    /// Enable the ray and raycasting.
+    /// </summary>
+    public void EnableRay() {
+        ray.enabled = true;
+        //Debug.Log("Enabling ray");
     }
 
+    /// <summary>
+    /// Render the raycast.
+    /// </summary>
+    public void DrawRay() {
+        ray.GetComponent<XRInteractorLineVisual>().enabled = true;
+        //Debug.Log("Drawing ray");
+    }
 
+    /// <summary>
+    /// Disable the ray and raycasting.
+    /// </summary>
+    public void DisableRay() {
+        ray.enabled = false;
+        //Debug.Log("Disabling ray");
+    } 
 
-    ///// <summary>
-    ///// Renders or does not render the UI depending on the value of <cref>UIVisible</cref>.
-    ///// </summary>
-    //protected void UpdateRay()
-    //{
-    //    ray.enabled = !(UIsVisible.Count == 0);
-    //}
-
-
-
-    ///// <summary>
-    ///// Adds a visible UI to the user's list.
-    ///// </summary>
-    //public void SetUIVisible(Canvas UI) {
-    //    if(!UIsVisible.Contains(UI)) {
-    //        UIsVisible.Add(UI);
-    //    }
-    //    //return true;
-    //    //Debug.Log("Adding canvas: " + UI.name);
-    //    Debug.LogWarning("Please remove the UIRay.SetUIVisible and .RemoveUIVisible methods and subscribe HandManager methods instead");
-    //}
-
-    ///// <summary>
-    ///// Removes a UI from the user's list of visible UIs. Returns false if the object is not
-    ///// in the list.
-    ///// </summary>
-    //public void RemoveUIVisible(Canvas UI) {
-    //    if(UIsVisible.Contains(UI)) {
-    //        UIsVisible.Remove(UI);
-    //        //return true;
-    //    }
-    //    //else { return false; }
-    //    //Debug.Log("Remove canvas: " + UI.name);
-    //}
+    /// <summary>
+    /// Stop rendering the raycast.
+    /// </summary>
+    public void StopDrawRay() {
+        ray.GetComponent<XRInteractorLineVisual>().enabled = false;
+        //Debug.Log("Stopped drawing ray");
+    }
 }
