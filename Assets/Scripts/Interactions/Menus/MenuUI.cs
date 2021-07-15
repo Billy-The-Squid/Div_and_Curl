@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MenuUI : MonoBehaviour
 {
@@ -18,15 +19,20 @@ public class MenuUI : MonoBehaviour
     [Min(1f)]
     public float visibleDistance;
 
-    public delegate bool UIUpdated(Canvas canvas);
-    /// <summary>
-    /// A delegate to inform the player that the UI has appeared.
-    /// </summary>
-    public UIUpdated UIAppear = new UIUpdated(canvas => true);
-    /// <summary>
-    /// A delegate to inform the player that the UI has disappeared.
-    /// </summary>
-    public UIUpdated UIDisappear = new UIUpdated(canvas => true);
+    //public delegate bool UIUpdated(Canvas canvas);
+    ///// <summary>
+    ///// A delegate to inform the player that the UI has appeared.
+    ///// </summary>
+    //public UIUpdated UIAppear = new UIUpdated(canvas => true);
+    ///// <summary>
+    ///// A delegate to inform the player that the UI has disappeared.
+    ///// </summary>
+    //public UIUpdated UIDisappear = new UIUpdated(canvas => true);
+
+    public UIEvent UIAppearEvent = new UIEvent();
+    public UIEvent UIDisppearEvent = new UIEvent();
+
+
 
 
 
@@ -52,7 +58,8 @@ public class MenuUI : MonoBehaviour
             if (!canvas.enabled)
             {
                 canvas.enabled = true;
-                UIAppear(canvas);
+                //UIAppear(canvas);
+                UIAppearEvent.Invoke(canvas);
             }
         }
         else
@@ -60,8 +67,12 @@ public class MenuUI : MonoBehaviour
             if (canvas.enabled)
             {
                 canvas.enabled = false;
-                UIDisappear(canvas);
+                //UIDisappear(canvas);
+                UIDisppearEvent.Invoke(canvas);
             }
         }
     }
 }
+
+[System.Serializable]
+public class UIEvent : UnityEvent<Canvas> { }

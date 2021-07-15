@@ -7,9 +7,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class HandManager : MonoBehaviour
 {
     /* This class mostly just monitors other things, updating its internal  variables as it 
-     * sees fit. It will directly enable/ disable things, or CALL on delegates from other 
-     * classes, in order to produce the appropriate behavior. Other classes should NOT have 
-     * a reference to this one, but likely will not work without its presence. */
+     * sees fit. It will directly enable/ disable things, or call functions (w/ UnityEvents?)
+     * from other classes, in order to produce the appropriate behavior. Other classes should 
+     * NOT have a reference to this one, but likely will not work without its presence. */
     
 
     /* **************************************************************************************
@@ -85,6 +85,7 @@ public class HandManager : MonoBehaviour
      */
 
     // TELEPORT -----------------------------------------------------------------------------
+    [NonSerialized]
     /// <summary> Is this hand ever able to teleport? (Requires teleport ray) </summary>
     public bool teleportEnabled;
     /* Should be set on start based on the presence of a teleport ray.
@@ -97,11 +98,16 @@ public class HandManager : MonoBehaviour
      * * resizable is being held (OnSelectEnter/exit) (and this is right hand?)
      */
     /// <summary> Is this hand currently aiming a teleport ray? </summary>
-    protected bool attemptingTeleport; // Redundant with teleportRay.enabled? &&&&&&&&&&&&&&&
+    protected bool attemptingTeleport; // Redundant with teleportRay.enabled? or LineVisual.enabled?
 
     // UI RAY -------------------------------------------------------------------------------
+    [SerializeField]
+    public static int UILayer = 5;
+    public static int UIBackLayer = 14;
     /// <summary> Is there a visible UI? </summary>
     protected bool nearUI;
+    /// <summary> Which UIs are Visible? </summary>
+    protected List<Canvas> UIsVisible = new List<Canvas>(); // This should really be a set, not a list. 
     /// <summary> Is the player's hand pointing roughly towards a UI? </summary>
     protected bool pointedAtUI; // redundant with UiRay.enabled? &&&&&&&&&&&&&&&&&&&&&&&&&&&&
     /* Should be false if:
@@ -129,6 +135,15 @@ public class HandManager : MonoBehaviour
         if(handModeNeedsUpdate) { UpdateHandMode(); }
 
         // Are we pointed at a UI?
+        UiRay.TryGetCurrent3DRaycastHit(out RaycastHit hit);
+        if(hit.transform.gameObject.layer == UIBackLayer 
+            || hit.transform.gameObject.layer == UIBackLayer) {
+            if(!pointedAtUI) {
+                pointedAtUI = true; // Make a call? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            }
+        } else if(pointedAtUI) {
+            pointedAtUI = false; // Make a call? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        }
 
         // Can we teleport?
         if (!teleportEnabled || pointedAtUI || (directInteractor.selectTarget != null 
@@ -143,6 +158,7 @@ public class HandManager : MonoBehaviour
 
         // Are we attempting to teleport?
         // Is this necessary?
+        attemptingTeleport = teleportRay.enabled;
 
         // Can we pull?
         //if (forcePuller.pulling) { // is this necessary? // IMPLEMENT &&&&&&&&&&&&&&&&&&&&&
@@ -196,6 +212,29 @@ public class HandManager : MonoBehaviour
         throw new System.NotImplementedException("Updating hand mode not yet implemented");
         handModeNeedsUpdate = false;
     }
+
+
+
+    /// <summary>
+    /// Adds a visible UI to the user's list.
+    /// </summary>
+    public void SetUIVisible(Canvas UI) {
+        if (!UIsVisible.Contains(UI)) {
+            UIsVisible.Add(UI);
+        }
+        nearUI = true;
+    }
+
+    /// <summary>
+    /// Removes a UI from the user's list of visible UIs.
+    /// </summary>
+    public void RemoveUIVisible(Canvas UI) {
+        if (UIsVisible.Contains(UI)) {
+            UIsVisible.Remove(UI);
+        }
+        nearUI = UIsVisible.Count != 0;
+    }
+
 
 
     // Should be bound to the SelectEnter event on the directInteractor

@@ -101,6 +101,9 @@ public class DetectorMenuUI : MenuUI
         {
             Debug.LogWarning("Detector menu wait time is less than the socket refresh time.");
         }
+
+        UIAppearEvent.Invoke(canvas);
+        //Debug.Log(this.name + "is invoking UIAppearEvent with " + UIAppearEvent.GetPersistentEventCount() + " listeners.");
     }
 
 

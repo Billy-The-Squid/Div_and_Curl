@@ -17,6 +17,9 @@ public class FieldMenuUI : MenuUI
                 Debug.LogError("FieldMenuUI requires a reference to a FieldManager");
             }
         }
+
+        UIAppearEvent.Invoke(canvas);
+        //Debug.Log(this.name + "is invoking UIAppearEvent with " + UIAppearEvent.GetPersistentEventCount() + " listeners.");
     }
 
     // Update is called once per frame
