@@ -930,7 +930,7 @@ MonoBehaviour:
   m_UpdateTrackingType: 0
   m_EnableInputTracking: 1
   m_EnableInputActions: 1
-  m_ModelPrefab: {fileID: 6951047999305641073, guid: 06e582c33f935e742b38793e06667b15, type: 3}
+  m_ModelPrefab: {fileID: 0}
   m_ModelParent: {fileID: 0}
   m_Model: {fileID: 0}
   m_AnimateModel: 0
@@ -1042,9 +1042,11 @@ MonoBehaviour:
   teleporter: {fileID: 0}
   uiRay: {fileID: 531360673}
   attachTransform: {fileID: 671737789}
-  _mode: 1
-  handPrefab: {fileID: 0}
-  wandPrefab: {fileID: 0}
+  handCollider: {fileID: 867444867}
+  wandCollider: {fileID: 867444865}
+  _mode: 0
+  handPrefab: {fileID: 9212441126230583144, guid: 13cefc99fa4ebd54dae29171bfdaa2d1, type: 3}
+  wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
   _hand: 0
   teleportEnabled: 0
 --- !u!1 &2652347426735425950
@@ -1552,6 +1554,7 @@ GameObject:
   - component: {fileID: 2652347427364259146}
   - component: {fileID: 1382694942}
   - component: {fileID: 867444865}
+  - component: {fileID: 867444867}
   m_Layer: 7
   m_Name: Right Direct Interactor
   m_TagString: Untagged
@@ -1680,6 +1683,19 @@ CapsuleCollider:
   m_Height: 0.3
   m_Direction: 1
   m_Center: {x: 0.01, y: 0.24, z: 0.007}
+--- !u!135 &867444867
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347427364259151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Center: {x: -0.05, y: -0.02, z: 0.03}
 --- !u!1 &2652347428183578925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,6 +1708,7 @@ GameObject:
   - component: {fileID: 2652347428183578920}
   - component: {fileID: 416310360}
   - component: {fileID: 1923565157}
+  - component: {fileID: 1923565153}
   m_Layer: 7
   m_Name: Left Direct Interactor
   m_TagString: Untagged
@@ -1757,7 +1774,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_SelectActionTrigger: 0
-  m_HideControllerOnSelect: 0
+  m_HideControllerOnSelect: 1
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
   m_PlayAudioClipOnSelectExited: 0
@@ -1820,6 +1837,19 @@ CapsuleCollider:
   m_Height: 0.3
   m_Direction: 1
   m_Center: {x: -0.01, y: 0.24, z: 0.007}
+--- !u!135 &1923565153
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347428183578925}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Center: {x: 0.05, y: -0.02, z: 0.03}
 --- !u!1 &4995252956313465338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2271,7 +2301,7 @@ MonoBehaviour:
   m_UpdateTrackingType: 0
   m_EnableInputTracking: 1
   m_EnableInputActions: 1
-  m_ModelPrefab: {fileID: 6951047999305641073, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
+  m_ModelPrefab: {fileID: 0}
   m_ModelParent: {fileID: 0}
   m_Model: {fileID: 0}
   m_AnimateModel: 0
@@ -2383,10 +2413,12 @@ MonoBehaviour:
   teleporter: {fileID: 6885946418284844269}
   uiRay: {fileID: 376876033}
   attachTransform: {fileID: 1411779589}
-  _mode: 0
-  handPrefab: {fileID: 0}
-  wandPrefab: {fileID: 0}
-  _hand: 0
+  handCollider: {fileID: 1923565153}
+  wandCollider: {fileID: 1923565157}
+  _mode: 1
+  handPrefab: {fileID: 4911174108599212807, guid: 9afde4461fb8a2e46af7cfe3b525e2a0, type: 3}
+  wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
+  _hand: 1
   teleportEnabled: 1
 --- !u!1001 &2652347426687522597
 PrefabInstance:

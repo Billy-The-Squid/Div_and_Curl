@@ -20,7 +20,8 @@ public class HandManager : MonoBehaviour
     public TeleportManager teleporter;
     public UIRay uiRay;
     public Transform attachTransform;
-
+    public SphereCollider handCollider;
+    public CapsuleCollider wandCollider;
 
 
     /* **************************************************************************************
@@ -251,7 +252,7 @@ public class HandManager : MonoBehaviour
     /* To do:
      * * Readout support
      * * on internals, call public methods only if value shifts
-     * * Resizables
+     * * Resizables (only one at a time)
      */
 
 
@@ -272,10 +273,6 @@ public class HandManager : MonoBehaviour
         if(teleporter == null) { teleportEnabled = false; }
         pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
         pointedAtUI = true;
-        if(hand == Hand.Left)
-        {
-            // Do stuff &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        }
     }
 
 
@@ -343,19 +340,17 @@ public class HandManager : MonoBehaviour
         }
 
         // What will be highlighted?
-        //if (canPull) 
-        //{
-        //    highlightedObject = willBePulled == null ? null : willBePulled.GetComponent<Outline>();
-        //}
-        //else if (hovering) {
-        //    List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
-        //    directInteractor.GetHoverTargets(hoverTargets);
-        //    highlightedObject = hoverTargets[0].GetComponent<Outline>();
-        //}
-        //else { highlightedObject = null; }
-
-        // Debug Code
-        Debug.Log(name + " highlighted object: " + highlightedObject?.name);
+        if (canPull)
+        {
+            highlightedObject = willBePulled == null ? null : willBePulled.GetComponent<Outline>();
+        }
+        else if (hovering)
+        {
+            List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
+            directInteractor.GetHoverTargets(hoverTargets);
+            highlightedObject = hoverTargets[0].GetComponent<Outline>();
+        }
+        else { highlightedObject = null; }
 
         //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
     }
@@ -374,9 +369,11 @@ public class HandManager : MonoBehaviour
 
         foreach (Grabbable obj in grabbables)
         {
+            //Debug.Log(name + " examining object: " + obj.name + "\nDisplay");
             // Is it in the general direction?
-            if (Vector3.Angle((obj.transform.position - transform.position), raycastDirection) <= 30) // degrees
+            if (Vector3.Angle((obj.transform.position - transform.position), transform.TransformVector(raycastDirection)) <= 30) // degrees
             {
+
                 // Do we have line-of-sight?
                 if (Physics.Raycast(transform.position, obj.transform.position - transform.position, out RaycastHit hit, 40f, pullLayerMask))
                 {
@@ -457,8 +454,8 @@ public class HandManager : MonoBehaviour
         uiRay.ray.transform.localPosition = posSet.UIRayPosition;
         uiRay.ray.transform.localRotation = posSet.UIRayRotation;
 
-        // Set the collider type/position
-        Debug.LogWarning("Collider unset");
+        //// Set the collider type/position
+        //Debug.LogWarning("Collider unset");
 
         // Raycast direction
         raycastDirection = posSet.raycastDirection;
@@ -485,6 +482,8 @@ public class HandManager : MonoBehaviour
             currentHand.transform.localPosition = posSet.handModelPosition;
             currentHand.transform.localRotation = posSet.handModelRotation;
 
+            handCollider.enabled = true;
+            wandCollider.enabled = false;
 
             // Determine how the hand disappears
             Debug.LogWarning("hand disppearance unset");
@@ -506,7 +505,8 @@ public class HandManager : MonoBehaviour
             currentHand.transform.localPosition = posSet.handModelPosition;
             currentHand.transform.localRotation = posSet.handModelRotation;
 
-            Debug.LogWarning("Wand mode unimplemented");
+            handCollider.enabled = false;
+            wandCollider.enabled = true;
         }
 
         Debug.LogWarning("UpdateHandMode not yet implemented");
@@ -551,9 +551,9 @@ public class HandManager : MonoBehaviour
             positionSet.UIRayRotation = Quaternion.Euler(0, 0, 0);
             positionSet.readoutPosition = new Vector3(-0.02f, -0.03f, 0.015f);
             positionSet.readoutRotation = Quaternion.Euler(20, 45, 90);
-            positionSet.attachPosition = new Vector3(0f, 0f, 0f);
+            positionSet.attachPosition = new Vector3(0.03f, -0.035f, -0.04f);
             positionSet.attachRotation = Quaternion.Euler(0, 0, 0);
-            Debug.LogWarning("Collider data not set");
+            //Debug.LogWarning("Collider data not set");
             positionSet.raycastDirection = new Vector3(0, 0, 1);
         }
         else
@@ -569,7 +569,7 @@ public class HandManager : MonoBehaviour
             positionSet.readoutRotation = Quaternion.Euler(0, 0, 0);
             positionSet.attachPosition = new Vector3(0.01f, 0.3f, 0.007f);
             positionSet.attachRotation = Quaternion.Euler(-45, 0, 0);
-            Debug.LogWarning("Collider data not set");
+            //Debug.LogWarning("Collider data not set");
             positionSet.raycastDirection = new Vector3(0, 1, 1);
         }
 
@@ -587,7 +587,8 @@ public class HandManager : MonoBehaviour
             positionSet.readoutRotation = MirrorRotation(positionSet.readoutRotation);
             positionSet.attachPosition = MirrorPosition(positionSet.attachPosition);
             positionSet.attachRotation = MirrorRotation(positionSet.attachRotation);
-            Debug.LogWarning("Collider data not set");
+            //Debug.LogWarning("Collider data not set");
+            positionSet.raycastDirection = MirrorPosition(positionSet.raycastDirection);
         }
 
         Vector3 MirrorPosition(Vector3 position)
@@ -656,6 +657,4 @@ public class HandManager : MonoBehaviour
     {
         hovering = false;
     }
-
-
 }

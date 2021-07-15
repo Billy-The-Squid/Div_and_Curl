@@ -88,6 +88,9 @@ public class ForcePull : MonoBehaviour
             }
 
             pulling = directInteractor.selectTarget == null;
+        } else
+        {
+            pulling = false;
         }
     }
 
