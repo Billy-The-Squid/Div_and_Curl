@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MinMaxColor : ColorScheme
 {
-    /// <summary>
-    /// The <see cref="VectorField"/> generating the vectors.
-    /// </summary>
-    public VectorField field;
-    // This won't work for the Pointer field, will it? Or maybe I'm thinking about the loop axis.
+    ///// <summary>
+    ///// The <see cref="VectorField"/> generating the vectors.
+    ///// </summary>
+    //public VectorField field;
+    //// This won't work for the Pointer field, will it? Or maybe I'm thinking about the loop axis.
 
     /// <summary>
     /// The <see cref="ComputeShader"/> used to calculate magnitudes.
@@ -19,7 +19,7 @@ public class MinMaxColor : ColorScheme
     /// A single-entry float buffer storing the maximum magnitude found.
     /// </summary>
     protected ComputeBuffer maxMagnitude;
-    protected float[] maxMagnitudeArray;
+    public float[] maxMagnitudeArray { get; protected set; }
 
     /// <summary>
     /// Records whether the maximum magnitude has been calculated. 

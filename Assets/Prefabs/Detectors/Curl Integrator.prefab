@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 5484386669841562317}
   - component: {fileID: 5484386669841562318}
   - component: {fileID: 7067369151774158982}
+  - component: {fileID: 928124023}
   m_Layer: 9
   m_Name: Curl Integrator
   m_TagString: Untagged
@@ -286,8 +287,22 @@ MonoBehaviour:
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
-  colorScheme: 0
   shader: {fileID: 4800000, guid: cb81eed0fbf067b408ae552aad573732, type: 3}
+  preDisplay:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 928124023}
+        m_TargetAssemblyTypeName: DetectorColor, Assembly-CSharp
+        m_MethodName: ColorMaterial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5484386669841562319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,8 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1afd23cc668f3e94185508ef2ec0617d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeMaterial: {fileID: 2100000, guid: bb91a22f89ac7b24e8f245e24dc6202a, type: 2}
   inertMaterial: {fileID: 2100000, guid: ce21acb8ad94e574cb9c34335357f6a6, type: 2}
+  activeShader: {fileID: 4800000, guid: 1605afdac4e588f4389d60cf3e5d1eb4, type: 3}
   meshRenderer: {fileID: 5484386669841562301}
   zone: {fileID: 5484386669841562317}
   vectorField: {fileID: 5484386669841562319}
@@ -356,8 +371,10 @@ MonoBehaviour:
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0
-  colorScheme: 0
   shader: {fileID: 4800000, guid: 42320dad2bed58844ba3ce7332959eda, type: 3}
+  preDisplay:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7067369151774158982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +393,22 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &928124023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484386669841562291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8562f02cf121b6c4eaccc784cde6a75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  display: {fileID: 2663230662041722387}
+  detector: {fileID: 5484386669841562316}
+  maxColor: {r: 1, g: 0, b: 0, a: 1}
+  minColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!1 &6759547004517680139
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class SingleColor : ColorScheme
 {
+    public Color color;
+
     /// <inheritdoc/>
     public override void ColorMaterial()
     {
-        throw new System.NotImplementedException();
+        display.pointerMaterial.SetColor("_Color", color);
     }
 }
