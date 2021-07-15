@@ -1,5 +1,5 @@
 #pragma kernel CalculateDisplay
-#pragma kernel MaxMagnitude
+//#pragma kernel MaxMagnitude
 
 int _NumberOfPoints;
 
@@ -21,8 +21,8 @@ RWStructuredBuffer<float> _Magnitudes;
 // maximum length a displayed vector can have
 float _MaxVectorLength;
 
-// Maximum magnitude that any vector has. Has only one entry.
-RWStructuredBuffer<float> _MaxMagnitude;
+//// Maximum magnitude that any vector has. Has only one entry.
+//RWStructuredBuffer<float> _MaxMagnitude;
 
 float _CullDistance;
 float3 _CameraPosition;
@@ -100,12 +100,12 @@ void CalculateDisplay(uint3 id : SV_DispatchThreadID) {
     }
 }
 
-[numthreads(1,1,1)]
-void MaxMagnitude (uint3 id : SV_DispatchThreadID) {
-    _MaxMagnitude[0] = -1.0;
-    for(int i = 0; i < _NumberOfPoints; i++) {
-        if(_Magnitudes[i] > _MaxMagnitude[0]) {
-            _MaxMagnitude[0] = _Magnitudes[i];
-        }
-    }
-}
+//[numthreads(1,1,1)]
+//void MaxMagnitude (uint3 id : SV_DispatchThreadID) {
+//    _MaxMagnitude[0] = -1.0;
+//    for(int i = 0; i < _NumberOfPoints; i++) {
+//        if(_Magnitudes[i] > _MaxMagnitude[0]) {
+//            _MaxMagnitude[0] = _Magnitudes[i];
+//        }
+//    }
+//}

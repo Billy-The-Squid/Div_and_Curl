@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class VectorDisplay : Display
 {
@@ -26,16 +27,18 @@ public class VectorDisplay : Display
     /// to generate an orthogonal basis. 
     /// </summary>
     public ComputeBuffer vector3Buffer { get; protected set; }
+
+
     /// <summary>
     /// Stores the magnitudes of the vectors in <cref>vectorsBuffer</cref>. 
     /// Same indexing scheme as <cref>positionsBuffer</cref>.
     /// </summary>
     public ComputeBuffer magnitudesBuffer { get; protected set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    protected ComputeBuffer maxMagnitude;
-    float[] maxMagnitudeArray;
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //protected ComputeBuffer maxMagnitude;
+    //float[] maxMagnitudeArray;
 
     /// <summary>
     /// The number of points at which vectors will be plotted and the number of values in each buffer.
@@ -51,7 +54,7 @@ public class VectorDisplay : Display
         vector3BufferID = Shader.PropertyToID("_Vectors3"),
         magnitudesBufferID = Shader.PropertyToID("_Magnitudes"),
         maxVectorLengthID = Shader.PropertyToID("_MaxVectorLength"),
-        maxMagnitudeID = Shader.PropertyToID("_MaxMagnitude"),
+        //maxMagnitudeID = Shader.PropertyToID("_MaxMagnitude"),
         cullDistanceID = Shader.PropertyToID("_CullDistance"),
         cameraPositionID = Shader.PropertyToID("_CameraPosition");
 
@@ -65,33 +68,25 @@ public class VectorDisplay : Display
     /// Records whether the buffers have been created.
     /// </summary>
     public bool initialized { get; protected set; }
-        
-        // = false;
-    /// <summary>
-    /// Records whether the maximum magnitude has been calculated. 
-    /// </summary>
-    protected bool foundMaxMagnitude = false;
+
+    // = false;
+    ///// <summary>
+    ///// Records whether the maximum magnitude has been calculated. 
+    ///// </summary>
+    //protected bool foundMaxMagnitude = false;
 
     /// <summary>
-    /// The distance fro =m the camera inside which vectors are not rendered. 
+    /// The distance from the camera inside which vectors are not rendered. 
     /// </summary>
     public float cullDistance;
-
-    // Just use this stuff to generate a material, please?
-    /// <summary>
-    /// Defines the choices of shaders for the vector field.
-    /// </summary>
-    public enum VectorStyle { MinMaxColors, SingleColor };
-    /// <summary>
-    /// The type of shader used in the material. Is not dynamic.
-    /// </summary>
-    public VectorStyle colorScheme = VectorStyle.MinMaxColors;
-    // Default set for backwards compatibility.
-
 
     // We need a way to set the properties of the different shaders. Material.HasProperty will be useful, plus a custom editor.
     public Shader shader;
 
+    /// <summary>
+    /// A delegate called prior to the draw call.
+    /// </summary>
+    public UnityEvent preDisplay = new UnityEvent();
 
 
 
@@ -116,10 +111,10 @@ public class VectorDisplay : Display
             vector2Buffer = new ComputeBuffer(numOfPoints, sizeof(Vector3));
             vector3Buffer = new ComputeBuffer(numOfPoints, sizeof(Vector3));
             magnitudesBuffer = new ComputeBuffer(numOfPoints, sizeof(float));
-            maxMagnitude = new ComputeBuffer(1, sizeof(float));
+            //maxMagnitude = new ComputeBuffer(1, sizeof(float));
         }
 
-        maxMagnitudeArray = new float[1];
+        //maxMagnitudeArray = new float[1];
 
         initialized = true;
 
@@ -141,17 +136,18 @@ public class VectorDisplay : Display
             vector3Buffer.Release();
             vector3Buffer = null;
         }
-        if(magnitudesBuffer != null) {
+        if (magnitudesBuffer != null)
+        {
             magnitudesBuffer.Release();
             magnitudesBuffer = null;
         }
-        if(maxMagnitude != null)
-        {
-            maxMagnitude.Release();
-            maxMagnitude = null;
-        }
+        //if(maxMagnitude != null)
+        //{
+        //    maxMagnitude.Release();
+        //    maxMagnitude = null;
+        //}
 
-        foundMaxMagnitude = false;
+        //foundMaxMagnitude = false;
         initialized = false;
     }
 
@@ -174,8 +170,13 @@ public class VectorDisplay : Display
         // Do calculations needed for display
         CalculateDisplay(positionsBuffer, vectorsBuffer);
 
-        if(colorScheme == VectorStyle.MinMaxColors) {
-            FindMaxMagnitude();
+        //if(colorScheme == VectorStyle.MinMaxColors) {
+        //    FindMaxMagnitude();
+        //}
+
+        if(preDisplay != null)
+        {
+            preDisplay.Invoke();
         }
 
         // Send data to the shader.
@@ -222,10 +223,10 @@ public class VectorDisplay : Display
         pointerMaterial.SetBuffer(plotVectorsBufferID, plotVectorsBuffer);
         pointerMaterial.SetBuffer(vector2BufferID, vector2Buffer);
         pointerMaterial.SetBuffer(vector3BufferID, vector3Buffer);
-        if (colorScheme == VectorStyle.MinMaxColors) {
-            pointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
-            pointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
-        }
+        //if (colorScheme == VectorStyle.MinMaxColors) {
+        //    pointerMaterial.SetBuffer(magnitudesBufferID, magnitudesBuffer);
+        //    pointerMaterial.SetFloat(maxMagnitudeID, maxMagnitudeArray[0]);
+        //}
         pointerMaterial.SetFloat(cullDistanceID, cullDistance);
 
         // Setting the bounds and giving a draw call
@@ -243,35 +244,35 @@ public class VectorDisplay : Display
 
 
 
-    /// <summary>
-    /// Finds the maximum magnitude of any of the vectors (used for color bounding).
-    /// </summary>
-    public void FindMaxMagnitude()
-    {
-        if (foundMaxMagnitude) { return; }
-        // Calculating the largest vector magnitude.
-        int magnitudeKernel = 1;
-        displayComputer.SetBuffer(magnitudeKernel, magnitudesBufferID, magnitudesBuffer);
-        displayComputer.SetBuffer(magnitudeKernel, maxMagnitudeID, maxMagnitude);
-        displayComputer.Dispatch(magnitudeKernel, 1, 1, 1);
+    ///// <summary>
+    ///// Finds the maximum magnitude of any of the vectors (used for color bounding).
+    ///// </summary>
+    //public void FindMaxMagnitude()
+    //{
+    //    if (foundMaxMagnitude) { return; }
+    //    // Calculating the largest vector magnitude.
+    //    int magnitudeKernel = 1;
+    //    displayComputer.SetBuffer(magnitudeKernel, magnitudesBufferID, magnitudesBuffer);
+    //    displayComputer.SetBuffer(magnitudeKernel, maxMagnitudeID, maxMagnitude);
+    //    displayComputer.Dispatch(magnitudeKernel, 1, 1, 1);
 
-        maxMagnitude.GetData(maxMagnitudeArray);
+    //    maxMagnitude.GetData(maxMagnitudeArray);
 
-        //// Debug code
-        //float[] magnitudesArray = new float[numOfPoints];
-        //magnitudesBuffer.GetData(magnitudesArray);
+    //    //// Debug code
+    //    //float[] magnitudesArray = new float[numOfPoints];
+    //    //magnitudesBuffer.GetData(magnitudesArray);
 
-        foundMaxMagnitude = true;
-    }
+    //    foundMaxMagnitude = true;
+    //}
 
 
 
-    /// <summary>
-    /// Recalculates the maximum magnitude in this frame. 
-    /// </summary>
-    public void RecalculateMaxMagnitude()
-    {
-        foundMaxMagnitude = false;
-        FindMaxMagnitude();
-    }
+    ///// <summary>
+    ///// Recalculates the maximum magnitude in this frame. 
+    ///// </summary>
+    //public void RecalculateMaxMagnitude()
+    //{
+    //    foundMaxMagnitude = false;
+    //    FindMaxMagnitude();
+    //}
 }
