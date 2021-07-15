@@ -157,8 +157,10 @@ public class SettingManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         // Raising ArgumentNullException (VectorDisplay.cs line 215)
-        ((VectorDisplay)mainVectorField.display).RecalculateMaxMagnitude(); 
+        //((VectorDisplay)mainVectorField.display).RecalculateMaxMagnitude(); 
         //mainVectorField.preDisplay -= RefreshColors;
+
+        Debug.LogWarning("This function doesn't make sense anymore. Rewrite it.");
 
         refreshColors = false;
     }

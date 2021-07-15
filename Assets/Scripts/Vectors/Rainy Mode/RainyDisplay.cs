@@ -50,11 +50,11 @@ public class RainyDisplay : VectorDisplay
             magnitudesBuffer.Release();
             magnitudesBuffer = null;
         }
-        if (maxMagnitude != null)
-        {
-            maxMagnitude.Release();
-            maxMagnitude = null;
-        }
+        //if (maxMagnitude != null)
+        //{
+        //    maxMagnitude.Release();
+        //    maxMagnitude = null;
+        //}
 
         initialized = false;
     }

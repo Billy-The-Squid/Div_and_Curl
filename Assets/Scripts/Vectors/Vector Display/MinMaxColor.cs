@@ -8,18 +8,13 @@ public class MinMaxColor : ColorScheme
     /// The <see cref="VectorField"/> generating the vectors.
     /// </summary>
     public VectorField field;
-    // This won't work for the Pointer field, will it?
+    // This won't work for the Pointer field, will it? Or maybe I'm thinking about the loop axis.
 
     /// <summary>
     /// The <see cref="ComputeShader"/> used to calculate magnitudes.
     /// </summary>
     public ComputeShader computer;
 
-    ///// <summary>
-    ///// Stores the magnitudes of the vectors in <see cref="display.vectorsBuffer"/>. 
-    ///// Same indexing scheme as <cref>positionsBuffer</cref>.
-    ///// </summary>
-    //public ComputeBuffer magnitudesBuffer { get; protected set; }
     /// <summary>
     /// A single-entry float buffer storing the maximum magnitude found.
     /// </summary>
@@ -37,6 +32,12 @@ public class MinMaxColor : ColorScheme
 
     protected int numOfPoints;
 
+    [Tooltip("The color to display the largest-magnitude vectors.")]
+    public Color maxColor = Color.yellow;
+    [Tooltip("The color to display the vectors with magnitude near zero.")]
+    public Color minColor = Color.blue;
+
+
 
 
 
@@ -45,22 +46,22 @@ public class MinMaxColor : ColorScheme
         if(display == null) {
             display = GetComponent<VectorDisplay>();
         }
-        // The display should now be able to call ColorMaterial;
-        display.preDisplay.AddListener(ColorMaterial);
+        //// I guess we just do this in the inspector?
+        //// The display should now be able to call ColorMaterial;
+        //display.preDisplay.AddListener(ColorMaterial);
 
-        Debug.Log("Please remember to check that the event has a reference to our function");
+        //Debug.Log("Please remember to check that the event has a reference to our function");
     }
 
     protected void Initialize()
     {
         if (initialized) return;
 
-        Debug.Log("Initializing MinMax");
+        //Debug.Log("Initializing MinMax");
 
         numOfPoints = display.plotVectorsBuffer.count;
 
-        // Set the buffers
-        //magnitudesBuffer = new ComputeBuffer(numOfPoints, sizeof(float));
+        // Set the buffer
         maxMagnitude = new ComputeBuffer(1, sizeof(float));
         // And the temporary array.
         maxMagnitudeArray = new float[1];
@@ -68,15 +69,8 @@ public class MinMaxColor : ColorScheme
         initialized = true;
     }
 
-    private void OnDestroy()
-    {
-        //if (magnitudesBuffer != null)
-        //{
-        //    magnitudesBuffer.Release();
-        //    magnitudesBuffer = null;
-        //}
-        if (maxMagnitude != null)
-        {
+    private void OnDestroy() {
+        if (maxMagnitude != null) {
             maxMagnitude.Release();
             maxMagnitude = null;
         }
@@ -89,7 +83,9 @@ public class MinMaxColor : ColorScheme
     /// <inheritdoc/>
     public override void ColorMaterial()
     {
-        Debug.Log("Coloring material");
+        //Debug.Log("Coloring material");
+
+        Initialize();
 
         // Do calculations
         FindMaxMagnitude();
@@ -98,7 +94,8 @@ public class MinMaxColor : ColorScheme
         display.pointerMaterial.SetBuffer("_Magnitudes", display.magnitudesBuffer);
         display.pointerMaterial.SetFloat("_MaxMagnitude", maxMagnitudeArray[0]);
 
-        Debug.LogWarning("MinMax does not currently contribute any color to the material");
+        display.pointerMaterial.SetColor("_MinColor", minColor);
+        display.pointerMaterial.SetColor("_MaxColor", maxColor);
     }
 
 
@@ -109,28 +106,20 @@ public class MinMaxColor : ColorScheme
     {
         if (foundMaxMagnitude) { return; }
 
-        Debug.Log("Finding the max magnitude");
-
-        //// Calculating the vector magnitudes
-        //int kernelID = 0;
-        //computer.SetInt("_NumberOfPoints", numOfPoints);
-        //computer.SetBuffer(kernelID, "_Vectors", field.vectorsBuffer);
-        //computer.SetBuffer(kernelID, "_Magnitudes", magnitudesBuffer);
-
-        //int numGroups = Mathf.CeilToInt(numOfPoints / 64f);
-        //computer.Dispatch(kernelID, numGroups, 1, 1);
+        //Debug.Log("Finding the max magnitude");
 
         // Calculating the largest vector magnitude.
-        int magnitudeKernel = 0; //1;
+        int magnitudeKernel = 0;
+        computer.SetInt("_NumberOfPoints", numOfPoints);
         computer.SetBuffer(magnitudeKernel, "_Magnitudes", display.magnitudesBuffer);
         computer.SetBuffer(magnitudeKernel, "_MaxMagnitude", maxMagnitude);
         computer.Dispatch(magnitudeKernel, 1, 1, 1);
 
         maxMagnitude.GetData(maxMagnitudeArray);
 
-        //// Debug code
-        //float[] magnitudesArray = new float[numOfPoints];
-        //magnitudesBuffer.GetData(magnitudesArray);
+        // Debug code
+        float[] magnitudesArray = new float[numOfPoints];
+        display.magnitudesBuffer.GetData(magnitudesArray);
 
         foundMaxMagnitude = true;
     }

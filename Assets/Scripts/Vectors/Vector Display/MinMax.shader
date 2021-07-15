@@ -71,6 +71,7 @@ Shader "Vectors/MinMax"
 				clip(displ.x * displ.x + displ.y * displ.y + displ.z * displ.z - _CullDistance * _CullDistance); 
 				//float mainOccludeFactor = (displ.x * displ.x + displ.y * displ.y + displ.z * displ.z) * (1 / _CullDistance);
 				//surface.Alpha = saturate(mainOccludeFactor);
+				//surface.Albedo = _MinColor.rgb;
 			}
 		#else
 			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)
