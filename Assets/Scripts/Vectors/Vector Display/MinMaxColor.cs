@@ -59,7 +59,7 @@ public class MinMaxColor : ColorScheme
 
         //Debug.Log("Initializing MinMax");
 
-        numOfPoints = display.plotVectorsBuffer.count;
+        numOfPoints = display.PlotVectorsBuffer.count;
 
         // Set the buffer
         maxMagnitude = new ComputeBuffer(1, sizeof(float));
@@ -91,7 +91,7 @@ public class MinMaxColor : ColorScheme
         FindMaxMagnitude();
 
         // Add the important stuff to the material.
-        display.pointerMaterial.SetBuffer("_Magnitudes", display.magnitudesBuffer);
+        display.pointerMaterial.SetBuffer("_Magnitudes", display.MagnitudesBuffer);
         display.pointerMaterial.SetFloat("_MaxMagnitude", maxMagnitudeArray[0]);
 
         display.pointerMaterial.SetColor("_MinColor", minColor);
@@ -111,7 +111,7 @@ public class MinMaxColor : ColorScheme
         // Calculating the largest vector magnitude.
         int magnitudeKernel = 0;
         computer.SetInt("_NumberOfPoints", numOfPoints);
-        computer.SetBuffer(magnitudeKernel, "_Magnitudes", display.magnitudesBuffer);
+        computer.SetBuffer(magnitudeKernel, "_Magnitudes", display.MagnitudesBuffer);
         computer.SetBuffer(magnitudeKernel, "_MaxMagnitude", maxMagnitude);
         computer.Dispatch(magnitudeKernel, 1, 1, 1);
 
@@ -119,7 +119,7 @@ public class MinMaxColor : ColorScheme
 
         // Debug code
         float[] magnitudesArray = new float[numOfPoints];
-        display.magnitudesBuffer.GetData(magnitudesArray);
+        display.MagnitudesBuffer.GetData(magnitudesArray);
 
         foundMaxMagnitude = true;
     }

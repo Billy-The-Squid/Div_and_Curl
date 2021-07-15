@@ -230,7 +230,7 @@ public class CurlLoopDetector : FieldDetector
     {
         if(!inField) { return; } 
 
-        if(!projectionDisplay.initialized)
+        if(!projectionDisplay.Initialized)
         {
             projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionBuffer);
         }

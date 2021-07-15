@@ -370,7 +370,7 @@ public class FluxDetector : FieldDetector
     /// </summary>
     private void UpdatePointerMaterials()
     {
-        if(!projectionDisplay.initialized)
+        if(!projectionDisplay.Initialized)
         {
             projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
         }
