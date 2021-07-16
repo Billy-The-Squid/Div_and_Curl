@@ -2266,20 +2266,20 @@ MonoBehaviour:
     fieldList: 08000000
     limitDetectors: 0
   - sceneName: Flux
-    detectorList: 0100000002000000
-    fieldList: 0000000007000000
+    detectorList: 0200000001000000
+    fieldList: 000000000600000007000000
     limitDetectors: 0
   - sceneName: Divergence
-    detectorList: 00000000010000000200000003000000040000000500000006000000
-    fieldList: 0800000000000000070000000100000003000000
+    detectorList: 0300000001000000
+    fieldList: 000000000600000007000000
     limitDetectors: 0
   - sceneName: Curl (Loop)
-    detectorList: 00000000010000000200000003000000040000000500000006000000
-    fieldList: 0800000000000000070000000100000003000000
+    detectorList: 0400000001000000
+    fieldList: 010000000300000004000000
     limitDetectors: 0
   - sceneName: Curl (Differential)
-    detectorList: 00000000010000000200000003000000040000000500000006000000
-    fieldList: 0800000000000000070000000100000003000000
+    detectorList: 0500000001000000
+    fieldList: 010000000300000004000000
     limitDetectors: 0
   ChangeScene:
     m_PersistentCalls:
@@ -2342,7 +2342,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323748565}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -4, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2350,7 +2350,7 @@ Transform:
   - {fileID: 2071710652}
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &343306379
 GameObject:
   m_ObjectHideFlags: 0

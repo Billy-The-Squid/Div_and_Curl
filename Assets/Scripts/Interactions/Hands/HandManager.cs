@@ -329,29 +329,29 @@ public class HandManager : MonoBehaviour
     private void Update()
     {
         {
-            if (hand == Hand.Right)
-            {
-                Debug.Log("nearUI: " + nearUI);
-                Debug.Log("not pulling: " + !forcePuller.pulling);
-                Debug.Log("Nothing selected: " + (directInteractor.selectTarget == null));
-                Debug.Log("Not attempting a teleport: " + !attemptingTeleport);
-                //Debug.Log("Select target: " + directInteractor.selectTarget.name);
-                //Debug.Log("pointed at UI? " + pointedAtUI);
-                Debug.Log("UIRay.ray enabled? " + uiRay.ray.enabled);
-                Debug.Log("Raycast attempt: " + uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit thing));
-                Debug.Log("Is thing transform null? " + (thing.transform == null));
-                Ray ray = new Ray(uiRay.ray.transform.position, uiRay.ray.transform.forward);
-                Debug.DrawRay(uiRay.ray.transform.position, uiRay.ray.transform.forward);
-                Debug.Log("Less dumb raycast: " + Physics.Raycast(ray, out RaycastHit thing2, 5, UILayermask)); //, uiRay.ray.interactionLayerMask));
-                if(thing2.transform != null) Debug.Log("Thing2 name: " + thing2.transform.name);
-            }
+            //if (hand == Hand.Right)
+            //{
+            //    Debug.Log("nearUI: " + nearUI);
+            //    Debug.Log("not pulling: " + !forcePuller.pulling);
+            //    Debug.Log("Nothing selected: " + (directInteractor.selectTarget == null));
+            //    Debug.Log("Not attempting a teleport: " + !attemptingTeleport);
+            //    //Debug.Log("Select target: " + directInteractor.selectTarget.name);
+            //    //Debug.Log("pointed at UI? " + pointedAtUI);
+            //    Debug.Log("UIRay.ray enabled? " + uiRay.ray.enabled);
+            //    Debug.Log("Raycast attempt: " + uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit thing));
+            //    Debug.Log("Is thing transform null? " + (thing.transform == null));
+            //    Ray ray = new Ray(uiRay.ray.transform.position, uiRay.ray.transform.forward);
+            //    Debug.DrawRay(uiRay.ray.transform.position, uiRay.ray.transform.forward);
+            //    Debug.Log("Less dumb raycast: " + Physics.Raycast(ray, out RaycastHit thing2, 5, UILayermask)); //, uiRay.ray.interactionLayerMask));
+            //    if(thing2.transform != null) Debug.Log("Thing2 name: " + thing2.transform.name);
+            //}
         }
 
         // Are we pointed at a UI?
         if (nearUI && !forcePuller.pulling && (directInteractor.selectTarget == null) 
             && !attemptingTeleport && uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
-            if (hand == Hand.Right) Debug.Log("Raycast hit");
+            //if (hand == Hand.Right) Debug.Log("Raycast hit");
             if (hit.transform.gameObject.layer == UIBackLayer
             || hit.transform.gameObject.layer == UIBackLayer) {
                 pointedAtUI = true;

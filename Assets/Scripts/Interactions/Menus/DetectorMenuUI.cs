@@ -141,7 +141,7 @@ public class DetectorMenuUI : MenuUI
     {
         availableDetectors = scene.detectorList;
         limitDetectors = scene.limitDetectors;
-        displayNeedsUpdate = true;
+        currentlyDisplayedDetector = availableDetectors[0];
     }
 
 
