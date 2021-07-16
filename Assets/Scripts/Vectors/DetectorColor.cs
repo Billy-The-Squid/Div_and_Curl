@@ -28,9 +28,6 @@ public class DetectorColor : ColorScheme
         {
             display = GetComponent<VectorDisplay>();
         }
-        //// I guess we just do this in the inspector?
-        //// The display should now be able to call ColorMaterial;
-        //display.preDisplay.AddListener(ColorMaterial);
 
         //Debug.Log("Please remember to check that the event has a reference to our function");
     }

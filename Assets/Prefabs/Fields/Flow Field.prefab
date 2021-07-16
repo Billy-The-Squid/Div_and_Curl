@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8730831063504582427}
   - component: {fileID: 8730831063504582424}
   - component: {fileID: 590356262639174479}
+  - component: {fileID: 3598552406574971858}
   m_Layer: 10
   m_Name: Flow Field
   m_TagString: Untagged
@@ -73,11 +74,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 2100000, guid: 5bcbbf85de164a146ac8b815c7784c2a, type: 2}
+  pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0.5
+  shader: {fileID: 4800000, guid: cb81eed0fbf067b408ae552aad573732, type: 3}
+  preDisplay:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3598552406574971858}
+        m_TargetAssemblyTypeName: MinMaxColor, Assembly-CSharp
+        m_MethodName: ColorMaterial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8730831063504582424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,3 +132,19 @@ MonoBehaviour:
   vectorScalingFactor: 0.125
   speed: 0.125
   field: {fileID: 8730831063504582424}
+--- !u!114 &3598552406574971858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730831063504582430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb7f18e480ced5b4b89b146b1f14c169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  display: {fileID: 8730831063504582427}
+  computer: {fileID: 7200000, guid: d88e2d6e8513d9a4abdec4c9415ba1c5, type: 3}
+  maxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  minColor: {r: 0, g: 0, b: 1, a: 1}

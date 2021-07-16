@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SingleColor : ColorScheme
 {
-    public Color color;
+    public Color color = Color.red;
 
     /// <inheritdoc/>
     public override void ColorMaterial()

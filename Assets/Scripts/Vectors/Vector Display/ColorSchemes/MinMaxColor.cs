@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class MinMaxColor : ColorScheme
 {
-    ///// <summary>
-    ///// The <see cref="VectorField"/> generating the vectors.
-    ///// </summary>
-    //public VectorField field;
-    //// This won't work for the Pointer field, will it? Or maybe I'm thinking about the loop axis.
-
     /// <summary>
     /// The <see cref="ComputeShader"/> used to calculate magnitudes.
     /// </summary>
@@ -46,9 +40,6 @@ public class MinMaxColor : ColorScheme
         if(display == null) {
             display = GetComponent<VectorDisplay>();
         }
-        //// I guess we just do this in the inspector?
-        //// The display should now be able to call ColorMaterial;
-        //display.preDisplay.AddListener(ColorMaterial);
 
         //Debug.Log("Please remember to check that the event has a reference to our function");
     }
@@ -56,8 +47,6 @@ public class MinMaxColor : ColorScheme
     protected void Initialize()
     {
         if (initialized) return;
-
-        //Debug.Log("Initializing MinMax");
 
         numOfPoints = display.PlotVectorsBuffer.count;
 
@@ -105,8 +94,6 @@ public class MinMaxColor : ColorScheme
     public void FindMaxMagnitude()
     {
         if (foundMaxMagnitude) { return; }
-
-        //Debug.Log("Finding the max magnitude");
 
         // Calculating the largest vector magnitude.
         int magnitudeKernel = 0;
