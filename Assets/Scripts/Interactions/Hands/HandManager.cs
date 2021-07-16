@@ -20,6 +20,7 @@ public class HandManager : MonoBehaviour
     public TeleportManager teleporter;
     public UIRay uiRay;
     public Transform attachTransform;
+    public HandHeldUI readout;
     public SphereCollider handCollider;
     public CapsuleCollider wandCollider;
 
@@ -76,6 +77,9 @@ public class HandManager : MonoBehaviour
         public Vector3 readoutPosition;
         public Quaternion readoutRotation;
 
+        public Vector3 readoutPosition2; // In hand mode if both hands are occupied.
+        public Quaternion readoutRotation2;
+
         public Vector3 attachPosition;
         public Quaternion attachRotation;
 
@@ -83,18 +87,20 @@ public class HandManager : MonoBehaviour
 
         public Vector3 raycastDirection;
     }
+    protected bool _isVisible;
+    protected bool isVisible
+    {
+        get => _isVisible;
+        set
+        {
+            if(mode == HandMode.Hand)
+            {
+                currentHand.GetComponent<HandMotion>().SetVisible(value);
+            }
+            _isVisible = value;
+        }
+    }
 
-
-    // GRAB ---------------------------------------------------------------------------------
-    /// <summary> Are we grabbing anything? </summary>
-    //protected bool holdingObject; // Redundant with directInteractor.selectTarget == null?
-    //protected GameObject objectHeld; // Redundant with directInteractor.selectTarget
-    protected XRBaseInteractable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
-    /* Should be updated on SelectEntered for the direct interactor. 
-     */
-    protected bool hovering { get; set; }
-    /* Updated by HoverEntered (or similar) from the direct interactor.
-     */
 
 
     // PULL ---------------------------------------------------------------------------------
@@ -239,11 +245,20 @@ public class HandManager : MonoBehaviour
      * * currently pulling (extract from forcePuller)
      * * currently grabbing (extract from directInteractor)
      * * attemptingTeleport / teleportRay.enabled.
+     * 
+     * Should be true otherwise based on raycast
      */
 
 
     // READOUTS -----------------------------------------------------------------------------
-    //protected bool 
+    protected XRBaseInteractable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
+    /* Should be updated on SelectEntered for the direct interactor. 
+     */
+    protected bool hovering { get; set; }
+    /* Updated by HoverEntered (or similar) from the direct interactor.
+     */
+    public Transform otherHand;
+
 
 
 
@@ -251,6 +266,7 @@ public class HandManager : MonoBehaviour
 
     /* To do:
      * * Readout support
+     *  * Respond if other hand also has detector
      * * on internals, call public methods only if value shifts
      * * Resizables (only one at a time)
      */
@@ -273,13 +289,26 @@ public class HandManager : MonoBehaviour
         if(teleporter == null) { teleportEnabled = false; }
         pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
         pointedAtUI = true;
+        nearUI = true;
+
+        //directInteractor.select
     }
 
 
     private void Update()
     {
+        //if(hand == Hand.Left)
+        //{
+        //    Debug.Log("nearUI: " + nearUI);
+        //    Debug.Log("not pulling: " + !forcePuller.pulling);
+        //    Debug.Log("Nothing selected: " + (directInteractor.selectTarget == null));
+        //    Debug.Log("Not attempting a teleport: " + !attemptingTeleport);
+        //    //Debug.Log("Select target: " + directInteractor.selectTarget.name);
+        //}
+
         // Are we pointed at a UI?
-        if(uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        if(nearUI && !forcePuller.pulling && (directInteractor.selectTarget == null) 
+            && !attemptingTeleport && uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
             if (hit.transform.gameObject.layer == UIBackLayer
             || hit.transform.gameObject.layer == UIBackLayer) {
@@ -353,6 +382,8 @@ public class HandManager : MonoBehaviour
         else { highlightedObject = null; }
 
         //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
+
+        isVisible = directInteractor.selectTarget == null;
     }
 
 
@@ -432,7 +463,7 @@ public class HandManager : MonoBehaviour
 
 
     /// <summary>
-    /// Updates the hand type:  
+    /// Updates the hand type 
     /// </summary>
     protected void UpdateHandMode(HandMode newMode)
     {
@@ -460,10 +491,6 @@ public class HandManager : MonoBehaviour
         // Raycast direction
         raycastDirection = posSet.raycastDirection;
 
-        // Move the readout display. // Might require parenting first.
-        Debug.LogWarning("readout unset");
-
-
         // Hand mode ------------------------------------------------------------------------
         if (newMode == HandMode.Hand)
         {
@@ -486,8 +513,10 @@ public class HandManager : MonoBehaviour
             wandCollider.enabled = false;
 
             // Determine how the hand disappears
-            Debug.LogWarning("hand disppearance unset");
+            currentHand.GetComponent<HandMotion>().SetVisible(isVisible);
 
+            // Moving the readout to the other hand.
+            readout.transform.parent = otherHand;
         }
 
         // Wand mode ------------------------------------------------------------------------
@@ -507,7 +536,13 @@ public class HandManager : MonoBehaviour
 
             handCollider.enabled = false;
             wandCollider.enabled = true;
+
+            // Moving the readout to this hand.
+            readout.transform.parent = transform;
         }
+
+        readout.transform.localPosition = posSet.readoutPosition;
+        readout.transform.localRotation = posSet.readoutRotation;
 
         Debug.LogWarning("UpdateHandMode not yet implemented");
     }
@@ -549,8 +584,8 @@ public class HandManager : MonoBehaviour
             positionSet.teleportRayRotation = Quaternion.Euler(0, 0, 0);
             positionSet.UIRayPosition = new Vector3(0.05f, -0.005f, 0.1f);
             positionSet.UIRayRotation = Quaternion.Euler(0, 0, 0);
-            positionSet.readoutPosition = new Vector3(-0.02f, -0.03f, 0.015f);
-            positionSet.readoutRotation = Quaternion.Euler(20, 45, 90);
+            positionSet.readoutPosition = new Vector3(0.02f, -0.03f, 0.015f);
+            positionSet.readoutRotation = Quaternion.Euler(20, -45, -90);
             positionSet.attachPosition = new Vector3(0.03f, -0.035f, -0.04f);
             positionSet.attachRotation = Quaternion.Euler(0, 0, 0);
             //Debug.LogWarning("Collider data not set");

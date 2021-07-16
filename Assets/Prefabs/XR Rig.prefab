@@ -1042,6 +1042,7 @@ MonoBehaviour:
   teleporter: {fileID: 0}
   uiRay: {fileID: 531360673}
   attachTransform: {fileID: 671737789}
+  readout: {fileID: 0}
   handCollider: {fileID: 867444867}
   wandCollider: {fileID: 867444865}
   _mode: 0
@@ -1049,6 +1050,7 @@ MonoBehaviour:
   wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
   _hand: 0
   teleportEnabled: 0
+  otherHand: {fileID: 0}
 --- !u!1 &2652347426735425950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,6 +2415,7 @@ MonoBehaviour:
   teleporter: {fileID: 6885946418284844269}
   uiRay: {fileID: 376876033}
   attachTransform: {fileID: 1411779589}
+  readout: {fileID: 0}
   handCollider: {fileID: 1923565153}
   wandCollider: {fileID: 1923565157}
   _mode: 1
@@ -2420,6 +2423,7 @@ MonoBehaviour:
   wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
   _hand: 1
   teleportEnabled: 1
+  otherHand: {fileID: 0}
 --- !u!1001 &2652347426687522597
 PrefabInstance:
   m_ObjectHideFlags: 0

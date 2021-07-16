@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class HandMotion : MonoBehaviour
 {
+    [Tooltip("The mesh renderer for the hand. Search for it in the hierarchy.")]
+    public SkinnedMeshRenderer meshRenderer;
+
     [SerializeField]
     InputActionAsset actionAsset;
     private InputActionMap map;
@@ -67,5 +70,10 @@ public class HandMotion : MonoBehaviour
         //Debug.Log("Read value (bool): " + action.ReadValue<bool>());
         Debug.Log("Triggered? " + action.triggered);
         Debug.Log("Phase: " + action.phase);
+    }
+
+    public void SetVisible(bool visible)
+    {
+        meshRenderer.enabled = visible;
     }
 }
