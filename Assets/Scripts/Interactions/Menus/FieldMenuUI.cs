@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class FieldMenuUI : MenuUI
 {
-    public FieldManager fieldManager;
+    public VectorField field;
+
+    public List<VectorField.FieldType> fieldsAvailable;
 
     // Start is called before the first frame update
     void Start()
     {
-        if(fieldManager == null)
-        {
-            fieldManager = GetComponent<FieldManager>();
-            if(fieldManager == null)
-            {
-                Debug.LogError("FieldMenuUI requires a reference to a FieldManager");
+        if(field == null) {
+            field = GetComponent<VectorField>();
+            if(field == null) {
+                Debug.LogError("FieldMenuUI requires a reference to a VectorField");
             }
         }
 
         UIAppearEvent.Invoke(canvas);
-        //Debug.Log(this.name + "is invoking UIAppearEvent with " + UIAppearEvent.GetPersistentEventCount() + " listeners.");
     }
 
     // Update is called once per frame
@@ -40,20 +39,64 @@ public class FieldMenuUI : MenuUI
         base.ReactToPlayer();
     }
 
-    public void NextField()
+    /// <summary>
+    /// Retrieves the value of the next field.
+    /// </summary>
+    /// <returns>Either the enum index of the next field or -1 if there is no next field. </returns>
+    protected int FindNextField()
     {
-        // Add support for limited fields. 
-        VectorField.FieldType nextField = (VectorField.FieldType)((((int) fieldManager.currentFieldType) + 1) 
-            % System.Enum.GetNames(typeof(VectorField.FieldType)).Length);
-        fieldManager.SetFieldType(nextField);
+        int cursor = fieldsAvailable.IndexOf(field.fieldType);
+
+        if(cursor + 1 < fieldsAvailable.Count) {
+            return (int)fieldsAvailable[cursor + 1];
+        } 
+        else {
+            return -1;
+        }
     }
 
-    public void PreviousField()
+    public void BringUpNextField() {
+        int nextField;
+
+        nextField = FindNextField();
+
+        if(nextField != -1) {
+            field.fieldType = (VectorField.FieldType)nextField;
+        }
+    }
+
+    protected int FindPrevField()
     {
-        // Add support for limited fields. 
-        VectorField.FieldType prevField = (VectorField.FieldType)((((int)fieldManager.currentFieldType) + 
-            System.Enum.GetNames(typeof(VectorField.FieldType)).Length - 1)
-            % System.Enum.GetNames(typeof(VectorField.FieldType)).Length);
-        fieldManager.SetFieldType(prevField);
+        int cursor = fieldsAvailable.IndexOf(field.fieldType);
+
+        if (cursor - 1 >= 0)
+        {
+            return (int)fieldsAvailable[cursor - 1];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public void BringUpPreviousField()
+    {
+        int prevField;
+
+        prevField = FindPrevField();
+
+        if(prevField != -1)
+        {
+            field.fieldType = (VectorField.FieldType)prevField;
+        }
+    }
+
+    public void LoadScene(FieldScene scene)
+    {
+        fieldsAvailable = scene.fieldList;
+        if(fieldsAvailable != null && fieldsAvailable.Count > 0)
+        {
+            field.fieldType = fieldsAvailable[0];
+        }
     }
 }

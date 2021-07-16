@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 /// <summary>
@@ -17,8 +18,7 @@ public class VectorField : MonoBehaviour
     /// <summary>
     /// The <cref>FieldZone</cref> object used to determine positions.
     /// </summary>
-    public FieldZone zone { get; set; }
-    // Why is this not serializable? %%%%%%%%%%
+    public FieldZone zone;
 
     /// <summary>
     /// The buffer in which the vector worldspace positions are stored.
@@ -51,7 +51,6 @@ public class VectorField : MonoBehaviour
     /// <summary>
     /// The compute shader used to generate the vector field. 
     /// </summary>
-    [SerializeField]
     public ComputeShader computeShader;
 
     // Property IDs used to send values to various shaders.
@@ -72,7 +71,20 @@ public class VectorField : MonoBehaviour
     /// The type of field to be displayed. Cannot be changed in Play Mode if <cref>isDynamic</cref> is set to False.
     /// </summary>
     [SerializeField]
-    public FieldType fieldType;
+    protected FieldType _fieldType;
+    public FieldType fieldType
+    {
+        get => _fieldType;
+        set
+        {
+            if(_fieldType != value)
+            {
+                StartCoroutine(RefreshField());
+                _fieldType = value;
+            }
+        }
+    }
+
 
     /// <summary>
     /// Set this to true if the field values should be updated each frame. 
@@ -88,7 +100,6 @@ public class VectorField : MonoBehaviour
     /// </summary>
     private bool hasBeenCalculated;
 
-    [SerializeField]
     public Display display { get; protected set; }
 
 
@@ -107,6 +118,9 @@ public class VectorField : MonoBehaviour
     /// </summary>
     public Reminder preDisplay;
 
+    [Tooltip("Called after a script changes the field type.")]
+    public UnityEvent OnFieldChange = new UnityEvent();
+
 
 
 
@@ -122,11 +136,7 @@ public class VectorField : MonoBehaviour
 
     private void OnEnable()
     {
-        preSetPositions += Pass;
-        preCalculations += Pass;
-        preDisplay += Pass;
-
-        preSetPositions();
+        if (preSetPositions != null) { preSetPositions(); }
 
         zone.SetPositions();
 
@@ -152,7 +162,7 @@ public class VectorField : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        preSetPositions();
+        if (preSetPositions != null) { preSetPositions(); }
         zone.SetPositions();
 
         if (zone.canMove) {
@@ -162,7 +172,7 @@ public class VectorField : MonoBehaviour
         
         if(isDynamic || !hasBeenCalculated)
         {
-            preCalculations();
+            if (preCalculations != null) { preCalculations(); }
             CalculateVectors();
             hasBeenCalculated = true;
 
@@ -170,11 +180,13 @@ public class VectorField : MonoBehaviour
             display.bounds = zone.bounds;
         }
 
-        //// Debug code
-        //Vector3[] debugArray = new Vector3[numOfPoints];
-        //vectorsBuffer.GetData(debugArray);
-        //Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
-        //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        {
+            //// Debug code
+            //Vector3[] debugArray = new Vector3[numOfPoints];
+            //vectorsBuffer.GetData(debugArray);
+            //Debug.Log((("First three points in vector array: " + debugArray[0]) + debugArray[1]) + debugArray[2]);
+            //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
+        }
 
         if(fieldType == FieldType.Empty)
         {
@@ -184,10 +196,21 @@ public class VectorField : MonoBehaviour
 
     private void LateUpdate() // WHAT REQUIRES THIS? %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     {
-        preDisplay();
+        if (preDisplay != null) { preDisplay(); }
         display.DisplayVectors(positionsBuffer, vectorsBuffer);
     }
 
+    public IEnumerator RefreshField () {
+        bool currentlyDynamic = isDynamic;
+        isDynamic = true;
+        yield return new WaitForSeconds(0.1f);
+
+        isDynamic = currentlyDynamic;
+        if(OnFieldChange != null)
+        {
+            OnFieldChange.Invoke();
+        }
+    }
 
     /// <summary>
     /// Interfaces with the <cref>computeShader</cref> and calculates the value of the vectors at each point, storing them in the buffers. 

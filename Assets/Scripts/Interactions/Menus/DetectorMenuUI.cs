@@ -76,21 +76,19 @@ public class DetectorMenuUI : MenuUI
 
 
 
-
-
     private void Start()
     {
-        if (!limitDetectors) {
-            List<int> detsList = new List<int>();
-            for (int i = 0; i < detectorsArray.Length; i++)
-            {
-                detsList.Add(i);
-            }
-            SetAvailableDetectors(detsList);
-            currentlyDisplayedDetector = 0;
-        } else {
-            throw new System.Exception("I don't have a list to limit the detectors to.");
-        }
+        //if (!limitDetectors) {
+        //    List<int> detsList = new List<int>();
+        //    for (int i = 0; i < detectorsArray.Length; i++)
+        //    {
+        //        detsList.Add(i);
+        //    }
+        //    SetAvailableDetectors(detsList);
+        //    currentlyDisplayedDetector = 0;
+        //} else {
+        //    throw new System.Exception("I don't have a list to limit the detectors to.");
+        //}
 
         for (int i = 0; i < detectorsArray.Length; i++) // I really don't know that this is safe.
         {
@@ -139,27 +137,12 @@ public class DetectorMenuUI : MenuUI
     }
 
 
-
-    /// <summary>
-    /// Sets the list of currently available detectors.
-    /// </summary>
-    /// <param name="detectors">A list containing the prefabs to be made available.</param>
-    public void SetAvailableDetectors(List<int> detectors)
+    public void LoadScene(FieldScene scene)
     {
-        availableDetectors = new List<int>(detectors);
+        availableDetectors = scene.detectorList;
+        limitDetectors = scene.limitDetectors;
         displayNeedsUpdate = true;
     }
-
-
-
-    ///// <summary>
-    ///// Prompt the display to update.
-    ///// </summary>
-    //public void PromptDisplayUpdate()
-    //{
-    //    displayNeedsUpdate = true;
-    //}
-
 
 
     /// <summary>
@@ -204,7 +187,7 @@ public class DetectorMenuUI : MenuUI
         int cursor = availableDetectors.IndexOf(currentlyDisplayedDetector);
 
         if (cursor == -1) {
-            throw new System.Exception("That detector isn't in the list of available detectors");
+            Debug.LogError("That detector isn't in the list of available detectors");
         }
 
         if (cursor + 1 < availableDetectors.Count) {
@@ -224,7 +207,7 @@ public class DetectorMenuUI : MenuUI
         int cursor = availableDetectors.IndexOf(currentlyDisplayedDetector);
 
         if (cursor == -1) {
-            throw new System.Exception("That detector isn't in the list of available detectors");
+            Debug.LogError("That detector isn't in the list of available detectors");
         }
 
         if (cursor - 1 >= 0) {

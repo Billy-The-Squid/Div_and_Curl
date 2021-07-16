@@ -53,7 +53,7 @@ public class MenuUI : MonoBehaviour
     protected virtual void ReactToPlayer()
     {
         // Measure the distance to the player
-        Vector3 displacement = transform.position - playerEyes.position;
+        Vector3 displacement = canvas.transform.position - playerEyes.position;
         Vector3 planeDistance = new Vector3(displacement.x, 0, displacement.z);
 
         // Close the display if the player is far away. 
