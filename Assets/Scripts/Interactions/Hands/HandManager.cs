@@ -42,8 +42,9 @@ public class HandManager : MonoBehaviour
             if(_mode != value)
             {
                 UpdateHandMode(value);
+                _mode = value;
+                UpdateReadoutLocation();
             }
-            _mode = value;
         } 
     }
 
@@ -73,12 +74,6 @@ public class HandManager : MonoBehaviour
 
         public Vector3 UIRayPosition;
         public Quaternion UIRayRotation;
-
-        public Vector3 readoutPosition;
-        public Quaternion readoutRotation;
-
-        public Vector3 readoutPosition2; // In hand mode if both hands are occupied.
-        public Quaternion readoutRotation2;
 
         public Vector3 attachPosition;
         public Quaternion attachRotation;
@@ -251,15 +246,50 @@ public class HandManager : MonoBehaviour
 
 
     // READOUTS -----------------------------------------------------------------------------
+    protected enum ReadoutLocation { 
+        HandHome, // For when we've got a detector in both hands
+        HandAway, // for when we've got a detector in this hand
+        Wand } // Wand mode
+    protected ReadoutLocation _readoutLocation;
+    protected ReadoutLocation readoutLocation
+    {
+        get => _readoutLocation;
+        set
+        {
+            // Do stuff &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+            // Set the parent and position.
+            _readoutLocation = value;
+        }
+    }
+
+    // All of these are for the right hand.
+    // Use  (int)readoutLocation as the index.
+    protected static readonly Vector3[] readoutPositions =
+    {
+        new Vector3(0.01f, 0.15f, 0f), // With a detector in both hands // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&
+        new Vector3(0.02f, -0.03f, 0.015f), // With a detector in this hand // Coords rel. to left hand.
+        new Vector3(0.01f, 0.15f, 0f) // Wand mode
+    };
+    protected static readonly Quaternion[] readoutRotations =
+    {
+        Quaternion.Euler(0, 0, 0), // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        Quaternion.Euler(20, -45, -90), // Relative to left hand.
+        Quaternion.Euler(0, 0, 0)
+    };
+
     protected XRBaseInteractable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
     /* Should be updated on SelectEntered for the direct interactor. 
      */
     protected bool hovering { get; set; }
     /* Updated by HoverEntered (or similar) from the direct interactor.
      */
-    public Transform otherHand;
+    public HandManager otherHand;
 
 
+
+    // RESIZING -----------------------------------------------------------------------------
+    // keep a priority list.
+    // update the readout location
 
 
 
@@ -267,6 +297,7 @@ public class HandManager : MonoBehaviour
     /* To do:
      * * Readout support
      *  * Respond if other hand also has detector
+     *  * Respond on resize
      * * on internals, call public methods only if value shifts
      * * Resizables (only one at a time)
      */
@@ -289,37 +320,41 @@ public class HandManager : MonoBehaviour
         if(teleporter == null) { teleportEnabled = false; }
         pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
         pointedAtUI = true;
-        nearUI = true;
-
-        //directInteractor.select
+        nearUI = true; // Find a better way to do this &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     }
 
 
     private void Update()
     {
-        //if(hand == Hand.Left)
-        //{
-        //    Debug.Log("nearUI: " + nearUI);
-        //    Debug.Log("not pulling: " + !forcePuller.pulling);
-        //    Debug.Log("Nothing selected: " + (directInteractor.selectTarget == null));
-        //    Debug.Log("Not attempting a teleport: " + !attemptingTeleport);
-        //    //Debug.Log("Select target: " + directInteractor.selectTarget.name);
-        //}
-
         // Are we pointed at a UI?
-        if(nearUI && !forcePuller.pulling && (directInteractor.selectTarget == null) 
+        if (nearUI && !forcePuller.pulling && (directInteractor.selectTarget == null) 
             && !attemptingTeleport && uiRay.ray.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
+            //if(hand == Hand.Right) Debug.Log("Raycast hit");
             if (hit.transform.gameObject.layer == UIBackLayer
             || hit.transform.gameObject.layer == UIBackLayer) {
                 pointedAtUI = true;
+                //Debug.Log("Made it through raycast");
             }
             else {
                 pointedAtUI = false;
+                //Debug.Log("Did not make it through raycast.");
             }
         } 
         else {
             pointedAtUI = false;
+        }
+
+        {
+            //if (hand == Hand.Right)
+            //{
+            //    Debug.Log("nearUI: " + nearUI);
+            //    Debug.Log("not pulling: " + !forcePuller.pulling);
+            //    Debug.Log("Nothing selected: " + (directInteractor.selectTarget == null));
+            //    Debug.Log("Not attempting a teleport: " + !attemptingTeleport);
+            //    //Debug.Log("Select target: " + directInteractor.selectTarget.name);
+            //    Debug.Log("pointed at UI? " + pointedAtUI);
+            //}
         }
 
 
@@ -485,9 +520,6 @@ public class HandManager : MonoBehaviour
         uiRay.ray.transform.localPosition = posSet.UIRayPosition;
         uiRay.ray.transform.localRotation = posSet.UIRayRotation;
 
-        //// Set the collider type/position
-        //Debug.LogWarning("Collider unset");
-
         // Raycast direction
         raycastDirection = posSet.raycastDirection;
 
@@ -514,9 +546,6 @@ public class HandManager : MonoBehaviour
 
             // Determine how the hand disappears
             currentHand.GetComponent<HandMotion>().SetVisible(isVisible);
-
-            // Moving the readout to the other hand.
-            readout.transform.parent = otherHand;
         }
 
         // Wand mode ------------------------------------------------------------------------
@@ -537,12 +566,9 @@ public class HandManager : MonoBehaviour
             handCollider.enabled = false;
             wandCollider.enabled = true;
 
-            // Moving the readout to this hand.
-            readout.transform.parent = transform;
+            //// Moving the readout to this hand.
+            //readout.transform.parent = transform;
         }
-
-        readout.transform.localPosition = posSet.readoutPosition;
-        readout.transform.localRotation = posSet.readoutRotation;
 
         Debug.LogWarning("UpdateHandMode not yet implemented");
     }
@@ -584,8 +610,6 @@ public class HandManager : MonoBehaviour
             positionSet.teleportRayRotation = Quaternion.Euler(0, 0, 0);
             positionSet.UIRayPosition = new Vector3(0.05f, -0.005f, 0.1f);
             positionSet.UIRayRotation = Quaternion.Euler(0, 0, 0);
-            positionSet.readoutPosition = new Vector3(0.02f, -0.03f, 0.015f);
-            positionSet.readoutRotation = Quaternion.Euler(20, -45, -90);
             positionSet.attachPosition = new Vector3(0.03f, -0.035f, -0.04f);
             positionSet.attachRotation = Quaternion.Euler(0, 0, 0);
             //Debug.LogWarning("Collider data not set");
@@ -600,8 +624,6 @@ public class HandManager : MonoBehaviour
             positionSet.teleportRayRotation = Quaternion.Euler(0, 0, 0);
             positionSet.UIRayPosition = new Vector3(0.01f, 0.08f, 0.09f);
             positionSet.UIRayRotation= Quaternion.Euler(0, 0, 0);
-            positionSet.readoutPosition = new Vector3(0.01f, 0.15f, 0f);
-            positionSet.readoutRotation = Quaternion.Euler(0, 0, 0);
             positionSet.attachPosition = new Vector3(0.01f, 0.3f, 0.007f);
             positionSet.attachRotation = Quaternion.Euler(-45, 0, 0);
             //Debug.LogWarning("Collider data not set");
@@ -618,31 +640,60 @@ public class HandManager : MonoBehaviour
             positionSet.teleportRayRotation = MirrorRotation(positionSet.teleportRayRotation);
             positionSet.UIRayPosition = MirrorPosition(positionSet.UIRayPosition);
             positionSet.UIRayRotation = MirrorRotation(positionSet.UIRayRotation);
-            positionSet.readoutPosition = MirrorPosition(positionSet.readoutPosition);
-            positionSet.readoutRotation = MirrorRotation(positionSet.readoutRotation);
             positionSet.attachPosition = MirrorPosition(positionSet.attachPosition);
             positionSet.attachRotation = MirrorRotation(positionSet.attachRotation);
             //Debug.LogWarning("Collider data not set");
             positionSet.raycastDirection = MirrorPosition(positionSet.raycastDirection);
         }
-
-        Vector3 MirrorPosition(Vector3 position)
-        {
-            Vector3 ret = position;
-            ret.x *= -1;
-            return ret;
-        }
-        Quaternion MirrorRotation(Quaternion rotation)
-        {
-            Vector3 retEulers = rotation.eulerAngles;
-            retEulers.y *= -1;
-            retEulers.z *= -1;
-            return Quaternion.Euler(retEulers);
-        }
-
         return positionSet;
     }
 
+
+    protected Vector3 MirrorPosition(Vector3 position)
+    {
+        Vector3 ret = position;
+        ret.x *= -1;
+        return ret;
+    }
+    protected Quaternion MirrorRotation(Quaternion rotation)
+    {
+        Vector3 retEulers = rotation.eulerAngles;
+        retEulers.y *= -1;
+        retEulers.z *= -1;
+        return Quaternion.Euler(retEulers);
+    }
+
+
+
+    /// <summary>
+    /// Updates the <see cref="readout"/> location and position data.
+    /// </summary>
+    public void UpdateReadoutLocation()
+    {
+        // This should be called after updating hand mode, whenever the other hand selects an object, or on a resize. 
+        if(mode == HandMode.Wand)
+        {
+            readoutLocation = ReadoutLocation.Wand;
+            readout.transform.parent = transform;
+        }
+        if(mode == HandMode.Hand && otherHand.directInteractor.selectTarget == null)
+        {
+            readoutLocation = ReadoutLocation.HandAway;
+            readout.transform.parent = otherHand.transform;
+        }
+        else
+        {
+            readoutLocation = ReadoutLocation.HandHome;
+            readout.transform.parent = transform;
+        }
+        readout.transform.localPosition = readoutPositions[(int)readoutLocation];
+        readout.transform.localRotation = readoutRotations[(int)readoutLocation];
+        if(hand == Hand.Left)
+        {
+            readout.transform.localPosition = MirrorPosition(readout.transform.localPosition);
+            readout.transform.localRotation = MirrorRotation(readout.transform.localRotation);
+        }
+    }
 
 
 
