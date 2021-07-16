@@ -8,8 +8,16 @@ public class CurlRenderer : MonoBehaviour
     /// <summary>
     /// The material used to instantiate the particles
     /// </summary>
-    [SerializeField]
+    //[SerializeField]
     protected Material material;
+    /// <summary>
+    /// The shader used to instantiate the particles
+    /// </summary>
+    public Shader bubbleShader;
+    /// <summary>
+    /// The color of the bubbles produced.
+    /// </summary>
+    public Color bubbleColor = new Color(0, 1, 0.92f, 1);
 
     /// <summary>
     /// The mesh to make the particles out of.
@@ -63,8 +71,10 @@ public class CurlRenderer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //// Initialize the material
-        //material = new Material(shader);
+        if(material == null || material.shader != bubbleShader) {
+            material = new Material(bubbleShader);
+        }
+        material.SetColor("_Color", bubbleColor);
     }
 
     private void OnEnable()
