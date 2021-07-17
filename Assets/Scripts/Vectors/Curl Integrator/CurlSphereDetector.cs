@@ -109,8 +109,8 @@ public class CurlSphereDetector : FieldDetector
 
 
 
-    private static string nameToDisplay = "Curl (Surface Integral)";
-    private static string description = "A thing. What does it do?";
+    private static string nameToDisplay = "Ave. Curl (Surface Integral)";
+    private static string description = "Integrate the field crossed with the normal vector over the surface, and divide by the volume enclosed.";
     private static int index;
 
     public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
@@ -161,6 +161,7 @@ public class CurlSphereDetector : FieldDetector
 
     private void Update()
     {
+        // Bind this to the localField's preDisplay instead &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         CalculateCurl();
     }
 
@@ -216,10 +217,7 @@ public class CurlSphereDetector : FieldDetector
     /// </summary>
     protected void CalculateCurl()
     {
-        if (!inField)
-        {
-            return;
-        }
+        if (!inField) { return; }
 
         {
             //if (curlContributions != null)
@@ -367,7 +365,9 @@ public class CurlSphereDetector : FieldDetector
     /// </summary>
     private void UpdateShellMaterial()
     {
+        activeMaterial.SetBuffer("_Vectors", vectorsBuffer);
         activeMaterial.SetBuffer(CurlContributionsID, curlContributions);
+        activeMaterial.SetBuffer("_AverageCurl", totalCurlBuffer);
     }
 
 
@@ -384,7 +384,9 @@ public class CurlSphereDetector : FieldDetector
             projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
         }
 
+        projectionDisplay.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer);
         projectionDisplay.pointerMaterial.SetBuffer("_CurlContributions", curlContributions);
+        projectionDisplay.pointerMaterial.SetBuffer("_AverageCurl", totalCurlBuffer);
 
         projectionDisplay.maxVectorLength = zone.maxVectorLength;
         projectionDisplay.bounds = zone.bounds;

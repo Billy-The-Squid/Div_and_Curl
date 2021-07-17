@@ -33,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731022300670848641}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.05, z: -3}
+  m_LocalPosition: {x: 0, y: 1.35, z: -3}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 3404624243550733965}
@@ -111,9 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zone: {fileID: 0}
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  fieldType: 1
+  _fieldType: 0
   isDynamic: 1
+  OnFieldChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &731022300670848666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubbleShader: {fileID: 4800000, guid: 10cead57bbca26346b9ae57434b72536, type: 3}
+  bubbleColor: {r: 0, g: 1, b: 0.92, a: 1}
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   positionComputer: {fileID: 7200000, guid: c0b193086fef7ad46ae8a043ca236d49, type: 3}
   radius: 0.1

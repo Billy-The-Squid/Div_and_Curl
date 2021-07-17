@@ -38,7 +38,23 @@ Shader "Vectors/Detectors/FluxProjections"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP = _FluxContributions[unity_InstanceID];
+				float dotP; 
+				dotP = _FluxContributions[unity_InstanceID];
+				if (length(_Vectors[unity_InstanceID]) == 0) {
+					dotP = 0;
+				}
+				else {
+					dotP = dotP / length(_Vectors[unity_InstanceID]);
+				}
+				//if (abs(_FluxContributions[unity_InstanceID]) == 0) {
+				//	dotP = 0;
+				//}
+				//else if (_FluxContributions[unity_InstanceID] > 0) {
+				//	dotP = 1;
+				//}
+				//else {
+				//	dotP = -1;
+				//}
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;

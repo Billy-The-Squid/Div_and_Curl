@@ -48,6 +48,8 @@ Shader "Vectors/Detectors/CurlSphereShell"
 
             // The values of the curl contribution at each input. 
             StructuredBuffer<float3> _CurlContributions; // RETYPED
+            StructuredBuffer<float3> _AverageCurl; // Single-entry
+            StructuredBuffer<float3> _Vectors;
 
 
 
@@ -60,7 +62,15 @@ Shader "Vectors/Detectors/CurlSphereShell"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
-                float dotP = length(_CurlContributions[v.id]); // RETYPED (kinda)
+                float dotP;
+                //dotP = length(_CurlContributions[v.id]); // RETYPED (kinda)
+                if (length(_Vectors[v.id]) != 0) {
+                    if (length(_AverageCurl[0] != 0)) {
+                        dotP = dot(_AverageCurl[0], _CurlContributions[v.id]) / (length(_AverageCurl[0]) * length(_CurlContributions[v.id]));
+                    }
+                    else { dotP = 0; }
+                }
+                else { dotP = 0; }
 
                 // Red -> blue colors
                 //o.color.r = saturate(-abs(dotP + 1)+2);

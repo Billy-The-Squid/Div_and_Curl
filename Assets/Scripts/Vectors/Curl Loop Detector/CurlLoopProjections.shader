@@ -38,7 +38,11 @@ Shader "Vectors/Detectors/CurlLoopProjections"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP = 10 * _CurlContributions[unity_InstanceID]; // Scaling factor
+				float dotP;
+				//dotP = 10 * _CurlContributions[unity_InstanceID]; // Scaling factor
+				if (length(_Vectors[unity_InstanceID]) != 0) {
+					dotP = 10 * _CurlContributions[unity_InstanceID] / length(_Vectors[unity_InstanceID]);
+				}
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;

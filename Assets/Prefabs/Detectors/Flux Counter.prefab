@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284309509587163691}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.05, z: -3}
+  m_LocalPosition: {x: 0, y: 1.35, z: -3}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 2022139028}
@@ -212,8 +212,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_Colliders: []
   m_InteractionLayerMask:
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_HoverEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1410548009658885904}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
         m_MethodName: TurnOutlineOn
         m_Mode: 1
@@ -238,13 +238,13 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument:
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   m_HoverExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1410548009658885904}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
         m_MethodName: TurnOutlineOff
         m_Mode: 1
@@ -253,7 +253,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument:
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   m_SelectEntered:
@@ -268,7 +268,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument:
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   m_SelectExited:
@@ -283,7 +283,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument:
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   m_Activated:
@@ -366,8 +366,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   minRad: 0.05
   maxRad: 1
   radius: 0.2
@@ -384,13 +384,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 478a77aa59fb83d46856fc447137ef2d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
   activeShader: {fileID: 4800000, guid: 16f103d5ec8ebf246808023d4b1409d3, type: 3}
   meshRenderer: {fileID: 1284309509587163685}
   zone: {fileID: 7379400}
-  vectorField: {fileID: 8455812260723138574}
+  localField: {fileID: 0}
   computeShader: {fileID: 7200000, guid: 8d9e21016e2423d4696133783a709b67, type: 3}
   projectionDisplay: {fileID: 1892496973}
 --- !u!114 &7379400
@@ -403,8 +403,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a30b5ce6f8f88cc4bb27d21d95b19701, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   triggerCollider: {fileID: 1284309509587163690}
   canMove: 1
   meshFilter: {fileID: 1284309509587163684}
@@ -420,8 +420,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: c7b00dc10b1d3f243bf824dc63de5830, type: 2}
   maxVectorLength: 0
@@ -440,7 +440,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument:
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &8455812260723138574
@@ -453,11 +453,15 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 0}
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  fieldType: 0
+  _fieldType: 0
   isDynamic: 1
+  OnFieldChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1892496973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,8 +472,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: 7290d155c34c4d941a9e41d69ac5dc27, type: 2}
   maxVectorLength: 0
@@ -489,8 +493,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8562f02cf121b6c4eaccc784cde6a75d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   display: {fileID: 8735591306580901515}
   detector: {fileID: 1718279740705519841}
   maxColor: {r: 1, g: 0, b: 0, a: 1}

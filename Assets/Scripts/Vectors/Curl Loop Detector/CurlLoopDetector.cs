@@ -78,7 +78,7 @@ public class CurlLoopDetector : FieldDetector
 
 
     private static string nameToDisplay = "Curl (Line Integral)";
-    private static string description = "A thing. What does it do?";
+    private static string description = "Each component of curl is the line integral of the field dotted with the tangent, divided by the area enclosed.";
     private static int index;
 
     public override string displayName { get { return nameToDisplay; } set => throw new System.NotImplementedException("I'm not allowing name changing right now."); }
@@ -119,6 +119,8 @@ public class CurlLoopDetector : FieldDetector
 
     void Update()
     {
+        // Bind this stuff to preDisplay as well, I think?
+
         if(projectionBuffer == null && localField.enabled) {
             unsafe {
                 projectionBuffer = new ComputeBuffer(localField.vectorsBuffer.count, sizeof(Vector3));
@@ -126,7 +128,7 @@ public class CurlLoopDetector : FieldDetector
             }
         }
 
-        displayRigidBody.angularVelocity = -0.5f * averageCurl * transform.up;
+        displayRigidBody.angularVelocity = 0.5f * averageCurl * transform.forward;
 
         DisplayAxis();
         DisplayProjections();
@@ -214,7 +216,7 @@ public class CurlLoopDetector : FieldDetector
         if (!inField) { return; }
 
         axisPosition.SetData(new Vector3[1] { transform.position }); // Will this work? I don't know. 
-        axisLength.SetData(new Vector3[1] { transform.up * averageCurl });
+        axisLength.SetData(new Vector3[1] { -transform.forward * averageCurl });
 
         axisDisplay.maxVectorLength = transform.localScale.x; // This is really arbitrary. 
         axisDisplay.bounds = new Bounds(transform.position, 2 * Vector3.one * transform.localScale.x);
@@ -238,6 +240,7 @@ public class CurlLoopDetector : FieldDetector
         projectionDisplay.maxVectorLength = localField.zone.maxVectorLength;
         projectionDisplay.bounds = localField.zone.bounds;
         projectionDisplay.pointerMaterial.SetBuffer("_CurlContributions", contributionsBuffer);
+        projectionDisplay.pointerMaterial.SetBuffer("_Vectors", localField.vectorsBuffer);
 
         {
             // Debug code

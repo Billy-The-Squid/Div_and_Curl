@@ -46,7 +46,8 @@ Shader "Vectors/Detectors/FluxShell"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            // The values of the flux contribution at each input. 
+            // The values of the flux contribution at each input.
+            StructuredBuffer<float3> _Vectors;
             StructuredBuffer<float> _FluxContributions;
 
 
@@ -61,6 +62,22 @@ Shader "Vectors/Detectors/FluxShell"
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
                 float dotP = _FluxContributions[v.id];
+                if (length(_Vectors[v.id]) == 0) {
+                    dotP = 0;
+                }
+                else {
+                    dotP = dotP / length(_Vectors[v.id]);
+                }
+                //float dotP;
+                //if (_FluxContributions[v.id] == 0) {
+                //    dotP = 0;
+                //}
+                //else if (_FluxContributions[v.id] > 0) {
+                //    dotP = 1;
+                //}
+                //else {
+                //    dotP = -1;
+                //}
 
                 // Red -> blue colors
                 //o.color.r = saturate(-abs(dotP + 1)+2);

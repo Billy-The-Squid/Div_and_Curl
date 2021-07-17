@@ -30,22 +30,18 @@ public class CurlLoopZone : FieldZone
     /// </summary>
     Vector3[] tanArray;
 
+    [Tooltip("The scaling factors for vector visualizations")]
+    public float scalingFactor = 2;
 
-    
+
+
 
 
 
 
     // Start is called before the first frame update
-    void OnEnable()
-    {
+    void OnEnable() {
         Initialize();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnDisable()
@@ -94,14 +90,14 @@ public class CurlLoopZone : FieldZone
         Initialize();
 
         bounds = new Bounds(transform.position, transform.localScale * 2 + Vector3.one * maxVectorLength * 2);
-        maxVectorLength = 2 * Mathf.PI * transform.localScale.x / resolution; // Not the best programming practice...
+        maxVectorLength = 2 * Mathf.PI * transform.localScale.x * scalingFactor / resolution; // Not the best programming practice...
 
         for (int i = 0; i < resolution; i++)
         {
-            posArray[i] = new Vector3(Mathf.Cos(2 * Mathf.PI * i / resolution), 0f, Mathf.Sin(2 * Mathf.PI * i / resolution));
+            posArray[i] = new Vector3(Mathf.Cos(2 * Mathf.PI * i / resolution), Mathf.Sin(2 * Mathf.PI * i / resolution), 0f);
             posArray[i] = transform.TransformPoint(posArray[i]);
 
-            tanArray[i] = new Vector3(-1 * Mathf.Sin(2 * Mathf.PI * i / resolution), 0f, Mathf.Cos(2 * Mathf.PI * i / resolution)) 
+            tanArray[i] = new Vector3(-1 * Mathf.Sin(2 * Mathf.PI * i / resolution), Mathf.Cos(2 * Mathf.PI * i / resolution), 0f) 
                 * 2 * Mathf.PI / resolution; // won't work on other shapes. 
             tanArray[i] = transform.TransformVector(tanArray[i]);
         }

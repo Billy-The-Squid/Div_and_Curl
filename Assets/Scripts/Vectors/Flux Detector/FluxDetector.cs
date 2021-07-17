@@ -35,7 +35,7 @@ public class FluxDetector : FieldDetector
     Mesh mesh;
 
     /// <summary>
-    /// The <cref>FluxZone</cref> object to be used by the <cref>vectorField</cref>.
+    /// The <cref>FluxZone</cref> object to be used by the <cref>localField</cref>.
     /// </summary>
     [SerializeField]
     FluxZone zone;
@@ -43,7 +43,7 @@ public class FluxDetector : FieldDetector
     /// The <cref>VectorField</cref> that is produced by the detector. Not to be confused with the <cref>detectedField</cref>.
     /// </summary>
     [SerializeField]
-    VectorField vectorField;
+    VectorField localField;
 
 
 
@@ -59,7 +59,7 @@ public class FluxDetector : FieldDetector
         normalsID = Shader.PropertyToID("_Normals"),
         totalFluxID = Shader.PropertyToID("_TotalFlux");
     /// <summary>
-    /// Contains the vectors created by <cref>vectorField</cref>.
+    /// Contains the vectors created by <cref>localField</cref>.
     /// </summary>
     ComputeBuffer vectorsBuffer;
     /// <summary>
@@ -131,32 +131,25 @@ public class FluxDetector : FieldDetector
         }
         meshRenderer.material = inField ? activeMaterial : inertMaterial;
 
-        // Finding the vectorField and zone components
+        // Finding the localField and zone components
         if (zone == null) {
             zone = GetComponent<FluxZone>();
         }
-        if (vectorField == null) {
-            vectorField = GetComponent<VectorField>();
+        if (localField == null) {
+            localField = GetComponent<VectorField>();
         }
 
         // Enabling/disabling the vector field appropriately. 
-        vectorField.enabled = inField;
-        vectorField.zone = zone; // Hopefully this is fine for a disabled attribute
+        localField.enabled = inField;
+        localField.zone = zone; // Hopefully this is fine for a disabled attribute
 
         // Initializing the storage array.
         totalFluxArray = new float[1];
 
         quantityName = "Flux / V";
 
-        vectorField.preDisplay += CalculateFlux;
+        localField.preDisplay += CalculateFlux;
     }
-
-
-
-    //private void Update()
-    //{
-    //    CalculateFlux();
-    //}
 
 
 
@@ -230,10 +223,10 @@ public class FluxDetector : FieldDetector
         }
 
         // Makes sure the same field types are being plotted...
-        vectorField.fieldType = detectedField.fieldType;
+        localField.fieldType = detectedField.fieldType;
 
         // Fills the vector and normals buffer
-        vectorsBuffer = vectorField.vectorsBuffer;
+        vectorsBuffer = localField.vectorsBuffer;
         // Does this properly sync up?
         normalsBuffer = zone.normalsBuffer;
 
@@ -324,7 +317,7 @@ public class FluxDetector : FieldDetector
 
         // Stuff for triangles method:
         computeShader.SetBuffer(kernelID, "_Triangles", trianglesBuffer);
-        computeShader.SetBuffer(kernelID, "_Positions", vectorField.positionsBuffer);
+        computeShader.SetBuffer(kernelID, "_Positions", localField.positionsBuffer);
         computeShader.SetInt("_NumberOfTriangles", (int) (mesh.triangles.Length / 3));
         computeShader.SetBuffer(kernelID, "_Areas", areasBuffer);
         computeShader.SetBuffer(kernelID, "_NumberOfTrianglesPerVertex", numTrianglesPerVertBuffer);
@@ -333,7 +326,7 @@ public class FluxDetector : FieldDetector
             ////// More debug code (for triangles)
             //Vector3[] debugArray2 = new Vector3[vectorsBuffer.count];
             //////float[] debugArray2 = new float[numOfPoints];
-            //vectorField.positionsBuffer.GetData(debugArray2);
+            //localField.positionsBuffer.GetData(debugArray2);
             ////Debug.Log((("First three points in normals array: " + debugArray2[0]) + debugArray2[1]) + debugArray2[2]);
             ////Debug.Log((("Last three points in normals array: " + debugArray2[vectorsBuffer.count - 1]) + debugArray2[vectorsBuffer.count - 2]) + debugArray2[vectorsBuffer.count - 3]);
         }
@@ -358,6 +351,7 @@ public class FluxDetector : FieldDetector
     /// </summary>
     private void UpdateShellMaterial()
     {
+        activeMaterial.SetBuffer("_Vectors", vectorsBuffer);
         activeMaterial.SetBuffer(fluxContributionsID, fluxContributions);
     }
 
@@ -372,21 +366,22 @@ public class FluxDetector : FieldDetector
     {
         if(!projectionDisplay.Initialized)
         {
-            projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
+            projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionsBuffer);
         }
 
-        //vectorField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
+        //localField.display.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
         projectionDisplay.pointerMaterial.SetBuffer("_FluxContributions", fluxContributions);
+        projectionDisplay.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer);
         // This should only be done after checking that it's the correct shader, really. 
 
-        projectionDisplay.maxVectorLength = vectorField.zone.maxVectorLength;
-        projectionDisplay.bounds = vectorField.zone.bounds;
-        projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
+        projectionDisplay.maxVectorLength = localField.zone.maxVectorLength;
+        projectionDisplay.bounds = localField.zone.bounds;
+        projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionsBuffer);
 
         {
             //Vector3 pos = transform.position;
-            //vectorField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
-            //vectorField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
+            //localField.display.pointerMaterial.SetBuffer("_Vectors", vectorsBuffer); // Not done automatically bc normally shader doesn't NEED this buffer. 
+            //localField.display.pointerMaterial.SetVector("_DetectorCenter", new Vector4(pos.x, pos.y, pos.z, 0f));
             //// Should the last value of this be 1f?
         }
     }
@@ -398,7 +393,7 @@ public class FluxDetector : FieldDetector
     {
         meshRenderer.material = activeMaterial;
         base.EnteredField(field);
-        vectorField.enabled = true;
+        localField.enabled = true;
     }
 
 
@@ -408,7 +403,7 @@ public class FluxDetector : FieldDetector
     {
         meshRenderer.material = inertMaterial;
         base.ExitedField(field);
-        vectorField.enabled = false;
+        localField.enabled = false;
         detectorOutput = 0.0f;
     }
 }

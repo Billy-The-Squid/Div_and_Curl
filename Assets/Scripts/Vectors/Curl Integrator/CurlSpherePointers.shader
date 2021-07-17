@@ -25,6 +25,7 @@ Shader "Vectors/Detectors/CurlSpherePointers"
 		// The data about how much this point contributes to curl.
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			StructuredBuffer<float3> _CurlContributions; // RETYPED
+			StructuredBuffer<float3> _AverageCurl; // Single-entry
 		#endif
 		
 		//float4 _DetectorCenter; 
@@ -38,7 +39,16 @@ Shader "Vectors/Detectors/CurlSpherePointers"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP = length(_CurlContributions[unity_InstanceID]); // RETYPED (kinda)
+				float dotP;
+				//dotP = length(_CurlContributions[unity_InstanceID]); // RETYPED (kinda)
+
+				if (length(_Vectors[unity_InstanceID]) != 0) {
+					if (length(_AverageCurl[0] != 0)) {
+						dotP = dot(_AverageCurl[0], _CurlContributions[unity_InstanceID]) / (length(_AverageCurl[0]) * length(_CurlContributions[unity_InstanceID]));
+					}
+					else { dotP = 0; }
+				}
+				else { dotP = 0; }
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
