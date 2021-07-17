@@ -58,7 +58,7 @@ public class MinMaxColor : ColorScheme
         initialized = true;
     }
 
-    private void OnDestroy() {
+    private void OnDisable() {
         if (maxMagnitude != null) {
             maxMagnitude.Release();
             maxMagnitude = null;
