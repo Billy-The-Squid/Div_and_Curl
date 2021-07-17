@@ -230,7 +230,7 @@ public class CurlLoopDetector : FieldDetector
     {
         if(!inField) { return; } 
 
-        if(!projectionDisplay.initialized)
+        if(!projectionDisplay.Initialized)
         {
             projectionDisplay.DisplayVectors(localField.positionsBuffer, projectionBuffer);
         }
@@ -255,11 +255,12 @@ public class CurlLoopDetector : FieldDetector
     /// </summary>
     protected void BindColors()
     {
-        var disp = detectedField.display; // Might not work with RainyField?
-        if(disp is VectorDisplay || disp is RainyDisplay)
-        {
-            ((VectorDisplay)localField.display).RecalculateMaxMagnitude();
-        }
+        //var disp = detectedField.display; // Might not work with RainyField?
+        //if(disp is VectorDisplay || disp is RainyDisplay)
+        //{
+        //    ((VectorDisplay)localField.display).RecalculateMaxMagnitude();
+        //}
+        Debug.LogWarning("This function doesn't make sense anymore. Move this to its own ColorScheme");
     }
 
 

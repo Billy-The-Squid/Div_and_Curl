@@ -30,32 +30,32 @@ public class RainyDisplay : VectorDisplay
 
     private void OnDestroy()
     {
-        if (plotVectorsBuffer != null)
+        if (PlotVectorsBuffer != null)
         {
-            plotVectorsBuffer.Release();
-            plotVectorsBuffer = null;
+            PlotVectorsBuffer.Release();
+            PlotVectorsBuffer = null;
         }
-        if (vector2Buffer != null)
+        if (Vector2Buffer != null)
         {
-            vector2Buffer.Release();
-            vector2Buffer = null;
+            Vector2Buffer.Release();
+            Vector2Buffer = null;
         }
-        if (vector3Buffer != null)
+        if (Vector3Buffer != null)
         {
-            vector3Buffer.Release();
-            vector3Buffer = null;
+            Vector3Buffer.Release();
+            Vector3Buffer = null;
         }
-        if (magnitudesBuffer != null)
+        if (MagnitudesBuffer != null)
         {
-            magnitudesBuffer.Release();
-            magnitudesBuffer = null;
+            MagnitudesBuffer.Release();
+            MagnitudesBuffer = null;
         }
-        if (maxMagnitude != null)
-        {
-            maxMagnitude.Release();
-            maxMagnitude = null;
-        }
+        //if (maxMagnitude != null)
+        //{
+        //    maxMagnitude.Release();
+        //    maxMagnitude = null;
+        //}
 
-        initialized = false;
+        Initialized = false;
     }
 }

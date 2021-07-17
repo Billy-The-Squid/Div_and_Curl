@@ -800,7 +800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40dd77aedfd53684f9edfabf9a8ccbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: b750ca4a01632de41a6db6ed94b9da45, type: 2}
+  bubbleShader: {fileID: 4800000, guid: f514b64961834e343995e472d2260dd0, type: 3}
+  bubbleColor: {r: 0, g: 1, b: 0.92, a: 1}
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   positionComputer: {fileID: 7200000, guid: 9f3cb2157d9b4864ba27ffebcb4753b2, type: 3}
   radius: 0.1

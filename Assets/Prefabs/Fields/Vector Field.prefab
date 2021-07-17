@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8150241527288556455}
   - component: {fileID: 8150241527288558680}
   - component: {fileID: 8150241527288558683}
+  - component: {fileID: 555438670}
   m_Layer: 10
   m_Name: Vector Field
   m_TagString: Untagged
@@ -58,8 +59,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e32bd4c8118057142981dd043404d4bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   triggerCollider: {fileID: 8150241527288558682}
   canMove: 0
   xLength: 17
@@ -78,8 +79,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bda58213ca4a2624bb01154c544b3e62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   field: {fileID: 8150241527288558683}
 --- !u!114 &8150241527288558680
 MonoBehaviour:
@@ -91,15 +92,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   pointerMaterial: {fileID: 0}
   pointerMesh: {fileID: 4300000, guid: 3a6090112f438634ba148ca2115ec9f9, type: 2}
   maxVectorLength: 0
   displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
   cullDistance: 0.3
-  colorScheme: 0
   shader: {fileID: 4800000, guid: cb81eed0fbf067b408ae552aad573732, type: 3}
+  preDisplay:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 555438670}
+        m_TargetAssemblyTypeName: MinMaxColor, Assembly-CSharp
+        m_MethodName: ColorMaterial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument:
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8150241527288558683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,8 +125,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
   fieldType: 1
   isDynamic: 0
+--- !u!114 &555438670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8150241527288558685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb7f18e480ced5b4b89b146b1f14c169, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  display: {fileID: 8150241527288558680}
+  field: {fileID: 8150241527288558683}
+  computer: {fileID: 7200000, guid: d88e2d6e8513d9a4abdec4c9415ba1c5, type: 3}
+  maxColor: {r: 1, g: 1, b: 0, a: 1}
+  minColor: {r: 0, g: 0, b: 1, a: 1}

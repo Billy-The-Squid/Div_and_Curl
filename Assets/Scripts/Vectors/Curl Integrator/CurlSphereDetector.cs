@@ -379,7 +379,7 @@ public class CurlSphereDetector : FieldDetector
     /// </summary>
     private void UpdatePointerMaterial()
     {
-        if(!projectionDisplay.initialized)
+        if(!projectionDisplay.Initialized)
         {
             projectionDisplay.DisplayVectors(vectorField.positionsBuffer, projectionsBuffer);
         }

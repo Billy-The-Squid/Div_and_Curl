@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class DivRender : MonoBehaviour
 {
-    ///// <summary>
-    ///// The shader used to instantiate the particles
-    ///// </summary>
-    //[SerializeField]
-    //Shader shader;
+    /// <summary>
+    /// The shader used to instantiate the particles
+    /// </summary>
+    [SerializeField]
+    Shader bubbleShader;
+
+    public Color bubbleColor = new Color(0, 1, 0.92f, 1);
 
     /// <summary>
     /// The material used to instantiate the particles
     /// </summary>
-    [SerializeField]
+    //[SerializeField]
     protected Material material;
 
     /// <summary>
@@ -67,8 +69,11 @@ public class DivRender : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //// Initialize the material
-        //material = new Material(shader);
+        if(material == null || material.shader != bubbleShader)
+        {
+            material = new Material(bubbleShader);
+        }
+        material.SetColor("_Color", bubbleColor);
     }
 
     private void OnEnable()

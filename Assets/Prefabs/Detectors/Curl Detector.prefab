@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curlComputer: {fileID: 7200000, guid: 5cef44e467931be44a737f852fc6c31f, type: 3}
-  curlRenderer: {fileID: 0}
+  curlRenderer: {fileID: 5691273911932625976}
 --- !u!114 &731022300670848642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4acb3888615ff46bcd1e7d9f160b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 337899cd39588ed48a0b3f6ad73a6510, type: 2}
+  bubbleShader: {fileID: 4800000, guid: 10cead57bbca26346b9ae57434b72536, type: 3}
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   positionComputer: {fileID: 7200000, guid: c0b193086fef7ad46ae8a043ca236d49, type: 3}
   radius: 0.1
