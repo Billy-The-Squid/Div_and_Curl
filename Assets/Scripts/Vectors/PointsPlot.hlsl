@@ -1,4 +1,6 @@
 ﻿// This is our vertex shader
+#ifndef POINTSPLOT
+#define POINTSPLOT
 
 #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 	StructuredBuffer<float3> _Positions;
@@ -34,3 +36,4 @@ void ConfigureProcedural ()
 		unity_ObjectToWorld = transformation;
 	#endif
 }
+#endif

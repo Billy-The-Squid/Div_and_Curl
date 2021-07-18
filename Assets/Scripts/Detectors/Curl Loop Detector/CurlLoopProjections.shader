@@ -1,16 +1,16 @@
-﻿// The instancing/surface shader for the projection (and full---change this!) pointers on the flux detector surface.
+// The instancing/surface shader for the projections of the vectors onto the curl loop integral
 
-Shader "Vectors/Detectors/FluxProjections" 
+Shader "Vectors/Detectors/CurlLoopProjections"
 {
 	Properties
 	{
 		// _Scaling ("Scaling Factor", float) = 0.1
-	} // This needs to be used somewhere. Where?
+	} 
 
 	SubShader
 	{
 		CGPROGRAM
-		
+
 		// The compiler directives. 
 		// Renders the surface. Requires a ConfigureSurface function.
 		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow
@@ -20,14 +20,14 @@ Shader "Vectors/Detectors/FluxProjections"
 		#pragma target 4.5
 
 		// This is where the work of calculating transformations is done. 
-		#include "../PointsPlot.hlsl"
+		#include "Assets/Scripts/Vectors/PointsPlot.hlsl"
 
 		// The data about how much this point contributes to flux.
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			StructuredBuffer<float> _FluxContributions;
+			StructuredBuffer<float> _CurlContributions; 
 		#endif
-		
-		//float4 _DetectorCenter; 
+
+
 
 		// The format of the input taken by ConfigureSurface.
 		struct Input
@@ -38,23 +38,11 @@ Shader "Vectors/Detectors/FluxProjections"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP; 
-				dotP = _FluxContributions[unity_InstanceID];
-				if (length(_Vectors[unity_InstanceID]) == 0) {
-					dotP = 0;
+				float dotP;
+				//dotP = 10 * _CurlContributions[unity_InstanceID]; // Scaling factor
+				if (length(_Vectors[unity_InstanceID]) != 0) {
+					dotP = 10 * _CurlContributions[unity_InstanceID] / length(_Vectors[unity_InstanceID]);
 				}
-				else {
-					dotP = dotP / length(_Vectors[unity_InstanceID]);
-				}
-				//if (abs(_FluxContributions[unity_InstanceID]) == 0) {
-				//	dotP = 0;
-				//}
-				//else if (_FluxContributions[unity_InstanceID] > 0) {
-				//	dotP = 1;
-				//}
-				//else {
-				//	dotP = -1;
-				//}
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
@@ -62,15 +50,13 @@ Shader "Vectors/Detectors/FluxProjections"
 				surface.Alpha = 0.75;
 			}
 		#else
-			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)
+			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface)
 			{
 				surface.Albedo = saturate(unity_ObjectToWorld._m02_m12_m22 * 0.5 + 0.5);
 			}
 		#endif
 
-
 		ENDCG
 	}
-
 	FallBack "Diffuse"
 }

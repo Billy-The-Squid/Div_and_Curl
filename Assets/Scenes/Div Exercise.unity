@@ -1130,9 +1130,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
-        m_MethodName: BringUpPrevious
+      - m_Target: {fileID: 543305537}
+        m_TargetAssemblyTypeName: Selector`1[[DetectorData, Assembly-CSharp
+        m_MethodName: Previous
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2435,8 +2435,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 323748566}
-        m_TargetAssemblyTypeName: SceneSelector, Assembly-CSharp
-        m_MethodName: NextScene
+        m_TargetAssemblyTypeName: Selector`1[[FieldScene, Assembly-CSharp
+        m_MethodName: Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5836,8 +5836,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 323748566}
-        m_TargetAssemblyTypeName: SceneSelector, Assembly-CSharp
-        m_MethodName: PrevScene
+        m_TargetAssemblyTypeName: Selector`1[[FieldScene, Assembly-CSharp
+        m_MethodName: Previous
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7213,9 +7213,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FieldMenuUI, Assembly-CSharp
-        m_MethodName: BringUpNextField
+      - m_Target: {fileID: 252353730}
+        m_TargetAssemblyTypeName: Selector`1[[FieldData, Assembly-CSharp
+        m_MethodName: Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9202,9 +9202,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FieldMenuUI, Assembly-CSharp
-        m_MethodName: BringUpPreviousField
+      - m_Target: {fileID: 252353730}
+        m_TargetAssemblyTypeName: Selector`1[[FieldData, Assembly-CSharp
+        m_MethodName: Previous
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11931,7 +11931,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5302551c590ddac47860bdb6bb09708f, type: 2}
+  - {fileID: 2100000, guid: cc74432e0d8c7b645a25589b1fafdebe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12326,9 +12326,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
-        m_MethodName: BringUpNext
+      - m_Target: {fileID: 543305537}
+        m_TargetAssemblyTypeName: Selector`1[[DetectorData, Assembly-CSharp
+        m_MethodName: Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

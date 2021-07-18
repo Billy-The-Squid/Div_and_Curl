@@ -1,6 +1,6 @@
-﻿// The instancing/surface shader for the projection vectors on a curl integral surface.
+﻿// The instancing/surface shader for the projection (and full---change this!) pointers on the flux detector surface.
 
-Shader "Vectors/Detectors/CurlSpherePointers" 
+Shader "Vectors/Detectors/FluxProjections" 
 {
 	Properties
 	{
@@ -20,12 +20,11 @@ Shader "Vectors/Detectors/CurlSpherePointers"
 		#pragma target 4.5
 
 		// This is where the work of calculating transformations is done. 
-		#include "../PointsPlot.hlsl"
+		#include "Assets/Scripts/Vectors/PointsPlot.hlsl"
 
-		// The data about how much this point contributes to curl.
+		// The data about how much this point contributes to flux.
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			StructuredBuffer<float3> _CurlContributions; // RETYPED
-			StructuredBuffer<float3> _AverageCurl; // Single-entry
+			StructuredBuffer<float> _FluxContributions;
 		#endif
 		
 		//float4 _DetectorCenter; 
@@ -39,26 +38,28 @@ Shader "Vectors/Detectors/CurlSpherePointers"
 
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
-				float dotP;
-				//dotP = length(_CurlContributions[unity_InstanceID]); // RETYPED (kinda)
-
-				if (length(_Vectors[unity_InstanceID]) != 0) {
-					if (length(_AverageCurl[0] != 0)) {
-						dotP = dot(_AverageCurl[0], _CurlContributions[unity_InstanceID]) / (length(_AverageCurl[0]) * length(_CurlContributions[unity_InstanceID]));
-					}
-					else { dotP = 0; }
+				float dotP; 
+				dotP = _FluxContributions[unity_InstanceID];
+				if (length(_Vectors[unity_InstanceID]) == 0) {
+					dotP = 0;
 				}
-				else { dotP = 0; }
+				else {
+					dotP = dotP / length(_Vectors[unity_InstanceID]);
+				}
+				//if (abs(_FluxContributions[unity_InstanceID]) == 0) {
+				//	dotP = 0;
+				//}
+				//else if (_FluxContributions[unity_InstanceID] > 0) {
+				//	dotP = 1;
+				//}
+				//else {
+				//	dotP = -1;
+				//}
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
 				surface.Albedo.g = 1 - 3 * abs(dotP) / 4 + dotP / 4;
 				surface.Albedo.b = 1 - abs(dotP) / 2 - dotP / 2;
 				surface.Alpha = 0.75;
-
-				//// Debug code
-				//surface.Albedo.r = 0;
-				//surface.Albedo.g = 1;
-				//surface.Albedo.b = 0;
 			}
 		#else
 			void ConfigureSurface (Input input, inout SurfaceOutputStandard surface)
