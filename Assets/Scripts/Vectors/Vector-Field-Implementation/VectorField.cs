@@ -188,10 +188,10 @@ public class VectorField : MonoBehaviour
             //Debug.Log((("Last three points in vector array: " + debugArray[numOfPoints - 1]) + debugArray[numOfPoints - 2]) + debugArray[numOfPoints - 3]);
         }
 
-        if(fieldType == FieldType.Empty)
-        {
-            Debug.LogWarning("Using empty field");
-        }
+        //if(fieldType == FieldType.Empty) // Helpful someday, but annoying right now.
+        //{
+        //    Debug.LogWarning("Using empty field");
+        //}
     }
 
     private void LateUpdate() // WHAT REQUIRES THIS? %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

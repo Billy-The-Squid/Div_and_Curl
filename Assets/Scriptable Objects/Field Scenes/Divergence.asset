@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20da9b3c779474e408505a7a598e4b43, type: 3}
+  m_Name: Divergence
+  m_EditorClassIdentifier: 
+  sceneName: Divergence
+  SceneDescription: Learn about divergence
+  detectorArray:
+  - {fileID: 11400000, guid: aa661c43ad4b8924ea1b13193913bba2, type: 2}
+  - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
+  fieldArray:
+  - {fileID: 11400000, guid: 6f56b74f75f650c4190d4322f8c3d5f0, type: 2}
+  - {fileID: 11400000, guid: 104d0a2ac6ef7e842a2b2c4c40970d1e, type: 2}
+  - {fileID: 11400000, guid: b57c2b861a2c40342b10c1f0f7dcafbb, type: 2}
+  fieldList: 
+  limitDetectors: 0

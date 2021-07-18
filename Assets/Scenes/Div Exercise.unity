@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543305536}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
         m_MethodName: BringUpPrevious
         m_Mode: 1
@@ -1470,7 +1470,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238110839}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60523e0647cc6ab43acc73cb266a32a7, type: 3}
   m_Name: 
@@ -1490,7 +1490,7 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543305536}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
         m_MethodName: DisplaySocketed
         m_Mode: 1
@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543305536}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
         m_MethodName: DisplaySocketed
         m_Mode: 1
@@ -1544,7 +1544,7 @@ SphereCollider:
   m_GameObject: {fileID: 238110839}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
@@ -1557,8 +1557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 252353729}
-  - component: {fileID: 252353728}
-  - component: {fileID: 252353727}
+  - component: {fileID: 252353730}
   m_Layer: 0
   m_Name: Field Manager
   m_TagString: Untagged
@@ -1566,7 +1565,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &252353727
+--- !u!4 &252353729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252353726}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1753806344}
+  - {fileID: 1559851648}
+  - {fileID: 1372219153}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &252353730
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1575,13 +1591,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 252353726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 345eef81fe96f2b458de7d961804c0ca, type: 3}
+  m_Script: {fileID: 11500000, guid: fb557d0c27c66e34283558df4dd8f62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerEyes: {fileID: 827623287}
   canvas: {fileID: 1372219157}
   background: {fileID: 1559851649}
-  visibleDistance: 1.5
+  visibleDistance: 2
   UIAppearEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1636,39 +1652,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _available:
+  - {fileID: 11400000, guid: 9b37d523e49febf48880ba1359855f39, type: 2}
   field: {fileID: 300254220}
-  fieldsAvailable: 000000000100000002000000
---- !u!114 &252353728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252353726}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7b351b3d6abb654197a0ddea8d35e90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentField: {fileID: 300254220}
-  fieldNeedsUpdate: 0
---- !u!4 &252353729
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252353726}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1753806344}
-  - {fileID: 1559851648}
-  - {fileID: 1372219153}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  nameDisplay: {fileID: 648309566}
+  descriptionDisplay: {fileID: 322467436}
 --- !u!1 &255774573
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,64 +2243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5cbf3bf8f695849a8ab304c0de4124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerEyes: {fileID: 0}
   canvas: {fileID: 2071710656}
-  scenesAvailable:
-  - sceneName: Sandbox
-    detectorList: 00000000010000000200000003000000040000000500000006000000
-    fieldList: 0800000000000000070000000100000003000000
-    limitDetectors: 0
-  - sceneName: Interactions
-    detectorList: 00000000
-    fieldList: 08000000
-    limitDetectors: 0
-  - sceneName: Fields
-    detectorList: 01000000
-    fieldList: 000000000600000007000000010000000300000004000000
-    limitDetectors: 0
-  - sceneName: Flux
-    detectorList: 0200000001000000
-    fieldList: 000000000600000007000000
-    limitDetectors: 0
-  - sceneName: Divergence
-    detectorList: 0300000001000000
-    fieldList: 000000000600000007000000
-    limitDetectors: 0
-  - sceneName: Curl (Loop)
-    detectorList: 0400000001000000
-    fieldList: 010000000300000004000000
-    limitDetectors: 0
-  - sceneName: Curl (Differential)
-    detectorList: 0500000001000000
-    fieldList: 010000000300000004000000
-    limitDetectors: 0
-  ChangeScene:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 252353727}
-        m_TargetAssemblyTypeName: FieldMenuUI, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 543305536}
-        m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DeleteMe:
+  background: {fileID: 0}
+  visibleDistance: 1
+  UIAppearEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 502300861}
@@ -2330,6 +2265,68 @@ MonoBehaviour:
       - m_Target: {fileID: 441323764}
         m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
         m_MethodName: SetUIVisible
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  UIDisppearEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 502300861}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
+        m_MethodName: RemoveUIVisible
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 441323764}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
+        m_MethodName: RemoveUIVisible
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _available:
+  - {fileID: 11400000, guid: 7a0e87f7d57159a4db8e883f389bb91d, type: 2}
+  - {fileID: 11400000, guid: 7787f9e458c9720409c4631ef17e1789, type: 2}
+  - {fileID: 11400000, guid: affb4615024824e41bb35ae8e3f5571e, type: 2}
+  - {fileID: 11400000, guid: 9b2afcfcb25a86644bce405f5282e6b0, type: 2}
+  - {fileID: 11400000, guid: 8a1800598bb6fbf42a5e8dcc846bc94b, type: 2}
+  - {fileID: 11400000, guid: 520fe822e458b574781867a36514b518, type: 2}
+  - {fileID: 11400000, guid: 0445acb3ad500194b8b68c522b8f8681, type: 2}
+  ChangeScene:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FieldMenuUI, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 543305537}
+        m_TargetAssemblyTypeName: DetectorSelector, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3654,7 +3651,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543305535}
-  - component: {fileID: 543305536}
+  - component: {fileID: 543305537}
   m_Layer: 5
   m_Name: Detector Config Menu
   m_TagString: Untagged
@@ -3678,7 +3675,7 @@ Transform:
   m_Father: {fileID: 32453616}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &543305536
+--- !u!114 &543305537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3687,12 +3684,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 543305534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9fa1f7207c31634288b29fa5860e392, type: 3}
+  m_Script: {fileID: 11500000, guid: 25619619c36f3234a81ec69e119c0a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerEyes: {fileID: 827623287}
   canvas: {fileID: 147308251}
-  background: {fileID: 0}
+  background: {fileID: 366440497}
   visibleDistance: 1
   UIAppearEvent:
     m_PersistentCalls:
@@ -3748,21 +3745,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  detectorsArray:
-  - {fileID: -2784523897245137300, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}
-  - {fileID: 7192881086067594963, guid: 0816841dba5597d4c87f7a8ef547f5e2, type: 3}
-  - {fileID: 1718279740705519841, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}
-  - {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
-  - {fileID: 4270039084551078667, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}
-  - {fileID: 731022300670848666, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}
-  - {fileID: 5484386669841562316, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}
-  availableDetectors: 
-  detectorsInScene: []
+  _available:
+  - {fileID: 11400000, guid: b959b056f2fde1a48b1c36dfea8d2803, type: 2}
+  spawnPoint: {fileID: 238110840}
+  respawnDistance: 0.05
   detectorNameDisplay: {fileID: 451898628}
   detectorDescriptionDisplay: {fileID: 1495922717}
-  socket: {fileID: 238110841}
-  limitDetectors: 0
-  waitTime: 0.5
 --- !u!1 &559287056
 GameObject:
   m_ObjectHideFlags: 0
@@ -7225,7 +7213,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252353727}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FieldMenuUI, Assembly-CSharp
         m_MethodName: BringUpNextField
         m_Mode: 1
@@ -9214,7 +9202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252353727}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FieldMenuUI, Assembly-CSharp
         m_MethodName: BringUpPreviousField
         m_Mode: 1
@@ -12338,7 +12326,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 543305536}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DetectorMenuUI, Assembly-CSharp
         m_MethodName: BringUpNext
         m_Mode: 1

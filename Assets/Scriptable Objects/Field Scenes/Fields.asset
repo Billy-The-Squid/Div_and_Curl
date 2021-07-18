@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20da9b3c779474e408505a7a598e4b43, type: 3}
+  m_Name: Fields
+  m_EditorClassIdentifier: 
+  sceneName: Fields
+  SceneDescription: Meet the vector fields
+  detectorArray:
+  - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
+  fieldArray:
+  - {fileID: 11400000, guid: 6f56b74f75f650c4190d4322f8c3d5f0, type: 2}
+  - {fileID: 11400000, guid: 104d0a2ac6ef7e842a2b2c4c40970d1e, type: 2}
+  - {fileID: 11400000, guid: b57c2b861a2c40342b10c1f0f7dcafbb, type: 2}
+  - {fileID: 11400000, guid: 2f826b75633380e409f3528a911b106e, type: 2}
+  - {fileID: 11400000, guid: 6bd945ec0b2a5c24390d978ed679c2af, type: 2}
+  - {fileID: 11400000, guid: 9b26fab132bfdd5479148c24e7dcfb07, type: 2}
+  fieldList: 000000000600000007000000010000000300000005000000
+  limitDetectors: 0
