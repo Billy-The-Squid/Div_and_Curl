@@ -111,15 +111,17 @@ public class CurlRenderer : MonoBehaviour
 
         positionComputer.Dispatch(kernelID, 1, 1, 1);
 
-        //// Debug code
-        //Vector3[] debugArray = new Vector3[curlBuffer.count];
-        //float[] debugFloatArray = new float[distancesBuffer.count];
-        //curlBuffer.GetData(debugArray);
-        //distancesBuffer.GetData(debugFloatArray);
+        {
+            //// Debug code
+            //Vector3[] debugArray = new Vector3[curlBuffer.count];
+            //float[] debugFloatArray = new float[distancesBuffer.count];
+            //curlBuffer.GetData(debugArray);
+            //distancesBuffer.GetData(debugFloatArray);
+        }
 
-        // Display the particles // UNCOMMENT ME
+        // Display the particles 
         material.SetBuffer("_Distances", distancesBuffer);
-        material.SetBuffer("_Curl", curlBuffer); // CHANGE THE NAME OF _Divergence
+        material.SetBuffer("_Curl", curlBuffer);
 
         material.SetInt("_ParticlesPerStream", particlesPerStream);
         material.SetFloat("_StartDistance", radius);

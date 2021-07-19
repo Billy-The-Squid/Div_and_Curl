@@ -22,17 +22,6 @@ public class CurlDiffDetector : FieldDetector
     /// </summary>
     VectorField computationField;
 
-    ///// <summary>
-    ///// The detector's RigidBody.
-    ///// </summary>
-    //[SerializeField]
-    //Rigidbody displayRigidBody;
-    ///// <summary>
-    ///// The parent of the displayRigidBody. Must be free to rotate
-    ///// </summary>
-    //[SerializeField]
-    //Transform displayParent;
-
     /// <summary>
     /// The buffer used to get the components of the curl. 
     /// </summary>
@@ -82,12 +71,6 @@ public class CurlDiffDetector : FieldDetector
             curlRenderer = GetComponent<CurlRenderer>();
         }
 
-        //// Find the RigidBody
-        //if(displayRigidBody == null)
-        //{
-        //    displayRigidBody = GetComponent<Rigidbody>();
-        //}
-
         quantityName = "Curl";
     }
 
@@ -104,9 +87,6 @@ public class CurlDiffDetector : FieldDetector
         CalculateCurl();
 
         curlRenderer.curlBuffer = curlBuffer;
-
-        //displayParent.up = curl.normalized; // This doesn't do anything with the GrabInteractable
-        //displayRigidBody.angularVelocity = - 0.5f * curl; // Scale this so that the visual rate of spin matches the rate that particles will move
     }
 
 

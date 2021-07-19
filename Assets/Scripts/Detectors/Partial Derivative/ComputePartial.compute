@@ -1,0 +1,12 @@
+#pragma kernel ComputePartial
+
+//StructuredBuffer<float3> _Positions;
+float _DeltaX;
+StructuredBuffer<float3> _Vectors;
+RWStructuredBuffer<float3> _Results; // Single-entry
+
+[numthreads(1,1,1)]
+void ComputePartial (uint3 id : SV_DispatchThreadID)
+{
+    _Results[0] = (_Vectors[0] - _Vectors[1]) / (2 * _DeltaX);
+}
