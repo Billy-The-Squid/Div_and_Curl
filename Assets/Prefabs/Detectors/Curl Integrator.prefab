@@ -149,7 +149,7 @@ MonoBehaviour:
   m_HoverEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7067369151774158982}
         m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
         m_MethodName: TurnOutlineOn
         m_Mode: 1
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_HoverExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7067369151774158982}
         m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
         m_MethodName: TurnOutlineOff
         m_Mode: 1

@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class SceneSelector : Selector<FieldScene>
 {
     public SceneEvent ChangeScene = new SceneEvent();
+
+    public TextMeshProUGUI nameDisplay;
+    public TextMeshProUGUI descriptionDisplay;
 
 
 
@@ -32,6 +36,8 @@ public class SceneSelector : Selector<FieldScene>
         if (ChangeScene != null) {
             ChangeScene.Invoke(available[current]);
         }
+        nameDisplay.SetText(available[current].name);
+        descriptionDisplay.SetText(available[current].SceneDescription);
     }
 
 
