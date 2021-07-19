@@ -25,7 +25,7 @@ uint IDToAxis(uint3 id) {
 void InitializePositions (uint3 id : SV_DispatchThreadID) {
     float componentMag = sqrt(pow(_Curl[IDToAxis(id)][0], 2) + pow(_Curl[IDToAxis(id)][1], 2) + pow(_Curl[IDToAxis(id)][2], 2));
     if (componentMag != 0) {
-        _Distances[id.x] = 0.1 * componentMag;
+        _Distances[id.x] = 0.1 * componentMag; // small, arbitrary starting value.
     }
     else
     {

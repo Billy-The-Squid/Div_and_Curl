@@ -78,6 +78,10 @@ public class PartialDetector : FieldDetector
 
         partialDerivative.GetData(tempArray);
         detectorOutput = tempArray[0].magnitude;
+
+        // Tell the renderer to get to work 
+        partialRenderer.CreateDisplay();
+        // There's got to be a better place to call this & still ensure proper ordering
     }
 
     public override void EnteredField(VectorField graph)

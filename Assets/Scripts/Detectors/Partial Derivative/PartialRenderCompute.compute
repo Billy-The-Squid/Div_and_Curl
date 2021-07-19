@@ -1,14 +1,18 @@
 // Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel CSMain
+#pragma kernel Initialize
+#pragma kernel ComputeDistances
 
-// Create a RenderTexture with enableRandomWrite flag and set it
-// with cs.SetTexture
-RWTexture2D<float4> Result;
+StructuredBuffer<float3> _Partial; // 1 entry
+RWStructuredBuffer<float> _Distances; // 2 entries
 
-[numthreads(8,8,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
+[numthreads(2,1,1)]
+void Initialize (uint3 id : SV_DispatchThreadID)
 {
-    // TODO: insert actual code here!
+    // two threads
+}
 
-    Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+[numthreads(2,1,1)]
+void ComputeDistances(uint3 id : SV_DispatchThreadID)
+{
+    
 }

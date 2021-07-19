@@ -58,6 +58,22 @@ public class PartialRenderer : MonoBehaviour
         
     }
 
+    protected void Initialize()
+    {
+        if(initialized) { return; }
+
+        initialized = true;
+        Debug.LogWarning("Initialized is not yet implemented.");
+    }
+
+    public void CreateDisplay()
+    {
+        Initialize();
+
+        Debug.LogWarning("CreateDisplay is not yet implemented.");
+    }
+
+
     private void OnEnable()
     {
         distancesBuffer = new ComputeBuffer(2, sizeof(float));
