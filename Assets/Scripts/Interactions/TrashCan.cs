@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-[RequireComponent(typeof(XRSocketInteractor))]
-public class TrashCan : MonoBehaviour
+//[RequireComponent(typeof(XRSocketInteractor))]
+public class TrashCan : XRSocketInteractor
 {
     [SerializeField]
     public XRSocketInteractor socket;
@@ -13,24 +13,13 @@ public class TrashCan : MonoBehaviour
     public GameObject lid;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        if(socket == null) {
-            socket = GetComponent<XRSocketInteractor>();
-        }
-    }
+        base.Start();
 
-    private void Update()
-    {
-        if(socket.selectTarget == null)
-        {
-            Debug.Log("No select target");
-        }
-        else
-        {
-            Debug.Log("Select target: " + socket.selectTarget.name);
-        }
-        Debug.Log("Socket active: " + socket.socketActive);
+        //if(socket == null) {
+        //    socket = GetComponent<XRSocketInteractor>();
+        //}
     }
 
     public void EnteredHover()
@@ -45,30 +34,42 @@ public class TrashCan : MonoBehaviour
 
     public void Selected()
     {
-        // Identify the object
-        GameObject toBeDestroyed = socket.selectTarget.gameObject;
+        //// Identify the object
+        //GameObject toBeDestroyed = socket.selectTarget.gameObject;
 
-        // Pause socket interaction
-        socket.socketActive = false;
-        //socket.enabled = false;
-        //socket.allowSelect = false;
+        //// Pause socket interaction
+        //socket.socketActive = false;
+        ////socket.enabled = false;
+        ////socket.allowSelect = false;
 
-        // Get rid of the object
-        //toBeDestroyed.SetActive(false);
-        //Debug.LogWarning("Set " + toBeDestroyed.name + " false");
+        //// Get rid of the object
+        ////toBeDestroyed.SetActive(false);
+        ////Debug.LogWarning("Set " + toBeDestroyed.name + " false");
 
-        StartCoroutine(DestroySocketed(toBeDestroyed));
-        Debug.Log("Started coroutine");
+        //StartCoroutine(DestroySocketed(toBeDestroyed));
+        //Debug.Log("Started coroutine");
     }
 
     protected IEnumerator DestroySocketed(GameObject obj)
     {
         yield return new WaitForEndOfFrame();
 
-        Destroy(obj);
+        //Destroy(obj);
+        obj.SetActive(false);
 
         yield return null; // Wait for next frame?
 
-        socket.socketActive = true;
+        Destroy(obj);
+
+        //socket.socketActive = true;
+    }
+
+    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        SelectExitEventArgs exitArgs = new SelectExitEventArgs();
+        exitArgs.interactable = args.interactable;
+        exitArgs.interactor = args.interactor;
+        OnSelectExiting(exitArgs);
+        StartCoroutine(DestroySocketed(args.interactable.gameObject));
     }
 }
