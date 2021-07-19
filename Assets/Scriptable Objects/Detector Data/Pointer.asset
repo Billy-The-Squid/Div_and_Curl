@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Pointer
   m_EditorClassIdentifier: 
   name: Pointer
-  description: Description text.
+  description: The value of the field at each point.
   detectorPrefab: {fileID: 7192881086067594963, guid: 0816841dba5597d4c87f7a8ef547f5e2, type: 3}

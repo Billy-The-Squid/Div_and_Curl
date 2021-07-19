@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Differential Curl
   m_EditorClassIdentifier: 
   name: Curl (Differential)
-  description: Description text.
+  description: Does the field have a vortex or shear at this point?
   detectorPrefab: {fileID: 731022300670848666, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}

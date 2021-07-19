@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Divergence
   m_EditorClassIdentifier: 
   name: Divergence
-  description: Divergence.
+  description: Does the field flow outwards or inwards from this point?
   detectorPrefab: {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
