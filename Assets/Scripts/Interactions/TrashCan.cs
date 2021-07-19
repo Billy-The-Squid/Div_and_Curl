@@ -4,72 +4,75 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 //[RequireComponent(typeof(XRSocketInteractor))]
-public class TrashCan : XRSocketInteractor
+public class TrashCan : MonoBehaviour
 {
-    [SerializeField]
-    public XRSocketInteractor socket;
+    //[SerializeField]
+    //public XRSocketInteractor socket;
 
     [SerializeField]
     public GameObject lid;
 
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        base.Start();
+    [SerializeField]
+    protected Collider hoverZone;
 
-        //if(socket == null) {
-        //    socket = GetComponent<XRSocketInteractor>();
-        //}
+    protected List<XRGrabInteractable> hovering = new List<XRGrabInteractable>();
+
+
+
+    private void Update()
+    {
+        foreach(XRGrabInteractable hovered in hovering)
+        {
+            if(!hovered.isSelected)
+            {
+                hovering.Remove(hovered);
+                hovered.enabled = false;
+                StartCoroutine(DestroyInteractable(hovered.gameObject));
+            }
+        }
+
+        if (hovering.Count == 0)
+        {
+            lid.SetActive(true);
+        }
+        else
+        {
+            lid.SetActive(false);
+        }
     }
 
-    public void EnteredHover()
+    private void OnTriggerEnter(Collider other)
     {
-        lid.GetComponent<MeshRenderer>().enabled = false;
+        if(other.GetComponent<XRGrabInteractable>() != null)
+        {
+            XRGrabInteractable grabbable = other.GetComponent<XRGrabInteractable>();
+
+            if(grabbable != null && grabbable.isSelected && grabbable.selectingInteractor is XRDirectInteractor)
+            {
+                hovering.Add(grabbable);
+            }
+        }
     }
 
-    public void ExitedHover()
+    private void OnTriggerExit(Collider other)
     {
-        lid.GetComponent<MeshRenderer>().enabled = true;
+        XRGrabInteractable grabbable = other.GetComponent<XRGrabInteractable>();
+        if (grabbable != null && hovering.Contains(grabbable))
+        {
+            hovering.Remove(grabbable);
+        }
     }
 
-    public void Selected()
+
+
+    protected IEnumerator DestroyInteractable(GameObject obj)
     {
-        //// Identify the object
-        //GameObject toBeDestroyed = socket.selectTarget.gameObject;
+        yield return new WaitForSeconds(1f);
 
-        //// Pause socket interaction
-        //socket.socketActive = false;
-        ////socket.enabled = false;
-        ////socket.allowSelect = false;
-
-        //// Get rid of the object
-        ////toBeDestroyed.SetActive(false);
-        ////Debug.LogWarning("Set " + toBeDestroyed.name + " false");
-
-        //StartCoroutine(DestroySocketed(toBeDestroyed));
-        //Debug.Log("Started coroutine");
-    }
-
-    protected IEnumerator DestroySocketed(GameObject obj)
-    {
-        yield return new WaitForEndOfFrame();
-
-        //Destroy(obj);
         obj.SetActive(false);
 
-        yield return null; // Wait for next frame?
+        //yield return null; // Wait for next frame?
 
-        Destroy(obj);
-
-        //socket.socketActive = true;
-    }
-
-    protected override void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        SelectExitEventArgs exitArgs = new SelectExitEventArgs();
-        exitArgs.interactable = args.interactable;
-        exitArgs.interactor = args.interactor;
-        OnSelectExiting(exitArgs);
-        StartCoroutine(DestroySocketed(args.interactable.gameObject));
+        //Destroy(obj);
     }
 }
