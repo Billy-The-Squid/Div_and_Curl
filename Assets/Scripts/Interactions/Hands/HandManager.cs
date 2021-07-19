@@ -454,6 +454,10 @@ public class HandManager : MonoBehaviour
                 {
                     if (hit.transform.Equals(obj.transform))
                     {
+                        if(obj.GetComponent<XRGrabInteractable>() == null)
+                        {
+                            Debug.LogWarning(obj.name + " is missing an XRGrabInteractable component");
+                        }
                         // I'm not holding it already, right?
                         if((!obj.GetComponent<XRGrabInteractable>().isSelected || !(obj.GetComponent<XRGrabInteractable>().selectingInteractor is XRDirectInteractor)))
                         {
