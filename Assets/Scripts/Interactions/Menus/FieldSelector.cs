@@ -49,8 +49,6 @@ public class FieldSelector : Selector<FieldData>
 
         nameDisplay.SetText(available[current].name);
         descriptionDisplay.SetText(available[current].description);
-
-        Debug.LogWarning("ChangeSelection not imlemented");
     }
 
 

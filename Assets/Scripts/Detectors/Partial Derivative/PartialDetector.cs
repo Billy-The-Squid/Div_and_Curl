@@ -18,6 +18,7 @@ public class PartialDetector : FieldDetector
     /// The partial derivative of the field calculated this frame. Single-entry.
     /// </summary>
     public ComputeBuffer partialDerivative;
+    [System.NonSerialized]
     public Vector3[] tempArray = new Vector3[1];
 
     /// <summary>
