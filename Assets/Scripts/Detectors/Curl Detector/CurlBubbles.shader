@@ -51,7 +51,7 @@ Shader "Vectors/Detectors/CurlBubbles"
 		}
 
 		int StreamToAxis(int stream) {
-			return stream / ((int) 2); // "int divides are slow, try uint"
+			return (int) (((uint) stream) / 2); // "int divides are slow, try uint"
 		}
 
 		int StreamSign(int stream) {
@@ -68,8 +68,8 @@ Shader "Vectors/Detectors/CurlBubbles"
 		void ConfigureProcedural () 
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-				int streamNumber = (((int) unity_InstanceID) / _ParticlesPerStream); // "int divides are slow, try uint"
-				int particleNumber = fmod(unity_InstanceID, 6);
+				int streamNumber = ((unity_InstanceID) / (uint) _ParticlesPerStream); // "int divides are slow, try uint"
+				int particleNumber = fmod(unity_InstanceID, 6); // What now? Why 6?
 				float dist;
 
 				float componentMag = sqrt(pow(_Curl[StreamToAxis(streamNumber)][0], 2) + pow(_Curl[StreamToAxis(streamNumber)][1], 2) + pow(_Curl[StreamToAxis(streamNumber)][2], 2));
@@ -91,10 +91,6 @@ Shader "Vectors/Detectors/CurlBubbles"
 					position = _CenterPosition + IDToStream(streamNumber) * _StartDistance;
 					size = 0;
 				}
-				
-				//// Debug code --- delete me!
-				//position = _CenterPosition + IDToStream(streamNumber) * _StartDistance;
-				// Sizes ARE getting computed properly. 
 
 
 				float4x4 transformation = 0.0; 

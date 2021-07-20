@@ -17,6 +17,7 @@ MonoBehaviour:
   detectorArray:
   - {fileID: 11400000, guid: b959b056f2fde1a48b1c36dfea8d2803, type: 2}
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
+  - {fileID: 11400000, guid: aac877ac735fcad47b96448e4b3e82a7, type: 2}
   - {fileID: 11400000, guid: d0e431401b0886245bf926fad5e2e629, type: 2}
   - {fileID: 11400000, guid: aa661c43ad4b8924ea1b13193913bba2, type: 2}
   - {fileID: 11400000, guid: 923ca0175c7c0b14d9d3b10dfaabb77d, type: 2}
@@ -32,5 +33,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b26fab132bfdd5479148c24e7dcfb07, type: 2}
   - {fileID: 11400000, guid: c8d491c27b0e0e140922b750e5340168, type: 2}
   - {fileID: 11400000, guid: 67e9f087f7f7fce4d918e3a1ecba0f98, type: 2}
-  fieldList: 080000000000000006000000070000000100000003000000050000000500000004000000
   limitDetectors: 0

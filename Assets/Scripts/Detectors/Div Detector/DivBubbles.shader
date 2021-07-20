@@ -60,7 +60,7 @@ Shader "Vectors/Detectors/DivBubbles"
 		void ConfigureProcedural () 
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-				int streamNumber = (((int) unity_InstanceID) / _ParticlesPerStream); // "int divides are slow, try uint"
+				int streamNumber = ((unity_InstanceID) / (uint) _ParticlesPerStream); // "int divides are slow, try uint"
 				int particleNumber = fmod(unity_InstanceID, 6);
 				float dist;
 

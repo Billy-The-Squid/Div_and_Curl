@@ -22,7 +22,6 @@ public class PartialZone : FieldZone
         canMove = true;
 
         initialized = true;
-        Debug.LogWarning("Initialize not implemented");
     }
 
 
@@ -47,7 +46,5 @@ public class PartialZone : FieldZone
 
         // Set the bounds
         bounds = new Bounds(transform.position, 2 * deltaX * Vector3.one * transform.localScale.x);
-
-        Debug.LogWarning("SetPositions not implemented");
     }
 }

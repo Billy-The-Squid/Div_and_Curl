@@ -27,6 +27,6 @@ void Initialize (uint3 id : SV_DispatchThreadID)
 void ComputeDistances(uint3 id : SV_DispatchThreadID)
 {
     float partialMag = length(_Partial[0]);
-    _Distances[0] += _DeltaTime * partialMag;
-    _Distances[1] += _DeltaTime * partialMag;
+    _Distances[0] += _DeltaTime * partialMag * 0.05;
+    _Distances[1] += _DeltaTime * partialMag * 0.05;
 }

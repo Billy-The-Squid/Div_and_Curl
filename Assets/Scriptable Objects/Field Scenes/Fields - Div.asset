@@ -16,6 +16,7 @@ MonoBehaviour:
   SceneDescription: Meet the vector fields
   detectorArray:
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
+  - {fileID: 11400000, guid: aac877ac735fcad47b96448e4b3e82a7, type: 2}
   fieldArray:
   - {fileID: 11400000, guid: 6f56b74f75f650c4190d4322f8c3d5f0, type: 2}
   - {fileID: 11400000, guid: 104d0a2ac6ef7e842a2b2c4c40970d1e, type: 2}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PartialRenderer : MonoBehaviour
 {
     public ComputeShader renderComputer;
-    public ComputeBuffer partialDerivative;
+    public ComputeBuffer partialDerivative; // sent from PartialDetector
     public ComputeBuffer positions;
 
     protected Material bubbleMaterial;
@@ -39,6 +39,8 @@ public class PartialRenderer : MonoBehaviour
     [SerializeField, Min(0)]
     protected float startingScale;
 
+    public Bounds bounds;
+
     protected bool initialized = false;
 
 
@@ -50,33 +52,54 @@ public class PartialRenderer : MonoBehaviour
             bubbleMaterial = new Material(bubbleShader);
         }
         bubbleMaterial.SetColor("_Color", bubbleColor);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        bubbleMaterial.SetInt("_ParticlesPerStream", particlesPerStream);
+        bubbleMaterial.SetFloat("_StartDistance", sourceRadius);
+        bubbleMaterial.SetFloat("_TravelDistance", travelDistance);
+        bubbleMaterial.SetFloat("_StartingSize", startingScale);
     }
 
     protected void Initialize()
     {
         if(initialized) { return; }
 
+        distancesBuffer = new ComputeBuffer(2, sizeof(float));
+
+        int kernelID = 0;
+
+        renderComputer.SetBuffer(kernelID, "_Partial", partialDerivative);
+        renderComputer.SetBuffer(kernelID, "_Distances", distancesBuffer);
+        renderComputer.Dispatch(kernelID, 1, 1, 1);
+
         initialized = true;
-        Debug.LogWarning("Initialized is not yet implemented.");
     }
 
     public void CreateDisplay()
     {
         Initialize();
 
-        Debug.LogWarning("CreateDisplay is not yet implemented.");
+        // Calculate the distances.
+        int kernelID = 1;
+        renderComputer.SetBuffer(kernelID, "_Partial", partialDerivative);
+        renderComputer.SetBuffer(kernelID, "_Distances", distancesBuffer);
+        renderComputer.SetFloat("_DeltaTime", Time.deltaTime);
+        renderComputer.Dispatch(kernelID, 1, 1, 1);
+
+        //float[] debugArray = new float[2];
+        //distancesBuffer.GetData(debugArray);
+        //Debug.Log("Distances: " + debugArray[0]);
+
+        // And plot stuff. 
+        DisplayBubbles();
     }
 
-
-    private void OnEnable()
+    protected void DisplayBubbles()
     {
-        distancesBuffer = new ComputeBuffer(2, sizeof(float));
+        bubbleMaterial.SetBuffer("_Distances", distancesBuffer);
+        bubbleMaterial.SetBuffer("_Partial", partialDerivative);
+        bubbleMaterial.SetVector("_CenterPosition", transform.position);
+        bubbleMaterial.SetVector("_Direction", transform.right);
+
+        Graphics.DrawMeshInstancedProcedural(bubbleMesh, 0, bubbleMaterial, bounds, 2 * particlesPerStream);
     }
 
     private void OnDisable()
@@ -86,5 +109,7 @@ public class PartialRenderer : MonoBehaviour
             distancesBuffer.Release();
             distancesBuffer = null;
         }
+
+        initialized = false;
     }
 }

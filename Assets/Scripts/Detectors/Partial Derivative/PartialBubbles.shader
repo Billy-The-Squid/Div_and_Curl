@@ -4,57 +4,104 @@ Shader "Vectors/Detectors//PartialBubbles"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color", Color) = (0,0,1,1)
     }
+
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" } // Allowing for transparency
         LOD 100
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
 
-        Pass
+        CGPROGRAM
+
+        // Renders the surface. Requires a ConfigureSurface function.
+        #pragma surface ConfigureSurface Standard fullforwardshadows addshadow alpha:fade
+        // Does instancing, including(?) placing points. Requires a ConfigureProcedural function.
+        #pragma instancing_options assumeuniformscaling procedural:ConfigureProcedural
+        #pragma editor_sync_compilation
+        #pragma target 4.5
+
+        #include "UnityCG.cginc"
+
+        #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+            StructuredBuffer<float> _Distances;
+            StructuredBuffer<float3> _Partial;
+        #endif
+
+        int _ParticlesPerStream;
+        float _StartDistance;
+        float _TravelDistance;
+        float _StartingSize;
+        float3 _CenterPosition;
+        float3 _Direction; // The (normalized) direction we're taking the derivative in. 
+
+        void ConfigureProcedural()
         {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
+            #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+            int streamNumber = ((unity_InstanceID) / (uint) _ParticlesPerStream);
+            int particleNumber = fmod(unity_InstanceID, _ParticlesPerStream); // I think this is right?
+            float dist = 0;
 
-            #include "UnityCG.cginc"
+            float partialMag = length(_Partial[0]);
 
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
-                float4 vertex : SV_POSITION;
-            };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
+            if (partialMag != 0) {
+                dist = fmod(_Distances[streamNumber] + particleNumber * _TravelDistance / _ParticlesPerStream, _TravelDistance);
             }
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+            float3 position;
+            float size;
+
+            float streamSign; // Either 1 or -1;
+            if (streamNumber) {
+                streamSign = -1;
             }
-            ENDCG
+            else {
+                streamSign = 1;
+            }
+
+            if (partialMag == 0) {
+                position = _CenterPosition + _Direction * _StartDistance * streamSign;
+                size = 0;
+            }
+            else {
+                position = _CenterPosition + streamSign * (_Direction * _StartDistance + normalize(_Partial[0]) * dist);
+                size = _StartingSize * (_TravelDistance - abs(dist)) / _TravelDistance;
+            }
+
+            float4x4 transformation = 0.0;
+            transformation._m33 = 1.0;
+
+            // The position is, well, the position. 
+            transformation._m03_m13_m23 = position;
+            transformation._m00_m11_m22 = size; // Might be a type issue here...
+
+            // And exporting it. 
+            unity_ObjectToWorld = transformation;
+            #endif
         }
+
+        float4 _Color;
+
+        struct Input
+        {
+            float3 worldPos;
+        };
+
+        #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+        void ConfigureSurface(Input input, inout SurfaceOutputStandard surface) {
+            surface.Albedo = _Color.rgb;
+            surface.Alpha = _Color.a;
+        }
+        #else
+        void ConfigureSurface(Input input, inout SurfaceOutputStandard surface)
+        {
+            surface.Albedo = saturate(unity_ObjectToWorld._m02_m12_m22 * 0.5 + 0.5);
+        }
+        #endif
+
+
+        ENDCG
     }
 }

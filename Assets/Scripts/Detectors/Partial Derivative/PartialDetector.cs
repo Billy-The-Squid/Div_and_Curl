@@ -80,7 +80,11 @@ public class PartialDetector : FieldDetector
         partialDerivative.GetData(tempArray);
         detectorOutput = tempArray[0].magnitude;
 
+        //Debug.Log("partial derivative magnitude: " + detectorOutput);
+
         // Tell the renderer to get to work 
+        partialRenderer.partialDerivative = partialDerivative;
+        partialRenderer.bounds = computeField.zone.bounds;
         partialRenderer.CreateDisplay();
         // There's got to be a better place to call this & still ensure proper ordering
     }
@@ -89,7 +93,7 @@ public class PartialDetector : FieldDetector
     {
         computeField.enabled = true;
         partialRenderer.partialDerivative = partialDerivative;
-        partialRenderer.enabled = false;
+        partialRenderer.enabled = true;
         base.EnteredField(graph);
     }
 
