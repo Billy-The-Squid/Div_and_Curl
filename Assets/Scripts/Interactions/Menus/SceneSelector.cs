@@ -6,6 +6,18 @@ using TMPro;
 
 public class SceneSelector : Selector<FieldScene>
 {
+    /// <summary> 
+    /// The canvas with all the relevant information.
+    /// </summary>
+    public Canvas canvas;
+    ///// <summary>
+    ///// The background for the menu.
+    ///// </summary>
+    //public Collider background;
+
+    public UIEvent UIAppearEvent = new UIEvent();
+    public UIEvent UIDisppearEvent = new UIEvent();
+
     public SceneEvent ChangeScene = new SceneEvent();
 
     public TextMeshProUGUI nameDisplay;
@@ -42,7 +54,7 @@ public class SceneSelector : Selector<FieldScene>
 
 
 
-    protected override void ReactToPlayer()
+    protected void ReactToPlayer()
     {
         // Implement me (and also call me from somewhere) &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         //UIAppearEvent.Invoke(canvas);

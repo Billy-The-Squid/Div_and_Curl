@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class Selector<T> : MenuUI
+public abstract class Selector<T> : MonoBehaviour
 {
     [SerializeField]
     protected T[] _available;
@@ -69,3 +70,7 @@ public abstract class Selector<T> : MenuUI
         current -= 1;
     }
 }
+
+
+[System.Serializable]
+public class UIEvent : UnityEvent<Canvas> { }

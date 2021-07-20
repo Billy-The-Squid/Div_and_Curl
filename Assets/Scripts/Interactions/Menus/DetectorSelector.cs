@@ -6,6 +6,27 @@ using TMPro;
 public class DetectorSelector : Selector<DetectorData>
 {
     /// <summary>
+    /// The object to be facing.
+    /// </summary>
+    public Transform playerEyes;
+    /// <summary> 
+    /// The canvas with all the relevant information.
+    /// </summary>
+    public Canvas canvas;
+    /// <summary>
+    /// The background for the menu.
+    /// </summary>
+    public Collider background;
+    /// <summary>
+    /// The distance from the player at which the UI disappears
+    /// </summary>
+    [Min(1f)]
+    public float visibleDistance;
+
+    public UIEvent UIAppearEvent = new UIEvent();
+    public UIEvent UIDisppearEvent = new UIEvent();
+
+    /// <summary>
     /// The last-instantiated detector.
     /// </summary>
     public Grabbable instantiated { get; protected set; }
@@ -92,13 +113,38 @@ public class DetectorSelector : Selector<DetectorData>
     /// <summary>
     /// Rotates to face the player and closes the display if the player is far enough away. 
     /// </summary>
-    protected override void ReactToPlayer()
+    protected void ReactToPlayer()
     {
         // Rotate to face the player
         Vector3 displacement = transform.position - playerEyes.position;
         Vector3 planeDistance = new Vector3(displacement.x, 0, displacement.z);
         transform.forward = planeDistance.normalized;
 
-        base.ReactToPlayer();
+        // Close the display if the player is far away. 
+        if (planeDistance.magnitude <= visibleDistance)
+        {
+            if (!canvas.enabled)
+            {
+                canvas.enabled = true;
+                UIAppearEvent.Invoke(canvas);
+                if (background != null)
+                {
+                    background.enabled = true;
+                }
+            }
+        }
+        else
+        {
+            if (canvas.enabled)
+            {
+                canvas.enabled = false;
+                UIDisppearEvent.Invoke(canvas);
+                if (background != null)
+                {
+                    background.enabled = false;
+                }
+            }
+        }
     }
 }
+

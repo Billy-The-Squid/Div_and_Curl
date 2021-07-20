@@ -10,6 +10,5 @@ public class FieldScene : ScriptableObject
     public string SceneDescription;
     public DetectorData[] detectorArray;
     public FieldData[] fieldArray;
-    public List<VectorField.FieldType> fieldList;
     public bool limitDetectors;
 }

@@ -194,6 +194,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Summon menu",
+                    "type": "Button",
+                    "id": "1ee960d5-58a1-41b7-b950-4c53c8629993",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -579,6 +587,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Thumb Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc34bc88-d29a-42bf-aac5-84643a51fb0f",
+                    "path": "<XRController>{LeftHand}/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Oculus",
+                    "action": "Summon menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

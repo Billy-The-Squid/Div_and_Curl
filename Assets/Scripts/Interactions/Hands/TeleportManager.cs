@@ -199,7 +199,7 @@ public class TeleportManager : MonoBehaviour
         {
             destination.validDestination = true;
             destination.location = anchor.teleportAnchorTransform.position;
-            destination.normal = anchor.transform.up;
+            destination.normal = anchor.teleportAnchorTransform.up;
         }
         else if (hit.transform.GetComponent<TeleportationArea>())
         {

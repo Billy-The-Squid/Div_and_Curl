@@ -1,0 +1,77 @@
+{
+    "name": "Menu",
+    "maps": [
+        {
+            "name": "Menu",
+            "id": "c18a6f29-7dcf-4881-98f1-650ddcb2a412",
+            "actions": [
+                {
+                    "name": "Summon menu",
+                    "type": "Value",
+                    "id": "7821b2df-4ac0-4ab6-b1b4-72a55a51fe0e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Dismiss menu",
+                    "type": "Button",
+                    "id": "9909b276-03b2-4500-b769-3b07f53ccade",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Teleport Start",
+                    "type": "Value",
+                    "id": "bbf82681-38c4-4823-bcef-4e48a4bf1c7e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "268191a7-9068-4417-b155-9ad558b01318",
+                    "path": "<XRInputV1::Oculus::OculusTouchControllerLeft>{LeftHand}/primarybutton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Oculus",
+                    "action": "Summon menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d75f9243-9092-4d99-9e33-f34f61ec849e",
+                    "path": "<XRController>/menu",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Oculus",
+                    "action": "Dismiss menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e58c201-7513-4943-82fd-871e4be714fe",
+                    "path": "<XRController>{LeftHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=1,sweepBehavior=3)",
+                    "processors": "",
+                    "groups": "Noncontinuous Move;Oculus",
+                    "action": "Teleport Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Oculus",
+            "bindingGroup": "Oculus",
+            "devices": []
+        }
+    ]
+}

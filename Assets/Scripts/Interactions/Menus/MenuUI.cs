@@ -82,5 +82,3 @@ public class MenuUI : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class UIEvent : UnityEvent<Canvas> { }
