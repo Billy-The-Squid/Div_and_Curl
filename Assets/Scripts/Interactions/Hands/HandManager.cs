@@ -129,8 +129,7 @@ public class HandManager : MonoBehaviour
         {
             if(_willBePulled != value)
             {
-                forcePuller.nearestGrabbable = value == null ? 
-                    null : value.GetComponent<XRGrabInteractable>();
+                forcePuller.nearestGrabbable = value;
             }
             _willBePulled = value;
         }
@@ -156,11 +155,11 @@ public class HandManager : MonoBehaviour
 
 
     // HIGHLIGHT ----------------------------------------------------------------------------
-    protected Outline _highlightedObject;
+    protected Grabbable _highlightedObject;
     /// <summary> If the interact button is pressed, this should be the next object to 
     /// interact with.  
     /// </summary>
-    protected Outline highlightedObject // Type? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    protected Grabbable highlightedObject // Type? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     {
         get => _highlightedObject;
         set
@@ -278,7 +277,7 @@ public class HandManager : MonoBehaviour
         Quaternion.Euler(0, 0, 0)
     };
 
-    protected XRBaseInteractable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
+    protected Grabbable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
     /* Should be updated on SelectEntered for the direct interactor. 
      */
     protected bool hovering { get; set; }
@@ -387,6 +386,10 @@ public class HandManager : MonoBehaviour
             attemptingTeleport = teleporter.rayInteractor.enabled;
         }
 
+        // Is the directInteractor hovering something?
+        List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
+        directInteractor.GetHoverTargets(hoverTargets);
+        hovering = hoverTargets.Count > 0;
 
         // Can we pull?
         if (forcePuller.pulling)
@@ -400,9 +403,8 @@ public class HandManager : MonoBehaviour
             canPull = true; // Make the appropriate call &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         }
 
-
+        // What's the best object to pull?
         if (canPull) {
-            // What's the best object to pull?
             if (!forcePuller.pulling)
             {
                 FindWillBePulled();
@@ -412,18 +414,7 @@ public class HandManager : MonoBehaviour
             willBePulled = null;
         }
 
-        // What will be highlighted?
-        if (canPull)
-        {
-            highlightedObject = willBePulled == null ? null : willBePulled.GetComponent<Outline>();
-        }
-        else if (hovering)
-        {
-            List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
-            directInteractor.GetHoverTargets(hoverTargets);
-            highlightedObject = hoverTargets[0].GetComponent<Outline>();
-        }
-        else { highlightedObject = null; }
+        FindObjectToHighlight();
 
         //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
 
@@ -454,17 +445,17 @@ public class HandManager : MonoBehaviour
                 {
                     if (hit.transform.Equals(obj.transform))
                     {
-                        if(obj.GetComponent<XRGrabInteractable>() == null)
-                        {
-                            Debug.LogWarning(obj.name + " is missing an XRGrabInteractable component");
-                        }
+                        //if(obj.GetComponent<XRGrabInteractable>() == null)
+                        //{
+                        //    Debug.LogWarning(obj.name + " is missing an XRGrabInteractable component");
+                        //}
                         // I'm not holding it already, right?
-                        if((!obj.GetComponent<XRGrabInteractable>().isSelected || !(obj.GetComponent<XRGrabInteractable>().selectingInteractor is XRDirectInteractor)))
+                        if((!obj.isSelected || !(obj.selectingInteractor is XRDirectInteractor)))
                         {
                             // Is it the closest?
                             if (hit.distance < dist)
                             {
-                                bestYet = hit.transform.GetComponent<Grabbable>();
+                                bestYet = obj;
                                 dist = hit.distance;
                             }
                         }
@@ -476,28 +467,59 @@ public class HandManager : MonoBehaviour
         willBePulled = bestYet;
     }
 
-    /// <summary> Updates the color of the current and most recent willBeGrabbed </summary>
-    private void UpdateColors(Outline next)
+    /// <summary>
+    /// Sets highlightedObject
+    /// </summary>
+    protected void FindObjectToHighlight()
     {
-        try
-        {
-            _highlightedObject.GetComponent<Outline>().enabled = false;
+        /* Priority:
+         * If selected, nothing is highlighted
+         * If hovering, hovering object is highlighted
+         * If willBePulled is not null, it's highlighted.
+         */
+
+        if(directInteractor.selectTarget != null) {
+            highlightedObject = null;
         }
-        catch (NullReferenceException)
+        else if(hovering) {
+            //Debug.Log("Still hovering");
+            //Debug.Log("Highlighted object: " + (highlightedObject == null ? 0 : highlightedObject.GetInstanceID()));
+            List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
+            directInteractor.GetHoverTargets(hoverTargets);
+            hoverTargets.Sort(new Nearest(attachTransform));
+            highlightedObject = ((Grabbable)hoverTargets[0]);
+        } 
+        else if (canPull) {
+            //Debug.Log("Can pull");
+            //Debug.Log("Highlighted object: " + (highlightedObject == null ? 0 : highlightedObject.GetInstanceID()));
+            highlightedObject = willBePulled;
+        }
+        else
         {
-            if (_highlightedObject != null)
+            highlightedObject = null;
+        }
+    }
+
+    /// <summary> Updates the color of the current and most recent willBeGrabbed </summary>
+    private void UpdateColors(Grabbable next)
+    {
+        //Debug.Log("UpdateColors called: going from " + (_highlightedObject ? _highlightedObject.name : "None") + " to " + (next ? next.name : "None"));
+        if(_highlightedObject != null)
+        {
+            try
             {
-                Debug.LogWarning("Last grabbable " + _highlightedObject.name + " does not have outline component.");
+                _highlightedObject.RemoveHighlighter(this.gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // Object has been destroyed.
             }
         }
-        catch (MissingReferenceException)
-        {
-            // Object has been destroyed.
-        }
+        
 
         try
         {
-            next.GetComponent<Outline>().enabled = true;
+            next.AddHighlighter(this.gameObject);
         }
         catch (NullReferenceException)
         {
@@ -735,7 +757,7 @@ public class HandManager : MonoBehaviour
     // Should be bound to the SelectEnter event on the directInteractor
     public void GrabSelectEntered()
     {
-        objectLastHeld = directInteractor.selectTarget;
+        objectLastHeld = (Grabbable)directInteractor.selectTarget;
         willBePulled = null;
     }
 
@@ -745,20 +767,40 @@ public class HandManager : MonoBehaviour
 
     }
 
-    // Should be bound to the HoverEnter event on the directInteractor
-    public void GrabHoverEntered()
-    {
-        hovering = true;
-    }
+    //// Should be bound to the HoverEnter event on the directInteractor
+    //public void GrabHoverEntered()
+    //{
+    //    hovering = true;
+    //}
 
-    // Should be bound to the HoverExit event on the directInteractor
-    public void GrabHoverExited()
-    {
-        hovering = false;
-    }
+    //// Should be bound to the HoverExit event on the directInteractor
+    //public void GrabHoverExited()
+    //{
+    //    List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
+    //    directInteractor.GetHoverTargets(hoverTargets);
+    //    if(hoverTargets.Count == 0)
+    //    {
+    //        hovering = false;
+    //    }
+    //}
 
     public void ChangeHandMode(Int32 mode)
     {
         this.mode = (HandMode)mode;
+    }
+
+    protected class Nearest : IComparer<XRBaseInteractable>
+    {
+        protected Transform origin;
+
+        public Nearest(Transform origin)
+        {
+            this.origin = origin;
+        }
+
+        public int Compare(XRBaseInteractable x, XRBaseInteractable y)
+        {
+            return Mathf.CeilToInt((x.transform.position - origin.position).magnitude - (y.transform.position - origin.position).magnitude);
+        }
     }
 }
