@@ -10702,7 +10702,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 78.02}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1449102000
 MonoBehaviour:
@@ -15303,7 +15303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _available:
   - {fileID: 11400000, guid: 7a0e87f7d57159a4db8e883f389bb91d, type: 2}
-  - {fileID: 11400000, guid: 7f5501db5779b2a4c8b55a14b9772e82, type: 2}
+  - {fileID: 11400000, guid: 060acb36020695f47ab8151832d346b0, type: 2}
   - {fileID: 11400000, guid: affb4615024824e41bb35ae8e3f5571e, type: 2}
   - {fileID: 11400000, guid: 9b2afcfcb25a86644bce405f5282e6b0, type: 2}
   - {fileID: 11400000, guid: 8a1800598bb6fbf42a5e8dcc846bc94b, type: 2}
