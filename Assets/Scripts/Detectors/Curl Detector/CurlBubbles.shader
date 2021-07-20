@@ -11,13 +11,13 @@ Shader "Vectors/Detectors/CurlBubbles"
 	{
 		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" } // Allowing for transparency
 		LOD 100
-		ZWrite Off
+		//ZWrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		CGPROGRAM
 
 		// Renders the surface. Requires a ConfigureSurface function.
-		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow alpha:fade
+		#pragma surface ConfigureSurface Standard fullforwardshadows addshadow
 		// Does instancing, including(?) placing points. Requires a ConfigureProcedural function.
 		#pragma instancing_options assumeuniformscaling procedural:ConfigureProcedural
 		#pragma editor_sync_compilation

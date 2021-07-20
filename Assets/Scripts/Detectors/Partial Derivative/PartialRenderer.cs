@@ -55,7 +55,6 @@ public class PartialRenderer : MonoBehaviour
         bubbleMaterial.SetInt("_ParticlesPerStream", particlesPerStream);
         bubbleMaterial.SetFloat("_StartDistance", sourceRadius);
         bubbleMaterial.SetFloat("_TravelDistance", travelDistance);
-        bubbleMaterial.SetFloat("_StartingSize", startingScale);
     }
 
     protected void Initialize()
@@ -98,6 +97,7 @@ public class PartialRenderer : MonoBehaviour
         bubbleMaterial.SetBuffer("_Partial", partialDerivative);
         bubbleMaterial.SetVector("_CenterPosition", transform.position);
         bubbleMaterial.SetVector("_Direction", transform.right);
+        bubbleMaterial.SetFloat("_StartingSize", startingScale * transform.localScale.x);
 
         Graphics.DrawMeshInstancedProcedural(bubbleMesh, 0, bubbleMaterial, bounds, 2 * particlesPerStream);
     }
