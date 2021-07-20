@@ -15,9 +15,6 @@ public class SceneSelector : Selector<FieldScene>
     ///// </summary>
     //public Collider background;
 
-    public UIEvent UIAppearEvent = new UIEvent();
-    public UIEvent UIDisppearEvent = new UIEvent();
-
     public SceneEvent ChangeScene = new SceneEvent();
 
     public TextMeshProUGUI nameDisplay;
@@ -30,10 +27,6 @@ public class SceneSelector : Selector<FieldScene>
     protected override void Start()
     {
         base.Start();
-
-        if(UIAppearEvent != null) {
-            UIAppearEvent.Invoke(canvas);
-        }
     }
 
 

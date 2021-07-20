@@ -122,6 +122,10 @@ public class MainMenu : MonoBehaviour
         }
         currentSubscreen = subscreenIndex; // Starting menu
         subscreens[subscreenIndex].enabled = true;
+        if(UIAppearEvent != null)
+        {
+            UIAppearEvent.Invoke(canvas);
+        }
     }
 
     public void DismissMenu()
@@ -129,6 +133,10 @@ public class MainMenu : MonoBehaviour
         //Debug.Log("Dismissing menu");
         canvas.enabled = false;
         background.gameObject.SetActive(false);
+        if(UIDisppearEvent != null)
+        {
+            UIDisppearEvent.Invoke(canvas);
+        }
     }
 
     //// Exclusively for UI interactions
