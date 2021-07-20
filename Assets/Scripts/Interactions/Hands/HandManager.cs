@@ -756,4 +756,9 @@ public class HandManager : MonoBehaviour
     {
         hovering = false;
     }
+
+    public void ChangeHandMode(Int32 mode)
+    {
+        this.mode = (HandMode)mode;
+    }
 }
