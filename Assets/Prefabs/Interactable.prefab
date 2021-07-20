@@ -205,7 +205,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6887369352125190347}
   - component: {fileID: 6887369352125190342}
-  - component: {fileID: 6887369352125190343}
   - component: {fileID: 1055290790}
   - component: {fileID: 7871934934758779857}
   - component: {fileID: -2784523897245137300}
@@ -248,7 +247,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6887369352125190343
+--- !u!65 &1055290790
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887369352125190341}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 0.5, z: 1.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7871934934758779857
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,7 +269,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6887369352125190341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRad: 0.05
+  maxRad: 1
+  radius: 0.2
+  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  waitBeforeResized: 0.2
+  resizeIncrement: 0.1
+--- !u!114 &-2784523897245137300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887369352125190341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473e1f2cc50357c4986fd7ed433717cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
@@ -267,12 +297,6 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_CustomReticle: {fileID: 0}
   m_FirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverEntered:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8985626191940585832}
@@ -287,7 +311,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_HoverExited:
+  m_LastHoverExited:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8985626191940585832}
@@ -302,6 +326,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
@@ -402,49 +432,6 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!65 &1055290790
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6887369352125190341}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.5, z: 1.2}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7871934934758779857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6887369352125190341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minRad: 0.05
-  maxRad: 1
-  radius: 0.2
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  waitBeforeResized: 0.2
-  resizeIncrement: 0.1
---- !u!114 &-2784523897245137300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6887369352125190341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 473e1f2cc50357c4986fd7ed433717cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   angularSpeed: 2
   rigidBody: {fileID: 7221477179904506079}
 --- !u!114 &8985626191940585832

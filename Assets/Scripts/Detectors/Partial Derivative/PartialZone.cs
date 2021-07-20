@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PartialZone : FieldZone
 {
+    public float deltaX;
+
     protected bool initialized;
     protected Vector3[] points = new Vector3[2];
-    public float deltaX;
 
 
 

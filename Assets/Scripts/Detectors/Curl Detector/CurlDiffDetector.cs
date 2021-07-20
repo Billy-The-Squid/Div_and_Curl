@@ -7,15 +7,16 @@ using UnityEngine;
 public class CurlDiffDetector : FieldDetector
 {
     /// <summary>
+    /// The compute shader used to calculate the curl.
+    /// </summary>
+    [Header("Detector")]
+    [SerializeField]
+    ComputeShader curlComputer;
+
+    /// <summary>
     /// The vector curl at the center of the detector.
     /// </summary>
     Vector3 curl;
-
-    /// <summary>
-    /// The compute shader used to calculate the curl.
-    /// </summary>
-    [SerializeField]
-    ComputeShader curlComputer;
 
     /// <summary>
     /// The <cref>VectorField</cref> that directs the field computation
@@ -49,7 +50,7 @@ public class CurlDiffDetector : FieldDetector
 
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         // Set up the vector field
         if(computationField == null) {
@@ -72,6 +73,8 @@ public class CurlDiffDetector : FieldDetector
         }
 
         quantityName = "Curl";
+
+        base.Start();
     }
 
     // Update is called once per frame
@@ -91,13 +94,15 @@ public class CurlDiffDetector : FieldDetector
 
 
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if(curlBuffer != null)
         {
             curlBuffer.Release();
             curlBuffer = null;
         }
+
+        base.OnDisable();
     }
 
 

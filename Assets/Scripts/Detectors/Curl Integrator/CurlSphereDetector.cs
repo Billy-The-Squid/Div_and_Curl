@@ -10,16 +10,18 @@ using UnityEngine;
 [RequireComponent(typeof(VectorField), typeof(CurlSphereZone))]
 public class CurlSphereDetector : FieldDetector
 {
-    /// <summary>
-    /// The material to be displayed when the detector is inside a vector field. 
-    /// </summary>
-    [NonSerialized]
-    public Material activeMaterial;
+    [Header("Detector")]
     /// <summary>
     /// The material to be displayed when the detector is not inside a vector field. 
     /// </summary>
     [SerializeField]
     Material inertMaterial;
+    /// <summary>
+    /// The material to be displayed when the detector is inside a vector field. 
+    /// </summary>
+    [NonSerialized]
+    public Material activeMaterial;
+    
     /// <summary>
     /// The <see cref="Shader"/> used to create the <see cref="activeMaterial"/>.
     /// </summary>
@@ -121,7 +123,7 @@ public class CurlSphereDetector : FieldDetector
 
 
 
-    private void Start()
+    protected override void Start()
     {
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {
@@ -155,6 +157,8 @@ public class CurlSphereDetector : FieldDetector
         // RETYPE
 
         quantityName = "Curl / V"; // Is this what we want to call it?
+
+        base.Start();
     }
 
 
@@ -167,7 +171,7 @@ public class CurlSphereDetector : FieldDetector
 
 
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if(curlContributions != null)
         {
@@ -204,6 +208,8 @@ public class CurlSphereDetector : FieldDetector
             projectionsBuffer.Release();
             projectionsBuffer = null;
         }
+
+        base.OnDisable();
     }
 
 

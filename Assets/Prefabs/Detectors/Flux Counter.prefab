@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 1284309509587163685}
   - component: {fileID: 1284309509587163690}
   - component: {fileID: 1284309509587163681}
-  - component: {fileID: 1284309509587163686}
   - component: {fileID: 512757059032964738}
   - component: {fileID: 1718279740705519841}
   - component: {fileID: 7379400}
@@ -203,7 +202,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1284309509587163686
+--- !u!114 &512757059032964738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,7 +211,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284309509587163691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRad: 0.05
+  maxRad: 1
+  radius: 0.2
+  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  waitBeforeResized: 0.2
+  resizeIncrement: 0.1
+--- !u!114 &1718279740705519841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284309509587163691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 478a77aa59fb83d46856fc447137ef2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
@@ -322,7 +339,7 @@ MonoBehaviour:
       m_Calls: []
   m_AttachTransform: {fileID: 0}
   m_AttachEaseInTime: 0.15
-  m_MovementType: 1
+  m_MovementType: 2
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -357,36 +374,6 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!114 &512757059032964738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284309509587163691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minRad: 0.05
-  maxRad: 1
-  radius: 0.2
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  waitBeforeResized: 0.2
-  resizeIncrement: 0.1
---- !u!114 &1718279740705519841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284309509587163691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 478a77aa59fb83d46856fc447137ef2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
   activeShader: {fileID: 4800000, guid: 16f103d5ec8ebf246808023d4b1409d3, type: 3}
   meshRenderer: {fileID: 1284309509587163685}

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(VectorField), typeof(FieldZone))]
 public class Pointer : FieldDetector
 {
+    [Header("Detector")]
     /// <summary>
     /// The field used to generate the detector's display.
     /// </summary>
@@ -29,7 +30,7 @@ public class Pointer : FieldDetector
 
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         // Find the local field.
         if(localField == null) {
@@ -41,6 +42,8 @@ public class Pointer : FieldDetector
         localField.enabled = inField;
 
         quantityName = "Magnitude";
+
+        base.Start();
     }
 
     // Update is called once per frame

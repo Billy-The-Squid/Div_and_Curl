@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5484386669841562301}
   - component: {fileID: 5484386669841562290}
   - component: {fileID: 5484386669841562297}
-  - component: {fileID: 5484386669841562302}
   - component: {fileID: 6544594456218811930}
   - component: {fileID: 2663230662041722387}
   - component: {fileID: 5484386669841562319}
@@ -122,7 +121,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5484386669841562302
+--- !u!114 &6544594456218811930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +130,77 @@ MonoBehaviour:
   m_GameObject: {fileID: 5484386669841562291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRad: 0.05
+  maxRad: 1
+  radius: 0.2
+  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  waitBeforeResized: 0.2
+  resizeIncrement: 0.1
+--- !u!114 &2663230662041722387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484386669841562291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointerMaterial: {fileID: 0}
+  pointerMesh: {fileID: 4300000, guid: c7b00dc10b1d3f243bf824dc63de5830, type: 2}
+  maxVectorLength: 0
+  displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
+  cullDistance: 0
+  shader: {fileID: 4800000, guid: cb81eed0fbf067b408ae552aad573732, type: 3}
+  preDisplay:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 928124023}
+        m_TargetAssemblyTypeName: DetectorColor, Assembly-CSharp
+        m_MethodName: ColorMaterial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5484386669841562319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484386669841562291}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 0}
+  computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
+  _fieldType: 0
+  isDynamic: 1
+  OnFieldChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5484386669841562316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484386669841562291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1afd23cc668f3e94185508ef2ec0617d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
@@ -241,7 +310,7 @@ MonoBehaviour:
       m_Calls: []
   m_AttachTransform: {fileID: 0}
   m_AttachEaseInTime: 0.15
-  m_MovementType: 1
+  m_MovementType: 2
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -276,88 +345,6 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!114 &6544594456218811930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5484386669841562291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f23bf323d1a7c24fa8136fdb9725a39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minRad: 0.05
-  maxRad: 1
-  radius: 0.2
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  waitBeforeResized: 0.2
-  resizeIncrement: 0.1
---- !u!114 &2663230662041722387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5484386669841562291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff66243662283da4dbfc4c4c64a6fb0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 0}
-  pointerMesh: {fileID: 4300000, guid: c7b00dc10b1d3f243bf824dc63de5830, type: 2}
-  maxVectorLength: 0
-  displayComputer: {fileID: 7200000, guid: a8d60100fb85de848887f8fac4b2811f, type: 3}
-  cullDistance: 0
-  shader: {fileID: 4800000, guid: cb81eed0fbf067b408ae552aad573732, type: 3}
-  preDisplay:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 928124023}
-        m_TargetAssemblyTypeName: DetectorColor, Assembly-CSharp
-        m_MethodName: ColorMaterial
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5484386669841562319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5484386669841562291}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zone: {fileID: 0}
-  computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  _fieldType: 0
-  isDynamic: 1
-  OnFieldChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5484386669841562316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5484386669841562291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1afd23cc668f3e94185508ef2ec0617d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   inertMaterial: {fileID: 2100000, guid: ce21acb8ad94e574cb9c34335357f6a6, type: 2}
   activeShader: {fileID: 4800000, guid: 1605afdac4e588f4389d60cf3e5d1eb4, type: 3}
   meshRenderer: {fileID: 5484386669841562301}

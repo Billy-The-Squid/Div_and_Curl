@@ -522,7 +522,7 @@ public class HandManager : MonoBehaviour
         directInteractor.transform.localRotation = posSet.directInteractorRotation;
         // attach point
         attachTransform.localPosition = posSet.attachPosition;
-        attachTransform.localRotation = posSet.attachRotation;
+        attachTransform.localRotation = posSet.attachRotation; // Make sure this interacts properly with Grabber class
         // teleport ray (if != null)
         if (teleporter != null)
         {

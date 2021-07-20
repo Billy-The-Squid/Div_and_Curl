@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(VectorField), typeof(DerivativeZone), typeof(DivRender))]
 public class DivergenceDetector : FieldDetector
 {
+    [Header("Detector")]
     /// <summary>
     /// The field used to do the computations
     /// </summary>
@@ -52,7 +53,7 @@ public class DivergenceDetector : FieldDetector
 
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         // Initialize the computation field
         if(computeField == null) {
@@ -72,6 +73,8 @@ public class DivergenceDetector : FieldDetector
         }
 
         quantityName = "Div";
+
+        base.Start();
     }
 
     // Update is called once per frame
@@ -85,22 +88,26 @@ public class DivergenceDetector : FieldDetector
         // Does this need to be set every frame? Maybe just on enter/exit field
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         // Initialize the divergence buffer field. 
         unsafe
         {   // Each component of this vector is the partial derivative in one direction. 
             divBuffer = new ComputeBuffer(1, sizeof(Vector3));
         }
+
+        base.OnEnable();
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if(divBuffer != null)
         {
             divBuffer.Release();
             divBuffer = null;
         }
+
+        base.OnDisable();
     }
 
 

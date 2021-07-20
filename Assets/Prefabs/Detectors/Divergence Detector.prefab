@@ -541,7 +541,6 @@ GameObject:
   - component: {fileID: 6817302407104990774}
   - component: {fileID: 6520425705519372580}
   - component: {fileID: 6520425705519372571}
-  - component: {fileID: 6520425705519372570}
   - component: {fileID: 6520425705519372577}
   - component: {fileID: 6520425705519372576}
   - component: {fileID: 6520425705519372583}
@@ -613,7 +612,7 @@ MonoBehaviour:
   triggerCollider: {fileID: 0}
   canMove: 1
   deltaX: 0.001
---- !u!114 &6520425705519372570
+--- !u!114 &6520425705519372577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -622,7 +621,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 6520425705519372569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ddcc3f4b195f35449017df60a83e244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointerMaterial: {fileID: 0}
+  pointerMesh: {fileID: 0}
+  maxVectorLength: 0
+--- !u!114 &6520425705519372576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520425705519372569}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 0}
+  computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
+  _fieldType: 0
+  isDynamic: 1
+  OnFieldChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6520425705519372583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520425705519372569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df162281b268af43996a01cb45f827b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
@@ -708,7 +741,7 @@ MonoBehaviour:
       m_Calls: []
   m_AttachTransform: {fileID: 0}
   m_AttachEaseInTime: 0.15
-  m_MovementType: 1
+  m_MovementType: 2
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -717,7 +750,7 @@ MonoBehaviour:
   m_SmoothPosition: 0
   m_SmoothPositionAmount: 5
   m_TightenPosition: 0.5
-  m_TrackRotation: 0
+  m_TrackRotation: 1
   m_SmoothRotation: 0
   m_SmoothRotationAmount: 5
   m_TightenRotation: 0.5
@@ -743,52 +776,6 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!114 &6520425705519372577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6520425705519372569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ddcc3f4b195f35449017df60a83e244, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointerMaterial: {fileID: 0}
-  pointerMesh: {fileID: 0}
-  maxVectorLength: 0
---- !u!114 &6520425705519372576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6520425705519372569}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zone: {fileID: 0}
-  computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
-  _fieldType: 0
-  isDynamic: 1
-  OnFieldChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &6520425705519372583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6520425705519372569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9df162281b268af43996a01cb45f827b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   computeField: {fileID: 6520425705519372576}
   divergenceComputer: {fileID: 7200000, guid: 592813a2792950946b7023801ec82a52, type: 3}
   divRenderer: {fileID: 6520425705519372579}

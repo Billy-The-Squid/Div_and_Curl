@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 731022300670848667}
   - component: {fileID: 731022300670848664}
   - component: {fileID: 731022300670848666}
-  - component: {fileID: 731022300670848642}
   - component: {fileID: 5691273911932625976}
   - component: {fileID: 6964967292018251213}
   - component: {fileID: 6903251076131910582}
@@ -117,20 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47484dab75e9564fa0a62dd7fd7b7ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curlComputer: {fileID: 7200000, guid: 5cef44e467931be44a737f852fc6c31f, type: 3}
-  curlRenderer: {fileID: 5691273911932625976}
---- !u!114 &731022300670848642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731022300670848641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_Colliders: []
   m_InteractionLayerMask:
@@ -214,7 +199,7 @@ MonoBehaviour:
       m_Calls: []
   m_AttachTransform: {fileID: 0}
   m_AttachEaseInTime: 0.15
-  m_MovementType: 1
+  m_MovementType: 2
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -223,7 +208,7 @@ MonoBehaviour:
   m_SmoothPosition: 0
   m_SmoothPositionAmount: 5
   m_TightenPosition: 0.5
-  m_TrackRotation: 0
+  m_TrackRotation: 1
   m_SmoothRotation: 0
   m_SmoothRotationAmount: 5
   m_TightenRotation: 0.5
@@ -249,6 +234,8 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
+  curlComputer: {fileID: 7200000, guid: 5cef44e467931be44a737f852fc6c31f, type: 3}
+  curlRenderer: {fileID: 5691273911932625976}
 --- !u!114 &5691273911932625976
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(CurlLoopZone), typeof(VectorField))]
 public class CurlLoopDetector : FieldDetector
 {
+    [Header("Detector")]
     /// <summary>
     /// The object that sets the initial positions
     /// </summary>
@@ -90,7 +91,7 @@ public class CurlLoopDetector : FieldDetector
 
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         // Setting some variables
         if(zone == null) {
@@ -115,6 +116,8 @@ public class CurlLoopDetector : FieldDetector
         }
 
         localField.preDisplay += Integrate;
+
+        base.Start();
     }
 
     void Update()
@@ -134,7 +137,7 @@ public class CurlLoopDetector : FieldDetector
         DisplayProjections();
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if(contributionsBuffer != null)
         {
@@ -161,6 +164,8 @@ public class CurlLoopDetector : FieldDetector
             projectionBuffer.Release();
             projectionBuffer = null;
         }
+
+        base.OnDisable();
     }
 
 

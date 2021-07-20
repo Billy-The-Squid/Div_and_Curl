@@ -10,15 +10,16 @@ using UnityEngine;
 [RequireComponent(typeof(VectorField), typeof(FluxZone))]
 public class FluxDetector : FieldDetector
 {
+    [Header("Detector")]
+    /// <summary>
+    /// The material to be displayed when the detector is not inside a vector field. 
+    /// </summary>
+    public Material inertMaterial;
     /// <summary>
     /// The material to be displayed when the detector is inside a vector field. 
     /// </summary>
     [NonSerialized]
     public Material activeMaterial;
-    /// <summary>
-    /// The material to be displayed when the detector is not inside a vector field. 
-    /// </summary>
-    public Material inertMaterial;
     /// <summary>
     /// The <see cref="Shader"/> used to create the active material.
     /// </summary>
@@ -115,7 +116,7 @@ public class FluxDetector : FieldDetector
 
 
 
-    private void Start()
+    protected override void Start()
     {
         // Finding the mesh and meshRenderer components
         if (meshRenderer == null) {
@@ -149,11 +150,13 @@ public class FluxDetector : FieldDetector
         quantityName = "Flux / V";
 
         localField.preDisplay += CalculateFlux;
+
+        base.Start();
     }
 
 
 
-    private void OnDisable()
+    protected  override void OnDisable()
     {
         if(fluxContributions != null)
         {
@@ -190,6 +193,8 @@ public class FluxDetector : FieldDetector
             projectionsBuffer.Release();
             projectionsBuffer = null;
         }
+
+        base.OnDisable();
     }
 
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PartialDetector : FieldDetector
 {
+    [Header("Detector")]
     [Tooltip("The field used to carry out the computations")]
     [SerializeField]
     protected VectorField computeField;
@@ -32,11 +33,13 @@ public class PartialDetector : FieldDetector
 
 
 
-    private void Start()
+    protected override void Start()
     {
         quantityName = "Directional Derivative";
 
         computeField.preDisplay += CalculatePartial;
+
+        base.Start();
     }
 
     private void Update()
@@ -47,7 +50,7 @@ public class PartialDetector : FieldDetector
         computeField.zone.fieldOrigin = detectedField.zone.fieldOrigin;
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         if(partialDerivative == null)
         {
@@ -56,15 +59,19 @@ public class PartialDetector : FieldDetector
                 partialDerivative = new ComputeBuffer(1, sizeof(Vector3));
             }
         }
+
+        base.OnEnable();
     }
 
-    protected void OnDisable()
+    protected override void OnDisable()
     {
         if(partialDerivative != null)
         {
             partialDerivative.Release();
             partialDerivative = null;
         }
+
+        base.OnDisable();
     }
 
 
