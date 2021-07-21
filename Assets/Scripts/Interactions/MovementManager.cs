@@ -66,7 +66,20 @@ public class MovementManager : MonoBehaviour
     /// <summary>
     /// The turn method.
     /// </summary>
-    public TurnMode turnMode = TurnMode.Snap;
+    [SerializeField]
+    protected TurnMode _turnMode = TurnMode.Snap;
+    public TurnMode turnMode
+    {
+        get => _turnMode;
+        set
+        {
+            if(_turnMode != value)
+            {
+                _turnMode = value;
+                UpdateTurnMode();
+            }
+        }
+    }
 
     public UnityEvent ChangedMovementMode = new UnityEvent();
     public UnityEvent ChangedTurnMode = new UnityEvent();
@@ -90,12 +103,9 @@ public class MovementManager : MonoBehaviour
     {
         if(movementMode == MovementMode.Smooth) {
             moveProvider.enabled = true;
-            teleporter.enabled = false;
-            teleportManager.canTeleport = false;
-        } else {
+        } 
+        else {
             moveProvider.enabled = false;
-            teleporter.enabled = true;
-            teleportManager.canTeleport = true;
         }
         if(ChangedMovementMode != null)
         {
@@ -127,42 +137,10 @@ public class MovementManager : MonoBehaviour
     public void SetMoveMode(Int32 val)
     {
         movementMode = (MovementMode)val;
-        //UpdateMovementMode();
     }
 
-    ///// <summary>
-    ///// Sets the directional movement mode to "Smooth."
-    ///// </summary>
-    //public void SetMoveModeSmooth()
-    //{
-    //    movementMode = MovementMode.Smooth;
-    //    UpdateMovementMode();
-    //}
-
-    ///// <summary>
-    ///// Sets the directional movement mode to "Teleport."
-    ///// </summary>
-    //public void SetMoveModeTeleport()
-    //{
-    //    movementMode = MovementMode.Teleport;
-    //    UpdateMovementMode();
-    //}
-
-    /// <summary>
-    /// Sets the turn mode to "Smooth."
-    /// </summary>
-    public void SetTurnModeSmooth()
+    public void SetTurnMode(Int32 val)
     {
-        turnMode = TurnMode.Smooth;
-        UpdateTurnMode();
-    }
-
-    /// <summary>
-    /// Sets the turn mode to "Snap."
-    /// </summary>
-    public void SetTurnModeSnap()
-    {
-        turnMode = TurnMode.Snap;
-        UpdateTurnMode();
+        turnMode = (TurnMode)val;
     }
 }

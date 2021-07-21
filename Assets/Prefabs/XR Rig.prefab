@@ -1244,8 +1244,8 @@ MonoBehaviour:
   teleportManager: {fileID: 6885946418284844269}
   smoothTurnProvider: {fileID: 2652347427263480729}
   snapTurnProvider: {fileID: 2652347427263480728}
-  movementMode: 1
-  turnMode: 1
+  _movementMode: 1
+  _turnMode: 1
   ChangedMovementMode:
     m_PersistentCalls:
       m_Calls: []
