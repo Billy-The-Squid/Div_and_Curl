@@ -574,6 +574,8 @@ public class HandManager : MonoBehaviour
         // Raycast direction
         raycastDirection = posSet.raycastDirection;
 
+        MeshRenderer attachRender = attachTransform.GetComponent<MeshRenderer>();
+
         // Hand mode ------------------------------------------------------------------------
         if (newMode == HandMode.Hand)
         {
@@ -597,6 +599,8 @@ public class HandManager : MonoBehaviour
 
             // Determine how the hand disappears
             currentHand.GetComponent<HandMotion>().SetVisible(isVisible);
+
+            if (attachTransform.GetComponent<MeshRenderer>() != null) { attachRender.enabled = false; }
         }
 
         // Wand mode ------------------------------------------------------------------------
@@ -619,6 +623,8 @@ public class HandManager : MonoBehaviour
 
             //// Moving the readout to this hand.
             //readout.transform.parent = transform;
+
+            if (attachTransform.GetComponent<MeshRenderer>() != null) { attachRender.enabled = true; }
         }
 
         Debug.LogWarning("UpdateHandMode not yet implemented");

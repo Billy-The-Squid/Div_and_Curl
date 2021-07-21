@@ -49,6 +49,8 @@ public class DetectorSelector : Selector<DetectorData>
     /// </summary>
     public TextMeshProUGUI detectorDescriptionDisplay;
 
+    public Dictionary<DetectorData, List<GameObject>> objectDict { get; protected set; }
+
 
 
 
@@ -84,18 +86,81 @@ public class DetectorSelector : Selector<DetectorData>
 
         // Do away with the old
         if(instantiated != null && ((instantiated.transform.position - spawnPoint.position).magnitude < respawnDistance)) {
-            Destroy(instantiated.gameObject);
+            //Destroy(instantiated.gameObject);
+            GetRidOf(available[current], instantiated.gameObject);
         }
         // And in with the new
-        instantiated = Instantiate(available[current].detectorPrefab);
-        instantiated.transform.position = spawnPoint.position;
-        instantiated.transform.parent = spawnPoint;
+        MakeANew(available[current]);
 
         // Update the displays.
         detectorNameDisplay.SetText(available[current].name);
         detectorDescriptionDisplay.SetText(available[current].description);
     }
 
+    /// <summary>
+    /// Neatly disposes of an instantiated object.
+    /// </summary>
+    /// <param name="data">The <see cref="DetectorData"/> type holding the prefab to be discarded.</param>
+    /// <param name="obj">The object to be discarded.</param>
+    protected void GetRidOf(DetectorData data, GameObject obj)
+    {
+        if (objectDict.ContainsKey(data) && objectDict[data] != null)
+        {
+            objectDict[data].Remove(obj);
+        }
+        Destroy(obj);
+    }
+
+    /// <summary>
+    /// Instantiates a new object.
+    /// </summary>
+    /// <param name="detectorData">The <see cref="DetectorData"/> type holding the prefab to be instantiated.</param>
+    protected void MakeANew(DetectorData detectorData)
+    {
+        //Debug.Log("Making a new " + detectorData.name);
+        instantiated = Instantiate(detectorData.detectorPrefab);
+        instantiated.transform.parent = spawnPoint;
+        instantiated.transform.localPosition = new Vector3(0, 0, 0);
+
+        if(objectDict != null)
+        {
+            if(!objectDict.ContainsKey(detectorData))
+            {
+                objectDict.Add(detectorData, new List<GameObject>());
+            }
+
+            objectDict[detectorData].Add(instantiated.gameObject);
+        }
+        else
+        {
+            Debug.LogError("Couldn't find the object dictionary");
+        }
+    }
+
+    /// <summary>
+    /// Called whenever <see cref="available"/> changes. 
+    /// </summary>
+    protected override void ChangeAvailable()
+    {
+        if(objectDict != null) {
+            // Delete everything in the old set
+            foreach (List<GameObject> list in objectDict.Values) {
+                foreach(GameObject obj in list) {
+                    if(obj != null && obj.GetComponent<Grabbable>() != null) {
+                        obj.GetComponent<Grabbable>().enabled = false;
+                    }
+
+                    StartCoroutine(TrashCan.DestroyInteractable(obj));
+                }
+            }
+
+            objectDict.Clear();
+        }
+
+        objectDict = new Dictionary<DetectorData, List<GameObject>>();
+
+        base.ChangeAvailable();
+    }
 
 
     /// <summary>

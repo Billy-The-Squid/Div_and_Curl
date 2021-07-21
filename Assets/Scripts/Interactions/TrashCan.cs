@@ -76,7 +76,7 @@ public class TrashCan : MonoBehaviour
     /// </summary>
     /// <param name="obj">The object to be destroyed.</param>
     /// <returns></returns>
-    protected IEnumerator DestroyInteractable(GameObject obj) {
+    public static IEnumerator DestroyInteractable(GameObject obj) {
         // Make the object disappear
         obj.SetActive(false);
 

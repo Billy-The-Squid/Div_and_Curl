@@ -15,7 +15,7 @@ public abstract class Selector<T> : MonoBehaviour
             if(!_available.Equals(value))
             {
                 _available = value;
-                ChangeSelection();
+                ChangeAvailable();
             }
         }
     }
@@ -49,6 +49,7 @@ public abstract class Selector<T> : MonoBehaviour
         current = 0;
         if(available.Length > 0)
         {
+            ChangeAvailable();
             ChangeSelection();
         }
         else
@@ -61,6 +62,11 @@ public abstract class Selector<T> : MonoBehaviour
     /// Update the menu to the current selection. Must be able to gracefully handle null pointers, etc. 
     /// </summary>
     protected abstract void ChangeSelection();
+
+    protected virtual void ChangeAvailable()
+    {
+        ChangeSelection();
+    }
 
     public virtual void Next() {
         current += 1;
