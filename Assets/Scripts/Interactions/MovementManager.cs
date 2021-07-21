@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.Events;
 
 /// <summary>
 /// Switches between different movement modes. May be set by te user. 
@@ -42,22 +40,36 @@ public class MovementManager : MonoBehaviour
     /// <summary>
     /// The types of directional movement available. 
     /// </summary>
-    private enum MovementMode { Smooth, Teleport }
+    public enum MovementMode { Smooth, Teleport }
     /// <summary>
     /// The method of directional movement. 
     /// </summary>
     [SerializeField]
-    MovementMode movementMode = MovementMode.Teleport;
+    protected MovementMode _movementMode = MovementMode.Teleport;
+    public MovementMode movementMode
+    {
+        get => _movementMode;
+        set
+        {
+            if(_movementMode != value)
+            {
+                _movementMode = value;
+                UpdateMovementMode();
+            }
+        }
+    }
 
     /// <summary>
     /// The types of turning available.
     /// </summary>
-    private enum TurnMode { Smooth, Snap }
+    public enum TurnMode { Smooth, Snap }
     /// <summary>
     /// The turn method.
     /// </summary>
-    [SerializeField]
-    TurnMode turnMode = TurnMode.Snap;
+    public TurnMode turnMode = TurnMode.Snap;
+
+    public UnityEvent ChangedMovementMode = new UnityEvent();
+    public UnityEvent ChangedTurnMode = new UnityEvent();
 
     
 
@@ -85,6 +97,10 @@ public class MovementManager : MonoBehaviour
             teleporter.enabled = true;
             teleportManager.canTeleport = true;
         }
+        if(ChangedMovementMode != null)
+        {
+            ChangedMovementMode.Invoke();
+        }
     }
 
     /// <summary>
@@ -102,27 +118,35 @@ public class MovementManager : MonoBehaviour
             smoothTurnProvider.enabled = false;
             snapTurnProvider.enabled = true;
         }
+        if(ChangedTurnMode != null)
+        {
+            ChangedTurnMode.Invoke();
+        }
     }
 
-
-
-    /// <summary>
-    /// Sets the directional movement mode to "Smooth."
-    /// </summary>
-    public void SetMoveModeSmooth()
+    public void SetMoveMode(Int32 val)
     {
-        movementMode = MovementMode.Smooth;
-        UpdateMovementMode();
+        movementMode = (MovementMode)val;
+        //UpdateMovementMode();
     }
 
-    /// <summary>
-    /// Sets the directional movement mode to "Teleport."
-    /// </summary>
-    public void SetMoveModeTeleport()
-    {
-        movementMode = MovementMode.Teleport;
-        UpdateMovementMode();
-    }
+    ///// <summary>
+    ///// Sets the directional movement mode to "Smooth."
+    ///// </summary>
+    //public void SetMoveModeSmooth()
+    //{
+    //    movementMode = MovementMode.Smooth;
+    //    UpdateMovementMode();
+    //}
+
+    ///// <summary>
+    ///// Sets the directional movement mode to "Teleport."
+    ///// </summary>
+    //public void SetMoveModeTeleport()
+    //{
+    //    movementMode = MovementMode.Teleport;
+    //    UpdateMovementMode();
+    //}
 
     /// <summary>
     /// Sets the turn mode to "Smooth."

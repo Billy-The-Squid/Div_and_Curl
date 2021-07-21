@@ -23,7 +23,7 @@ public class HandManager : MonoBehaviour
     public HandHeldUI readout;
     public Collider handCollider;
     public Collider wandCollider;
-
+    public MovementManager movementManager;
 
     /* **************************************************************************************
      * State variables measure what your hand is doing right now.
@@ -176,9 +176,22 @@ public class HandManager : MonoBehaviour
 
 
 
+    // MOVEMENT -----------------------------------------------------------------------------
+
+
+
     // TELEPORT -----------------------------------------------------------------------------
     /// <summary> Is this hand ever able to teleport? (Requires teleport ray) </summary>
     public bool teleportEnabled;
+    /* Should be false if:
+     * * this hand does not have a teleporter
+     * * teleporter.enabled is false
+     * * teleporter.gameObject.isActive is false
+     * * movement mode is set to smooth
+     * Update on:
+     * * Start
+     * * Changing movement mode
+     */
     protected bool _canTeleport;
     /// <summary> Is this hand currently able to teleport? </summary>
     protected bool canTeleport
@@ -300,6 +313,7 @@ public class HandManager : MonoBehaviour
      *  * Respond on resize
      * * on internals, call public methods only if value shifts
      * * Resizables (only one at a time)
+     * * Make a local bool wrapper for teleport.enabled, and have it call CheckTeleportEnabled.
      */
 
 
@@ -317,7 +331,7 @@ public class HandManager : MonoBehaviour
     private void Start()
     {
         UpdateHandMode(mode);
-        if(teleporter == null) { teleportEnabled = false; }
+        CheckTeleportEnabled();
         pullLayerMask = (1 << grabLayer) | (1 << terrainLayer);
         UILayermask = (1 << UILayer) | (1 << UIBackLayer);
         pointedAtUI = true;
@@ -344,6 +358,8 @@ public class HandManager : MonoBehaviour
             //    Debug.Log("Less dumb raycast: " + Physics.Raycast(ray, out RaycastHit thing2, 5, UILayermask)); //, uiRay.ray.interactionLayerMask));
             //    if(thing2.transform != null) Debug.Log("Thing2 name: " + thing2.transform.name);
             //}
+
+            //Debug.Log("TeleportEnabled: " + teleportEnabled);
         }
 
         // Are we pointed at a UI?
@@ -802,5 +818,33 @@ public class HandManager : MonoBehaviour
         {
             return Mathf.CeilToInt((x.transform.position - origin.position).magnitude - (y.transform.position - origin.position).magnitude);
         }
+    }
+
+    public void ChangeMovementMode()
+    {
+        if(movementManager.movementMode == MovementManager.MovementMode.Smooth) {
+            if(teleporter != null)
+            {
+                teleporter.enabled = false;
+            }
+        }
+        else // teleport mode
+        {
+            if(teleporter != null)
+            {
+                teleporter.enabled = true;
+            }
+        }
+        CheckTeleportEnabled();
+    }
+
+    /// <summary>
+    /// Sets the value of teleportEnabled.
+    /// </summary>
+    protected void CheckTeleportEnabled()
+    {
+        teleportEnabled = teleporter != null && teleporter.enabled && teleporter.gameObject.activeInHierarchy;
+        // use teleporter.enabled to disable teleportation in-game (for instance, changing modes).
+        // Use teleporter.SetActive (or disable the entire gameobject) for a disable that persists across modes.
     }
 }

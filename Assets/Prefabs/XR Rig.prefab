@@ -1045,6 +1045,7 @@ MonoBehaviour:
   readout: {fileID: 7823928153783724710}
   handCollider: {fileID: 867444867}
   wandCollider: {fileID: 2046208065}
+  movementManager: {fileID: 0}
   _mode: 1
   handPrefab: {fileID: 9212441126230583144, guid: 13cefc99fa4ebd54dae29171bfdaa2d1, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
@@ -1245,6 +1246,12 @@ MonoBehaviour:
   snapTurnProvider: {fileID: 2652347427263480728}
   movementMode: 1
   turnMode: 1
+  ChangedMovementMode:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangedTurnMode:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2652347427263480728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2512,6 +2519,7 @@ MonoBehaviour:
   readout: {fileID: 2652347427912683588}
   handCollider: {fileID: 1923565153}
   wandCollider: {fileID: 751309813}
+  movementManager: {fileID: 0}
   _mode: 1
   handPrefab: {fileID: 4911174108599212807, guid: 9afde4461fb8a2e46af7cfe3b525e2a0, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
