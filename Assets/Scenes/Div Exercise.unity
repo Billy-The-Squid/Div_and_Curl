@@ -18573,6 +18573,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2579116971795785321, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2652347426735425948, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_RootOrder
       value: 5
