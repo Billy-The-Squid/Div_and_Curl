@@ -182,8 +182,9 @@ public class HandManager : MonoBehaviour
         {
             if(_highlightMode != value)
             {
-                UpdateColors(highlightedObject);
                 _highlightMode = value;
+                UpdateColors(highlightedObject);
+                //Debug.Log("Changed highlight mode to " + value);
             }
         }
     }
@@ -552,11 +553,12 @@ public class HandManager : MonoBehaviour
     private void UpdateColors(Grabbable next)
     {
         //Debug.Log("UpdateColors called: going from " + (_highlightedObject ? _highlightedObject.name : "None") + " to " + (next ? next.name : "None"));
-        if(_highlightedObject != null)
+        if(_highlightedObject != null && _highlightedObject != next)
         {
             try
             {
                 _highlightedObject.RemoveHighlighter(this.gameObject);
+                //Debug.Log("Removed highlight");
             }
             catch (MissingReferenceException)
             {
@@ -567,6 +569,7 @@ public class HandManager : MonoBehaviour
 
         try
         {
+            Debug.Log("Adding highlights: " + highlightMode);
             next.AddHighlighter(this.gameObject, highlightMode);
         }
         catch (NullReferenceException)
@@ -820,23 +823,6 @@ public class HandManager : MonoBehaviour
     {
 
     }
-
-    //// Should be bound to the HoverEnter event on the directInteractor
-    //public void GrabHoverEntered()
-    //{
-    //    hovering = true;
-    //}
-
-    //// Should be bound to the HoverExit event on the directInteractor
-    //public void GrabHoverExited()
-    //{
-    //    List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
-    //    directInteractor.GetHoverTargets(hoverTargets);
-    //    if(hoverTargets.Count == 0)
-    //    {
-    //        hovering = false;
-    //    }
-    //}
 
     public void ChangeHandMode(Int32 mode)
     {

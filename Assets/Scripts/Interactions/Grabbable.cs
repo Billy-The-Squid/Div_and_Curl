@@ -61,14 +61,17 @@ public abstract class Grabbable : XRGrabInteractable
                 {
                     case Highlight.Normal:
                         outline.OutlineColor = normalHighlight;
+                        _currentHighlight = Highlight.Normal;
                         isOutlined = true;
                         break;
                     case Highlight.Invalid:
                         outline.OutlineColor = invalidHighlight;
+                        _currentHighlight = Highlight.Invalid;
                         isOutlined = true;
                         break;
                     case Highlight.None:
                         isOutlined = false;
+                        _currentHighlight = Highlight.None;
                         break;
                     default:
                         break;
@@ -147,9 +150,9 @@ public abstract class Grabbable : XRGrabInteractable
         }
         else if(highlighters[highlighter] != highlight)
         {
-            Debug.LogWarning("Logging changed highlight");
-            CheckHighlight();
+            //Debug.LogWarning("Logging changed highlight: " + highlight);
             highlighters[highlighter] = highlight;
+            CheckHighlight();
         }
     }
 
