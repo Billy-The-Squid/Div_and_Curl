@@ -174,6 +174,19 @@ public class HandManager : MonoBehaviour
     }
     /* Should be updated each frame if either canPull or hovering are true.
      */
+    protected Grabbable.Highlight _highlightMode;
+    protected Grabbable.Highlight highlightMode
+    {
+        get => _highlightMode;
+        set
+        {
+            if(_highlightMode != value)
+            {
+                UpdateColors(highlightedObject);
+                _highlightMode = value;
+            }
+        }
+    }
 
 
 
@@ -501,6 +514,7 @@ public class HandManager : MonoBehaviour
          */
 
         if(directInteractor.selectTarget != null) {
+            highlightMode = Grabbable.Highlight.Normal;
             highlightedObject = null;
         }
         else if(hovering) {
@@ -509,16 +523,23 @@ public class HandManager : MonoBehaviour
             List<XRBaseInteractable> hoverTargets = new List<XRBaseInteractable>();
             directInteractor.GetHoverTargets(hoverTargets);
             hoverTargets.Sort(new Nearest(attachTransform));
+            highlightMode = Grabbable.Highlight.Normal;
             highlightedObject = ((Grabbable)hoverTargets[0]);
         } 
         else if (canPull) {
             //Debug.Log("Can pull");
             //Debug.Log("Highlighted object: " + (highlightedObject == null ? 0 : highlightedObject.GetInstanceID()));
-            highlightedObject = willBePulled;
             if (willBePulled == detectorStation.instantiated && detectorStation.isFirst[detectorStation.available[detectorStation.current]])
             {
+                highlightMode = Grabbable.Highlight.Invalid;
+                highlightedObject = willBePulled;
                 willBePulled = null;
-                Debug.LogWarning("Can't pull that");
+                //Debug.LogWarning("Can't pull that");
+            }
+            else
+            {
+                highlightMode = Grabbable.Highlight.Normal;
+                highlightedObject = willBePulled;
             }
         }
         else
@@ -546,7 +567,7 @@ public class HandManager : MonoBehaviour
 
         try
         {
-            next.AddHighlighter(this.gameObject);
+            next.AddHighlighter(this.gameObject, highlightMode);
         }
         catch (NullReferenceException)
         {

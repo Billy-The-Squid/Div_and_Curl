@@ -42,9 +42,41 @@ public abstract class Grabbable : XRGrabInteractable
             }
             //Debug.Log(GetInstanceID() + " enabled? " + outline.enabled);
         }
+    } // Remove references to this, use currentHighlight instead. 
+
+    protected Dictionary<GameObject, Highlight> highlighters;
+
+    public Color normalHighlight = new Color(0, 1, 1, 1); // cyan
+    public Color invalidHighlight = new Color(1, 0, 0, 1); // red
+    public enum Highlight { Normal, None, Invalid };
+    protected Highlight _currentHighlight = Highlight.Normal;
+    public Highlight currentHighlight
+    {
+        get => _currentHighlight;
+        set
+        {
+            if (_currentHighlight != value)
+            {
+                switch(value)
+                {
+                    case Highlight.Normal:
+                        outline.OutlineColor = normalHighlight;
+                        isOutlined = true;
+                        break;
+                    case Highlight.Invalid:
+                        outline.OutlineColor = invalidHighlight;
+                        isOutlined = true;
+                        break;
+                    case Highlight.None:
+                        isOutlined = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
-    protected List<GameObject> highlighters;
 
 
 
@@ -70,7 +102,7 @@ public abstract class Grabbable : XRGrabInteractable
             outline = GetComponent<Outline>();
         }
 
-        highlighters = new List<GameObject>();
+        highlighters = new Dictionary<GameObject, Highlight>();
     }
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
@@ -82,11 +114,13 @@ public abstract class Grabbable : XRGrabInteractable
         attachTransform.rotation = args.interactor.attachTransform.rotation;
         attachTransform.position = args.interactor.attachTransform.position;
 
-        // Make sure not outlined
-        if(isOutlined)
-        {
-            isOutlined = false;
-        }
+        //// Make sure is outlined
+        //if(currentHighlight != Highlight.None)
+        //{
+        //    currentHighlight = Highlight.None;
+        //}
+
+        CheckHighlight();
 
         base.OnSelectEntering(args);
     }
@@ -98,31 +132,58 @@ public abstract class Grabbable : XRGrabInteractable
         // Reset positions (is this necessary?)
         attachTransform.localRotation = nativeAttachRotation;
         attachTransform.localPosition = nativeAttachPosition;
-
-        //// Update outline following HandManager
-        //if(hoveringInteractors.Count != 0) { isOutlined = true; }
     }
 
-    public void AddHighlighter(GameObject highlighter)
+    public void AddHighlighter(GameObject highlighter, Highlight highlight)
     {
         //Debug.Log(this.GetInstanceID() + " AddHighlighter called");
-        if(!highlighters.Contains(highlighter))
+        if(!highlighters.ContainsKey(highlighter))
         {
+            //Debug.Log("Changing highlight to normal");
             //Debug.Log(this.GetInstanceID() + " Adding highlighter");
-            highlighters.Add(highlighter);
-            isOutlined = true;
+            highlighters.Add(highlighter, highlight);
+            //currentHighlight = Highlight.Normal;
+            CheckHighlight();
+        }
+        else if(highlighters[highlighter] != highlight)
+        {
+            Debug.LogWarning("Logging changed highlight");
+            CheckHighlight();
+            highlighters[highlighter] = highlight;
         }
     }
 
     public void RemoveHighlighter(GameObject highlighter)
     {
-        if(highlighters.Contains(highlighter))
+        if(highlighters.ContainsKey(highlighter))
         {
             highlighters.Remove(highlighter);
-            if(highlighters.Count == 0)
-            {
-                isOutlined = false;
-            }
+            //if(highlighters.Count == 0)
+            //{
+            //    currentHighlight = Highlight.None;
+            //    //Debug.Log("Removing current highlight");
+            //}
+            CheckHighlight();
+        }
+    }
+
+
+    /// <summary>
+    /// Checks the highlight list to see what color the highlight should be.
+    /// </summary>
+    protected void CheckHighlight()
+    {
+        if(highlighters.ContainsValue(Highlight.Normal))
+        {
+            currentHighlight = Highlight.Normal;
+        }
+        else if(highlighters.ContainsValue(Highlight.Invalid))
+        {
+            currentHighlight = Highlight.Invalid;
+        }
+        else
+        {
+            currentHighlight = Highlight.None;
         }
     }
 }

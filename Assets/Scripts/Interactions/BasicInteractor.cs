@@ -24,5 +24,8 @@ public class BasicInteractor : Grabbable
     void Update()
     {
         rigidBody.angularVelocity = transform.up * angularSpeed;
+
+        //Debug.Log("Current highlight: " + currentHighlight);
+        //Debug.Log("Is outlined? " + isOutlined);
     }
 }

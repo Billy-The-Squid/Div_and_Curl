@@ -4778,6 +4778,7 @@ MonoBehaviour:
   respawnDistance: 0.05
   detectorNameDisplay: {fileID: 451898628}
   detectorDescriptionDisplay: {fileID: 1449102000}
+  cantPullColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &559287056
 GameObject:
   m_ObjectHideFlags: 0
