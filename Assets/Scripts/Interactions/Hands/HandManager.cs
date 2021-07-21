@@ -21,8 +21,8 @@ public class HandManager : MonoBehaviour
     public UIRay uiRay;
     public Transform attachTransform;
     public HandHeldUI readout;
-    public SphereCollider handCollider;
-    public CapsuleCollider wandCollider;
+    public Collider handCollider;
+    public Collider wandCollider;
 
 
     /* **************************************************************************************

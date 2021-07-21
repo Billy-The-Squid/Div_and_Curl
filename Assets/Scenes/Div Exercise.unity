@@ -15319,11 +15319,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _available:
   - {fileID: 11400000, guid: 7a0e87f7d57159a4db8e883f389bb91d, type: 2}
-  - {fileID: 11400000, guid: 060acb36020695f47ab8151832d346b0, type: 2}
+  - {fileID: 11400000, guid: 7f5501db5779b2a4c8b55a14b9772e82, type: 2}
   - {fileID: 11400000, guid: affb4615024824e41bb35ae8e3f5571e, type: 2}
   - {fileID: 11400000, guid: 9b2afcfcb25a86644bce405f5282e6b0, type: 2}
   - {fileID: 11400000, guid: 8a1800598bb6fbf42a5e8dcc846bc94b, type: 2}
   - {fileID: 11400000, guid: 520fe822e458b574781867a36514b518, type: 2}
+  - {fileID: 11400000, guid: 5eedb890daafdad4fb97bfac6110898f, type: 2}
   - {fileID: 11400000, guid: 0445acb3ad500194b8b68c522b8f8681, type: 2}
   canvas: {fileID: 2071710656}
   ChangeScene:
@@ -15880,9 +15881,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2579116971795785321, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 2046208065, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2652347426735425948, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_RootOrder

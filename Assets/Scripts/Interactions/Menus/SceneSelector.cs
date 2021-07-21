@@ -41,8 +41,8 @@ public class SceneSelector : Selector<FieldScene>
         if (ChangeScene != null) {
             ChangeScene.Invoke(available[current]);
         }
-        nameDisplay.SetText(available[current].name);
-        descriptionDisplay.SetText(available[current].SceneDescription);
+        nameDisplay.SetText(available[current].sceneName);
+        descriptionDisplay.SetText(available[current].sceneDescription);
     }
 
 

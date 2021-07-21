@@ -404,7 +404,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671737788}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -416,7 +416,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 128c2390f1e0e794daa5152f9611cdd1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -485,7 +485,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411779588}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -497,7 +497,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 128c2390f1e0e794daa5152f9611cdd1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1044,8 +1044,8 @@ MonoBehaviour:
   attachTransform: {fileID: 671737789}
   readout: {fileID: 7823928153783724710}
   handCollider: {fileID: 867444867}
-  wandCollider: {fileID: 867444865}
-  _mode: 0
+  wandCollider: {fileID: 2046208065}
+  _mode: 1
   handPrefab: {fileID: 9212441126230583144, guid: 13cefc99fa4ebd54dae29171bfdaa2d1, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
   _hand: 0
@@ -1555,8 +1555,8 @@ GameObject:
   - component: {fileID: 2652347427364259148}
   - component: {fileID: 2652347427364259146}
   - component: {fileID: 1382694942}
-  - component: {fileID: 867444865}
   - component: {fileID: 867444867}
+  - component: {fileID: 2046208065}
   m_Layer: 7
   m_Name: Right Direct Interactor
   m_TagString: Untagged
@@ -1719,20 +1719,6 @@ MonoBehaviour:
   pullSpeed: 15
   directInteractor: {fileID: 0}
   attachAnchorTransform: {fileID: 671737789}
---- !u!136 &867444865
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2652347427364259151}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0.3
-  m_Direction: 1
-  m_Center: {x: 0.01, y: 0.24, z: 0.007}
 --- !u!135 &867444867
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1746,6 +1732,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.12
   m_Center: {x: -0.05, y: -0.02, z: 0.03}
+--- !u!135 &2046208065
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347427364259151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.025
+  m_Center: {x: 0.01, y: 0.3, z: 0.007}
 --- !u!1 &2652347428183578925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,8 +1756,8 @@ GameObject:
   - component: {fileID: 2652347428183578922}
   - component: {fileID: 2652347428183578920}
   - component: {fileID: 416310360}
-  - component: {fileID: 1923565157}
   - component: {fileID: 1923565153}
+  - component: {fileID: 751309813}
   m_Layer: 7
   m_Name: Left Direct Interactor
   m_TagString: Untagged
@@ -1921,20 +1920,6 @@ MonoBehaviour:
   pullSpeed: 15
   directInteractor: {fileID: 0}
   attachAnchorTransform: {fileID: 1411779589}
---- !u!136 &1923565157
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2652347428183578925}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0.3
-  m_Direction: 1
-  m_Center: {x: -0.01, y: 0.24, z: 0.007}
 --- !u!135 &1923565153
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1948,6 +1933,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.12
   m_Center: {x: 0.05, y: -0.02, z: 0.03}
+--- !u!135 &751309813
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652347428183578925}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.025
+  m_Center: {x: -0.01, y: 0.3, z: 0.007}
 --- !u!1 &4995252956313465338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2513,8 +2511,8 @@ MonoBehaviour:
   attachTransform: {fileID: 1411779589}
   readout: {fileID: 2652347427912683588}
   handCollider: {fileID: 1923565153}
-  wandCollider: {fileID: 1923565157}
-  _mode: 0
+  wandCollider: {fileID: 751309813}
+  _mode: 1
   handPrefab: {fileID: 4911174108599212807, guid: 9afde4461fb8a2e46af7cfe3b525e2a0, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
   _hand: 1

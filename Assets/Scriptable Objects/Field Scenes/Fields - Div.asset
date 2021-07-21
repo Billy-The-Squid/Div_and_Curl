@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fields - Div
   m_EditorClassIdentifier: 
   sceneName: Fields
-  SceneDescription: Meet the vector fields
+  sceneDescription: Meet the fields (divergence).
   detectorArray:
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
   - {fileID: 11400000, guid: aac877ac735fcad47b96448e4b3e82a7, type: 2}

@@ -7,7 +7,7 @@ public class FieldScene : ScriptableObject
 {
     public string sceneName;
     [TextArea(minLines:1, maxLines:5)]
-    public string SceneDescription;
+    public string sceneDescription;
     public DetectorData[] detectorArray;
     public FieldData[] fieldArray;
     public bool limitDetectors;

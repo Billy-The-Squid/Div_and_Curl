@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Flux
   m_EditorClassIdentifier: 
   sceneName: Flux
-  SceneDescription: Learn about flux
+  sceneDescription: Learn about the surface-integral definition of divergence.
   detectorArray:
   - {fileID: 11400000, guid: d0e431401b0886245bf926fad5e2e629, type: 2}
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}

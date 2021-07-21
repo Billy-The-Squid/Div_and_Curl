@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Curl Loop
   m_EditorClassIdentifier: 
   sceneName: Curl Loop
-  SceneDescription: Defining curl with a loop integral
+  sceneDescription: Learn about the loop-integral definition of curl.
   detectorArray:
   - {fileID: 11400000, guid: 923ca0175c7c0b14d9d3b10dfaabb77d, type: 2}
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}

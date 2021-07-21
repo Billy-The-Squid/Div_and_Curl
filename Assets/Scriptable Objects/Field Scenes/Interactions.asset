@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Interactions
   m_EditorClassIdentifier: 
   sceneName: Interactions
-  SceneDescription: 'Learn how to move and interact with objects. Start here. '
+  sceneDescription: Start here. Learn how to move and interact with objects.
   detectorArray:
   - {fileID: 11400000, guid: b959b056f2fde1a48b1c36dfea8d2803, type: 2}
   fieldArray:
   - {fileID: 11400000, guid: 9b37d523e49febf48880ba1359855f39, type: 2}
-  fieldList: 08000000
   limitDetectors: 0

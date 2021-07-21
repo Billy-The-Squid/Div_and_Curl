@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Diff Curl
   m_EditorClassIdentifier: 
   sceneName: Differential Curl
-  SceneDescription: The derivative definition of curl
+  sceneDescription: Learn about the derivative definition of curl.
   detectorArray:
   - {fileID: 11400000, guid: 5b699fedd32fabb45a724790ea006f93, type: 2}
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}

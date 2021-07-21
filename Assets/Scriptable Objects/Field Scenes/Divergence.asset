@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Divergence
   m_EditorClassIdentifier: 
   sceneName: Divergence
-  SceneDescription: Learn about divergence
+  sceneDescription: Learn about the derivative definition of divergence.
   detectorArray:
   - {fileID: 11400000, guid: aa661c43ad4b8924ea1b13193913bba2, type: 2}
   - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
