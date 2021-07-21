@@ -50,6 +50,13 @@ public class DetectorSelector : Selector<DetectorData>
     public TextMeshProUGUI detectorDescriptionDisplay;
 
     public Dictionary<DetectorData, List<GameObject>> objectDict { get; protected set; }
+    /// <summary>
+    /// If the object sitting on the pedestal right now is the first one of its type to be created, this should be true. 
+    /// </summary>
+    public Dictionary<DetectorData, bool> isFirst { get; protected set; }
+    // Should become false if object is moved at all. 
+
+    public Color cantPullColor = Color.red;
 
 
 
@@ -57,6 +64,7 @@ public class DetectorSelector : Selector<DetectorData>
 
     protected override void Start()
     {
+        isFirst = new Dictionary<DetectorData, bool>();
         base.Start();
     }
 
@@ -65,10 +73,17 @@ public class DetectorSelector : Selector<DetectorData>
     private void Update()
     {
         ReactToPlayer();
-        if(instantiated == null || (instantiated.transform.position - spawnPoint.position).magnitude > respawnDistance)
-        {
+        if(instantiated == null) {
             ChangeSelection();
         }
+        else if ((instantiated.transform.position - spawnPoint.position).magnitude > respawnDistance) {
+            if(isFirst[available[current]]) {
+                isFirst[available[current]] = false;
+            }
+            ChangeSelection();
+        }
+
+        //Debug.Log("Is first?" + isFirst[available[current]]);
     }
 
 
@@ -82,6 +97,11 @@ public class DetectorSelector : Selector<DetectorData>
         if(current >= available.Length || available[current] == null) {
             Debug.LogError("Empty available array or array entry detected.");
             return;
+        }
+
+        // Check isFirst
+        if(!isFirst.ContainsKey(available[current])) {
+            isFirst.Add(available[current], true);
         }
 
         // Do away with the old
@@ -146,11 +166,12 @@ public class DetectorSelector : Selector<DetectorData>
             // Delete everything in the old set
             foreach (List<GameObject> list in objectDict.Values) {
                 foreach(GameObject obj in list) {
-                    if(obj != null && obj.GetComponent<Grabbable>() != null) {
-                        obj.GetComponent<Grabbable>().enabled = false;
+                    if(obj != null) {
+                        if (obj.GetComponent<Grabbable>() != null) {
+                            obj.GetComponent<Grabbable>().enabled = false;
+                        }
+                        StartCoroutine(TrashCan.DestroyInteractable(obj));
                     }
-
-                    StartCoroutine(TrashCan.DestroyInteractable(obj));
                 }
             }
 

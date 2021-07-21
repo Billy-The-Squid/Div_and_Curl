@@ -24,6 +24,7 @@ public class HandManager : MonoBehaviour
     public Collider handCollider;
     public Collider wandCollider;
     public MovementManager movementManager;
+    protected DetectorSelector detectorStation;
 
     /* **************************************************************************************
      * State variables measure what your hand is doing right now.
@@ -336,6 +337,11 @@ public class HandManager : MonoBehaviour
         UILayermask = (1 << UILayer) | (1 << UIBackLayer);
         pointedAtUI = true;
         nearUI = true; // Find a better way to do this &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+        if(detectorStation == null)
+        {
+            detectorStation = FindObjectOfType<DetectorSelector>();
+        }
     }
 
 
@@ -509,6 +515,11 @@ public class HandManager : MonoBehaviour
             //Debug.Log("Can pull");
             //Debug.Log("Highlighted object: " + (highlightedObject == null ? 0 : highlightedObject.GetInstanceID()));
             highlightedObject = willBePulled;
+            if (willBePulled == detectorStation.instantiated && detectorStation.isFirst[detectorStation.available[detectorStation.current]])
+            {
+                willBePulled = null;
+                Debug.LogWarning("Can't pull that");
+            }
         }
         else
         {
