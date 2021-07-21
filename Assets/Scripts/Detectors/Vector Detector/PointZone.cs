@@ -15,6 +15,9 @@ public class PointZone : FieldZone
     /// </summary>
     public VectorField localField;
 
+    [Tooltip("The factor by which the vector's length is multiplied before displaying.")]
+    public float scalingFactor = 1f;
+
     /// <summary>
     /// Keeps track of whether the zone has been initialized. 
     /// </summary>
@@ -54,7 +57,7 @@ public class PointZone : FieldZone
 
         // Set some important variables.
         canMove = true;
-        maxVectorLength = 0.5f * transform.localScale.x; // Assuming uniform scaling in each direction.
+        maxVectorLength = scalingFactor * transform.localScale.x; // Assuming uniform scaling in each direction.
 
         initialized = true;
     }
