@@ -53,6 +53,25 @@ public class ForcePull : MonoBehaviour
     /// </summary>
     public Transform attachAnchorTransform;
 
+    protected HandManager.GrabMode _grabMode;
+    public HandManager.GrabMode grabMode
+    {
+        get => _grabMode;
+        set
+        {
+            if(_grabMode != value)
+            {
+                togglePull = false;
+                _grabMode = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// When there is nothing grabbed, is flipped on each "Performed" callback. 
+    /// </summary>
+    protected bool togglePull = false;
+
 
 
 
@@ -63,6 +82,8 @@ public class ForcePull : MonoBehaviour
         // Find the input action. 
         string handName = handNames[(int)hand];
         grab = actionAsset.FindActionMap("XRI " + handName + "Hand").FindAction("Select");
+        // Flips togglePull, provided we're not holding anything, but we ARE aiming at something.
+        grab.performed += (value) => togglePull = (!togglePull && directInteractor.selectTarget == null && nearestGrabbable != null);
 
         pulling = false;
 
@@ -77,20 +98,37 @@ public class ForcePull : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(grab.phase != InputActionPhase.Waiting && nearestGrabbable != null)
+        if(nearestGrabbable != null)
         {
-            if (nearestGrabbable.isSelected && nearestGrabbable.selectingInteractor is XRSocketInteractor) {
-                StartCoroutine(StealFromSocket((XRSocketInteractor)nearestGrabbable.selectingInteractor));
+            if(grabMode == HandManager.GrabMode.Hold && grab.phase != InputActionPhase.Waiting)
+            {
+                Pull();
             }
-            else {
-                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
-                nearestGrabbable.transform.position, attachAnchorTransform.position, pullSpeed * Time.deltaTime));
+            else if (grabMode == HandManager.GrabMode.Toggle && togglePull)
+            {
+                Pull();
             }
-
-            pulling = directInteractor.selectTarget == null;
+            else
+            {
+                pulling = false;
+            }
         } else
         {
             pulling = false;
+        }
+
+        void Pull()
+        {
+            if (nearestGrabbable.isSelected && nearestGrabbable.selectingInteractor is XRSocketInteractor)
+            {
+                StartCoroutine(StealFromSocket((XRSocketInteractor)nearestGrabbable.selectingInteractor));
+            }
+            else
+            {
+                nearestGrabbable.GetComponent<Rigidbody>().MovePosition(Vector3.MoveTowards(
+                nearestGrabbable.transform.position, attachAnchorTransform.position, pullSpeed * Time.deltaTime));
+            }
+            pulling = directInteractor.selectTarget == null;
         }
     }
 

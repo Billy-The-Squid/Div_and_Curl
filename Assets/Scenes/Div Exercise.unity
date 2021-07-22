@@ -5063,7 +5063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &582561100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5106,7 +5106,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582561099}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e50e8ae075d1e548a0283fe5c557d19, type: 3}
   m_Name: 
@@ -5180,14 +5180,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582561099}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afb52fba46dd8fe4fa779a2c95280069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   actionMapName: XRI LeftHand
-  actionName: Summon menu
+  actionName: Select
 --- !u!1 &587264387
 GameObject:
   m_ObjectHideFlags: 0
@@ -19146,6 +19146,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 441323763, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: _grabMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2579116971795785321, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -19198,8 +19202,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Rig
       objectReference: {fileID: 0}
+    - target: {fileID: 2652347428183578920, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_SelectActionTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5809074648607462243, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: _movementMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339172364439220385, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: _grabMode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
