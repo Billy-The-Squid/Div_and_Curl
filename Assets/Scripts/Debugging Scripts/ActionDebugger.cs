@@ -36,6 +36,16 @@ public class ActionDebugger : MonoBehaviour
         action.started += ActionStarted;
         action.performed += ActionPerformed;
         action.canceled += ActionCancelled;
+
+        //string processorString = "Listed processors: ";
+        //IEnumerable<string> processorList = InputSystem.ListProcessors();
+        //foreach(string str in processorList)
+        //{
+        //    processorString += ("\n" + str);
+        //}
+        //Debug.Log(processorString);
+
+        Debug.Log("Action processors: " + action.processors);
     }
 
     // Update is called once per frame
@@ -50,6 +60,16 @@ public class ActionDebugger : MonoBehaviour
         {
             DebugAction(action);
         }
+
+        //string lastProcessor = "";
+        //IEnumerable<string> processorList = InputSystem.ListProcessors();
+        //foreach(string str in processorList)
+        //{
+        //    lastProcessor = str;
+        //}
+        //Debug.Log("Last listed processor: " + lastProcessor);
+
+        //Debug.Log("Action processors: " + action.processors);
     }
 
     public static void DebugAction(InputAction action)
