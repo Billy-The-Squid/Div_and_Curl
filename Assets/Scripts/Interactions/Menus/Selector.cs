@@ -75,6 +75,36 @@ public abstract class Selector<T> : MonoBehaviour
     public virtual void Previous() {
         current -= 1;
     }
+
+    public virtual bool HasNext()
+    {
+        if (available.Length > 0)
+        {
+            int val = (current + 1) % available.Length;
+            if (val != current)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public virtual bool HasPrevious()
+    {
+        if (available.Length > 0)
+        {
+            int val = current - 1;
+            while (val < 0)
+            {
+                val += available.Length;
+            }
+            if (val != current)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 

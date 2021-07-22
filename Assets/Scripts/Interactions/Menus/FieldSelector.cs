@@ -18,10 +18,23 @@ public class FieldSelector : Selector<FieldData>
     /// </summary>
     public Collider background;
     /// <summary>
+    /// The parent to the background and the canvas. Moves with them. 
+    /// </summary>
+    public Rigidbody menuObject;
+    /// <summary>
+    /// The pivot point at the center of the field.
+    /// </summary>
+    public Rigidbody menuPivot;
+    /// <summary>
     /// The distance from the player at which the UI disappears
     /// </summary>
     [Min(1f)]
     public float visibleDistance;
+    public float orbitalRadius = 3;
+    public float personalSpaceRadius = 0.75f;
+    public float adjustmentTorque = 0.01f;
+    protected float currentAngularSpeed = 0;
+    public float deadzoneWidth = 0.5f;
 
     public UIEvent UIAppearEvent = new UIEvent();
     public UIEvent UIDisppearEvent = new UIEvent();
@@ -30,17 +43,43 @@ public class FieldSelector : Selector<FieldData>
 
     public TextMeshProUGUI nameDisplay, descriptionDisplay;
 
-
-
-
-
-    protected override void Start()
+    protected bool _canSeeCanvas;
+    public bool canSeeCanvas
     {
-        if (field == null)
+        get => _canSeeCanvas;
+        set
         {
-            field = GetComponent<VectorField>();
-            if (field == null)
+            if(_canSeeCanvas != value)
             {
+                canvas.enabled = value;
+                _canSeeCanvas = value;
+                if(background != null)
+                {
+                    background.enabled = value;
+                }
+                if(value)
+                {
+                    UIAppearEvent.Invoke(canvas);
+                }
+                else
+                {
+                    UIDisppearEvent.Invoke(canvas);
+                }
+            }
+        }
+    }
+
+    public RectTransform nextButton;
+    public RectTransform previousButton;
+
+
+
+
+
+    protected override void Start() {
+        if (field == null) {
+            field = GetComponent<VectorField>();
+            if (field == null) {
                 Debug.LogError("FieldMenuUI requires a reference to a VectorField");
             }
         }
@@ -82,39 +121,92 @@ public class FieldSelector : Selector<FieldData>
 
 
 
+    protected override void ChangeAvailable()
+    {
+        base.ChangeAvailable();
+
+        nextButton.gameObject.SetActive(HasNext());
+        previousButton.gameObject.SetActive(HasPrevious());
+    }
+
+
+
     protected void ReactToPlayer()
     {
-        // Rotate to face the player
-        Vector3 displacement = transform.position - playerEyes.position;
-        Vector3 planeDistance = new Vector3(displacement.x, 0, displacement.z);
-        transform.forward = planeDistance.normalized;
+        // Check relative positions
+        Vector3 pivotDist = planeDist(menuPivot.transform.position, playerEyes.position);
+        Vector3 menuDist = planeDist(menuObject.transform.position, playerEyes.position);
+        float angleBetween = Vector3.SignedAngle(planeDist(menuPivot.transform.position, menuObject.transform.position), pivotDist, menuPivot.transform.up);
+        // If we're nowhere close, rotate to face the player.
+        if (menuDist.magnitude > personalSpaceRadius)
+        {
+            currentAngularSpeed = Mathf.Abs(angleBetween) * adjustmentTorque;
+            
+        }
+        // If we're definitely in the bubble, move away. 
+        else if (Mathf.Abs(menuDist.magnitude - personalSpaceRadius) > deadzoneWidth)
+        {
+            currentAngularSpeed = -Mathf.Abs(angleBetween) * adjustmentTorque;
+            //Debug.Log("Getting close");
+        }
+        // If we're in the middle, do nothing. 
+        else
+        {
+            currentAngularSpeed = 0;
+        }
+        menuPivot.transform.forward = Vector3.RotateTowards(menuPivot.transform.forward, pivotDist.normalized, currentAngularSpeed * Time.deltaTime, 0);
+        menuObject.transform.forward = menuDist.normalized;
 
         // Needs to be able to turn to face the player when inside the field as well. Maybe add support for physics movement too?
 
-        // Close the display if the player is far away. 
-        if (planeDistance.magnitude <= visibleDistance)
+        
+        
+        // Update whether it's visible.
+        // If the field is empty, it shouldn't ever disappear.
+        if (available[current].field == VectorField.FieldType.Empty) 
         {
-            if (!canvas.enabled)
+            canSeeCanvas = true;
+        }
+        // Otherwise, it should.
+        else
+        {
+            // Close the display if the player is far away. 
+            if (menuDist.magnitude <= visibleDistance && pivotDist.magnitude <= orbitalRadius)
             {
-                canvas.enabled = true;
-                UIAppearEvent.Invoke(canvas);
-                if (background != null)
+                canSeeCanvas = true;
+                { // Delete me if I don't seem necessary
+                    //if (!canvas.enabled)
+                    //{
+                    //    canvas.enabled = true;
+                    //    UIAppearEvent.Invoke(canvas);
+                    //    if (background != null)
+                    //    {
+                    //        background.enabled = true;
+                    //    }
+                    //}
+                }
+            }
+            else
+            {
+                if (canvas.enabled)
                 {
-                    background.enabled = true;
+                    canSeeCanvas = false;
+                    { // Delete me if I don't seem necessary
+                      //canvas.enabled = false;
+                      //UIDisppearEvent.Invoke(canvas);
+                      //if (background != null)
+                      //{
+                      //    background.enabled = false;
+                      //}
+                    }
                 }
             }
         }
-        else
+
+        Vector3 planeDist(Vector3 vect1, Vector3 vect2)
         {
-            if (canvas.enabled)
-            {
-                canvas.enabled = false;
-                UIDisppearEvent.Invoke(canvas);
-                if (background != null)
-                {
-                    background.enabled = false;
-                }
-            }
+            Vector3 dist = vect1 - vect2;
+            return new Vector3(dist.x, 0, dist.z);
         }
     }
 }

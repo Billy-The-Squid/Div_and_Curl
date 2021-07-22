@@ -58,6 +58,9 @@ public class DetectorSelector : Selector<DetectorData>
 
     public Color cantPullColor = Color.red;
 
+    public RectTransform nextButton;
+    public RectTransform previousButton;
+
 
 
 
@@ -181,6 +184,9 @@ public class DetectorSelector : Selector<DetectorData>
         objectDict = new Dictionary<DetectorData, List<GameObject>>();
 
         base.ChangeAvailable();
+
+        nextButton.gameObject.SetActive(HasNext());
+        previousButton.gameObject.SetActive(HasPrevious());
     }
 
 
