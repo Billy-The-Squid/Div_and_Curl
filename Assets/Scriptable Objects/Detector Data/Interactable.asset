@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Interactable
   m_EditorClassIdentifier: 
   name: Thing
-  description: A thing. What does it do?
+  description: 'Before you can pick it up, you have to get close enough to read this. '
   detectorPrefab: {fileID: -2784523897245137300, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}
