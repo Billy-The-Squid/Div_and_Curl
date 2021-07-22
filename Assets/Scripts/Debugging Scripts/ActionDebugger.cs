@@ -59,7 +59,7 @@ public class ActionDebugger : MonoBehaviour
         //Debug.Log("Read value (float): " + action.ReadValue<float>());
         //Debug.Log("Read value (bool): " + action.ReadValue<bool>());
         //Debug.Log("Triggered? " + action.triggered);
-        Debug.Log("Phase: " + action.phase);
+        //Debug.Log("Phase: " + action.phase);
     }
 
     public void ActionStarted(InputAction.CallbackContext context)
