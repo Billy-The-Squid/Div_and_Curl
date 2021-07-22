@@ -41,8 +41,8 @@ public class PartialZone : FieldZone
         Initialize();
 
         // Set the current positions
-        points[0] = transform.right * deltaX; //transform.TransformVector(new Vector3(deltaX, 0, 0));
-        points[1] = -transform.right * deltaX; //transform.TransformVector(new Vector3(-deltaX, 0, 0));
+        points[0] = transform.position + transform.right * deltaX;
+        points[1] = transform.position + -transform.right * deltaX;
         positionBuffer.SetData(points);
 
         // Set the bounds

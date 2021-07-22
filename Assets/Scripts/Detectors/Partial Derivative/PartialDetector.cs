@@ -87,7 +87,13 @@ public class PartialDetector : FieldDetector
         partialDerivative.GetData(tempArray);
         detectorOutput = tempArray[0].magnitude;
 
-        //Debug.Log("partial derivative magnitude: " + detectorOutput);
+        {
+            //// Debug code
+            ////Debug.Log("partial derivative: " + tempArray[0]);
+            //Vector3[] debugArray = new Vector3[2];
+            //computeField.vectorsBuffer.GetData(debugArray);
+            //Debug.Log("Vector 0: " + debugArray[0]);
+        }
 
         // Tell the renderer to get to work 
         partialRenderer.partialDerivative = partialDerivative;
