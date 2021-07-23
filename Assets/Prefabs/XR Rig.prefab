@@ -1046,7 +1046,6 @@ MonoBehaviour:
   handCollider: {fileID: 867444867}
   wandCollider: {fileID: 2046208065}
   movementManager: {fileID: 5809074648607462243}
-  _grabMode: 1
   _mode: 0
   handPrefab: {fileID: 9212441126230583144, guid: 13cefc99fa4ebd54dae29171bfdaa2d1, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
@@ -2545,7 +2544,6 @@ MonoBehaviour:
   handCollider: {fileID: 1923565153}
   wandCollider: {fileID: 751309813}
   movementManager: {fileID: 5809074648607462243}
-  _grabMode: 1
   _mode: 0
   handPrefab: {fileID: 4911174108599212807, guid: 9afde4461fb8a2e46af7cfe3b525e2a0, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}

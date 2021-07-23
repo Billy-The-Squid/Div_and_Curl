@@ -30,31 +30,6 @@ public class HandManager : MonoBehaviour
      * State variables measure what your hand is doing right now.
      * *************************************************************************************/
 
-    // GRAB ---------------------------------------------------------------------------------
-    public enum GrabMode { Hold, Toggle }
-    [SerializeField]
-    protected GrabMode _grabMode = GrabMode.Toggle;
-    public GrabMode grabMode
-    {
-        get => _grabMode;
-        set
-        {
-            if(_grabMode != value)
-            {
-                if(value == GrabMode.Hold)
-                {
-                    //directInteractor.selectActionTrigger = XRBaseControllerInteractor.InputTriggerType.State;
-                }
-                if(value == GrabMode.Toggle)
-                {
-                    //directInteractor.selectActionTrigger = XRBaseControllerInteractor.InputTriggerType.Toggle;
-                }
-                //forcePuller.grabMode = value;
-                _grabMode = value;
-            }
-        }
-    }
-
 
     // HAND MODE ----------------------------------------------------------------------------
     // Which type of hand is being displayed?
@@ -381,10 +356,6 @@ public class HandManager : MonoBehaviour
         {
             detectorStation = FindObjectOfType<DetectorSelector>();
         }
-
-        //Trick the system into setting the direct interactor select trigger types. 
-        grabMode = 1 - grabMode;
-        grabMode = 1 - grabMode;
     }
 
 
