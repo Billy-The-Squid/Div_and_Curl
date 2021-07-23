@@ -161,7 +161,7 @@ public class HandManager : MonoBehaviour
     /// <summary> If the interact button is pressed, this should be the next object to 
     /// interact with.  
     /// </summary>
-    protected Grabbable highlightedObject // Type? &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    protected Grabbable highlightedObject
     {
         get => _highlightedObject;
         set

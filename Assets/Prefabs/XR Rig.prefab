@@ -1052,7 +1052,7 @@ MonoBehaviour:
   wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
   _hand: 0
   teleportEnabled: 0
-  actionAsset: {fileID: 0}
+  actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &2652347426735425950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,7 +1245,7 @@ MonoBehaviour:
   teleportManager: {fileID: 6885946418284844269}
   smoothTurnProvider: {fileID: 2652347427263480729}
   snapTurnProvider: {fileID: 2652347427263480728}
-  _movementMode: 1
+  _movementMode: 0
   _turnMode: 1
   ChangedMovementMode:
     m_PersistentCalls:
@@ -2551,7 +2551,7 @@ MonoBehaviour:
   wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
   _hand: 1
   teleportEnabled: 1
-  actionAsset: {fileID: 0}
+  actionAsset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1001 &2652347426687522597
 PrefabInstance:
   m_ObjectHideFlags: 0

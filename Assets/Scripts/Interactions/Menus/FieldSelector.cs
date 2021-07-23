@@ -20,11 +20,11 @@ public class FieldSelector : Selector<FieldData>
     /// <summary>
     /// The parent to the background and the canvas. Moves with them. 
     /// </summary>
-    public Rigidbody menuObject;
+    public Transform menuObject;
     /// <summary>
     /// The pivot point at the center of the field.
     /// </summary>
-    public Rigidbody menuPivot;
+    public Transform menuPivot;
     /// <summary>
     /// The distance from the player at which the UI disappears
     /// </summary>
