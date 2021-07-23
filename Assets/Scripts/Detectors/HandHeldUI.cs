@@ -110,29 +110,6 @@ public class HandHeldUI : MonoBehaviour
         pivot.forward = -(transform.position - eyes.transform.position).normalized;
     }
 
-    
-
-    ///// <summary>
-    ///// This method checks the opposite hand for a grabbed flux detector and stores it as <cref>detector</cref>.
-    ///// </summary>
-    //public void CheckForGrabbed()
-    //{
-    //    bool grabbing = hand.isSelectActive; // Is true whenever the action itself is active
-
-    //    // If the hand is grabbing but there's nothing we're measuring, check what's being held. 
-    //    if(grabbing && !measuring)
-    //    {
-    //        // Getting a null ref error here sometimes. 
-    //        if (hand.selectTarget != null && hand.selectTarget.GetComponent<FieldDetector>()) // Is this even a valid check?
-    //        {
-    //            SetDetector(hand.selectTarget.GetComponent<FieldDetector>());
-    //        }
-    //    } else if (!grabbing || !measuring)
-    //    {
-    //        UnsetDetector();
-    //    }
-    //}
-
 
 
     /// <summary>
@@ -146,29 +123,4 @@ public class HandHeldUI : MonoBehaviour
         nameDisplay.SetText(detector.quantityName + ":");
         numberDisplay.SetText("{0:1}", detector.detectorOutput);
     }
-
-
-
-    ///// <summary>
-    ///// Call this when the UI starts reading values from a detector.
-    ///// </summary>
-    ///// <param name="measuredDetector">The detector to be reading from.</param>
-    //public void SetDetector(FieldDetector measuredDetector)
-    //{
-    //    measuring = true;
-    //    detector = measuredDetector;
-    //    isVisible = true;
-    //}
-
-
-
-    ///// <summary>
-    ///// Call this when the UI is no longer reading values from a detector. 
-    ///// </summary>
-    //public void UnsetDetector()
-    //{
-    //    measuring = false;
-    //    detector = null;
-    //    isVisible = false;
-    //}
 }

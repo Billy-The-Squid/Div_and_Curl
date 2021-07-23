@@ -45,7 +45,6 @@ public class HandManager : MonoBehaviour
             {
                 UpdateHandMode(value);
                 _mode = value;
-                //UpdateReadoutLocation();
             }
         } 
     }
@@ -275,37 +274,6 @@ public class HandManager : MonoBehaviour
 
 
     // READOUTS -----------------------------------------------------------------------------
-    //protected enum ReadoutLocation { 
-    //    HandHome, // For when we've got a detector in both hands
-    //    HandAway, // for when we've got a detector in this hand
-    //    Wand } // Wand mode
-    //protected ReadoutLocation _readoutLocation;
-    //protected ReadoutLocation readoutLocation
-    //{
-    //    get => _readoutLocation;
-    //    set
-    //    {
-    //        // Do stuff &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-    //        // Set the parent and position.
-    //        _readoutLocation = value;
-    //    }
-    //}
-
-    //// All of these are for the right hand.
-    //// Use  (int)readoutLocation as the index.
-    //protected static readonly Vector3[] readoutPositions =
-    //{
-    //    new Vector3(0.01f, 0.15f, 0f), // With a detector in both hands // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&
-    //    new Vector3(0.02f, -0.03f, 0.015f), // With a detector in this hand // Coords rel. to left hand.
-    //    new Vector3(0.01f, 0.15f, 0f) // Wand mode
-    //};
-    //protected static readonly Quaternion[] readoutRotations =
-    //{
-    //    Quaternion.Euler(0, 0, 0), // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-    //    Quaternion.Euler(20, -45, -90), // Relative to left hand.
-    //    Quaternion.Euler(0, 0, 0)
-    //};
-
     protected InputAction selectAction;
     protected Grabbable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
     /* Should be updated on SelectEntered for the direct interactor. 
@@ -327,13 +295,11 @@ public class HandManager : MonoBehaviour
      * * If not, it defaults to whatever is in the other hand,
      *      then to what's on the pedestal. 
      */
-    // update the readout location
 
 
 
 
     /* To do:
-     * * Readout support
      *  * Respond if other hand also has detector
      *  * Respond on resize
      * * on internals, call public methods only if value shifts
@@ -740,13 +706,8 @@ public class HandManager : MonoBehaviour
             handCollider.enabled = false;
             wandCollider.enabled = true;
 
-            //// Moving the readout to this hand.
-            //readout.transform.parent = transform;
-
             if (attachTransform.GetComponent<MeshRenderer>() != null) { attachRender.enabled = true; }
         }
-
-        Debug.LogWarning("UpdateHandMode not yet implemented");
     }
 
     protected PositionSet GetPositions(HandMode mode)
@@ -764,9 +725,6 @@ public class HandManager : MonoBehaviour
 
             //    public Vector3 UIRayPosition;
             //    public Quaternion UIRayRotation;
-
-            //    public Vector3 readoutPosition;
-            //    public Quaternion readoutRotation;
 
             //    public Vector3 attachPosition;
             //    public Quaternion attachRotation;
@@ -838,38 +796,6 @@ public class HandManager : MonoBehaviour
         retEulers.z *= -1;
         return Quaternion.Euler(retEulers);
     }
-
-
-
-    ///// <summary>
-    ///// Updates the <see cref="readout"/> location and position data.
-    ///// </summary>
-    //public void UpdateReadoutLocation()
-    //{
-    //    // This should be called after updating hand mode, whenever the other hand selects an object, or on a resize. 
-    //    if(mode == HandMode.Wand)
-    //    {
-    //        readoutLocation = ReadoutLocation.Wand;
-    //        readout.transform.parent = transform;
-    //    }
-    //    if(mode == HandMode.Hand && otherHand.directInteractor.selectTarget == null)
-    //    {
-    //        readoutLocation = ReadoutLocation.HandAway;
-    //        readout.transform.parent = otherHand.transform;
-    //    }
-    //    else
-    //    {
-    //        readoutLocation = ReadoutLocation.HandHome;
-    //        readout.transform.parent = transform;
-    //    }
-    //    readout.transform.localPosition = readoutPositions[(int)readoutLocation];
-    //    readout.transform.localRotation = readoutRotations[(int)readoutLocation];
-    //    if(hand == Hand.Left)
-    //    {
-    //        readout.transform.localPosition = MirrorPosition(readout.transform.localPosition);
-    //        readout.transform.localRotation = MirrorRotation(readout.transform.localRotation);
-    //    }
-    //}
 
 
 
