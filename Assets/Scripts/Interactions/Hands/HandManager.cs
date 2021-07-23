@@ -26,6 +26,7 @@ public class HandManager : MonoBehaviour
     public MovementManager movementManager;
     protected DetectorSelector detectorStation;
     public HandManager otherHand;
+    public LineRenderer highlightRay;
 
     /* **************************************************************************************
      * State variables measure what your hand is doing right now.
@@ -560,8 +561,12 @@ public class HandManager : MonoBehaviour
          * If hovering, hovering object is highlighted
          * If willBePulled is not null, it's highlighted.
          */
+        if(highlightRay != null)
+        {
+            highlightRay.enabled = false; // This isn't the best way to do this. Instead, tie a check into highlightedObject's set. &&&&&&&&&&&&&&&&&&&&&&&
+        }
 
-        if(directInteractor.selectTarget != null) {
+        if (directInteractor.selectTarget != null) {
             highlightMode = Grabbable.Highlight.Normal;
             highlightedObject = null;
         }
@@ -591,6 +596,12 @@ public class HandManager : MonoBehaviour
             {
                 highlightMode = Grabbable.Highlight.Normal;
                 highlightedObject = willBePulled;
+                if(highlightRay != null && highlightedObject != null)
+                {
+                    highlightRay.enabled = true;
+                    highlightRay.SetPosition(0, transform.position);
+                    highlightRay.SetPosition(1, highlightedObject.transform.position);
+                }
             }
         }
         else

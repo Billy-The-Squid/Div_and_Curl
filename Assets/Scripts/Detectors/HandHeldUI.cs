@@ -120,7 +120,7 @@ public class HandHeldUI : MonoBehaviour
     private void UpdateDisplay()
     {
         //display.SetText(detector.quantityName + ": \n{0:0}", detector.detectorOutput);
-        nameDisplay.SetText(detector.detectorReadout.GetName());
+        nameDisplay.SetText(detector.detectorReadout.GetName() + ":");
         numberDisplay.SetText(detector.detectorReadout.GetReadout());
     }
 }

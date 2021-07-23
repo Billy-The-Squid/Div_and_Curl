@@ -102,7 +102,7 @@ public class VectorReadout : DetectorReadout
     {
         if(isActive)
         {
-            return string.Format("({0:0.0},{1:0.0},{2:0.0})", output.x, output.z, output.y);
+            return string.Format("({0:0.0}, {1:0.0}, {2:0.0})", output.x, output.z, output.y);
         }
         else
         {
