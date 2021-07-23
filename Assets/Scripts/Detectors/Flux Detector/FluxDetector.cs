@@ -436,7 +436,7 @@ public class FloatReadout : DetectorReadout
     {
         if (isActive)
         {
-            return String.Format("{0:1}", output);
+            return String.Format("{0:0.0}", output);
         }
         else
         {
