@@ -30,23 +30,6 @@ public class Resizable : MonoBehaviour
     [SerializeField] // Find some way to clamp here
     public float radius;
 
-    ///// <summary>
-    ///// Is the object currently selected? Enables resizing. 
-    ///// </summary>
-    //private bool isSelected;
-
-    ///// <summary>
-    ///// The input action asset with "Resize Object" defined. 
-    ///// </summary>
-    //[SerializeField]
-    //InputActionAsset inputActions;
-    //// Better to ask for the action map itself. 
-
-    ///// <summary>
-    ///// The action that triggers resizing. Must be a 2D axis. 
-    ///// </summary>
-    //private InputAction resizeAction;
-
     /// <summary>
     /// The delay (in seconds) before resizing is allowed again.
     /// </summary>
@@ -64,6 +47,15 @@ public class Resizable : MonoBehaviour
     [SerializeField]
     float resizeIncrement = 0.1f;
 
+    protected Transform attachTransform;
+
+    public struct SizeChange
+    {
+        public bool isValid;
+        public float previousRadius;
+        public float newRadius;
+    }
+
 
 
 
@@ -74,71 +66,71 @@ public class Resizable : MonoBehaviour
 
         radius = Mathf.Clamp(radius, minRad, maxRad);
         transform.localScale = Vector3.one * radius;
-        //isSelected = false;
 
-        //resizeAction = inputActions.FindActionMap("XRI RightHand").FindAction("Resize Object");
-
-        //// Debug code:
-        //Debug.Log("Found action: " + resizeAction.name);
+        StartCoroutine(FindAttach());
     }
 
-    //private void Update()
-    //{
-    //    //Debug.Log("Phase: " + resizeAction.phase);
-    //    //Debug.Log("Resize action value: " + resizeAction.ReadValue<Vector2>());
-    //    if (isSelected && (Time.time > lastResized + waitBeforeResized) && (resizeAction.phase == InputActionPhase.Started || resizeAction.phase == InputActionPhase.Performed))
-    //    {
-    //        float current = resizeAction.ReadValue<Vector2>().y;
-    //        if (current > 0f)
-    //        {
-    //            SizeUp();
-    //            lastResized = Time.time;
-    //        } else if(current < 0f)
-    //        {
-    //            SizeDown();
-    //            lastResized = Time.time;
-    //        }
-    //    }
-    //}
+    protected IEnumerator FindAttach()
+    {
+        yield return null;
 
+        if (GetComponent<Grabbable>() != null) {
+            attachTransform = GetComponent<Grabbable>().attachTransform;
+        }
+        else {
+            Debug.LogWarning("Resizable object " + name + " does not have a Grabbable component");
+        }
 
-
-    ///// <summary>
-    ///// Informs the resizable object that it is currently selected. 
-    ///// </summary>
-    //public void SetSelectedTrue()
-    //{
-    //    isSelected = true;
-    //}
-    
-    ///// <summary>
-    ///// Informs the resizable object that it is no longer currently selected. 
-    ///// </summary>
-    //public void SetSelectedFalse () {
-    //    isSelected = false;
-    //}
+        if(attachTransform == null)
+        {
+            Debug.LogWarning("Resizable " + name + " couldn't find an attach transform");
+        }
+        
+    }
 
     /// <summary>
     /// Increases the size of the object
     /// </summary>
-    public void SizeUp() {
-        if(Time.time > lastResized + waitBeforeResized)
+    public SizeChange SizeUp() {
+        SizeChange change = new SizeChange();
+        if (Time.time > lastResized + waitBeforeResized)
         {
+            change.isValid = true;
+            change.previousRadius = transform.localScale.x;
             lastResized = Time.time;
             radius = Mathf.Clamp(radius + resizeIncrement, minRad, maxRad);
             transform.localScale = Vector3.one * radius;
+            change.newRadius = radius;
+
+            attachTransform.localPosition *= change.previousRadius / radius;
         }
+        else
+        {
+            change.isValid = false;
+        }
+        return change;
     }
 
     /// <summary>
     /// Decreases the size of the object
     /// </summary>
-    public void SizeDown() {
+    public SizeChange SizeDown() {
+        SizeChange change = new SizeChange();
         if(Time.time > lastResized + waitBeforeResized)
         {
+            change.isValid = true;
+            change.previousRadius = transform.localScale.x;
             lastResized = Time.time;
             radius = Mathf.Clamp(radius - resizeIncrement, minRad, maxRad);
             transform.localScale = Vector3.one * radius;
+            change.newRadius = radius;
+
+            attachTransform.localPosition *= change.previousRadius / radius;
         }
+        else
+        {
+            change.isValid = false;
+        }
+        return change;
     }
 }

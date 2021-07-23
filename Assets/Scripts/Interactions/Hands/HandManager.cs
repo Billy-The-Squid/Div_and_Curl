@@ -312,11 +312,12 @@ public class HandManager : MonoBehaviour
     protected bool hovering { get; set; }
     /* Updated by HoverEntered (or similar) from the direct interactor.
      */
-    
+
 
 
 
     // RESIZING -----------------------------------------------------------------------------
+    //protected Vector3 defaultAttachPosition;
     public InputActionAsset actionAsset;
     public InputAction resizeAction { get; protected set; }
     public Resizable resizable { get; protected set; }
@@ -394,14 +395,23 @@ public class HandManager : MonoBehaviour
         UpdateResizable();
         if(resizable != null && resizeAction != null && (resizeAction.phase == InputActionPhase.Performed || resizeAction.phase == InputActionPhase.Started))
         {
+            Resizable.SizeChange change = new Resizable.SizeChange();
             float current = resizeAction.ReadValue<Vector2>().y;
             if (current > 0f)
             {
-                resizable.SizeUp();
+                change = resizable.SizeUp();
             }
             else if (current < 0f)
             {
-                resizable.SizeDown();
+                change = resizable.SizeDown();
+            }
+            
+            if(change.isValid)
+            {
+                if(mode == HandMode.Wand)
+                {
+                    Debug.LogWarning("Have not adopted smart attach point shifting yet");
+                }
             }
         }
 
