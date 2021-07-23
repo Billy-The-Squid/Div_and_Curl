@@ -4871,7 +4871,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   spawnPoint: {fileID: 238110840}
-  respawnDistance: 0.05
+  respawnDistance: 0.15
   detectorNameDisplay: {fileID: 451898628}
   detectorDescriptionDisplay: {fileID: 1449102000}
   cantPullColor: {r: 1, g: 0, b: 0, a: 1}

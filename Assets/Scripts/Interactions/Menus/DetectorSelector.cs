@@ -60,6 +60,8 @@ public class DetectorSelector : Selector<DetectorData>
 
     public RectTransform nextButton;
     public RectTransform previousButton;
+    [Tooltip("Make this true if you want the first detector of each type not to be pullable")]
+    public bool disableFirstPull;
 
 
 
@@ -104,7 +106,7 @@ public class DetectorSelector : Selector<DetectorData>
 
         // Check isFirst
         if(!isFirst.ContainsKey(available[current])) {
-            isFirst.Add(available[current], true);
+            isFirst.Add(available[current], disableFirstPull);
         }
 
         // Do away with the old
