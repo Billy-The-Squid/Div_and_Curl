@@ -45,7 +45,7 @@ public class HandManager : MonoBehaviour
             {
                 UpdateHandMode(value);
                 _mode = value;
-                UpdateReadoutLocation();
+                //UpdateReadoutLocation();
             }
         } 
     }
@@ -275,37 +275,38 @@ public class HandManager : MonoBehaviour
 
 
     // READOUTS -----------------------------------------------------------------------------
-    protected enum ReadoutLocation { 
-        HandHome, // For when we've got a detector in both hands
-        HandAway, // for when we've got a detector in this hand
-        Wand } // Wand mode
-    protected ReadoutLocation _readoutLocation;
-    protected ReadoutLocation readoutLocation
-    {
-        get => _readoutLocation;
-        set
-        {
-            // Do stuff &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-            // Set the parent and position.
-            _readoutLocation = value;
-        }
-    }
+    //protected enum ReadoutLocation { 
+    //    HandHome, // For when we've got a detector in both hands
+    //    HandAway, // for when we've got a detector in this hand
+    //    Wand } // Wand mode
+    //protected ReadoutLocation _readoutLocation;
+    //protected ReadoutLocation readoutLocation
+    //{
+    //    get => _readoutLocation;
+    //    set
+    //    {
+    //        // Do stuff &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //        // Set the parent and position.
+    //        _readoutLocation = value;
+    //    }
+    //}
 
-    // All of these are for the right hand.
-    // Use  (int)readoutLocation as the index.
-    protected static readonly Vector3[] readoutPositions =
-    {
-        new Vector3(0.01f, 0.15f, 0f), // With a detector in both hands // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&
-        new Vector3(0.02f, -0.03f, 0.015f), // With a detector in this hand // Coords rel. to left hand.
-        new Vector3(0.01f, 0.15f, 0f) // Wand mode
-    };
-    protected static readonly Quaternion[] readoutRotations =
-    {
-        Quaternion.Euler(0, 0, 0), // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        Quaternion.Euler(20, -45, -90), // Relative to left hand.
-        Quaternion.Euler(0, 0, 0)
-    };
+    //// All of these are for the right hand.
+    //// Use  (int)readoutLocation as the index.
+    //protected static readonly Vector3[] readoutPositions =
+    //{
+    //    new Vector3(0.01f, 0.15f, 0f), // With a detector in both hands // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //    new Vector3(0.02f, -0.03f, 0.015f), // With a detector in this hand // Coords rel. to left hand.
+    //    new Vector3(0.01f, 0.15f, 0f) // Wand mode
+    //};
+    //protected static readonly Quaternion[] readoutRotations =
+    //{
+    //    Quaternion.Euler(0, 0, 0), // Temporary &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //    Quaternion.Euler(20, -45, -90), // Relative to left hand.
+    //    Quaternion.Euler(0, 0, 0)
+    //};
 
+    protected InputAction selectAction;
     protected Grabbable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
     /* Should be updated on SelectEntered for the direct interactor. 
      */
@@ -365,7 +366,7 @@ public class HandManager : MonoBehaviour
             detectorStation = FindObjectOfType<DetectorSelector>();
         }
 
-        // Find the resizable action.
+        // Find the resizable and select actions.
         if(actionAsset == null) {
             Debug.LogError("HandManager was not given an action asset");
         }
@@ -379,13 +380,20 @@ public class HandManager : MonoBehaviour
             else
             {
                 resizeAction = map.FindAction("Resize Object");
+                selectAction = map.FindAction("Select");
             }
         }
 
-        if(resizeAction != null)
+        if(selectAction != null)
         {
-
+            selectAction.started += ResetReadout;
         }
+        else
+        {
+            Debug.LogError("Select action is null");
+        }
+
+        ResetReadout(new InputAction.CallbackContext());
     }
 
 
@@ -507,7 +515,8 @@ public class HandManager : MonoBehaviour
 
         //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
 
-        isVisible = directInteractor.selectTarget == null;
+        // Make the hand disappear if we're holding something that's not a UI.
+        isVisible = (directInteractor.selectTarget == null || directInteractor.selectTarget.GetComponent<HandHeldUI>() != null);
     }
 
 
@@ -597,7 +606,10 @@ public class HandManager : MonoBehaviour
             directInteractor.GetHoverTargets(hoverTargets);
             hoverTargets.Sort(new Nearest(attachTransform));
             highlightMode = Grabbable.Highlight.Normal;
-            highlightedObject = ((Grabbable)hoverTargets[0]);
+            if(hoverTargets[0] is Grabbable)
+            {
+                highlightedObject = ((Grabbable)hoverTargets[0]);
+            }
         } 
         else if (canPull) {
             //Debug.Log("Can pull");
@@ -829,35 +841,35 @@ public class HandManager : MonoBehaviour
 
 
 
-    /// <summary>
-    /// Updates the <see cref="readout"/> location and position data.
-    /// </summary>
-    public void UpdateReadoutLocation()
-    {
-        // This should be called after updating hand mode, whenever the other hand selects an object, or on a resize. 
-        if(mode == HandMode.Wand)
-        {
-            readoutLocation = ReadoutLocation.Wand;
-            readout.transform.parent = transform;
-        }
-        if(mode == HandMode.Hand && otherHand.directInteractor.selectTarget == null)
-        {
-            readoutLocation = ReadoutLocation.HandAway;
-            readout.transform.parent = otherHand.transform;
-        }
-        else
-        {
-            readoutLocation = ReadoutLocation.HandHome;
-            readout.transform.parent = transform;
-        }
-        readout.transform.localPosition = readoutPositions[(int)readoutLocation];
-        readout.transform.localRotation = readoutRotations[(int)readoutLocation];
-        if(hand == Hand.Left)
-        {
-            readout.transform.localPosition = MirrorPosition(readout.transform.localPosition);
-            readout.transform.localRotation = MirrorRotation(readout.transform.localRotation);
-        }
-    }
+    ///// <summary>
+    ///// Updates the <see cref="readout"/> location and position data.
+    ///// </summary>
+    //public void UpdateReadoutLocation()
+    //{
+    //    // This should be called after updating hand mode, whenever the other hand selects an object, or on a resize. 
+    //    if(mode == HandMode.Wand)
+    //    {
+    //        readoutLocation = ReadoutLocation.Wand;
+    //        readout.transform.parent = transform;
+    //    }
+    //    if(mode == HandMode.Hand && otherHand.directInteractor.selectTarget == null)
+    //    {
+    //        readoutLocation = ReadoutLocation.HandAway;
+    //        readout.transform.parent = otherHand.transform;
+    //    }
+    //    else
+    //    {
+    //        readoutLocation = ReadoutLocation.HandHome;
+    //        readout.transform.parent = transform;
+    //    }
+    //    readout.transform.localPosition = readoutPositions[(int)readoutLocation];
+    //    readout.transform.localRotation = readoutRotations[(int)readoutLocation];
+    //    if(hand == Hand.Left)
+    //    {
+    //        readout.transform.localPosition = MirrorPosition(readout.transform.localPosition);
+    //        readout.transform.localRotation = MirrorRotation(readout.transform.localRotation);
+    //    }
+    //}
 
 
 
@@ -886,14 +898,27 @@ public class HandManager : MonoBehaviour
     // Should be bound to the SelectEnter event on the directInteractor
     public void GrabSelectEntered()
     {
-        objectLastHeld = (Grabbable)directInteractor.selectTarget;
+        if(directInteractor.selectTarget is Grabbable)
+        {
+            objectLastHeld = (Grabbable)directInteractor.selectTarget;
+        }
         willBePulled = null;
+
+        if(directInteractor.selectTarget is FieldDetector)
+        {
+            readout.detector = (FieldDetector)directInteractor.selectTarget;
+        }
     }
 
     // Should be bound to the SelectExitevent on the directInteractor
     public void GrabSelectExited()
     {
 
+    }
+
+    public void ResetReadout(InputAction.CallbackContext context)
+    {
+        readout.detector = null;
     }
 
     public void ChangeHandMode(Int32 mode)
