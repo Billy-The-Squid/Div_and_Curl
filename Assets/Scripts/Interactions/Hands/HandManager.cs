@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem;
 
 public class HandManager : MonoBehaviour
 {
@@ -25,6 +25,7 @@ public class HandManager : MonoBehaviour
     public Collider wandCollider;
     public MovementManager movementManager;
     protected DetectorSelector detectorStation;
+    public HandManager otherHand;
 
     /* **************************************************************************************
      * State variables measure what your hand is doing right now.
@@ -311,12 +312,19 @@ public class HandManager : MonoBehaviour
     protected bool hovering { get; set; }
     /* Updated by HoverEntered (or similar) from the direct interactor.
      */
-    public HandManager otherHand;
+    
 
 
 
     // RESIZING -----------------------------------------------------------------------------
-    // keep a priority list.
+    public InputActionAsset actionAsset;
+    public InputAction resizeAction { get; protected set; }
+    public Resizable resizable { get; protected set; }
+    /* Updated each frame.
+     * * If we're holding one, this is it. 
+     * * If not, it defaults to whatever is in the other hand,
+     *      then to what's on the pedestal. 
+     */
     // update the readout location
 
 
@@ -352,15 +360,51 @@ public class HandManager : MonoBehaviour
         pointedAtUI = true;
         nearUI = true; // Find a better way to do this &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-        if(detectorStation == null)
-        {
+        if(detectorStation == null) {
             detectorStation = FindObjectOfType<DetectorSelector>();
+        }
+
+        // Find the resizable action.
+        if(actionAsset == null) {
+            Debug.LogError("HandManager was not given an action asset");
+        }
+        else
+        {
+            InputActionMap map = actionAsset.FindActionMap("XRI " + hand + "Hand");
+            if(map == null)
+            {
+                Debug.LogError("Cannot find ActionMap: XRI " + hand + "Hand");
+            }
+            else
+            {
+                resizeAction = map.FindAction("Resize Object");
+            }
+        }
+
+        if(resizeAction != null)
+        {
+
         }
     }
 
 
     private void Update()
     {
+        // Update the current resizable
+        UpdateResizable();
+        if(resizable != null && resizeAction != null && (resizeAction.phase == InputActionPhase.Performed || resizeAction.phase == InputActionPhase.Started))
+        {
+            float current = resizeAction.ReadValue<Vector2>().y;
+            if (current > 0f)
+            {
+                resizable.SizeUp();
+            }
+            else if (current < 0f)
+            {
+                resizable.SizeDown();
+            }
+        }
+
         {
             //if (hand != Hand.Right)
             //{
@@ -406,12 +450,11 @@ public class HandManager : MonoBehaviour
         if (!teleportEnabled || pointedAtUI || (directInteractor.selectTarget != null
             && directInteractor.selectTarget.GetComponent<Resizable>() != null))
         {
-            //if(canTeleport) 
             {
                 canTeleport = false;
             }
         }
-        else //if (!canTeleport) 
+        else
         {
             canTeleport = true;
         }
@@ -455,6 +498,25 @@ public class HandManager : MonoBehaviour
         //directInteractor.allowHover = !forcePuller.pulling; // Doesn't do anything? 
 
         isVisible = directInteractor.selectTarget == null;
+    }
+
+
+    /// <summary>
+    /// Update the value of resizable
+    /// </summary>
+    protected void UpdateResizable() {
+        if(directInteractor.selectTarget != null && directInteractor.selectTarget.GetComponent<Resizable>() != null) {
+            resizable = directInteractor.selectTarget.GetComponent<Resizable>();
+        }
+        else if(otherHand.directInteractor.selectTarget != null && otherHand.directInteractor.selectTarget.GetComponent<Resizable>() != null) {
+            resizable = otherHand.directInteractor.selectTarget.GetComponent<Resizable>();
+        }
+        else if(detectorStation.instantiated != null && detectorStation.instantiated.GetComponent<Resizable>() != null) {
+            resizable = detectorStation.instantiated.GetComponent<Resizable>();
+        }
+        else {
+            resizable = null;
+        }
     }
 
 
