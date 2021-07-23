@@ -26,6 +26,10 @@ public class HandMotion : MonoBehaviour
     int thumbLayerIndex;
     int pointLayerIndex;
 
+    public bool isPointing = false;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,8 +60,10 @@ public class HandMotion : MonoBehaviour
         animator.SetFloat("Flex", grip.ReadValue<float>());
         animator.SetFloat("Pinch", pinch.ReadValue<float>()); // Does this need modification?
 
+        float pointWeight = isPointing ? 1 : 1f - pinchTouch.ReadValue<float>();
+
         animator.SetLayerWeight(thumbLayerIndex, 1f - thumbTouch.ReadValue<float>()); // Or is it 1-x?
-        animator.SetLayerWeight(pointLayerIndex, 1f - pinchTouch.ReadValue<float>());
+        animator.SetLayerWeight(pointLayerIndex, pointWeight);
 
         //Debug.Log("Pinch: " + animator.GetFloat("Pinch"));
         //Debug.Log("Flex: " + animator.GetFloat("Flex"));
