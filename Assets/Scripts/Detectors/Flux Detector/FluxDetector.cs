@@ -147,7 +147,7 @@ public class FluxDetector : FieldDetector
         // Initializing the storage array.
         totalFluxArray = new float[1];
 
-        quantityName = "Flux / V";
+        detectorReadout = new FloatReadout("Flux / Volume");
 
         localField.preDisplay += CalculateFlux;
 
@@ -343,7 +343,7 @@ public class FluxDetector : FieldDetector
 
 
         // ONLY WORKS FOR SPHERE
-        detectorOutput = totalFlux / (4f/3 * Mathf.PI * 1/8f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
+        ((FloatReadout)detectorReadout).output = totalFlux / (4f / 3 * Mathf.PI * 1 / 8f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
         // The 1/8 is in there bc radius is HALF of scale. 
     }
 
@@ -399,6 +399,7 @@ public class FluxDetector : FieldDetector
         meshRenderer.material = activeMaterial;
         base.EnteredField(field);
         localField.enabled = true;
+        ((FloatReadout)detectorReadout).isActive = true;
     }
 
 
@@ -409,6 +410,37 @@ public class FluxDetector : FieldDetector
         meshRenderer.material = inertMaterial;
         base.ExitedField(field);
         localField.enabled = false;
-        detectorOutput = 0.0f;
+        ((FloatReadout)detectorReadout).isActive = false;
+    }
+}
+
+public class FloatReadout : DetectorReadout
+{
+    public string name;
+    public float output;
+    public bool isActive;
+
+    public FloatReadout(string name)
+    {
+        this.name = name;
+        this.output = 0;
+        isActive = false;
+    }
+
+    public override string GetName()
+    {
+        return name;
+    }
+
+    public override string GetReadout()
+    {
+        if (isActive)
+        {
+            return String.Format("{0:1}", output);
+        }
+        else
+        {
+            return "INACTIVE";
+        }
     }
 }

@@ -103,7 +103,7 @@ public class CurlLoopDetector : FieldDetector
 
         localField.enabled = axisDisplay.enabled = inField;
 
-        quantityName = "Average Curl";
+        detectorReadout = new FloatReadout("Curl / Area (Component)");
 
         // Initializing the compute buffers
         contributionsBuffer = new ComputeBuffer(zone.resolution, sizeof(float));
@@ -207,7 +207,7 @@ public class CurlLoopDetector : FieldDetector
         // Next: do stuff with these values. 
         curlBuffer.GetData(curlArray);
         averageCurl = curlArray[0] / (Mathf.PI * transform.localScale.x * transform.localScale.y);
-        detectorOutput = averageCurl;
+        ((FloatReadout)detectorReadout).output = averageCurl;
         // Won't work for general shapes, but should for circles and ellipses. 
     }
 
@@ -278,6 +278,7 @@ public class CurlLoopDetector : FieldDetector
     {
         localField.enabled = true;
         axisDisplay.enabled = true;
+        ((FloatReadout)detectorReadout).isActive = true;
         base.EnteredField(graph);
     }
 
@@ -285,7 +286,7 @@ public class CurlLoopDetector : FieldDetector
     public override void ExitedField(VectorField graph)
     {
         localField.enabled = false;
-        detectorOutput = 0.0f;
+        ((FloatReadout)detectorReadout).isActive = false;
         axisDisplay.enabled = false;
         base.ExitedField(graph);
     }

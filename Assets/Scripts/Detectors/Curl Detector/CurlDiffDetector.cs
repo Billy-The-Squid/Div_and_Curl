@@ -72,7 +72,7 @@ public class CurlDiffDetector : FieldDetector
             curlRenderer = GetComponent<CurlRenderer>();
         }
 
-        quantityName = "Curl";
+        detectorReadout = new VectorReadout("Curl");
 
         base.Start();
     }
@@ -128,7 +128,7 @@ public class CurlDiffDetector : FieldDetector
         curl.y = tempCurlArray[0].z - tempCurlArray[2].x;
         curl.z = tempCurlArray[1].x - tempCurlArray[0].y;
 
-        detectorOutput = curl.magnitude;
+        ((VectorReadout)detectorReadout).output = curl;
     }
 
 
@@ -138,6 +138,7 @@ public class CurlDiffDetector : FieldDetector
         computationField.enabled = true;
         curlRenderer.curlBuffer = curlBuffer;
         curlRenderer.enabled = true;
+        ((VectorReadout)detectorReadout).isActive = true;
         base.EnteredField(graph);
     }
 
@@ -146,7 +147,8 @@ public class CurlDiffDetector : FieldDetector
         computationField.enabled = false;
         curlRenderer.enabled = false;
         base.ExitedField(graph);
+        ((VectorReadout)detectorReadout).isActive = false;
         //displayRigidBody.angularVelocity = Vector3.zero;
-        detectorOutput = (curl = Vector3.zero).magnitude;
+        curl = Vector3.zero;
     }
 }

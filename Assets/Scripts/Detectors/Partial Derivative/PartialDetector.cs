@@ -35,8 +35,8 @@ public class PartialDetector : FieldDetector
 
     protected override void Start()
     {
-        quantityName = "Directional Derivative";
-
+        detectorReadout = new VectorReadout("Directional Derivative");
+        
         computeField.preDisplay += CalculatePartial;
 
         base.Start();
@@ -85,7 +85,7 @@ public class PartialDetector : FieldDetector
         computeShader.Dispatch(kernelID, 1, 1, 1);
 
         partialDerivative.GetData(tempArray);
-        detectorOutput = tempArray[0].magnitude;
+        ((VectorReadout)detectorReadout).output = tempArray[0];
 
         {
             //// Debug code
@@ -107,6 +107,7 @@ public class PartialDetector : FieldDetector
         computeField.enabled = true;
         partialRenderer.partialDerivative = partialDerivative;
         partialRenderer.enabled = true;
+        ((VectorReadout)detectorReadout).isActive = true;
         base.EnteredField(graph);
     }
 
@@ -115,6 +116,6 @@ public class PartialDetector : FieldDetector
         computeField.enabled = false;
         partialRenderer.enabled = false;
         base.ExitedField(graph);
-        detectorOutput = 0;
+        ((VectorReadout)detectorReadout).isActive = false;
     }
 }

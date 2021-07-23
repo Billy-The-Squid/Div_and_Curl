@@ -72,7 +72,7 @@ public class DivergenceDetector : FieldDetector
             divRenderer = GetComponent<DivRender>();
         }
 
-        quantityName = "Div";
+        detectorReadout = new FloatReadout("Divergence");
 
         base.Start();
     }
@@ -132,7 +132,7 @@ public class DivergenceDetector : FieldDetector
 
         divergence = tempDivArray[0].x + tempDivArray[0].y + tempDivArray[0].z;
 
-        detectorOutput = divergence;
+        ((FloatReadout)detectorReadout).output = divergence;
 
         // Debug Code
         //Debug.Log("Divergence components: " + tempDivArray[0]);
@@ -144,6 +144,7 @@ public class DivergenceDetector : FieldDetector
         computeField.enabled = true;
         divRenderer.divBuffer = divBuffer;
         divRenderer.enabled = true;
+        ((FloatReadout)detectorReadout).isActive = true;
         base.EnteredField(graph);
     }
 
@@ -151,7 +152,7 @@ public class DivergenceDetector : FieldDetector
     {
         computeField.enabled = false;
         divRenderer.enabled = false;
-        detectorOutput = 0;
+        ((FloatReadout)detectorReadout).isActive = false;
         base.ExitedField(graph);
     }
 }

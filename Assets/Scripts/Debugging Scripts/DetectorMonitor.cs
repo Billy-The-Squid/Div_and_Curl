@@ -22,11 +22,11 @@ public class DetectorMonitor : MonoBehaviour
         //foreach(FieldDetector detector in detectors)
         for(int i = 0; i < detectors.Length; i++)
         {
-            Debug.Log(detectors[i].quantityName + ": " + detectors[i].detectorOutput);
-            if(Mathf.Abs(detectors[i].detectorOutput) > maxima[i])
-            {
-                maxima[i] = Mathf.Abs(detectors[i].detectorOutput);
-            }
+            //Debug.Log(detectors[i].quantityName + ": " + detectors[i].detectorOutput);
+            //if(Mathf.Abs(detectors[i].detectorOutput) > maxima[i])
+            //{
+            //    maxima[i] = Mathf.Abs(detectors[i].detectorOutput);
+            //}
         }
     }
 
@@ -34,7 +34,7 @@ public class DetectorMonitor : MonoBehaviour
     {
         for(int i = 0; i < detectors.Length; i++)
         {
-            Debug.Log("Max " + detectors[i].quantityName + ": " + maxima[i]);
+            //Debug.Log("Max " + detectors[i].quantityName + ": " + maxima[i]);
         }
     }
 }

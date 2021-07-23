@@ -41,7 +41,7 @@ public class Pointer : FieldDetector
 
         localField.enabled = inField;
 
-        quantityName = "Magnitude";
+        detectorReadout = new VectorReadout("Field value");
 
         base.Start();
     }
@@ -53,7 +53,7 @@ public class Pointer : FieldDetector
         if(!inField) { return; }
 
         localField.vectorsBuffer.GetData(vecArray);
-        detectorOutput = vecArray[0].magnitude;
+        ((VectorReadout)detectorReadout).output = vecArray[0];
     }
 
     /// <summary>
@@ -68,13 +68,45 @@ public class Pointer : FieldDetector
     public override void EnteredField(VectorField graph)
     {
         localField.enabled = true;
+        ((VectorReadout)detectorReadout).isActive = true;
         base.EnteredField(graph);
     }
 
     public override void ExitedField(VectorField graph)
     {
         localField.enabled = false;
-        detectorOutput = 0f;
+        ((VectorReadout)detectorReadout).isActive = false;
         base.ExitedField(graph);
+    }
+}
+
+public class VectorReadout : DetectorReadout
+{
+    public string name;
+    public Vector3 output;
+    public bool isActive;
+
+    public VectorReadout(string name)
+    {
+        this.name = name;
+        this.output = new Vector3(0,0,0);
+        isActive = false;
+    }
+
+    public override string GetName()
+    {
+        return name;
+    }
+
+    public override string GetReadout()
+    {
+        if(isActive)
+        {
+            return string.Format("({0:1},{1:1},{2:1})", output.x, output.z, output.y);
+        }
+        else
+        {
+            return "INACTIVE";
+        }
     }
 }

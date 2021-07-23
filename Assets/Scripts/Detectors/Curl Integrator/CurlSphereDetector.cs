@@ -156,7 +156,7 @@ public class CurlSphereDetector : FieldDetector
         totalCurlArray = new Vector3[1];
         // RETYPE
 
-        quantityName = "Curl / V"; // Is this what we want to call it?
+        detectorReadout = new VectorReadout("Curl / Volume");
 
         base.Start();
     }
@@ -357,7 +357,7 @@ public class CurlSphereDetector : FieldDetector
         totalCurlBuffer.GetData(totalCurlArray);
         totalCurl = totalCurlArray[0];
 
-        detectorOutput = totalCurl.magnitude / (4f / 3 * Mathf.PI * 1 / 8f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
+        ((VectorReadout)detectorReadout).output = totalCurl / (4f / 3 * Mathf.PI * 1 / 8f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
 
         //Debug.Log("Total curl / V: " + totalCurl / (4f / 3 * Mathf.PI * 1 / 8f * transform.localScale.x * transform.localScale.y * transform.localScale.z));
     }
@@ -412,6 +412,7 @@ public class CurlSphereDetector : FieldDetector
     public override void EnteredField(VectorField field)
     {
         meshRenderer.material = activeMaterial;
+        ((VectorReadout)detectorReadout).isActive = true;
         base.EnteredField(field);
         vectorField.enabled = true;
     }
@@ -422,8 +423,8 @@ public class CurlSphereDetector : FieldDetector
     public override void ExitedField(VectorField field)
     {
         meshRenderer.material = inertMaterial;
+        ((VectorReadout)detectorReadout).isActive = false;
         base.ExitedField(field);
         vectorField.enabled = false;
-        detectorOutput = 0.0f;
     }
 }

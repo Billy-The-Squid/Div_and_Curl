@@ -15,15 +15,17 @@ public abstract class FieldDetector : Grabbable
     public VectorField detectedField { get; protected set; }
     // Multiple fields are not supported. 
 
-    /// <summary>
-    /// The value measured by the detector. 
-    /// </summary>
-    public float detectorOutput { get; protected set; }
+    ///// <summary>
+    ///// The value measured by the detector. 
+    ///// </summary>
+    //public float detectorOutput { get; protected set; }
 
-    /// <summary>
-    /// The identifier of the value measured by the detector. 
-    /// </summary>
-    public string quantityName { get; set; }
+    ///// <summary>
+    ///// The identifier of the value measured by the detector. 
+    ///// </summary>
+    //public string quantityName { get; set; }
+
+    public DetectorReadout detectorReadout { get; protected set; }
 
 
 
@@ -48,4 +50,10 @@ public abstract class FieldDetector : Grabbable
             detectedField = null;
         } // Better programming practice
     }
+}
+
+public abstract class DetectorReadout
+{
+    public abstract string GetName();
+    public abstract string GetReadout();
 }
