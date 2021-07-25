@@ -61,7 +61,7 @@ public class TripleCurlZone : FieldZone
             posArray[i] = new Vector3(0, Mathf.Sin(2 * Mathf.PI * i/ resolution), Mathf.Cos(2 * Mathf.PI * i / resolution)) * 0.5f;
             posArray[i] = transform.TransformPoint(posArray[i]);
             tanArray[i] = new Vector3(0, Mathf.Cos(2 * Mathf.PI * i / resolution), -Mathf.Sin(2 * Mathf.PI * i / resolution)) * 0.5f;
-            tanArray[i] = transform.TransformVector(tanArray[i]);
+            tanArray[i] = transform.TransformVector(tanArray[i]); // Are these right? Should they take ds into account? 
         }
         // for calculating the y-component
         for(i = resolution; i < 2 * resolution; i++) {
@@ -80,7 +80,5 @@ public class TripleCurlZone : FieldZone
 
         positionBuffer.SetData(posArray);
         tangentBuffer.SetData(tanArray);
-
-        Debug.LogWarning("SetPositions not implemented");
     }
 }

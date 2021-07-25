@@ -46,6 +46,8 @@ public abstract class FieldZone : MonoBehaviour
     /// </summary>
     public abstract void SetPositions();
 
+    public bool reactsToDetectors = false;
+
 
     
 
@@ -60,10 +62,13 @@ public abstract class FieldZone : MonoBehaviour
 
 
     private void OnTriggerEnter(Collider other) {
-        FieldDetector detect = other.GetComponent<FieldDetector>();
-        if (detect != null)
+        if(reactsToDetectors)
         {
-            detect.EnteredField(this.GetComponent<VectorField>());
+            FieldDetector detect = other.GetComponent<FieldDetector>();
+            if (detect != null)
+            {
+                detect.EnteredField(this.GetComponent<VectorField>());
+            }
         }
     }
     private void OnTriggerExit(Collider other) {

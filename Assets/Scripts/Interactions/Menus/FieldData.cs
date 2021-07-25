@@ -8,4 +8,5 @@ public class FieldData : ScriptableObject
     public new string name;
     public string description;
     public VectorField.FieldType field;
+    public float rescaleFactor = 1;
 }
