@@ -94,6 +94,10 @@ public class HandManager : MonoBehaviour
             {
                 currentHand.GetComponent<HandMotion>().SetVisible(value);
             }
+            else
+            {
+                attachTransform.GetComponent<MeshRenderer>().enabled = value && !pointedAtUI;
+            }
             _isVisible = value;
         }
     }
@@ -726,6 +730,8 @@ public class HandManager : MonoBehaviour
 
             if (attachTransform.GetComponent<MeshRenderer>() != null) { attachRender.enabled = true; }
         }
+
+        isVisible = isVisible; // Force a reevaluation of the things that depend on this. 
     }
 
     protected PositionSet GetPositions(HandMode mode)
