@@ -151,9 +151,10 @@ public class TripleCurlDetector : FieldDetector
         Matrix4x4 Areas = Matrix4x4.Scale(new Vector3(1 / (transform.localScale.y * transform.localScale.z),
             1 / (transform.localScale.x * transform.localScale.z),
             1 / (transform.localScale.x * transform.localScale.y)));
-        ((VectorReadout)detectorReadout).output = Areas.MultiplyVector(curlArray[3]); // Divide by areas, I think?
+        ((VectorReadout)detectorReadout).output = Areas.MultiplyVector(curlArray[3]);
 
         Debug.Log("Using unverified coordinate transformation");
+        Debug.Log("Curl: " + Areas.MultiplyVector(curlArray[3]));
     }
 
     protected void DisplayAxes()

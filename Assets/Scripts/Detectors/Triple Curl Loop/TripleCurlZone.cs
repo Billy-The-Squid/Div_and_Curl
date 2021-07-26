@@ -51,8 +51,6 @@ public class TripleCurlZone : FieldZone
 
         radius = 0.5f * transform.localScale.x;
         maxVectorLength = scalingFactor * 2 * Mathf.PI * radius / resolution;
-        fieldOrigin = transform.position; // Deal with this somewhere else, I guess? 
-        Debug.LogWarning("Still setting fieldOrigin---don't let me do this");
         bounds = new Bounds(transform.position, 2 * (transform.localScale + Vector3.one * maxVectorLength));
 
         int i;
