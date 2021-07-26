@@ -1,14 +1,46 @@
 // Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel CSMain
+#pragma kernel CalculateContributions
+#pragma kernel Integrate
 
-// Create a RenderTexture with enableRandomWrite flag and set it
-// with cs.SetTexture
-RWTexture2D<float4> Result;
+//integrator.SetBuffer(kernelID, "_Vectors", localField.vectorsBuffer);
+//integrator.SetBuffer(kernelID, "_Tangents", ((TripleCurlZone)localField.zone).tangentBuffer);
+//integrator.SetBuffer(kernelID, "_Contributions", contributionsBuffer);
 
-[numthreads(8,8,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
+StructuredBuffer<float3> _Vectors;
+StructuredBuffer<float3> _Tangents;
+RWStructuredBuffer<float> _Contributions;
+RWStructuredBuffer<float3> _Projections;
+
+// Strictly speaking, this isn't the curl itself until we divide out the area. 
+RWStructuredBuffer<float3> _Curl; // Four-component
+
+int _Resolution;
+
+
+[numthreads(64,1,1)]
+void CalculateContributions (uint3 id : SV_DispatchThreadID)
 {
-    // TODO: insert actual code here!
+    if (id.x < 3 * (uint)_Resolution)
+    {
+        // Do the calculation
+        _Contributions[id.x] = dot(_Vectors[id.x], _Tangents[id.x]);
+        // Make the projections scale-invariant. 
+        _Projections[id.x] = _Contributions[id.x] / pow(length(_Tangents[id.x]), 2);
+    }
+}
 
-    Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+[numthreads(3,1,1)]
+void Integrate(uint3 id : SV_DispatchThreadID)
+{
+    float3 curl = float3(0, 0, 0);
+    
+    for (int i = 0; i < _Resolution; i++) {
+        curl += float3(_Contributions[i], _Contributions[i + _Resolution], _Contributions[i + 2 * _Resolution]);
+    }
+
+    for (int j = 0; j < 3; j++) {
+        _Curl[j][j] = curl[j];
+        _Curl[3][j] = curl[j];
+    }
+
 }
