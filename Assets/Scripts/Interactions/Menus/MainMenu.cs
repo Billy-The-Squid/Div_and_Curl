@@ -133,6 +133,7 @@ public class MainMenu : MonoBehaviour
         //Debug.Log("Dismissing menu");
         canvas.enabled = false;
         background.gameObject.SetActive(false);
+        transform.position += Vector3.down * 5;
         if(UIDisppearEvent != null)
         {
             UIDisppearEvent.Invoke(canvas);

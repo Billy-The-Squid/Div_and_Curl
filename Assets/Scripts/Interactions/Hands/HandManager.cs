@@ -46,6 +46,7 @@ public class HandManager : MonoBehaviour
             {
                 UpdateHandMode(value);
                 _mode = value;
+                isVisible = isVisible; // Force a reevaluation of the things that depend on this. 
             }
         } 
     }
@@ -71,11 +72,14 @@ public class HandManager : MonoBehaviour
         //public Vector3 directInteractorPosition;
         public Quaternion directInteractorRotation; // necessary for collider rotation;
 
-        public Vector3 teleportRayPosition;
-        public Quaternion teleportRayRotation;
+        //public Vector3 teleportRayPosition;
+        //public Quaternion teleportRayRotation;
 
-        public Vector3 UIRayPosition;
-        public Quaternion UIRayRotation;
+        //public Vector3 UIRayPosition;
+        //public Quaternion UIRayRotation;
+
+        public Vector3 rayPosition;
+        public Quaternion rayRotation;
 
         public Vector3 attachPosition;
         public Quaternion attachRotation;
@@ -96,7 +100,7 @@ public class HandManager : MonoBehaviour
             }
             else
             {
-                attachTransform.GetComponent<MeshRenderer>().enabled = value && !pointedAtUI;
+                attachTransform.GetComponent<MeshRenderer>().enabled = value; // && !pointedAtUI;
             }
             _isVisible = value;
         }
@@ -172,7 +176,18 @@ public class HandManager : MonoBehaviour
         {
             if(_highlightedObject != value)
             {
-                UpdateColors(value);
+                if(highlightStyle == HighlightStyle.Outline)
+                {
+                    UpdateColors(value);
+                }
+                else if(highlightRay != null)
+                {
+                    if(value != null && value == willBePulled)
+                    {
+                        highlightRay.enabled = true;
+                    }
+                    else { highlightRay.enabled = false; }
+                }
             }
             _highlightedObject = value;
         }
@@ -193,6 +208,8 @@ public class HandManager : MonoBehaviour
             }
         }
     }
+    public enum HighlightStyle { Outline, Ray }
+    public HighlightStyle highlightStyle = HighlightStyle.Ray;
 
 
 
@@ -489,9 +506,8 @@ public class HandManager : MonoBehaviour
         // Make the hand disappear if we're holding something that's not a UI.
         isVisible = (directInteractor.selectTarget == null || directInteractor.selectTarget.GetComponent<HandHeldUI>() != null);
 
-        if (mode == HandMode.Hand)
-        {
-            currentHand.GetComponent<HandMotion>().isPointing = pointedAtUI || attemptingTeleport;
+        if (mode == HandMode.Hand) {
+            currentHand.GetComponent<HandMotion>().isPointing = pointedAtUI || attemptingTeleport || highlightRay.enabled;
         }
     }
 
@@ -572,10 +588,10 @@ public class HandManager : MonoBehaviour
          * If hovering, hovering object is highlighted
          * If willBePulled is not null, it's highlighted.
          */
-        if(highlightRay != null)
-        {
-            highlightRay.enabled = false; // This isn't the best way to do this. Instead, tie a check into highlightedObject's set. &&&&&&&&&&&&&&&&&&&&&&&
-        }
+        //if(highlightRay != null)
+        //{
+        //    highlightRay.enabled = false; // This isn't the best way to do this. Instead, tie a check into highlightedObject's set. &&&&&&&&&&&&&&&&&&&&&&&
+        //}
 
         if (directInteractor.selectTarget != null) {
             highlightMode = Grabbable.Highlight.Normal;
@@ -607,17 +623,23 @@ public class HandManager : MonoBehaviour
             {
                 highlightMode = Grabbable.Highlight.Normal;
                 highlightedObject = willBePulled;
-                if(highlightRay != null && highlightedObject != null)
-                {
-                    highlightRay.enabled = true;
-                    highlightRay.SetPosition(0, transform.position);
-                    highlightRay.SetPosition(1, highlightedObject.transform.position);
-                }
+                //if(highlightRay != null && highlightedObject != null)
+                //{
+                //    highlightRay.enabled = true;
+                //    highlightRay.SetPosition(0, highlightRay.transform.position);
+                //    highlightRay.SetPosition(1, highlightedObject.transform.position);
+                //}
             }
         }
         else
         {
             highlightedObject = null;
+        }
+
+        if(highlightedObject != null)
+        {
+            highlightRay.SetPosition(0, highlightRay.transform.position);
+            highlightRay.SetPosition(1, highlightedObject.transform.position);
         }
     }
 
@@ -671,12 +693,15 @@ public class HandManager : MonoBehaviour
         // teleport ray (if != null)
         if (teleporter != null)
         {
-            teleporter.rayInteractor.transform.localPosition = posSet.teleportRayPosition;
-            teleporter.rayInteractor.transform.localRotation = posSet.teleportRayRotation;
+            teleporter.rayInteractor.transform.localPosition = posSet.rayPosition;
+            teleporter.rayInteractor.transform.localRotation = posSet.rayRotation;
         }
         // uiRay
-        uiRay.ray.transform.localPosition = posSet.UIRayPosition;
-        uiRay.ray.transform.localRotation = posSet.UIRayRotation;
+        uiRay.ray.transform.localPosition = posSet.rayPosition;
+        uiRay.ray.transform.localRotation = posSet.rayRotation;
+
+        highlightRay.transform.localPosition = posSet.rayPosition;
+        highlightRay.transform.localRotation = posSet.rayRotation;
 
         // Raycast direction
         raycastDirection = posSet.raycastDirection;
@@ -730,8 +755,6 @@ public class HandManager : MonoBehaviour
 
             if (attachTransform.GetComponent<MeshRenderer>() != null) { attachRender.enabled = true; }
         }
-
-        isVisible = isVisible; // Force a reevaluation of the things that depend on this. 
     }
 
     protected PositionSet GetPositions(HandMode mode)
@@ -764,10 +787,8 @@ public class HandManager : MonoBehaviour
             positionSet.handModelPosition = new Vector3(0.001f, 0.001f, -0.035f); // Revise these! &&&&&&&&&&&&&&&&&&&&&&&&&&&&&
             positionSet.handModelRotation = Quaternion.Euler(0, 0, -90);
             positionSet.directInteractorRotation = Quaternion.Euler(0, 0, 0);
-            positionSet.teleportRayPosition = new Vector3(0.05f, -0.005f, 0.1f);
-            positionSet.teleportRayRotation = Quaternion.Euler(0, 0, 0);
-            positionSet.UIRayPosition = new Vector3(0.05f, -0.005f, 0.1f);
-            positionSet.UIRayRotation = Quaternion.Euler(0, 0, 0);
+            positionSet.rayPosition = new Vector3(0.05f, -0.005f, 0.1f);
+            positionSet.rayRotation = Quaternion.Euler(0, 0, 0);
             positionSet.attachPosition = new Vector3(0.03f, -0.035f, -0.04f);
             positionSet.attachRotation = Quaternion.Euler(0, 0, 0);
             //Debug.LogWarning("Collider data not set");
@@ -778,12 +799,11 @@ public class HandManager : MonoBehaviour
             positionSet.handModelPosition = new Vector3(0.01f, -0.015f, -0.05f);
             positionSet.handModelRotation = Quaternion.Euler(-45, 0, 0);
             positionSet.directInteractorRotation = Quaternion.Euler(45, 0, 0);
-            positionSet.teleportRayPosition = new Vector3(0.01f, 0.08f, 0.09f);
-            positionSet.teleportRayRotation = Quaternion.Euler(0, 0, 0);
-            positionSet.UIRayPosition = new Vector3(0.01f, 0.08f, 0.09f);
-            positionSet.UIRayRotation= Quaternion.Euler(0, 0, 0);
-            positionSet.attachPosition = new Vector3(0.01f, 0.3f, 0.007f);
-            positionSet.attachRotation = Quaternion.Euler(-45, 0, 0);
+            positionSet.attachPosition = new Vector3(0.01f, 0.3f, -0.02f);
+            //positionSet.rayPosition = new Vector3(0.01f, 0.08f, 0.09f);
+            positionSet.rayPosition = positionSet.directInteractorRotation * positionSet.attachPosition;
+            positionSet.rayRotation = Quaternion.Euler(0, 0, 0);
+            positionSet.attachRotation = Quaternion.Euler(0.01f, 0.3f, 0.007f);
             //Debug.LogWarning("Collider data not set");
             positionSet.raycastDirection = new Vector3(0, 1, 1);
         }
@@ -794,10 +814,8 @@ public class HandManager : MonoBehaviour
             positionSet.handModelPosition = MirrorPosition(positionSet.handModelPosition);
             positionSet.handModelRotation = MirrorRotation(positionSet.handModelRotation);
             positionSet.directInteractorRotation = MirrorRotation(positionSet.directInteractorRotation);
-            positionSet.teleportRayPosition = MirrorPosition(positionSet.teleportRayPosition);
-            positionSet.teleportRayRotation = MirrorRotation(positionSet.teleportRayRotation);
-            positionSet.UIRayPosition = MirrorPosition(positionSet.UIRayPosition);
-            positionSet.UIRayRotation = MirrorRotation(positionSet.UIRayRotation);
+            positionSet.rayPosition = MirrorPosition(positionSet.rayPosition);
+            positionSet.rayRotation = MirrorRotation(positionSet.rayRotation);
             positionSet.attachPosition = MirrorPosition(positionSet.attachPosition);
             positionSet.attachRotation = MirrorRotation(positionSet.attachRotation);
             //Debug.LogWarning("Collider data not set");

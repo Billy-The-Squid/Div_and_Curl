@@ -25,7 +25,7 @@ public class TripleCurlDetector : FieldDetector
     public override string displayName 
     { 
         get => throw new System.NotImplementedException(); 
-        set => throw new System.NotImplementedException(); 
+        set => throw new System.NotImplementedException();
     }
     public override string displayDescription 
     { 
