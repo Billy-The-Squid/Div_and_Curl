@@ -63,7 +63,10 @@ public class TripleCurlDetector : FieldDetector
 
         // Initializing the compute buffers
         contributionsBuffer = new ComputeBuffer(zone.resolution, sizeof(float));
-        curl = new ComputeBuffer(4, sizeof(float));
+        unsafe
+        {
+            curl = new ComputeBuffer(4, sizeof(Vector3));
+        }
         curlArray = new Vector3[4];
 
         localField.preDisplay += Integrate;
@@ -155,6 +158,8 @@ public class TripleCurlDetector : FieldDetector
 
         Debug.Log("Using unverified coordinate transformation");
         Debug.Log("Curl: " + Areas.MultiplyVector(curlArray[3]));
+
+        Debug.Log(((("Array: " + curlArray[0]) + curlArray[1]) + curlArray[2]) + curlArray[3]);
     }
 
     protected void DisplayAxes()
@@ -165,5 +170,21 @@ public class TripleCurlDetector : FieldDetector
     protected void DisplayProjections ()
     {
 
+    }
+
+    public override void EnteredField(VectorField graph)
+    {
+        localField.enabled = true;
+        ((VectorReadout)detectorReadout).isActive = true;
+        // Also set the displays to true. 
+        base.EnteredField(graph);
+    }
+
+    public override void ExitedField(VectorField graph)
+    {
+        localField.enabled = false;
+        ((VectorReadout)detectorReadout).isActive = false;
+        // Also set the displays to false;
+        base.ExitedField(graph);
     }
 }
