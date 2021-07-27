@@ -350,6 +350,8 @@ public class HandManager : MonoBehaviour
         pointedAtUI = true;
         nearUI = true; // Find a better way to do this &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
+        highlightRay.enabled = false;
+
         if(detectorStation == null) {
             detectorStation = FindObjectOfType<DetectorSelector>();
         }
