@@ -10,6 +10,7 @@ public class Tutorial : MonoBehaviour
 
     public Canvas mainCanvas;
     public GameObject background;
+    public Transform tutorialPivot;
     public TutorialStage[] frames;
     protected int _currentFrameIndex;
     public int currentFrameIndex
@@ -27,6 +28,14 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    protected DetectorSelector detectorSelector;
+    protected FieldSelector fieldSelector;
+
+    public UIEvent UIAppearEvent = new UIEvent();
+    public UIEvent UIDisappearEvent = new UIEvent();
+
+    public GameObject playerEyes;
+
 
 
 
@@ -36,6 +45,14 @@ public class Tutorial : MonoBehaviour
         if(setDisabled != null && setDisabled.Length != 0)
         {
             wasEnabled = new bool[setDisabled.Length];
+        }
+        if(detectorSelector == null)
+        {
+            detectorSelector = FindObjectOfType<DetectorSelector>();
+        }
+        if(fieldSelector == null)
+        {
+            fieldSelector = FindObjectOfType<FieldSelector>();
         }
 
         StartCoroutine(BeginTutorial());
@@ -57,20 +74,29 @@ public class Tutorial : MonoBehaviour
     {
         yield return new WaitForSeconds(0.05f);
 
-        mainCanvas.enabled = true;
-        background.SetActive(true);
+        // Turn stuff off
         for(int i = 0; i < setDisabled.Length; i++)
         {
             GameObject thing = setDisabled[i];
             wasEnabled[i] = thing.activeSelf;
             thing.SetActive(false);
         }
+        detectorSelector.Sleep();
+        fieldSelector.Sleep();
 
+        // Turn on the tutorial
+        mainCanvas.enabled = true;
+        background.SetActive(true);
         GoToStage(0);
         frames[currentFrameIndex].BeginStage();
+        UIAppearEvent.Invoke(mainCanvas);
+
+        tutorialPivot.position = playerEyes.transform.position;
+        tutorialPivot.forward = new Vector3(playerEyes.transform.forward.x, 0, playerEyes.transform.forward.z).normalized;
 
         // Set positions
         // Set modes
+        // Prompt scene reload (prior to sleep mode, to clear out the objects in the scene)
     }
 
     public void EndTutorial()
@@ -82,6 +108,7 @@ public class Tutorial : MonoBehaviour
         {
             setDisabled[i].SetActive(wasEnabled[i]);
         }
+        UIDisappearEvent.Invoke(mainCanvas);
 
         // Bind this to a scene change!
     }

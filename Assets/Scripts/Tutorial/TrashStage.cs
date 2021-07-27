@@ -15,6 +15,7 @@ public class TrashStage : TutorialStage
 
         obj = GameObject.FindGameObjectWithTag("Tutorial object");
         trashCanInstance = Instantiate(trashCanPrefab);
+        trashCanInstance.SetActive(true);
         continueButton.SetActive(false);
 
         Vector3 pos = new Vector3(transform.position.x, 0.5f, transform.position.z);

@@ -63,6 +63,30 @@ public class DetectorSelector : Selector<DetectorData>
     [Tooltip("Make this true if you want the first detector of each type not to be pullable")]
     public bool disableFirstPull;
 
+    [System.NonSerialized]
+    public bool isAwake;
+
+    protected bool _canSeeCanvas;
+    public bool canSeeCanvas
+    {
+        get => _canSeeCanvas;
+        set
+        {
+            if(_canSeeCanvas != value)
+            {
+                canvas.enabled = value;
+                if(background != null) { background.enabled = value; }
+                if(canvas.enabled) {
+                    UIAppearEvent.Invoke(canvas);
+                }
+                else {
+                    UIDisppearEvent.Invoke(canvas);
+                }
+                _canSeeCanvas = value;
+            }
+        }
+    }
+
 
 
 
@@ -70,6 +94,9 @@ public class DetectorSelector : Selector<DetectorData>
     protected override void Start()
     {
         isFirst = new Dictionary<DetectorData, bool>();
+        canSeeCanvas = true;
+        canSeeCanvas = false;
+
         base.Start();
     }
 
@@ -77,9 +104,15 @@ public class DetectorSelector : Selector<DetectorData>
 
     private void Update()
     {
-        ReactToPlayer();
-        if(instantiated == null) {
-            ChangeSelection();
+        if(isAwake)
+        {
+            ReactToPlayer();
+        }
+        if (instantiated == null) {
+            if(isAwake)
+            {
+                ChangeSelection();
+            }
         }
         else if ((instantiated.transform.position - spawnPoint.position).magnitude > respawnDistance) {
             if(isFirst[available[current]]) {
@@ -198,6 +231,7 @@ public class DetectorSelector : Selector<DetectorData>
     /// <param name="scene"></param>
     public void LoadScene(FieldScene scene)
     {
+        if(!isAwake) { Wake(); }
         available = scene.detectorArray;
         current = 0;
     }
@@ -217,28 +251,43 @@ public class DetectorSelector : Selector<DetectorData>
         // Close the display if the player is far away. 
         if (planeDistance.magnitude <= visibleDistance)
         {
-            if (!canvas.enabled)
-            {
-                canvas.enabled = true;
-                UIAppearEvent.Invoke(canvas);
-                if (background != null)
-                {
-                    background.enabled = true;
-                }
-            }
+            //if (!canvas.enabled)
+            //{
+            //    canvas.enabled = true;
+            //    UIAppearEvent.Invoke(canvas);
+            //    if (background != null)
+            //    {
+            //        background.enabled = true;
+            //    }
+            //}
+            canSeeCanvas = true;
         }
         else
         {
-            if (canvas.enabled)
-            {
-                canvas.enabled = false;
-                UIDisppearEvent.Invoke(canvas);
-                if (background != null)
-                {
-                    background.enabled = false;
-                }
-            }
+            canSeeCanvas = false;
+            //if (canvas.enabled)
+            //{
+            //    canvas.enabled = false;
+            //    UIDisppearEvent.Invoke(canvas);
+            //    if (background != null)
+            //    {
+            //        background.enabled = false;
+            //    }
+            //}
         }
+    }
+
+    public void Sleep()
+    {
+        isAwake = false;
+        GetRidOf(available[current], instantiated.gameObject);
+        instantiated = null;
+        canSeeCanvas = false;
+    }
+
+    public void Wake()
+    {
+        isAwake = true;
     }
 }
 

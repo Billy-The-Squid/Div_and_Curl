@@ -55,7 +55,8 @@ public class MainMenu : MonoBehaviour
 
     protected void Start()
     {
-        StartCoroutine(OpeningScreen());
+        //StartCoroutine(OpeningScreen());
+        DismissMenu();
 
         FindInputAction();
     }
@@ -68,6 +69,10 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Open the menu when the game loads.
+    /// </summary>
+    /// <returns></returns>
     protected IEnumerator OpeningScreen()
     {
         yield return new WaitForSeconds(0.1f);

@@ -72,6 +72,8 @@ public class FieldSelector : Selector<FieldData>
     public RectTransform nextButton;
     public RectTransform previousButton;
 
+    protected bool isAwake;
+
 
 
 
@@ -83,6 +85,8 @@ public class FieldSelector : Selector<FieldData>
                 Debug.LogError("FieldMenuUI requires a reference to a VectorField");
             }
         }
+        canSeeCanvas = true;
+        canSeeCanvas = false;
 
         base.Start();
 
@@ -93,7 +97,10 @@ public class FieldSelector : Selector<FieldData>
 
     private void Update()
     {
-        ReactToPlayer();
+        if(isAwake)
+        {
+            ReactToPlayer();
+        }
     }
 
 
@@ -115,6 +122,7 @@ public class FieldSelector : Selector<FieldData>
 
     public void LoadScene(FieldScene scene)
     {
+        if(!isAwake) { Wake(); }
         available = scene.fieldArray;
         current = 0;
     }
@@ -208,5 +216,20 @@ public class FieldSelector : Selector<FieldData>
             Vector3 dist = vect1 - vect2;
             return new Vector3(dist.x, 0, dist.z);
         }
+    }
+
+
+
+    public void Sleep()
+    {
+        isAwake = false;
+        field.fieldType = VectorField.FieldType.Empty;
+        canSeeCanvas = false;
+    }
+
+    public void Wake()
+    {
+        ChangeSelection();
+        isAwake = true;
     }
 }
