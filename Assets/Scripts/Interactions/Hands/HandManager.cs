@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -888,8 +889,21 @@ public class HandManager : MonoBehaviour
 
     public void ResetReadout(InputAction.CallbackContext context)
     {
-        readout.detector = null;
+        //readout.detector = null;
+
+        StartCoroutine(WaitToCheck());
+
+        IEnumerator WaitToCheck()
+        {
+            yield return new WaitForSeconds(0.01f);
+            if(directInteractor.selectTarget == null)
+            {
+                readout.detector = null;
+            }
+        }
     }
+
+    //protected IEnumerator
 
     public void ChangeHandMode(Int32 mode)
     {
