@@ -612,7 +612,7 @@ public class HandManager : MonoBehaviour
         else if (canPull) {
             //Debug.Log("Can pull");
             //Debug.Log("Highlighted object: " + (highlightedObject == null ? 0 : highlightedObject.GetInstanceID()));
-            if (willBePulled == detectorStation.instantiated && detectorStation.isFirst[detectorStation.available[detectorStation.current]])
+            if (willBePulled != null && willBePulled == detectorStation.instantiated && detectorStation.isFirst[detectorStation.available[detectorStation.current]])
             {
                 highlightMode = Grabbable.Highlight.Invalid;
                 highlightedObject = willBePulled;

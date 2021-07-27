@@ -47,12 +47,12 @@ public class SceneSelector : Selector<FieldScene>
 
 
 
-    protected void ReactToPlayer()
-    {
-        // Implement me (and also call me from somewhere) &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        //UIAppearEvent.Invoke(canvas);
-        //UIDisppearEvent.Invoke(canvas);
-    }
+    //protected void ReactToPlayer()
+    //{
+    //    // Implement me (and also call me from somewhere) &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //    //UIAppearEvent.Invoke(canvas);
+    //    //UIDisppearEvent.Invoke(canvas);
+    //}
 }
 
 [System.Serializable]

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Tutorial : MonoBehaviour
 {
     public GameObject[] setDisabled;
-    protected bool[] wasEnabled;
+    //protected bool[] wasEnabled;
 
     public Canvas mainCanvas;
     public GameObject background;
@@ -31,11 +31,15 @@ public class Tutorial : MonoBehaviour
     protected DetectorSelector detectorSelector;
     protected FieldSelector fieldSelector;
     protected MainMenu mainMenu;
+    public GameObject playerEyes;
+    public SceneSelector sceneSelector;
+
+    protected FieldScene tutorialScene;
 
     public UIEvent UIAppearEvent = new UIEvent();
     public UIEvent UIDisappearEvent = new UIEvent();
 
-    public GameObject playerEyes;
+    
 
 
 
@@ -43,10 +47,10 @@ public class Tutorial : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(setDisabled != null && setDisabled.Length != 0)
-        {
-            wasEnabled = new bool[setDisabled.Length];
-        }
+        //if(setDisabled != null && setDisabled.Length != 0)
+        //{
+        //    wasEnabled = new bool[setDisabled.Length];
+        //}
         if(detectorSelector == null)
         {
             detectorSelector = FindObjectOfType<DetectorSelector>();
@@ -59,6 +63,17 @@ public class Tutorial : MonoBehaviour
         {
             mainMenu = FindObjectOfType<MainMenu>();
         }
+        if(sceneSelector != null)
+        {
+            sceneSelector = FindObjectOfType<SceneSelector>();
+        }
+
+        tutorialScene = ScriptableObject.CreateInstance<FieldScene>();
+        //tutorialScene = new FieldScene();
+        tutorialScene.detectorArray = new DetectorData[1];
+        tutorialScene.detectorArray[0] = null;
+        tutorialScene.fieldArray = new FieldData[1];
+        tutorialScene.fieldArray[0] = null;
 
         StartTutorial();
     }
@@ -71,8 +86,8 @@ public class Tutorial : MonoBehaviour
     public void GoToStage(int i)
     {
         currentFrameIndex = i;
+        //background.transform.localScale.y = frames[currentFrameIndex].canvas.GetComponent<RectTransform>().
         // Adjust background size &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
     }
 
     public void StartTutorial()
@@ -88,11 +103,12 @@ public class Tutorial : MonoBehaviour
         for(int i = 0; i < setDisabled.Length; i++)
         {
             GameObject thing = setDisabled[i];
-            wasEnabled[i] = thing.activeSelf;
+            //wasEnabled[i] = thing.activeSelf;
             thing.SetActive(false);
         }
-        detectorSelector.Sleep();
-        fieldSelector.Sleep();
+        //detectorSelector.Sleep();
+        //fieldSelector.Sleep();
+        sceneSelector.ChangeScene.Invoke(tutorialScene);
         mainMenu.DismissMenu();
 
         // Turn on the tutorial
@@ -117,7 +133,7 @@ public class Tutorial : MonoBehaviour
         background.SetActive(false);
         for(int i = 0; i < setDisabled.Length; i++)
         {
-            setDisabled[i].SetActive(wasEnabled[i]);
+            setDisabled[i].SetActive(true); // wasEnabled[i]);
         }
         UIDisappearEvent.Invoke(mainCanvas);
 

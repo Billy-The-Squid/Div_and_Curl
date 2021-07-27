@@ -13625,6 +13625,8 @@ MonoBehaviour:
   - {fileID: 1438946413}
   - {fileID: 866416796}
   - {fileID: 580480286}
+  playerEyes: {fileID: 483847732}
+  sceneSelector: {fileID: 2071710657}
   UIAppearEvent:
     m_PersistentCalls:
       m_Calls:
@@ -13679,7 +13681,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  playerEyes: {fileID: 483847732}
 --- !u!1 &1118946438
 GameObject:
   m_ObjectHideFlags: 0
@@ -26499,7 +26500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 44187924215432856, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 105.875
       objectReference: {fileID: 0}
     - target: {fileID: 44187924215432856, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -26571,7 +26572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5373445849174054031, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 105.875
       objectReference: {fileID: 0}
     - target: {fileID: 5373445849174054031, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -26591,7 +26592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8861022941207032704, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100.875
       objectReference: {fileID: 0}
     - target: {fileID: 8861022941207032704, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.y

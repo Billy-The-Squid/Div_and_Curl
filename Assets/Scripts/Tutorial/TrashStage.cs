@@ -19,7 +19,7 @@ public class TrashStage : TutorialStage
         continueButton.SetActive(false);
 
         Vector3 pos = new Vector3(transform.position.x, 0.5f, transform.position.z);
-        pos -= transform.forward * 0.5f + transform.right * 0.5f;
+        pos -= transform.forward * 0.1f;
         trashCanInstance.transform.position = pos;
     }
 

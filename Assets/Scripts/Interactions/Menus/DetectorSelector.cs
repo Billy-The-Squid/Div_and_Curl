@@ -132,8 +132,19 @@ public class DetectorSelector : Selector<DetectorData>
     protected override void ChangeSelection()
     {
         // Verify that we can do this.
-        if(current >= available.Length || available[current] == null) {
-            Debug.LogError("Empty available array or array entry detected.");
+        if(current >= available.Length) {
+            Debug.LogError("Empty available array detected.");
+            return;
+        }
+        if(available[current] == null)
+        {
+            Debug.LogWarning("Empty array entry detected. This may or may not have been intentional.");
+            canSeeCanvas = false;
+            isAwake = false;
+            if(instantiated != null) {
+                Destroy(instantiated.gameObject);
+            }
+            instantiated = null;
             return;
         }
 
@@ -231,7 +242,7 @@ public class DetectorSelector : Selector<DetectorData>
     /// <param name="scene"></param>
     public void LoadScene(FieldScene scene)
     {
-        if(!isAwake) { Wake(); }
+        isAwake = true;
         available = scene.detectorArray;
         current = 0;
     }
@@ -277,17 +288,17 @@ public class DetectorSelector : Selector<DetectorData>
         }
     }
 
-    public void Sleep()
-    {
-        isAwake = false;
-        GetRidOf(available[current], instantiated.gameObject);
-        instantiated = null;
-        canSeeCanvas = false;
-    }
+    //public void Sleep()
+    //{
+    //    isAwake = false;
+    //    GetRidOf(available[current], instantiated.gameObject);
+    //    instantiated = null;
+    //    canSeeCanvas = false;
+    //}
 
-    public void Wake()
-    {
-        isAwake = true;
-    }
+    //public void Wake()
+    //{
+    //    isAwake = true;
+    //}
 }
 

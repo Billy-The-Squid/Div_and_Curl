@@ -107,8 +107,16 @@ public class FieldSelector : Selector<FieldData>
 
     protected override void ChangeSelection()
     {
-        if (current >= available.Length || available[current] == null) {
-            Debug.LogError("Empty available array or array entry detected.");
+        if (current >= available.Length) {
+            Debug.LogError("Empty available array detected.");
+            return;
+        }
+        if(available[current] == null)
+        {
+            Debug.LogWarning("Empty array entry detected. This may or may not have been intentional.");
+            field.fieldType = VectorField.FieldType.Empty;
+            canSeeCanvas = false;
+            isAwake = false; // This variable persists until a new scene load.
             return;
         }
 
@@ -122,7 +130,7 @@ public class FieldSelector : Selector<FieldData>
 
     public void LoadScene(FieldScene scene)
     {
-        if(!isAwake) { Wake(); }
+        isAwake = true;
         available = scene.fieldArray;
         current = 0;
     }
@@ -220,16 +228,16 @@ public class FieldSelector : Selector<FieldData>
 
 
 
-    public void Sleep()
-    {
-        isAwake = false;
-        field.fieldType = VectorField.FieldType.Empty;
-        canSeeCanvas = false;
-    }
+    //public void Sleep()
+    //{
+    //    isAwake = false;
+    //    field.fieldType = VectorField.FieldType.Empty;
+    //    canSeeCanvas = false;
+    //}
 
-    public void Wake()
-    {
-        ChangeSelection();
-        isAwake = true;
-    }
+    //public void Wake()
+    //{
+    //    ChangeSelection();
+    //    isAwake = true;
+    //}
 }
