@@ -30,6 +30,7 @@ public class Tutorial : MonoBehaviour
 
     protected DetectorSelector detectorSelector;
     protected FieldSelector fieldSelector;
+    protected MainMenu mainMenu;
 
     public UIEvent UIAppearEvent = new UIEvent();
     public UIEvent UIDisappearEvent = new UIEvent();
@@ -54,8 +55,12 @@ public class Tutorial : MonoBehaviour
         {
             fieldSelector = FindObjectOfType<FieldSelector>();
         }
+        if(mainMenu == null)
+        {
+            mainMenu = FindObjectOfType<MainMenu>();
+        }
 
-        StartCoroutine(BeginTutorial());
+        StartTutorial();
     }
 
     
@@ -70,7 +75,12 @@ public class Tutorial : MonoBehaviour
 
     }
 
-    public IEnumerator BeginTutorial()
+    public void StartTutorial()
+    {
+        StartCoroutine(BeginTutorial());
+    }
+
+    protected IEnumerator BeginTutorial()
     {
         yield return new WaitForSeconds(0.05f);
 
@@ -83,6 +93,7 @@ public class Tutorial : MonoBehaviour
         }
         detectorSelector.Sleep();
         fieldSelector.Sleep();
+        mainMenu.DismissMenu();
 
         // Turn on the tutorial
         mainCanvas.enabled = true;
