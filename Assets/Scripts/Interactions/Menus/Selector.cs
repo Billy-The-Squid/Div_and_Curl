@@ -50,7 +50,7 @@ public abstract class Selector<T> : MonoBehaviour
         if(available.Length > 0)
         {
             ChangeAvailable();
-            ChangeSelection();
+            //ChangeSelection();
         }
         else
         {

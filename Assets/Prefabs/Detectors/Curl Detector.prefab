@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 0}
   canMove: 1
+  reactsToDetectors: 0
   deltaX: 0.001
 --- !u!114 &731022300670848664
 MonoBehaviour:
@@ -130,34 +131,10 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6964967292018251213}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6964967292018251213}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls: []

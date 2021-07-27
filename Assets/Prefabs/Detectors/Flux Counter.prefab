@@ -217,7 +217,6 @@ MonoBehaviour:
   minRad: 0.05
   maxRad: 1
   radius: 0.2
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   waitBeforeResized: 0.2
   resizeIncrement: 0.1
 --- !u!114 &1718279740705519841
@@ -246,64 +245,16 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -7424959642537426692}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -7424959642537426692}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 512757059032964738}
-        m_TargetAssemblyTypeName: Resizable, Assembly-CSharp
-        m_MethodName: SetSelectedTrue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 512757059032964738}
-        m_TargetAssemblyTypeName: Resizable, Assembly-CSharp
-        m_MethodName: SetSelectedFalse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -374,6 +325,8 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
+  normalHighlight: {r: 0, g: 1, b: 1, a: 1}
+  invalidHighlight: {r: 1, g: 0, b: 0, a: 1}
   inertMaterial: {fileID: 2100000, guid: 8f903ffbab9ce8c42a5c26e73b078e76, type: 2}
   activeShader: {fileID: 4800000, guid: 16f103d5ec8ebf246808023d4b1409d3, type: 3}
   meshRenderer: {fileID: 1284309509587163685}
@@ -395,6 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 1284309509587163690}
   canMove: 1
+  reactsToDetectors: 0
   meshFilter: {fileID: 1284309509587163684}
   fluxDetector: {fileID: 1718279740705519841}
   vectorScalingFactor: 0.2

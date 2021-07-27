@@ -257,34 +257,10 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 783817796752004425}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 783817796752004425}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -361,6 +337,8 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
+  normalHighlight: {r: 0, g: 1, b: 1, a: 1}
+  invalidHighlight: {r: 1, g: 0, b: 0, a: 1}
   localField: {fileID: 7192881086067594972}
 --- !u!114 &7192881086067594972
 MonoBehaviour:
@@ -395,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 7192881086067594973}
   canMove: 1
+  reactsToDetectors: 0
   localField: {fileID: 0}
   scalingFactor: 0.9
 --- !u!114 &7192881086067594974

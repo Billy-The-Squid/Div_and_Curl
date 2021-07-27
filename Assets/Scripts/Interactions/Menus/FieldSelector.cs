@@ -178,8 +178,12 @@ public class FieldSelector : Selector<FieldData>
         
         
         // Update whether it's visible.
+
+        if(available[current] == null) {
+            canSeeCanvas = false;
+        }
         // If the field is empty, it shouldn't ever disappear.
-        if (available[current].field == VectorField.FieldType.Empty) 
+        else if (available[current].field == VectorField.FieldType.Empty) 
         {
             canSeeCanvas = true;
         }

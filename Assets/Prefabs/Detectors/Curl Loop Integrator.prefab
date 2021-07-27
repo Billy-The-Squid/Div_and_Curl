@@ -87,7 +87,6 @@ MonoBehaviour:
   minRad: 0.05
   maxRad: 1
   radius: 0.2
-  inputActions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   waitBeforeResized: 0.2
   resizeIncrement: 0.1
 --- !u!114 &5740770948582930856
@@ -104,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 5740770948582930857}
   canMove: 1
+  reactsToDetectors: 0
   resolution: 20
   scalingFactor: 2
 --- !u!114 &5740770948582930858
@@ -184,64 +184,16 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2947674590811838380}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2947674590811838380}
-        m_TargetAssemblyTypeName: OutlineExtension, Assembly-CSharp
-        m_MethodName: TurnOutlineOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5740770948582930861}
-        m_TargetAssemblyTypeName: Resizable, Assembly-CSharp
-        m_MethodName: SetSelectedTrue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5740770948582930861}
-        m_TargetAssemblyTypeName: Resizable, Assembly-CSharp
-        m_MethodName: SetSelectedFalse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -312,6 +264,8 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
+  normalHighlight: {r: 0, g: 1, b: 1, a: 1}
+  invalidHighlight: {r: 1, g: 0, b: 0, a: 1}
   zone: {fileID: 5740770948582930856}
   localField: {fileID: 5740770948582930859}
   integrator: {fileID: 7200000, guid: 1e6018ee313c0e54b8a3cd2969ba5fdb, type: 3}

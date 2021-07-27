@@ -11,6 +11,8 @@ public class Tutorial : MonoBehaviour
     public Canvas mainCanvas;
     public GameObject background;
     public Transform tutorialPivot;
+    public float threshholdDistance = 1f;
+
     public TutorialStage[] frames;
     protected int _currentFrameIndex;
     public int currentFrameIndex
@@ -35,6 +37,7 @@ public class Tutorial : MonoBehaviour
     public SceneSelector sceneSelector;
 
     protected FieldScene tutorialScene;
+    public bool inTutorial { get; protected set; }
 
     public UIEvent UIAppearEvent = new UIEvent();
     public UIEvent UIDisappearEvent = new UIEvent();
@@ -51,22 +54,10 @@ public class Tutorial : MonoBehaviour
         //{
         //    wasEnabled = new bool[setDisabled.Length];
         //}
-        if(detectorSelector == null)
-        {
-            detectorSelector = FindObjectOfType<DetectorSelector>();
-        }
-        if(fieldSelector == null)
-        {
-            fieldSelector = FindObjectOfType<FieldSelector>();
-        }
-        if(mainMenu == null)
-        {
-            mainMenu = FindObjectOfType<MainMenu>();
-        }
-        if(sceneSelector != null)
-        {
-            sceneSelector = FindObjectOfType<SceneSelector>();
-        }
+        detectorSelector = FindObjectOfType<DetectorSelector>();
+        fieldSelector = FindObjectOfType<FieldSelector>();
+        mainMenu = FindObjectOfType<MainMenu>();
+        sceneSelector = FindObjectOfType<SceneSelector>();
 
         tutorialScene = ScriptableObject.CreateInstance<FieldScene>();
         //tutorialScene = new FieldScene();
@@ -75,10 +66,28 @@ public class Tutorial : MonoBehaviour
         tutorialScene.fieldArray = new FieldData[1];
         tutorialScene.fieldArray[0] = null;
 
-        StartTutorial();
+        StartCoroutine(StartTutorial());
     }
 
-    
+    private void Update()
+    {
+        if(!inTutorial) { return; }
+
+        // Has the player moved away? 
+        Vector3 planeDistance = playerEyes.transform.position - tutorialPivot.position;
+        planeDistance = new Vector3(planeDistance.x, 0, planeDistance.z);
+        if(planeDistance.magnitude > threshholdDistance)
+        {
+            ResetPosition();
+        }
+    }
+
+    protected void ResetPosition()
+    {
+        tutorialPivot.position = playerEyes.transform.position;
+        tutorialPivot.forward = new Vector3(playerEyes.transform.forward.x, 0, playerEyes.transform.forward.z).normalized;
+    }
+
     /// <summary>
     /// A wrapper function, mostly for inspector use.
     /// </summary>
@@ -90,17 +99,19 @@ public class Tutorial : MonoBehaviour
         // Adjust background size &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     }
 
-    public void StartTutorial()
-    {
-        StartCoroutine(BeginTutorial());
-    }
-
-    protected IEnumerator BeginTutorial()
+    protected IEnumerator StartTutorial()
     {
         yield return new WaitForSeconds(0.05f);
+        sceneSelector.ChangeScene.Invoke(tutorialScene);
+        //StartCoroutine(BeginTutorial());
+    }
+
+    public void BeginTutorial()
+    {
+        inTutorial = true;
 
         // Turn stuff off
-        for(int i = 0; i < setDisabled.Length; i++)
+        for (int i = 0; i < setDisabled.Length; i++)
         {
             GameObject thing = setDisabled[i];
             //wasEnabled[i] = thing.activeSelf;
@@ -108,7 +119,7 @@ public class Tutorial : MonoBehaviour
         }
         //detectorSelector.Sleep();
         //fieldSelector.Sleep();
-        sceneSelector.ChangeScene.Invoke(tutorialScene);
+        //sceneSelector.ChangeScene.Invoke(tutorialScene);
         mainMenu.DismissMenu();
 
         // Turn on the tutorial
@@ -118,8 +129,7 @@ public class Tutorial : MonoBehaviour
         frames[currentFrameIndex].BeginStage();
         UIAppearEvent.Invoke(mainCanvas);
 
-        tutorialPivot.position = playerEyes.transform.position;
-        tutorialPivot.forward = new Vector3(playerEyes.transform.forward.x, 0, playerEyes.transform.forward.z).normalized;
+        ResetPosition();
 
         // Set positions
         // Set modes
@@ -137,6 +147,19 @@ public class Tutorial : MonoBehaviour
         }
         UIDisappearEvent.Invoke(mainCanvas);
 
+        foreach(GameObject thing in GameObject.FindGameObjectsWithTag("Tutorial object"))
+        {
+            Destroy(thing);
+        }
+
+        inTutorial = false;
+
         // Bind this to a scene change!
+    }
+
+    public void LoadScene(FieldScene scene)
+    {
+        if(scene == tutorialScene) { BeginTutorial(); }
+        else { EndTutorial(); }
     }
 }

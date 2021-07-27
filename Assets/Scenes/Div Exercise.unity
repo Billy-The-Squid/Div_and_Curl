@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 33810672}
   - component: {fileID: 33810671}
   - component: {fileID: 33810670}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1791,7 +1791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201398616}
   - component: {fileID: 201398617}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1861,7 +1861,7 @@ GameObject:
   - component: {fileID: 202320800}
   - component: {fileID: 202320799}
   - component: {fileID: 202320798}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Resize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2141,7 +2141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 217765484}
   - component: {fileID: 217765485}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Click
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2275,7 +2275,7 @@ GameObject:
   - component: {fileID: 232153578}
   - component: {fileID: 232153581}
   - component: {fileID: 232153580}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3104,7 +3104,7 @@ GameObject:
   - component: {fileID: 263717229}
   - component: {fileID: 263717231}
   - component: {fileID: 263717230}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3256,7 +3256,7 @@ GameObject:
   - component: {fileID: 287368765}
   - component: {fileID: 287368764}
   - component: {fileID: 287368763}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4723,7 +4723,7 @@ GameObject:
   - component: {fileID: 375246474}
   - component: {fileID: 375246473}
   - component: {fileID: 375246472}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5234,7 +5234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 437306762}
   - component: {fileID: 437306763}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Trash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5566,7 +5566,7 @@ GameObject:
   - component: {fileID: 456538719}
   - component: {fileID: 456538718}
   - component: {fileID: 456538717}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Welcome!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5973,7 +5973,7 @@ GameObject:
   - component: {fileID: 473670048}
   - component: {fileID: 473670050}
   - component: {fileID: 473670049}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6390,7 +6390,7 @@ GameObject:
   - component: {fileID: 525202424}
   - component: {fileID: 525202423}
   - component: {fileID: 525202422}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Switch?
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7103,7 +7103,7 @@ GameObject:
   - component: {fileID: 561613116}
   - component: {fileID: 561613118}
   - component: {fileID: 561613117}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7314,7 +7314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 580480285}
   - component: {fileID: 580480286}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7970,7 +7970,7 @@ GameObject:
   m_Component:
   - component: {fileID: 644573578}
   - component: {fileID: 644573579}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Movement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8332,7 +8332,7 @@ GameObject:
   - component: {fileID: 684429728}
   - component: {fileID: 684429727}
   - component: {fileID: 684429726}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Press the...
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9101,7 +9101,7 @@ GameObject:
   - component: {fileID: 727784227}
   - component: {fileID: 727784226}
   - component: {fileID: 727784225}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Resize (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9427,7 +9427,7 @@ GameObject:
   - component: {fileID: 732086783}
   - component: {fileID: 732086782}
   - component: {fileID: 732086781}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Grab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10388,7 +10388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &797570974
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10482,7 +10482,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797570973}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -10910,7 +10910,7 @@ GameObject:
   - component: {fileID: 824138896}
   - component: {fileID: 824138895}
   - component: {fileID: 824138894}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11374,7 +11374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866416795}
   - component: {fileID: 866416796}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Turn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13482,7 +13482,7 @@ GameObject:
   - component: {fileID: 1117109880}
   - component: {fileID: 1117109879}
   - component: {fileID: 1117109884}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13615,6 +13615,7 @@ MonoBehaviour:
   mainCanvas: {fileID: 1117109882}
   background: {fileID: 1854213515}
   tutorialPivot: {fileID: 1439485292}
+  threshholdDistance: 1
   frames:
   - {fileID: 217765485}
   - {fileID: 1942481782}
@@ -13650,6 +13651,42 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 502300861}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
+        m_MethodName: ChangeHandMode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 441323764}
+        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
+        m_MethodName: ChangeHandMode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1789145692}
+        m_TargetAssemblyTypeName: MovementManager, Assembly-CSharp
+        m_MethodName: SetMoveMode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -14108,7 +14145,7 @@ GameObject:
   - component: {fileID: 1161072939}
   - component: {fileID: 1161072941}
   - component: {fileID: 1161072940}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14255,10 +14292,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117109878}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 1117109884}
+        m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
+        m_MethodName: StartTutorial
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -17184,7 +17221,7 @@ GameObject:
   - component: {fileID: 1419000858}
   - component: {fileID: 1419000860}
   - component: {fileID: 1419000859}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17501,7 +17538,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1438946412}
   - component: {fileID: 1438946413}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Smooth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18453,7 +18490,7 @@ GameObject:
   - component: {fileID: 1514105067}
   - component: {fileID: 1514105066}
   - component: {fileID: 1514105065}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Welcome!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18602,7 +18639,7 @@ GameObject:
   - component: {fileID: 1514122278}
   - component: {fileID: 1514122280}
   - component: {fileID: 1514122279}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18740,7 +18777,7 @@ GameObject:
   - component: {fileID: 1526151916}
   - component: {fileID: 1526151915}
   - component: {fileID: 1526151914}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Trash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19155,7 +19192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1583540120}
   - component: {fileID: 1583540121}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Resize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19368,7 +19405,7 @@ GameObject:
   - component: {fileID: 1598967740}
   - component: {fileID: 1598967739}
   - component: {fileID: 1598967738}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20153,7 +20190,7 @@ GameObject:
   - component: {fileID: 1638359075}
   - component: {fileID: 1638359074}
   - component: {fileID: 1638359073}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21866,7 +21903,7 @@ GameObject:
   - component: {fileID: 1752792915}
   - component: {fileID: 1752792914}
   - component: {fileID: 1752792913}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Welcome!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22206,7 +22243,7 @@ GameObject:
   - component: {fileID: 1771511047}
   - component: {fileID: 1771511046}
   - component: {fileID: 1771511045}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Welcome!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24104,7 +24141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942481781}
   - component: {fileID: 1942481782}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Grab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24161,7 +24198,7 @@ GameObject:
   - component: {fileID: 1959863703}
   - component: {fileID: 1959863702}
   - component: {fileID: 1959863701}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Seen this before?
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24473,7 +24510,7 @@ GameObject:
   - component: {fileID: 1985024568}
   - component: {fileID: 1985024570}
   - component: {fileID: 1985024569}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25043,7 +25080,7 @@ GameObject:
   - component: {fileID: 2032420223}
   - component: {fileID: 2032420222}
   - component: {fileID: 2032420221}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25194,7 +25231,7 @@ GameObject:
   - component: {fileID: 2056115431}
   - component: {fileID: 2056115430}
   - component: {fileID: 2056115429}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25647,8 +25684,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1117109884}
         m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
-        m_MethodName: EndTutorial
-        m_Mode: 1
+        m_MethodName: LoadScene
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -26030,7 +26067,7 @@ GameObject:
   - component: {fileID: 2134245467}
   - component: {fileID: 2134245466}
   - component: {fileID: 2134245465}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Frame (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26486,6 +26523,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 441323763, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: _mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 44187924215432856, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -26577,6 +26618,10 @@ PrefabInstance:
     - target: {fileID: 5373445849174054031, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339172364439220385, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: _mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8861022941207032704, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchorMax.y
