@@ -7,14 +7,23 @@ public class Watch : MonoBehaviour
 {
     public UnityEvent WatchButton;
     public TextMeshProUGUI display;
+    protected float lastPokedTime;
+    public float debounceTime = 0.1f;
+
+    private void Start()
+    {
+        lastPokedTime = Time.time;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Something poked the watch: " + other.name);
-        if (other.CompareTag("Finger"))
+        if(Time.time > lastPokedTime + debounceTime)
         {
-            WatchButton.Invoke();
-            //Debug.Log("It was a finger");
+            if (other.CompareTag("Finger"))
+            {
+                WatchButton.Invoke();
+            }
+            lastPokedTime = Time.time;
         }
     }
 
