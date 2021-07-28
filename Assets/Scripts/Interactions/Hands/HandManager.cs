@@ -509,8 +509,9 @@ public class HandManager : MonoBehaviour
         // Make the hand disappear if we're holding something that's not a UI.
         isVisible = (directInteractor.selectTarget == null || directInteractor.selectTarget.GetComponent<HandHeldUI>() != null);
 
-        if (mode == HandMode.Hand) {
-            currentHand.GetComponent<HandMotion>().isPointing = pointedAtUI || attemptingTeleport || highlightRay.enabled;
+        if (mode == HandMode.Hand)
+        {
+            currentHand.GetComponent<HandMotion>().isPointing = attemptingTeleport;// || pointedAtUI || highlightRay.enabled;
         }
     }
 
