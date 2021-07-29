@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Pointer
   description: The value of the field at each point.
-  equation: {fileID: 0}
+  equation: {fileID: 21300000, guid: bbc610d8cd1fbda46a3d95bc42c5d545, type: 3}
   equationDescription: Substitute equation description.
   detector: Substitute detector description.
   detectorPrefab: {fileID: 7192881086067594963, guid: 0816841dba5597d4c87f7a8ef547f5e2, type: 3}

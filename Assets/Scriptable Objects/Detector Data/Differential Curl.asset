@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Curl (Differential)
   description: Does the field have a vortex or shear at this point?
-  equation: {fileID: 0}
+  equation: {fileID: 21300000, guid: a40d9164b4f5411498640df0c1ab8fee, type: 3}
   equationDescription: Substitute equation description.
   detector: Substitute detector description.
   detectorPrefab: {fileID: 731022300670848666, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}

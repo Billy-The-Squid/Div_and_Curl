@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Thing
   description: Here's where the description is.
-  equation: {fileID: 0}
+  equation: {fileID: 21300000, guid: 8e8bd4ecf9e0e4b41ab72d532e01d786, type: 3}
   equationDescription: This equation governs something irrelevant.
   detector: 'This object is, in fact, spinning. '
   detectorPrefab: {fileID: -2784523897245137300, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}

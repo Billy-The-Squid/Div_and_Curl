@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Curl (Loop Integral)
   description: As you take a line integral in a circle, how much does the field align
     with that loop?
-  equation: {fileID: 0}
+  equation: {fileID: 21300000, guid: bddadeb4d40b4824092308450018c833, type: 3}
   equationDescription: Substitute equation description.
   detector: Substitute detector description.
   detectorPrefab: {fileID: 4270039084551078667, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}

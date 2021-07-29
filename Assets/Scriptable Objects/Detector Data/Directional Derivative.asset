@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Directional Derivative
   description: How does the field change as you move along a certain direction?
-  equation: {fileID: 0}
+  equation: {fileID: 21300000, guid: 5af2e2dfb1ae37d46a144d1ce4de85ac, type: 3}
   equationDescription: Substitute equation description.
   detector: Substitute detector description.
   detectorPrefab: {fileID: 2258293795787867731, guid: 23ae16bd40ec4fd43b9fad1fbe4300c3, type: 3}
