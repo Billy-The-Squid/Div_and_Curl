@@ -22,6 +22,8 @@ public class HandManager : MonoBehaviour
     public TeleportManager teleporter;
     public UIRay uiRay;
     public Transform attachTransform;
+    protected static HandHeldUI staticReadout;
+    // Only used to initialize the static version of the var
     public HandHeldUI readout;
     public Collider handCollider;
     public Collider wandCollider;
@@ -300,7 +302,18 @@ public class HandManager : MonoBehaviour
 
     // READOUTS -----------------------------------------------------------------------------
     protected InputAction selectAction;
-    protected Grabbable objectLastHeld { get; set; } // Type? &&&&&&&&&&&&&&&&&&&&&&
+    protected static Grabbable _objectLastHeld;
+    protected static Grabbable objectLastHeld 
+    {
+        get => _objectLastHeld;
+        set
+        {
+            if (value is FieldDetector && staticReadout != null)
+            {
+                staticReadout.detector = (FieldDetector)value;
+            }
+        }
+    }
     /* Should be updated on SelectEntered for the direct interactor. 
      */
     protected bool hovering { get; set; }
@@ -387,6 +400,11 @@ public class HandManager : MonoBehaviour
         }
 
         ResetReadout(new InputAction.CallbackContext());
+
+        if(readout != null)
+        {
+            staticReadout = readout;
+        }
     }
 
 
@@ -877,11 +895,6 @@ public class HandManager : MonoBehaviour
             objectLastHeld = (Grabbable)directInteractor.selectTarget;
         }
         willBePulled = null;
-
-        if(directInteractor.selectTarget is FieldDetector)
-        {
-            readout.detector = (FieldDetector)directInteractor.selectTarget;
-        }
     }
 
     // Should be bound to the SelectExitevent on the directInteractor
@@ -899,9 +912,9 @@ public class HandManager : MonoBehaviour
         IEnumerator WaitToCheck()
         {
             yield return new WaitForSeconds(0.01f);
-            if(directInteractor.selectTarget == null)
+            if(directInteractor.selectTarget == null && staticReadout != null)
             {
-                readout.detector = null;
+                staticReadout.detector = null;
             }
         }
     }
