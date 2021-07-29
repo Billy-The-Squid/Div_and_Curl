@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class HandManager : MonoBehaviour
 {
@@ -47,6 +48,7 @@ public class HandManager : MonoBehaviour
             {
                 UpdateHandMode(value);
                 _mode = value;
+                handModeUpdated.Invoke((int)value);
                 isVisible = isVisible; // Force a reevaluation of the things that depend on this. 
             }
         } 
@@ -323,12 +325,12 @@ public class HandManager : MonoBehaviour
 
 
     /* To do:
-     *  * Respond if other hand also has detector
      *  * Respond on resize
      * * on internals, call public methods only if value shifts
-     * * Resizables (only one at a time)
      * * Make a local bool wrapper for teleport.enabled, and have it call CheckTeleportEnabled.
      */
+
+    public ModeEvent handModeUpdated = new ModeEvent();
 
 
 
@@ -953,4 +955,10 @@ public class HandManager : MonoBehaviour
         // use teleporter.enabled to disable teleportation in-game (for instance, changing modes).
         // Use teleporter.SetActive (or disable the entire gameobject) for a disable that persists across modes.
     }
+}
+
+
+public class ModeEvent : UnityEvent<int>
+{
+
 }

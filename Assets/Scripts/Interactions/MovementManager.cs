@@ -11,29 +11,24 @@ public class MovementManager : MonoBehaviour
     /// <summary>
     /// The continuous movement provider. 
     /// </summary>
-    [SerializeField]
-    ContinuousMoveProviderBase moveProvider;
+    public ContinuousMoveProviderBase moveProvider;
     /// <summary>
     /// The <cref>TeleportProvider</cref>. 
     /// </summary>
-    [SerializeField]
-    TeleportationProvider teleporter;
+    public TeleportationProvider teleporter;
     /// <summary>
     /// The <cref>TeleportManager</cref>.
     /// </summary>
-    [SerializeField]
-    TeleportManager teleportManager;
+    public TeleportManager teleportManager;
 
     /// <summary>
     /// The continuous turn provider. 
     /// </summary>
-    [SerializeField]
-    ContinuousTurnProviderBase smoothTurnProvider;
+    public ContinuousTurnProviderBase smoothTurnProvider;
     /// <summary>
     /// The snap turn provider.
     /// </summary>
-    [SerializeField]
-    SnapTurnProviderBase snapTurnProvider;
+    public SnapTurnProviderBase snapTurnProvider;
 
 
 
