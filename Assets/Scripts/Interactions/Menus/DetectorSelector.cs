@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class DetectorSelector : Selector<DetectorData>
 {
@@ -40,6 +41,7 @@ public class DetectorSelector : Selector<DetectorData>
     /// </summary>
     public float respawnDistance = 0.05f;
 
+    [Header("Display")]
     /// <summary>
     /// The display text bearing the detector name. 
     /// </summary>
@@ -47,7 +49,61 @@ public class DetectorSelector : Selector<DetectorData>
     /// <summary>
     /// The display text bearing the detector description.
     /// </summary>
-    public TextMeshProUGUI detectorDescriptionDisplay;
+    public TextMeshProUGUI descriptionDisplay;
+    public TextMeshProUGUI equationDisplay;
+    public Image equationImage;
+    public TextMeshProUGUI detectorDisplay;
+
+    public GameObject descriptionButton;
+    public GameObject equationButton;
+    public GameObject detectorButton;
+
+    public enum Display { Description, Equation, Detector }
+    protected Display _currentDisplay;
+    public Display currentDisplay
+    {
+        get => _currentDisplay;
+        set
+        {
+            if (_currentDisplay != value)
+            {
+                _currentDisplay = value;
+                if(value == Display.Description)
+                {
+                    descriptionButton.SetActive(false);
+                    equationButton.SetActive(true);
+                    detectorButton.SetActive(true);
+
+                    descriptionDisplay.enabled = true;
+                    equationImage.enabled = false;
+                    equationDisplay.enabled = false;
+                    detectorDisplay.enabled = false;
+                }
+                else if(value == Display.Equation)
+                {
+                    descriptionButton.SetActive(true);
+                    equationButton.SetActive(false);
+                    detectorButton.SetActive(true);
+
+                    descriptionDisplay.enabled = false;
+                    equationImage.enabled = true;
+                    equationDisplay.enabled = true;
+                    detectorDisplay.enabled = false;
+                }
+                else // Detector
+                {
+                    descriptionButton.SetActive(true);
+                    equationButton.SetActive(true);
+                    detectorButton.SetActive(false);
+
+                    descriptionDisplay.enabled = false;
+                    equationImage.enabled = false;
+                    equationDisplay.enabled = false;
+                    detectorDisplay.enabled = true;
+                }
+            }
+        }
+    }
 
     public Dictionary<DetectorData, List<GameObject>> objectDict { get; protected set; }
     /// <summary>
@@ -87,6 +143,8 @@ public class DetectorSelector : Selector<DetectorData>
         }
     }
 
+    
+
 
 
 
@@ -96,6 +154,9 @@ public class DetectorSelector : Selector<DetectorData>
         isFirst = new Dictionary<DetectorData, bool>();
         canSeeCanvas = true;
         canSeeCanvas = false;
+
+        currentDisplay = Display.Equation;
+        currentDisplay = Display.Description;
 
         base.Start();
     }
@@ -163,7 +224,12 @@ public class DetectorSelector : Selector<DetectorData>
 
         // Update the displays.
         detectorNameDisplay.SetText(available[current].name);
-        detectorDescriptionDisplay.SetText(available[current].description);
+        descriptionDisplay.SetText(available[current].description);
+        equationImage.sprite = available[current].equation;
+        equationDisplay.SetText(available[current].equationDescription);
+        detectorDisplay.SetText(available[current].detector);
+
+        currentDisplay = Display.Description;
     }
 
     /// <summary>
@@ -288,17 +354,9 @@ public class DetectorSelector : Selector<DetectorData>
         }
     }
 
-    //public void Sleep()
-    //{
-    //    isAwake = false;
-    //    GetRidOf(available[current], instantiated.gameObject);
-    //    instantiated = null;
-    //    canSeeCanvas = false;
-    //}
-
-    //public void Wake()
-    //{
-    //    isAwake = true;
-    //}
+    public void SetCurrentDisplay(int i)
+    {
+        currentDisplay = (Display)i;
+    }
 }
 

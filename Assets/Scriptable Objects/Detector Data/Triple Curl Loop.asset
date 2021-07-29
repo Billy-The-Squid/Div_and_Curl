@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Curl (Triple Loop Integral)
   description: Not yet implemented
+  equation: {fileID: 0}
+  equationDescription: Substitute equation description.
+  detector: Substitute detector description.
   detectorPrefab: {fileID: 0}

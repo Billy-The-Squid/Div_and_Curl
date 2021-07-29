@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Curl (Surface Integral)
   description: Which direction does the drag on the ball make it spin?
+  equation: {fileID: 0}
+  equationDescription: Substitute equation description.
+  detector: Substitute detector description.
   detectorPrefab: {fileID: 5484386669841562316, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}

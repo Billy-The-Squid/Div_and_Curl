@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Interactable
   m_EditorClassIdentifier: 
   name: Thing
-  description: 'Before you can pick it up, you have to get close enough to read this. '
+  description: Here's where the description is.
+  equation: {fileID: 0}
+  equationDescription: This equation governs something irrelevant.
+  detector: 'This object is, in fact, spinning. '
   detectorPrefab: {fileID: -2784523897245137300, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}
