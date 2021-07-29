@@ -16,5 +16,7 @@ MonoBehaviour:
   description: Does the field flow outwards or inwards from this point?
   equation: {fileID: 21300000, guid: 146c7992edf254d4b9585ed7d0466e2b, type: 3}
   equationDescription: 'Substitute equation description. '
-  detector: Substitute detector description.
+  detector: 'Substitute detector description.
+
+    <size=45> </size>'
   detectorPrefab: {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}

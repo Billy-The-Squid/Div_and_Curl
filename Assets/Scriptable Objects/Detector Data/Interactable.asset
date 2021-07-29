@@ -13,8 +13,23 @@ MonoBehaviour:
   m_Name: Interactable
   m_EditorClassIdentifier: 
   name: Thing
-  description: Here's where the description is.
+  description: 'Each object, or "detector," you find on this podium corresponds to
+    a mathematical calculation. Bring them into the field to see how they behave
+    at different points and browse through these tabs to learn about the quantities
+    they represent.
+
+    This<size=45> </size>object doesn''t represent anything. '
   equation: {fileID: 21300000, guid: 8e8bd4ecf9e0e4b41ab72d532e01d786, type: 3}
-  equationDescription: This equation governs something irrelevant.
-  detector: 'This object is, in fact, spinning. '
+  equationDescription: "This tab will tell you the most important information about
+    each detector\u2014its governing equation. This is a specific way of computing
+    a specific quantity. \nIn<size=45> </size>the above equation, the length <i>c</i>
+    of the hypotenuse of a right triangle can be compute from the lengths <i>a</i>
+    and <i>b</i> of the two legs."
+  detector: 'This tab will tell you about how each detector behaves. The colors,
+    motion, and the vectors on the surface of each detector correspond to different
+    parts of the definition of the quantity the detector represents. See how much
+    of this you can figure out about each detector before looking at this tab!
+
+    This<size=45>
+    </size>detector has nothing to do with any equation. It just spins.'
   detectorPrefab: {fileID: -2784523897245137300, guid: 32e93bd8c877ef3469d71281cae071b6, type: 3}

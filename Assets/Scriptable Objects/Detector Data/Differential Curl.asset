@@ -13,8 +13,23 @@ MonoBehaviour:
   m_Name: Differential Curl
   m_EditorClassIdentifier: 
   name: Curl (Differential)
-  description: Does the field have a vortex or shear at this point?
+  description: 'This is the most common definition of divergence, defined at a point
+    rather than using a limit. Can you see how each component of this comes from
+    the loop integral definition? '
   equation: {fileID: 21300000, guid: a40d9164b4f5411498640df0c1ab8fee, type: 3}
-  equationDescription: Substitute equation description.
-  detector: Substitute detector description.
+  equationDescription: "The left side of the equation, curl, is a three-component
+    vector, where each component is the difference of two partial derivatives of
+    components of the field. \nNotice<size=45> </size>that none of the partial derivatives
+    are in the same direction as the component: there is no derivative of the <i>x</>
+    component with respect to <i>x</i>. This means that curl only takes into account
+    changes in the field that point <b>around</b> the point, not away from or towards
+    it. "
+  detector: "Each pair of outer dots on the detector represents a change along one
+    axis. The dots flowing out of the point represent the derivative of the field
+    along that change\u2014their direction is that of the derivative and the speed
+    is the magnitude of the derivative. \nNotice<size=45> </size>that the flow is
+    never inwards or outwards. Because curl doesn't take that into account in its
+    computation, it doesn't need to be shown here. \nTry<size=45> </size>to see if
+    you can predict the direction of the curl just by looking at the detector (without
+    looking at the numbers). Hint: when does the flow seem to form a circle?"
   detectorPrefab: {fileID: 731022300670848666, guid: e0015486ee09b454b857a6a5dda0d5ac, type: 3}

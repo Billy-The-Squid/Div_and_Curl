@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Curl (Loop Integral)
   description: The curl of a vector field can be thought of how much the field spins
-    around a point. This can be quantified with Stokes' theorem.
+    around a point. This is quantified as a line integral around a loop using Stokes'
+    theorem.
   equation: {fileID: 21300000, guid: bddadeb4d40b4824092308450018c833, type: 3}
   equationDescription: "The left side of the equation is the dot product of the curl
     and the normal, a unit vector perpendicular to the loop. This gives a single
