@@ -288,17 +288,7 @@ public class DetectorSelector : Selector<DetectorData>
     protected override void ChangeAvailable()
     {
         if(objectDict != null) {
-            // Delete everything in the old set
-            foreach (List<GameObject> list in objectDict.Values) {
-                foreach(GameObject obj in list) {
-                    if(obj != null) {
-                        if (obj.GetComponent<Grabbable>() != null) {
-                            obj.GetComponent<Grabbable>().enabled = false;
-                        }
-                        StartCoroutine(TrashCan.DestroyInteractable(obj));
-                    }
-                }
-            }
+            ClearObjects();
 
             objectDict.Clear();
         }
@@ -309,6 +299,28 @@ public class DetectorSelector : Selector<DetectorData>
 
         nextButton.gameObject.SetActive(HasNext());
         previousButton.gameObject.SetActive(HasPrevious());
+    }
+
+    public void ClearObjects()
+    {
+        if(objectDict != null)
+        {
+            // Delete everything in the old set
+            foreach (List<GameObject> list in objectDict.Values)
+            {
+                foreach (GameObject obj in list)
+                {
+                    if (obj != null)
+                    {
+                        if (obj.GetComponent<Grabbable>() != null)
+                        {
+                            obj.GetComponent<Grabbable>().enabled = false;
+                        }
+                        StartCoroutine(TrashCan.DestroyInteractable(obj));
+                    }
+                }
+            }
+        }
     }
 
 

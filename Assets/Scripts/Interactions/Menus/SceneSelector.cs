@@ -46,6 +46,11 @@ public class SceneSelector : Selector<FieldScene>
     }
 
 
+    public void ReloadScene()
+    {
+        ChangeSelection();
+    }
+
 
     //protected void ReactToPlayer()
     //{

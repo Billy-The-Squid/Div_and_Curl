@@ -22,9 +22,9 @@ MonoBehaviour:
   equation: {fileID: 21300000, guid: 8e8bd4ecf9e0e4b41ab72d532e01d786, type: 3}
   equationDescription: "This tab will tell you the most important information about
     each detector\u2014its governing equation. This is a specific way of computing
-    a specific quantity. \nIn<size=45> </size>the above equation, the length <i>c</i>
-    of the hypotenuse of a right triangle can be compute from the lengths <i>a</i>
-    and <i>b</i> of the two legs."
+    a specific quantity. \n<size=45>    </size>In the above equation, the length
+    <i>c</i> of the hypotenuse of a right triangle can be computed from the lengths
+    <i>a</i> and <i>b</i> of the two legs."
   detector: 'This tab will tell you about how each detector behaves. The colors,
     motion, and the vectors on the surface of each detector correspond to different
     parts of the definition of the quantity the detector represents. See how much

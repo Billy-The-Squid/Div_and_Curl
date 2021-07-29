@@ -16,7 +16,12 @@
 
 float3 Outwards(float3 position)
 {
-    return position;// / 1.7;
+    if(length(position) != 0) {
+        return normalize(position) * atan(length(position));
+    }
+    else {
+        return float3(0, 0, 0);
+    }
 };
 
 
@@ -27,7 +32,12 @@ float3 Swirl(float3 position)
     val.x = -position.z;
     val.y = 0;
     val.z = position.x;
-    return val;
+    if(length(val) != 0) {
+        return normalize(val) * atan(length(val));
+    }
+    else {
+        return float3(0, 0, 0);
+    }
 };
 
 
@@ -84,7 +94,12 @@ float3 PlaneWave(float3 position) {
 
 float3 Inwards(float3 position)
 {
-    return -1 * position;
+    if(length(position) != 0) {
+        return - normalize(position) * atan(length(position));
+    }
+    else {
+        return float3(0, 0, 0);
+    }
 };
 
 float3 Squish(float3 position)
