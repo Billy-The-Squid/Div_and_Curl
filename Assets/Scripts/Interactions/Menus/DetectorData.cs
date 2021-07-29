@@ -7,12 +7,12 @@ using UnityEngine;
 public class DetectorData : ScriptableObject
 {
     public new string name;
-    [TextArea(1, 5)]
+    [TextArea(1, 20)]
     public string description;
     public Sprite equation;
-    [TextArea(1, 5)]
+    [TextArea(1, 20)]
     public string equationDescription;
-    [TextArea(1, 5)]
+    [TextArea(1, 20)]
     public string detector;
     public Grabbable detectorPrefab;
 }

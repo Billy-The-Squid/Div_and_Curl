@@ -58,6 +58,9 @@ public class DetectorSelector : Selector<DetectorData>
     public GameObject equationButton;
     public GameObject detectorButton;
 
+    public float maxImageWidth;
+    public float maxImageHeight;
+
     public enum Display { Description, Equation, Detector }
     protected Display _currentDisplay;
     public Display currentDisplay
@@ -74,10 +77,10 @@ public class DetectorSelector : Selector<DetectorData>
                     equationButton.SetActive(true);
                     detectorButton.SetActive(true);
 
-                    descriptionDisplay.enabled = true;
-                    equationImage.enabled = false;
-                    equationDisplay.enabled = false;
-                    detectorDisplay.enabled = false;
+                    descriptionDisplay.gameObject.SetActive(true);
+                    equationImage.gameObject.SetActive(false);
+                    equationDisplay.gameObject.SetActive(false);
+                    detectorDisplay.gameObject.SetActive(false);
                 }
                 else if(value == Display.Equation)
                 {
@@ -85,10 +88,12 @@ public class DetectorSelector : Selector<DetectorData>
                     equationButton.SetActive(false);
                     detectorButton.SetActive(true);
 
-                    descriptionDisplay.enabled = false;
-                    equationImage.enabled = true;
-                    equationDisplay.enabled = true;
-                    detectorDisplay.enabled = false;
+                    descriptionDisplay.gameObject.SetActive(false);
+                    equationImage.gameObject.SetActive(true);
+                    equationDisplay.gameObject.SetActive(true);
+                    detectorDisplay.gameObject.SetActive(false);
+
+                    FitImage();
                 }
                 else // Detector
                 {
@@ -96,11 +101,16 @@ public class DetectorSelector : Selector<DetectorData>
                     equationButton.SetActive(true);
                     detectorButton.SetActive(false);
 
-                    descriptionDisplay.enabled = false;
-                    equationImage.enabled = false;
-                    equationDisplay.enabled = false;
-                    detectorDisplay.enabled = true;
+                    descriptionDisplay.gameObject.SetActive(false);
+                    equationImage.gameObject.SetActive(false);
+                    equationDisplay.gameObject.SetActive(false);
+                    detectorDisplay.gameObject.SetActive(true);
                 }
+
+                //descriptionDisplay.SetText(available[current].description);
+                //equationImage.sprite = available[current].equation;
+                //equationDisplay.SetText(available[current].equationDescription);
+                //detectorDisplay.SetText(available[current].detector);
             }
         }
     }
@@ -357,6 +367,23 @@ public class DetectorSelector : Selector<DetectorData>
     public void SetCurrentDisplay(int i)
     {
         currentDisplay = (Display)i;
+    }
+
+    public void FitImage()
+    {
+        Sprite image = available[current].equation;
+
+        float ratio = (image.rect.width / image.rect.height) / (maxImageWidth / maxImageHeight);
+        if(ratio >= 1f) // width is the dominant factor
+        {
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxImageWidth);
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, image.rect.height * maxImageWidth / image.rect.width);
+        }
+        else // height is the dominant factor.
+        {
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, image.rect.width * maxImageHeight / image.rect.height);
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxImageHeight);
+        }
     }
 }
 
