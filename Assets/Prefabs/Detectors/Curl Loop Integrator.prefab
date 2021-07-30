@@ -354,8 +354,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   display: {fileID: 5740770948582930858}
   detector: {fileID: 4270039084551078667}
-  maxColor: {r: 1, g: 0, b: 0, a: 1}
-  minColor: {r: 1, g: 1, b: 0, a: 1}
+  maxColor: {r: 0.7, g: 1, b: 0.7, a: 1}
+  minColor: {r: 0.7, g: 1, b: 0.7, a: 1}
 --- !u!114 &2947674590811838380
 MonoBehaviour:
   m_ObjectHideFlags: 0
