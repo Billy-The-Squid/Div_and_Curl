@@ -6,7 +6,7 @@ using UnityEngine;
 public class FieldData : ScriptableObject
 {
     public new string name;
-    public string description;
+    public Sprite description;
     public VectorField.FieldType field;
     public float rescaleFactor = 1;
 }

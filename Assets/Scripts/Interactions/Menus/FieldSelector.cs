@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class FieldSelector : Selector<FieldData>
 {
@@ -41,7 +40,8 @@ public class FieldSelector : Selector<FieldData>
 
     public VectorField field;
 
-    public TextMeshProUGUI nameDisplay, descriptionDisplay;
+    public TextMeshProUGUI nameDisplay;
+    public Image equationImage; 
 
     protected bool _canSeeCanvas;
     public bool canSeeCanvas
@@ -73,6 +73,8 @@ public class FieldSelector : Selector<FieldData>
     public RectTransform previousButton;
 
     protected bool isAwake;
+
+    public float maxImageWidth, maxImageHeight;
 
 
 
@@ -123,8 +125,11 @@ public class FieldSelector : Selector<FieldData>
         field.fieldType = available[current].field;
 
         nameDisplay.SetText(available[current].name);
-        descriptionDisplay.SetText(available[current].description);
-    }
+        //descriptionDisplay.SetText(available[current].description);
+        equationImage.sprite = available[current].description;
+
+        FitImage();
+    } 
 
 
 
@@ -230,7 +235,22 @@ public class FieldSelector : Selector<FieldData>
         }
     }
 
+    public void FitImage()
+    {
+        Sprite image = available[current].description;
 
+        float ratio = (image.rect.width / image.rect.height) / (maxImageWidth / maxImageHeight);
+        if (ratio >= 1f) // width is the dominant factor
+        {
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxImageWidth);
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, image.rect.height * maxImageWidth / image.rect.width);
+        }
+        else // height is the dominant factor.
+        {
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, image.rect.width * maxImageHeight / image.rect.height);
+            equationImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxImageHeight);
+        }
+    }
 
     //public void Sleep()
     //{

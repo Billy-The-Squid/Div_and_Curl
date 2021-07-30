@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Inwards
   m_EditorClassIdentifier: 
   name: Inwards
-  description: 
+  description: {fileID: 21300000, guid: d33f9ce523f6cba448b24ff87d986e8b, type: 3}
   field: 6
+  rescaleFactor: 1

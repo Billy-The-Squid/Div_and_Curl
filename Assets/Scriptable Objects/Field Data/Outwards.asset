@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Outwards
   m_EditorClassIdentifier: 
   name: Outwards
-  description: 
+  description: {fileID: 21300000, guid: 2e77a57b4dc0c904daea96dd787f5463, type: 3}
   field: 0
+  rescaleFactor: 1

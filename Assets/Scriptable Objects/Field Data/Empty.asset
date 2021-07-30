@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Empty
   m_EditorClassIdentifier: 
   name: No field
-  description: 
+  description: {fileID: 21300000, guid: 88ac76a4c80392f409fade72d983fd25, type: 3}
   field: 8
+  rescaleFactor: 1

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Vortices
   m_EditorClassIdentifier: 
   name: Vortices
-  description: 
+  description: {fileID: 21300000, guid: 3403a17e9b5607742845f50a43a839b1, type: 3}
   field: 3
+  rescaleFactor: 1
