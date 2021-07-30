@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Coulomb
   m_EditorClassIdentifier: 
   name: Coulomb field
-  description: 
+  description: {fileID: 21300000, guid: ee3d0c955b6d4c442be4607157543eac, type: 3}
   field: 2
+  rescaleFactor: 1
