@@ -18,31 +18,29 @@ MonoBehaviour:
     with the normal vector is used, discarding the components of the field that point
     into or out of the surface. '
   equation: {fileID: 21300000, guid: a69087652d39bfe458e9237ddb683bee, type: 3}
-  equationDescription: "The left side of the equation is the full three-component
-    curl vector. \nThe<size=45> </size>right side is a two-dimensional <b>closed
-    surface</b> integral.\nThe<size=45> </size>limit shows that the estimate of the
-    curl gets more accurate as the volume <i>V</i> enclosed by the surface gets smaller.
-    \nd<i>A</i><size=45> </size>is, as with flux, a vector pointing outwards from
-    the surface, with magnitude equal to a small portion of the surface's area. \nThe<size=45>
-    </size>cross product of two vectors gives a vector that is perpendicular to both
-    of them, and increases in magnitude as the angle between the two vectors increases.
-    If <i>F</i> and d<i>A</i> are parallel, the cross product will be zero. \n\n<size=45>
-    </size>"
-  detector: 'The surface integral is being taken over the surface of the sphere.
+  equationDescription: "      The left side of the equation is the full three-component
+    curl vector. \n<size=45>    </size>The right side is a two-dimensional <b>closed
+    surface</b> integral.\n<size=45>    </size>The limit shows that the estimate
+    of the curl gets more accurate as the volume <i>V</i> enclosed by the surface
+    gets smaller. \n<size=45>    </size><b>d<i>A</i></b>is, as was the case with
+    flux, a vector pointing outwards from the surface, with magnitude equal to a
+    small portion of the surface's area. \n<size=45>    </size>The cross product
+    of two vectors gives a vector that is perpendicular to both of them, and increases
+    in magnitude as the angle between the two vectors increases. If <b><i>F</i></b>
+    and <b>d<i>A</i></b> are parallel, the cross product will be zero. \n"
+  detector: '      The surface integral is being taken over the surface of the sphere.
     At each point, one set of vectors shows the value of the field while the other
     shows the result of the cross product between the normal and the field. What
     happens to the cross product vector when its field vector points straight out
     from the surface?
 
+    <size=45>    </size>The orange on the detector shows points
+    where the cross product aligns with the total curl, while the purple shows where
+    it points in the opposite direction. What do the colors look like at points where
+    the curl is zero?
 
-    The orange on the detector shows points where the cross
-    product aligns with the total curl, while the purple shows where it points in
-    the opposite direction. What do the colors look like at points where the curl
-    is zero?
-
-
-    If you think of the field as showing fluid flow, then think about
-    how the field flowing over the surface would make the ball spin. The axis of
-    this spin is aligned with the curl and the speed of the spin is proportional
-    to the magnitude of the curl.'
+    <size=45>    </size>If you think of the field as showing
+    fluid flow, then think about how the field flowing over the surface would make
+    the ball spin. The axis of this spin is aligned with the curl and the speed of
+    the spin is proportional to the magnitude of the curl.'
   detectorPrefab: {fileID: 5484386669841562316, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}

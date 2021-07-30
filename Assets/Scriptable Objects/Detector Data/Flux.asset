@@ -13,11 +13,34 @@ MonoBehaviour:
   m_Name: Flux
   m_EditorClassIdentifier: 
   name: Flux
-  description: Flux calculates the flow of the field through a surface. The integrand
-    is the outward component of the field at each point.
+  description: "The divergence of a field at a point is a measure of how much the
+    field points inwards or outwards. Points with positive divergence have more (or
+    larger) vectors pointing away from them than towards them, and points with negative
+    divergence, fewer. \n\nFlux calculates the flow of the field through a surface.
+    It is an integral, the integrand of which is the outward component of the field
+    at each point. Divergence can be defined by taking the limit of flux as the surface
+    shrinks."
   equation: {fileID: 21300000, guid: eb2a82140072e204ba801aab46e0d1fa, type: 3}
-  equationDescription: Substitute equation description.
-  detector: 'Substitute detector description.
-
-    <size=45> </size>'
+  equationDescription: "      The notation on the left is the derivative. Flux itself
+    is the integral inside the limit on the right.  \n<size=45>    </size>The right
+    side of the equation is a two-dimensional <b>closed surface</b> integral. \n<size=45>   
+    </size>The limit is taken as the volume enclosed by that surface approaches zero.
+    \n<size=45>    </size><b>d<i>A</i></b> is a normal vector. It points directly
+    outwards from the surface at each point and has a magnitude equal to the small
+    piece of the surface area around that point. \n<size=45>    </size>The <b>dot
+    product</b> measures how much two vectors align with each other. If <b><i>F</i></b>
+    and <b>d<i>A</i></b> point in the same direction, it is the product of their
+    magnitudes. If they are perpendicular, it is zero. "
+  detector: "      The surface integral is being taken over the surface of the sphere.
+    At each point, one set of vectors shows the value of the field while the other
+    shows the result of the dot product between the normal and the field (technically,
+    the projection of the field onto the normal). What happens to the projection
+    vector when its field vector points directly out from the surface?\n<size=45>   
+    </size>The orange on the detector shows points where the dot product is positive,
+    while the purple shows where it is negative. What do the colors look like at
+    points where the divergence is zero?\n<size=45>    </size>If you think of the
+    field as showing fluid flow, then think about how the field is passing through
+    the surface\u2014is it, over the whole surface, going inwards or outwards? This
+    flow is proportional to the flux. Divide that by the volume inside the sphere,
+    and you have the average divergence. "
   detectorPrefab: {fileID: 1718279740705519841, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}

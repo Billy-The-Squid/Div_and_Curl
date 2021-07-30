@@ -17,16 +17,20 @@ MonoBehaviour:
     around a point. This is quantified as a line integral around a loop using Stokes'
     theorem.
   equation: {fileID: 21300000, guid: bddadeb4d40b4824092308450018c833, type: 3}
-  equationDescription: "The left side of the equation is the dot product of the curl
-    and the normal, a unit vector perpendicular to the loop. This gives a single
-    component of the curl. \n<i>A</i><size=45> </size>is the area enclosed by the
-    loop. \nThe integral<size=45> </size>is a <b>closed line</b> integral, and d<i>s</i>
-    is a small portion of that line. "
-  detector: "As you take a line integral in a circle, how much does the field align
-    with that loop? \n<line-indent=15%>The central arrow shows just the component
-    of the curl that points perpendicular to the loop. Along the edge, orange arrows
-    show where the field points in the same direction as the loop, while purple arrows
-    show where it points in the opposite direction. \nTry changing the size of this
-    detector and watch how the integral quantity (divided by the area) approaches
-    a limit as the area gets smaller. What do you think the culr at each point is? "
+  equationDescription: "      The left side of the equation is the dot product of
+    the curl and the normal, a unit vector perpendicular to the loop. This gives
+    us a single component of the curl. \n<size=45>    </size><i>A</i> is the area
+    enclosed by the loop. \n<size=45>    </size>The integral is a <b>closed line</b>
+    integral, and <b>d<i>s</i></b> is a small portion of that line. \n<size=45>   
+    </size>The <b>dot product</b> measures how much two vectors align with each other.
+    If <b><i>F</i></b> and <b>d<i>A</i></b> point in the same direction, it is the
+    product of their magnitudes. If they are perpendicular, it is zero. "
+  detector: "      As you take a line integral in a circle, how much does the field
+    align with that loop? \n<size=45>    </size>The central arrow shows just the
+    component of the curl that points perpendicular to the loop. Along the edge,
+    orange arrows show where the field points in the same direction as the loop,
+    while purple arrows show where it points in the opposite direction. \n<size=45>   
+    </size>Try changing the size of this detector and watch how the integral quantity
+    (divided by the area) approaches a limit as the area gets smaller. What do you
+    think the curl at each point is? "
   detectorPrefab: {fileID: 4270039084551078667, guid: 81d23d0d2609fe54382259daa5b71b4d, type: 3}

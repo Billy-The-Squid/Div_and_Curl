@@ -13,10 +13,23 @@ MonoBehaviour:
   m_Name: Divergence
   m_EditorClassIdentifier: 
   name: Divergence
-  description: Does the field flow outwards or inwards from this point?
+  description: 'This detector uses the computation most commonly used to to find
+    divergence. Because it involves only derivatives, it is often easier to calculate
+    than a limit integral. Can you see how this definition comes from the limit definition? '
   equation: {fileID: 21300000, guid: 146c7992edf254d4b9585ed7d0466e2b, type: 3}
-  equationDescription: 'Substitute equation description. '
-  detector: 'Substitute detector description.
-
-    <size=45> </size>'
+  equationDescription: "      On the left is the notation used to represent divergence.\n<size=45>   
+    </size>On the right is the sum of three partial derivatives of components of
+    the field. Notice that this is a scalar value, not a vector. \n<size=45>    </size>Pay
+    attention to the fact that the partial derivative is always in the same direction
+    as the component. This is why divergence is only concerned with the outwards
+    components of the field flow\u2014the other components are disregarded. "
+  detector: "      Each pair of outer dots on the detector represents a change along
+    one axis. The dots flowing out of the point represent the derivative of the field
+    along that change\u2014their direction is that of the derivative and the speed
+    is the magnitude of the derivative. \n<size=45>    </size>Notice that the flow
+    is always inwards or outwards, never perpendicular to the change. Because divergence
+    doesn't take those components into account for the computation, they don't need
+    to be shown here. \n<size=45>    </size>Notice that the flow of the bubbles doesn't
+    always point in the same direction as the vector field itself. Why is this? At
+    which points <i>will</i> it align? "
   detectorPrefab: {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
