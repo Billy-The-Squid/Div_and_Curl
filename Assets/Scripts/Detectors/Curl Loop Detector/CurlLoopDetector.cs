@@ -246,6 +246,7 @@ public class CurlLoopDetector : FieldDetector
         projectionDisplay.bounds = localField.zone.bounds;
         projectionDisplay.pointerMaterial.SetBuffer("_CurlContributions", contributionsBuffer);
         projectionDisplay.pointerMaterial.SetBuffer("_Vectors", localField.vectorsBuffer);
+        projectionDisplay.pointerMaterial.SetFloat("_dS", 2 * Mathf.PI * transform.localScale.x / zone.resolution);
 
         {
             // Debug code

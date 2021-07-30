@@ -26,6 +26,7 @@ Shader "Vectors/Detectors/CurlLoopProjections"
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
 			StructuredBuffer<float> _CurlContributions; 
 		#endif
+		float _dS; // The length of the differential
 
 
 
@@ -41,7 +42,7 @@ Shader "Vectors/Detectors/CurlLoopProjections"
 				float dotP;
 				//dotP = 10 * _CurlContributions[unity_InstanceID]; // Scaling factor
 				if (length(_Vectors[unity_InstanceID]) != 0) {
-					dotP = 10 * _CurlContributions[unity_InstanceID] / length(_Vectors[unity_InstanceID]);
+					dotP = _CurlContributions[unity_InstanceID] / (length(_Vectors[unity_InstanceID]) * _dS);
 				}
 
 				surface.Albedo.r = 1 - abs(dotP) / 6 + dotP / 6;
