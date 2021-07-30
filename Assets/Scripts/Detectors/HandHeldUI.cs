@@ -122,5 +122,9 @@ public class HandHeldUI : MonoBehaviour
         //display.SetText(detector.quantityName + ": \n{0:0}", detector.detectorOutput);
         nameDisplay.SetText(detector.detectorReadout.GetName() + ":");
         numberDisplay.SetText(detector.detectorReadout.GetReadout());
+        if (!detector.gameObject.activeInHierarchy)
+        {
+            detector = null;
+        }
     }
 }
