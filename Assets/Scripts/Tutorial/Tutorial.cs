@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Tutorial : MonoBehaviour
 {
@@ -42,7 +41,11 @@ public class Tutorial : MonoBehaviour
     public UIEvent UIAppearEvent = new UIEvent();
     public UIEvent UIDisappearEvent = new UIEvent();
 
-    
+    public Vector3 startLocation;
+    public Vector3 startFacing;
+    //public TeleportationProvider teleportationProvider;
+    public XRRig xRRig;
+    //public Transform playerEyes;
 
 
 
@@ -136,11 +139,25 @@ public class Tutorial : MonoBehaviour
         frames[currentFrameIndex].BeginStage();
         UIAppearEvent.Invoke(mainCanvas);
 
+        ResetPlayerPosition();
+
         ResetPosition();
 
         // Set positions
         // Set modes
         // Prompt scene reload (prior to sleep mode, to clear out the objects in the scene)
+    }
+
+    public void ResetPlayerPosition()
+    {
+        xRRig.MoveCameraToWorldLocation(startLocation + xRRig.cameraInRigSpaceHeight * Vector3.up);
+        xRRig.MatchRigUpCameraForward(Vector3.up, startFacing);
+
+        //TeleportRequest request = new TeleportRequest();
+        //request.destinationPosition = startLocation;
+        //request.destinationRotation = Quaternion.Euler(startFacing);
+        //request.matchOrientation = MatchOrientation.TargetUp;
+        //teleportationProvider.QueueTeleportRequest(request);
     }
 
     public void EndTutorial()

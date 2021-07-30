@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20da9b3c779474e408505a7a598e4b43, type: 3}
+  m_Name: Introduction
+  m_EditorClassIdentifier: 
+  sceneName: Introduction
+  sceneDescription: Start here. Get to know your first fields and detectors.
+  detectorArray:
+  - {fileID: 11400000, guid: b959b056f2fde1a48b1c36dfea8d2803, type: 2}
+  - {fileID: 11400000, guid: 51d62a5da590f404494de5dc2f2d5753, type: 2}
+  - {fileID: 11400000, guid: aac877ac735fcad47b96448e4b3e82a7, type: 2}
+  fieldArray:
+  - {fileID: 11400000, guid: 9b37d523e49febf48880ba1359855f39, type: 2}
+  - {fileID: 11400000, guid: 6f56b74f75f650c4190d4322f8c3d5f0, type: 2}
+  - {fileID: 11400000, guid: 2f826b75633380e409f3528a911b106e, type: 2}
+  limitDetectors: 0

@@ -17564,6 +17564,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  startLocation: {x: -2.5, y: 0, z: -2.5}
+  startFacing: {x: 1, y: 0, z: 0}
+  xRRig: {fileID: 1154805239}
 --- !u!1 &1118946438
 GameObject:
   m_ObjectHideFlags: 0
@@ -18359,6 +18362,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4920204018511788, guid: 0e694479a50df794491d4b97f42b2b16, type: 3}
   m_PrefabInstance: {fileID: 1150021158}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1154805239 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2652347426735425951, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+  m_PrefabInstance: {fileID: 2652347427263480726}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7448815bd5148434682b3d931066cd10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1159993792
 GameObject:
   m_ObjectHideFlags: 0
@@ -33000,6 +33014,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1117109884}
+        m_TargetAssemblyTypeName: Tutorial, Assembly-CSharp
+        m_MethodName: ResetPlayerPosition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2035462841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33735,8 +33761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _available:
-  - {fileID: 11400000, guid: 7a0e87f7d57159a4db8e883f389bb91d, type: 2}
-  - {fileID: 11400000, guid: 060acb36020695f47ab8151832d346b0, type: 2}
+  - {fileID: 11400000, guid: 6308695789f057a4aa089220f31c56c8, type: 2}
   - {fileID: 11400000, guid: affb4615024824e41bb35ae8e3f5571e, type: 2}
   - {fileID: 11400000, guid: 9b2afcfcb25a86644bce405f5282e6b0, type: 2}
   - {fileID: 11400000, guid: 8a1800598bb6fbf42a5e8dcc846bc94b, type: 2}
@@ -34350,12 +34375,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-    in culpa qui officia deserunt mollit anim id est laborum.
+  m_text: "Div and Curl: A VR Vector Field Experience\nby Will Hanstedt\n\nProject
+    Directed by Dr. Chris French\nQA by Harper Crosson\nAdditional Assistance from
+    \nMario Manalu \nMingyang Fan \nTal Rastopchin\nDr. David Neville\n\nTesting
+    by:\nJackson Breshears\nIsaac Throndson\nSarah Weber\nElissa Suarez\nDeb Pathak\nKhondamir
+    Imomnazarov\n\nLow Poly Underwater Scene Assets by Awessets\nCustomizable Skybox
+    by Key Mouse\nHand models by Facebook Technologies"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2eb5e6c70913b8b438f41add182ae5b9, type: 2}
   m_sharedMaterial: {fileID: -5846112064276745353, guid: 2eb5e6c70913b8b438f41add182ae5b9, type: 2}

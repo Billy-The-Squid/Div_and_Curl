@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Pointer
   m_EditorClassIdentifier: 
   name: Pointer
-  description: This detector shows the value of the field at each point.
+  description: "This detector shows the value of the field at each point. Carry it
+    into one of the fields behind you. \n\nIf the number readout is too obtrusive,
+    try grabbing and moving it. You can make it vanish by grabbing at air with nothing
+    in your hand. "
   equation: {fileID: 21300000, guid: bbc610d8cd1fbda46a3d95bc42c5d545, type: 3}
   equationDescription: "      On the left side of the equation, <b><i>F</i></b> represents
     the value of the field. \n<size=45>    </size>On the right side, <i>F<sub>x</sub></i>
