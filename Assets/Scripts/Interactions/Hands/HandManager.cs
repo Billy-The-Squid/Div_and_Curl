@@ -265,15 +265,20 @@ public class HandManager : MonoBehaviour
     protected bool _nearUI;
     /// <summary> Is there a visible UI? </summary>
     protected bool nearUI 
-    { 
-        get => _nearUI;
-        set { 
-            if (value != _nearUI) { // If this is a true update
-                if (value) { uiRay.EnableRay(); }
-                else { uiRay.DisableRay(); }
-            }
-            _nearUI = value;
+    {
+        get => true;
+        set
+        {
+            ;
         }
+        //get => _nearUI;
+        //set { 
+        //    if (value != _nearUI) { // If this is a true update
+        //        if (value) { uiRay.EnableRay(); }
+        //        else { uiRay.DisableRay(); }
+        //    }
+        //    _nearUI = value;
+        //}
     }
     /// <summary> Which UIs are Visible? </summary>
     protected List<Canvas> UIsVisible = new List<Canvas>(); // This should really be a set, not a list. 

@@ -66,7 +66,7 @@ public class Tutorial : MonoBehaviour
         tutorialScene.fieldArray = new FieldData[1];
         tutorialScene.fieldArray[0] = null;
 
-        StartCoroutine(StartTutorial());
+        StartTutorial();
     }
 
     private void Update()
@@ -99,13 +99,20 @@ public class Tutorial : MonoBehaviour
         // Adjust background size &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     }
 
-    protected IEnumerator StartTutorial()
+    public void StartTutorial()
     {
-        yield return new WaitForSeconds(0.05f);
-        sceneSelector.ChangeScene.Invoke(tutorialScene);
-        //StartCoroutine(BeginTutorial());
+        StartCoroutine(Initiate());
+
+        IEnumerator Initiate()
+        {
+            yield return new WaitForSeconds(0.05f);
+            sceneSelector.ChangeScene.Invoke(tutorialScene);
+            //StartCoroutine(BeginTutorial());
+        }
     }
 
+    
+    // This is called when the tutorial scene loads, I think?
     public void BeginTutorial()
     {
         inTutorial = true;
