@@ -1718,7 +1718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9324,8 +9324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectors:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
 --- !u!114 &582561108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9333,7 +9332,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582561099}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afb52fba46dd8fe4fa779a2c95280069, type: 3}
   m_Name: 
@@ -15251,7 +15250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28765,7 +28764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -33158,7 +33157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _available:
   - {fileID: 11400000, guid: 7a0e87f7d57159a4db8e883f389bb91d, type: 2}
-  - {fileID: 11400000, guid: 7f5501db5779b2a4c8b55a14b9772e82, type: 2}
+  - {fileID: 11400000, guid: 060acb36020695f47ab8151832d346b0, type: 2}
   - {fileID: 11400000, guid: affb4615024824e41bb35ae8e3f5571e, type: 2}
   - {fileID: 11400000, guid: 9b2afcfcb25a86644bce405f5282e6b0, type: 2}
   - {fileID: 11400000, guid: 8a1800598bb6fbf42a5e8dcc846bc94b, type: 2}
@@ -34189,6 +34188,10 @@ PrefabInstance:
       propertyPath: WatchButton.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1107105279}
+    - target: {fileID: 2082133506, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
+      propertyPath: m_Color.a
+      value: 0.9019608
+      objectReference: {fileID: 0}
     - target: {fileID: 44187924215432856, guid: 0f3257d2f43e24941ba985cb1b920bc3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

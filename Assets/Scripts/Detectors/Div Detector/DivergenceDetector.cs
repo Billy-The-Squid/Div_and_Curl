@@ -68,13 +68,15 @@ public class DivergenceDetector : FieldDetector
         computeField.preDisplay += CalculateDiv;
 
         // Initialize the divRenderer
-        if(divRenderer == null) {
+        if (divRenderer == null) {
             divRenderer = GetComponent<DivRender>();
         }
 
         detectorReadout = new FloatReadout("Divergence");
 
         base.Start();
+
+        Debug.LogWarning("Divergence detector still using adjusted deltaX and div definitions");
     }
 
     // Update is called once per frame
@@ -83,9 +85,11 @@ public class DivergenceDetector : FieldDetector
         if(!inField) { return; }
 
         computeField.fieldType = detectedField.fieldType;
+        computeField.zone.fieldOrigin = detectedField.zone.fieldOrigin;
 
         divRenderer.divBuffer = divBuffer; // Make sure order of events here is correct
         // Does this need to be set every frame? Maybe just on enter/exit field
+        //CalculateDiv();
     }
 
     protected override void OnEnable()
@@ -134,9 +138,26 @@ public class DivergenceDetector : FieldDetector
 
         ((FloatReadout)detectorReadout).output = divergence;
 
-        // Debug Code
-        //Debug.Log("Divergence components: " + tempDivArray[0]);
-        //Debug.Log("Stored divergence: " + divergence);
+        {
+            ////Debug Code
+            //Debug.Log("Divergence components: " + tempDivArray[0]);
+            //Debug.Log("Div y: " + tempDivArray[0].y);
+            //Debug.Log("Stored divergence: " + divergence);
+
+            //Vector3[] debugPos = new Vector3[7];
+            //computeField.positionsBuffer.GetData(debugPos);
+            ////Debug.Log("Positions: " + string.Join(", ", debugPos));
+            //Debug.Log("Position 0: (" + debugPos[0].x + ", " + debugPos[0].y + ", " + debugPos[0].z + ")");
+            //Debug.Log("Position 1: (" + debugPos[1].x + ", " + debugPos[1].y + ", " + debugPos[1].z + ")");
+            //Debug.Log("Position 5: (" + debugPos[5].x + ", " + debugPos[5].y + ", " + debugPos[5].z + ")");
+
+            //Vector3[] debugVec = new Vector3[7];
+            //computeField.vectorsBuffer.GetData(debugVec);
+            ////Debug.Log("Positions: " + string.Join(", ", debugPos));
+            //Debug.Log("Vector 0: (" + debugVec[0].x + ", " + debugVec[0].y + ", " + debugVec[0].z + ")");
+            //Debug.Log("Vector 1: (" + debugVec[1].x + ", " + debugVec[1].y + ", " + debugVec[1].z + ")");
+            //Debug.Log("Vector 5: (" + debugVec[5].x + ", " + debugVec[5].y + ", " + debugVec[5].z + ")");
+        }
     }
 
     public override void EnteredField(VectorField graph)

@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zone: {fileID: 0}
+  zone: {fileID: 731022300670848667}
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
   _fieldType: 0
   isDynamic: 1

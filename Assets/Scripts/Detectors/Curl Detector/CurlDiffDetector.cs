@@ -120,7 +120,6 @@ public class CurlDiffDetector : FieldDetector
         // Throw an error or something if this cast doesn't work. 
 
         curlComputer.Dispatch(kernelID, 1, 1, 1);
-        //Debug.LogError("Dispatch the threads correctly");
 
         curlBuffer.GetData(tempCurlArray);
         curl = new Vector3(0, 0, 0);
@@ -129,6 +128,24 @@ public class CurlDiffDetector : FieldDetector
         curl.z = tempCurlArray[1].x - tempCurlArray[0].y;
 
         ((VectorReadout)detectorReadout).output = curl;
+
+        {
+            //Debug.Log("Curl: " + curl);
+
+            //Vector3[] debugPos = new Vector3[7];
+            //computationField.positionsBuffer.GetData(debugPos);
+            ////Debug.Log("Positions: " + string.Join(", ", debugPos));
+            //Debug.Log("Position 0: (" + debugPos[0].x + ", " + debugPos[0].y + ", " + debugPos[0].z + ")");
+            //Debug.Log("Position 1: (" + debugPos[1].x + ", " + debugPos[1].y + ", " + debugPos[1].z + ")");
+            //Debug.Log("Position 5: (" + debugPos[5].x + ", " + debugPos[5].y + ", " + debugPos[5].z + ")");
+
+            Vector3[] debugVec = new Vector3[7];
+            computationField.vectorsBuffer.GetData(debugVec);
+            //Debug.Log("Positions: " + string.Join(", ", debugPos));
+            Debug.Log("Vector 0: (" + debugVec[0].x + ", " + debugVec[0].y + ", " + debugVec[0].z + ")");
+            Debug.Log("Vector 1: (" + debugVec[1].x + ", " + debugVec[1].y + ", " + debugVec[1].z + ")");
+            Debug.Log("Vector 5: (" + debugVec[5].x + ", " + debugVec[5].y + ", " + debugVec[5].z + ")");
+        }
     }
 
 

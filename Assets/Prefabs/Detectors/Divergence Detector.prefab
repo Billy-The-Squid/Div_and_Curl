@@ -540,12 +540,12 @@ GameObject:
   - component: {fileID: 6520425705519372582}
   - component: {fileID: 6817302407104990774}
   - component: {fileID: 6520425705519372580}
-  - component: {fileID: 6520425705519372571}
   - component: {fileID: 6520425705519372577}
   - component: {fileID: 6520425705519372576}
   - component: {fileID: 6520425705519372583}
   - component: {fileID: 6520425705519372579}
   - component: {fileID: 4432566311768311393}
+  - component: {fileID: 8019226017284528721}
   m_Layer: 9
   m_Name: Divergence Detector
   m_TagString: Untagged
@@ -597,22 +597,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6520425705519372571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6520425705519372569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd5b3dd338e923f439f8e5cca1f6e37a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerCollider: {fileID: 0}
-  canMove: 1
-  reactsToDetectors: 0
-  deltaX: 0.001
 --- !u!114 &6520425705519372577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881dcafd5b4fd414591fa4849f9e38f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zone: {fileID: 0}
+  zone: {fileID: 8019226017284528721}
   computeShader: {fileID: 7200000, guid: 0ddddb5534f44ad49a93bdbbbdda102a, type: 3}
   _fieldType: 0
   isDynamic: 1
@@ -796,6 +780,22 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &8019226017284528721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520425705519372569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd5b3dd338e923f439f8e5cca1f6e37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerCollider: {fileID: 0}
+  canMove: 1
+  reactsToDetectors: 0
+  deltaX: 0.001
 --- !u!1 &6520425705531380750
 GameObject:
   m_ObjectHideFlags: 0
