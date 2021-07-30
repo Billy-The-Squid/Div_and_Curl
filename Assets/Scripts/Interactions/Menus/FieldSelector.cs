@@ -191,7 +191,7 @@ public class FieldSelector : Selector<FieldData>
         else
         {
             // Close the display if the player is far away. 
-            if (menuDist.magnitude <= visibleDistance && pivotDist.magnitude <= orbitalRadius)
+            if (menuDist.magnitude <= visibleDistance || pivotDist.magnitude <= orbitalRadius)
             {
                 canSeeCanvas = true;
                 { // Delete me if I don't seem necessary

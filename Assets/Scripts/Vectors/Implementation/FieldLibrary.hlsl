@@ -76,9 +76,12 @@ float3 Galaxy(float3 position) {
 
 float3 PlaneWave(float3 position) {
     float3 val;
-    val.x = 0;
-    val.y = sin(1.5 * PI * position.x);
-    val.z = 0;
+    val.x = 0.28 * sin(4.5 * position.x - 1.2 * position.y + 0.6 * position.z);
+    val.y = 0.72 * sin(4.5 * position.x - 1.2 * position.y + 0.6 * position.z);
+    val.z = -0.63 * sin(4.5 * position.x - 1.2 * position.y + 0.6 * position.z);
+    //val.x = 0;
+    //val.y = sin(1.5 * PI * position.x);
+    //val.z = 0;
     return val;
 };
 
