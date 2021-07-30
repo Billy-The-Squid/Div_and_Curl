@@ -150,4 +150,9 @@ public class MainMenu : MonoBehaviour
     //{
     //    currentSubscreen = newSubscreenIndex;
     //}
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
