@@ -283,7 +283,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.66, g: 0, b: 1, a: 1}
+    key0: {r: 0.66, g: 0, b: 1, a: 0.39215687}
     key1: {r: 0.66, g: 0, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -312,7 +312,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.66, g: 1, b: 1, a: 1}
+    key0: {r: 0.66, g: 1, b: 1, a: 0.39215687}
     key1: {r: 0.66, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -449,10 +449,10 @@ GameObject:
   - component: {fileID: 1105300237}
   - component: {fileID: 1105300239}
   - component: {fileID: 1105300238}
-  - component: {fileID: 1105300242}
   - component: {fileID: 5991471061581310898}
   - component: {fileID: 9106557331201202919}
   - component: {fileID: 8500078719126964446}
+  - component: {fileID: 1996530853}
   m_Layer: 9
   m_Name: Right Readout
   m_TagString: Untagged
@@ -504,16 +504,86 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1105300242
+--- !u!33 &5991471061581310898
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105300236}
+  m_Mesh: {fileID: 4300000, guid: b5ad87a97464f684696f05dfc0fd0e99, type: 2}
+--- !u!23 &9106557331201202919
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105300236}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7585ef8864e81634e93a69184589e806, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8500078719126964446
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105300236}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e490986e940c5b43a30eb7239f0d31e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 460302150232458571}
+  meshRenderer: {fileID: 9106557331201202919}
+  grabComponent: {fileID: 1996530853}
+  nameDisplay: {fileID: 6691737212739109362}
+  numberDisplay: {fileID: 4454686096831015470}
+  hand: {fileID: 2652347427364259146}
+  eyes: {fileID: 2652347426871914213}
+  pivot: {fileID: 1105300237}
+  showMesh: 0
+--- !u!114 &1996530853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105300236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e10a2320204dd4b91db653433964b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 7867868617988392254}
@@ -610,76 +680,6 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
---- !u!33 &5991471061581310898
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105300236}
-  m_Mesh: {fileID: 4300000, guid: b5ad87a97464f684696f05dfc0fd0e99, type: 2}
---- !u!23 &9106557331201202919
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105300236}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 7585ef8864e81634e93a69184589e806, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8500078719126964446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105300236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e490986e940c5b43a30eb7239f0d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 460302150232458571}
-  meshRenderer: {fileID: 9106557331201202919}
-  grabComponent: {fileID: 1105300242}
-  nameDisplay: {fileID: 6691737212739109362}
-  numberDisplay: {fileID: 4454686096831015470}
-  hand: {fileID: 2652347427364259146}
-  eyes: {fileID: 2652347426871914213}
-  pivot: {fileID: 1105300237}
-  showMesh: 0
 --- !u!1 &1214468102
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,7 +754,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   display: {fileID: 1895555681}
-  debounceTime: 0
+  debounceTime: 0.5
 --- !u!1 &1411779588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2357,7 +2357,7 @@ MonoBehaviour:
   movementManager: {fileID: 5809074648607462243}
   otherHand: {fileID: 6339172364439220385}
   highlightRay: {fileID: 1699402040}
-  _mode: 1
+  _mode: 0
   handPrefab: {fileID: 9212441126230583144, guid: 13cefc99fa4ebd54dae29171bfdaa2d1, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 06e582c33f935e742b38793e06667b15, type: 3}
   _hand: 0
@@ -2469,7 +2469,7 @@ MonoBehaviour:
   m_MoveSpeed: 1
   m_EnableStrafe: 1
   m_UseGravity: 1
-  m_GravityApplicationMode: 0
+  m_GravityApplicationMode: 1
   m_ForwardSource: {fileID: 0}
   m_LeftHandMoveAction:
     m_UseReference: 1
@@ -2585,9 +2585,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
+        m_MethodName: MoveModeChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ChangedTurnMode:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Settings, Assembly-CSharp
+        m_MethodName: TurnModeChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2652347427263480728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3063,7 +3087,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: -0.04, y: 0.1, z: 0.1}
+  m_Size: {x: 0.04, y: 0.1, z: 0.1}
   m_Center: {x: 0.03, y: -0.02, z: -0.02}
 --- !u!1 &2652347428183578925
 GameObject:
@@ -3525,7 +3549,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.66, g: 0, b: 1, a: 1}
+    key0: {r: 0.66, g: 0, b: 1, a: 0.39215687}
     key1: {r: 0.66, g: 0, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3554,7 +3578,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 0.66, g: 1, b: 1, a: 1}
+    key0: {r: 0.66, g: 1, b: 1, a: 0.39215687}
     key1: {r: 0.66, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3932,7 +3956,7 @@ MonoBehaviour:
   movementManager: {fileID: 5809074648607462243}
   otherHand: {fileID: 441323763}
   highlightRay: {fileID: 1939733815}
-  _mode: 1
+  _mode: 0
   handPrefab: {fileID: 4911174108599212807, guid: 9afde4461fb8a2e46af7cfe3b525e2a0, type: 3}
   wandPrefab: {fileID: 4283255721249549100, guid: 5a5ee3447b8d75f4990158db9566015d, type: 3}
   _hand: 1
