@@ -75,8 +75,6 @@ public class DivergenceDetector : FieldDetector
         detectorReadout = new FloatReadout("Divergence");
 
         base.Start();
-
-        Debug.LogWarning("Divergence detector still using adjusted deltaX and div definitions");
     }
 
     // Update is called once per frame

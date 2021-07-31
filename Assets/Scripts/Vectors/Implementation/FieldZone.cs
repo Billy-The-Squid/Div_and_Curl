@@ -61,7 +61,7 @@ public abstract class FieldZone : MonoBehaviour
 
 
 
-    private void OnTriggerEnter(Collider other) {
+    protected virtual void OnTriggerEnter(Collider other) {
         if(reactsToDetectors)
         {
             FieldDetector detect = other.GetComponent<FieldDetector>();
@@ -71,7 +71,7 @@ public abstract class FieldZone : MonoBehaviour
             }
         }
     }
-    private void OnTriggerExit(Collider other) {
+    protected virtual void OnTriggerExit(Collider other) {
         try {
             //Debug.Log("Detected collider");
             other.GetComponent<FieldDetector>().ExitedField(this.GetComponent<VectorField>());

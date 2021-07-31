@@ -153,8 +153,11 @@ public class VectorField : MonoBehaviour
 
     private void OnDisable()
     {
-        vectorsBuffer.Release();
-        vectorsBuffer = null;
+        if(vectorsBuffer != null)
+        {
+            vectorsBuffer.Release();
+            vectorsBuffer = null;
+        }
     }
 
 

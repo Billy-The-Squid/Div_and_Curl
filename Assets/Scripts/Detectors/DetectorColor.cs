@@ -61,7 +61,8 @@ public class DetectorColor : ColorScheme
             display.pointerMaterial.SetFloat("_MaxMagnitude", detector.detectedField.GetComponent<MinMaxColor>().maxMagnitudeArray[0]);
         } catch (System.NullReferenceException)
         {
-            Debug.LogError("Something here is throwing null reference exceptions. It could really be anything.");
+            //Debug.LogError("Something here is throwing null reference exceptions. It could really be anything.");
+            display.pointerMaterial.SetFloat("_MaxMagnitude", 1f);
         }
 
         display.pointerMaterial.SetColor("_MinColor", minColor);

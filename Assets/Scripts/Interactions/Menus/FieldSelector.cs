@@ -227,12 +227,6 @@ public class FieldSelector : Selector<FieldData>
                 }
             }
         }
-
-        Vector3 planeDist(Vector3 vect1, Vector3 vect2)
-        {
-            Vector3 dist = vect1 - vect2;
-            return new Vector3(dist.x, 0, dist.z);
-        }
     }
 
     public void FitImage()
@@ -264,4 +258,10 @@ public class FieldSelector : Selector<FieldData>
     //    ChangeSelection();
     //    isAwake = true;
     //}
+
+    public static Vector3 planeDist(Vector3 vect1, Vector3 vect2)
+    {
+        Vector3 dist = vect1 - vect2;
+        return new Vector3(dist.x, 0, dist.z);
+    }
 }
