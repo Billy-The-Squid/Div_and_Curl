@@ -1,10 +1,16 @@
 using UnityEngine;
 
-public abstract class TutorialStage : MonoBehaviour
+public class TutorialStage : MonoBehaviour
 {
     public GameObject canvas;
 
-    public abstract void BeginStage();
+    public virtual void BeginStage()
+    {
+        canvas.SetActive(true);
+    }
 
-    public abstract void EndStage();
+    public virtual void EndStage()
+    {
+        canvas.SetActive(false);
+    }
 }

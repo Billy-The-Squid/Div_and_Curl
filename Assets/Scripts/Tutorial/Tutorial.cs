@@ -35,7 +35,8 @@ public class Tutorial : MonoBehaviour
     public GameObject playerEyes;
     public SceneSelector sceneSelector;
 
-    protected FieldScene tutorialScene;
+    public FieldScene tutorialScene { get; protected set; }
+    public FieldScene introduction;
     public bool inTutorial { get; protected set; }
 
     public UIEvent UIAppearEvent = new UIEvent();
@@ -104,6 +105,8 @@ public class Tutorial : MonoBehaviour
 
     public void StartTutorial()
     {
+        sceneSelector.current = 0;
+
         StartCoroutine(Initiate());
 
         IEnumerator Initiate()
@@ -184,6 +187,12 @@ public class Tutorial : MonoBehaviour
     public void LoadScene(FieldScene scene)
     {
         if(scene == tutorialScene) { BeginTutorial(); }
-        else { EndTutorial(); }
+        else 
+        { 
+            if(scene != introduction)
+            {
+                EndTutorial();
+            }
+        }
     }
 }
