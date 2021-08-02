@@ -41,7 +41,7 @@ public class DemoZone : FieldZone
 
     protected override void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == detectorSelector.instantiated.gameObject)
+        if(detectorSelector.instantiated != null && other.gameObject == detectorSelector.instantiated.gameObject)
         {
             base.OnTriggerEnter(other);
         }
