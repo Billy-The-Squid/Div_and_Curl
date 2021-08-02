@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: Grinnell College Immersive Experience Lab
   productName: Div and Curl
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -127,8 +127,13 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1
-  preloadedAssets: []
+  bundleVersion: 1.0.0
+  preloadedAssets:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: a68f48f52a40bd840b1e6857651764df, type: 2}
+  - {fileID: 8493710938509019002, guid: 86de8cb581bf9f843a55df05af11b1e0, type: 2}
+  - {fileID: 6950120209297020765, guid: 7372a2cdfeceaa346842c9904b96899e, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -146,7 +151,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.DivandCurl
+    Standalone: com.GrinnellCollegeImmersiveExperienceLab.DivandCurl
   buildNumber:
     Standalone: 0
     iPhone: 0
