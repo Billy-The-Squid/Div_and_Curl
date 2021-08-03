@@ -29,18 +29,24 @@ MonoBehaviour:
     in magnitude as the angle between the two vectors increases. If <b><i>F</i></b>
     and <b>d<i>A</i></b> are parallel, the cross product will be zero. \n"
   detector: '      The surface integral is being taken over the surface of the sphere.
-    At each point, one set of vectors shows the value of the field while the other
-    shows the result of the cross product between the normal and the field. What
-    happens to the cross product vector when its field vector points straight out
-    from the surface?
+    At each point, the set of green vectors shows the value of the field while the
+    orange and purple vectors show the result of the cross product between the normal
+    and the field. What happens to the cross product vector when its field vector
+    points straight out from the surface?
 
-    <size=45>    </size>The orange on the detector shows points
-    where the cross product aligns with the total curl, while the purple shows where
-    it points in the opposite direction. What do the colors look like at points where
-    the curl is zero?
+    <size=45>    </size>The orange on
+    the detector shows points where the cross product aligns with the total curl,
+    while the purple shows where it points in the opposite direction. What do the
+    colors look like at points where the curl is zero?
 
-    <size=45>    </size>If you think of the field as showing
-    fluid flow, then think about how the field flowing over the surface would make
-    the ball spin. The axis of this spin is aligned with the curl and the speed of
-    the spin is proportional to the magnitude of the curl.'
+    <size=45>    </size>If
+    you think of the field as showing fluid flow, then think about how the field
+    flowing over the surface would make the ball spin. The axis of this spin is aligned
+    with the curl and the speed of the spin is proportional to the magnitude of the
+    curl.
+
+    <size=45>    </size>This detector can be resized. Try using that and
+    the limit part of the governing equation to estimate the curl.
+
+'
   detectorPrefab: {fileID: 5484386669841562316, guid: fe7d53aac96338a4f8ecb09a1a47d565, type: 3}

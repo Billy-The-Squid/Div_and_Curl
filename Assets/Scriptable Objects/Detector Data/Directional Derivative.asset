@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Directional Derivative
   description: 'The directional derivative of a quantity is the measure of how much
     that quantity changes due to a small shift in a certain direction. Because the
-    quantities here are three-component vectors, their derivatives are also three-component
+    fields are made of three-component vectors, their derivatives are also three-component
     vectors. '
   equation: {fileID: 21300000, guid: 5af2e2dfb1ae37d46a144d1ce4de85ac, type: 3}
   equationDescription: "      On the left side of the equation is the derivative
@@ -25,12 +25,13 @@ MonoBehaviour:
     single coordinate, times the component in that direction of <b><i>u</i></b>.
     How does this equation simplify when <b><i>u</i></b> points along one of the
     three axes?"
-  detector: "      The three dots in the detector show the line along which the directional
-    derivative is taken. The bubbles coming off of the outer dots represent the derivative
-    itself\u2014their direction is that of the derivative and their speed is proportional
-    to its magnitude. \n<size=45>    </size>How does the detector's appearance change
-    if you rotate it in a half-circle? How does its number output change?\n<size=45>   
-    </size>When you have access to the differential divergence and curl detectors,
-    try comparing their behavior with that of this detector. How do all of those
-    differ from each other? How does that make correspond to their definitions?"
+  detector: "      The three pink dots in the detector show the line along which
+    the directional derivative is taken. The bubbles coming off of the outer dots
+    represent the derivative itself\u2014their direction is that of the derivative
+    and their speed is proportional to its magnitude. \n<size=45>    </size>How does
+    the detector's appearance change if you rotate it in a half-circle? How does
+    its number output change?\n<size=45>    </size>When you have access to the differential
+    divergence and curl detectors, try comparing their behavior with that of this
+    detector. How do all of those differ from each other? How does that make sense
+    from their definitions?"
   detectorPrefab: {fileID: 2258293795787867731, guid: 23ae16bd40ec4fd43b9fad1fbe4300c3, type: 3}

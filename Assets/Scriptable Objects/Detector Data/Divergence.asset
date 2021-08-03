@@ -24,12 +24,12 @@ MonoBehaviour:
     as the component. This is why divergence is only concerned with the outwards
     components of the field flow\u2014the other components are disregarded. "
   detector: "      Each pair of outer dots on the detector represents a change along
-    one axis. The dots flowing out of the point represent the derivative of the field
+    one axis. The dots flowing out of a point represent the derivative of the field
     along that change\u2014their direction is that of the derivative and the speed
     is the magnitude of the derivative. \n<size=45>    </size>Notice that the flow
-    is always inwards or outwards, never perpendicular to the change. Because divergence
-    doesn't take those components into account for the computation, they don't need
-    to be shown here. \n<size=45>    </size>Notice that the flow of the bubbles doesn't
-    always point in the same direction as the vector field itself. Why is this? At
-    which points <i>will</i> it align? "
+    is always inwards or outwards, never perpendicular to the axis. Because divergence
+    doesn't take the perpendicular components into account for the computation, they
+    don't need to be shown here. \n<size=45>    </size>Notice that the flow of the
+    bubbles doesn't always point in the same direction as the vector field itself.
+    Why is this? At which points <i>will</i> it align? "
   detectorPrefab: {fileID: 6520425705519372583, guid: 00d22e812db63074986d60c5ceb98cff, type: 3}
