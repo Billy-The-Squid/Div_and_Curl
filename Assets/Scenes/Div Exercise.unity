@@ -36144,10 +36144,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Div and Curl: A VR Vector Field Experience\nby Will Hanstedt\n\nProject
     Directed by Dr. Chris French\nQA by Harper Crosson\nAdditional Assistance from
-    \nMario Manalu \nMingyang Fan \nTal Rastopchin\nDr. David Neville\n\nTesting
-    by:\nJackson Breshears\nIsaac Throndson\nSarah Weber\nElissa Suarez\nDeb Pathak\nKhondamir
-    Imomnazarov\n\nLow Poly Underwater Scene Assets by Awessets\nCustomizable Skybox
-    by Key Mouse\nHand models by Facebook Technologies"
+    \nMario Manalu \nMingyang Fan \nTal Rastopchin\nDr. David Neville\n\nFeedback
+    from:\nJackson Breshears\nKhondamir Imomnazarov\nDeb Pathak\nElissa Suarez\nIsaac
+    Throndson\nSarah Weber\n\nLow Poly Underwater Scene Assets by Awessets\nCustomizable
+    Skybox by Key Mouse\nHand models by Facebook Technologies"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2eb5e6c70913b8b438f41add182ae5b9, type: 2}
   m_sharedMaterial: {fileID: -5846112064276745353, guid: 2eb5e6c70913b8b438f41add182ae5b9, type: 2}
