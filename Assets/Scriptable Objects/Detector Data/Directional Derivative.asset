@@ -17,7 +17,7 @@ MonoBehaviour:
     that quantity changes due to a small shift in a certain direction. Because the
     fields are made of three-component vectors, their derivatives are also three-component
     vectors. '
-  equation: {fileID: 21300000, guid: 5af2e2dfb1ae37d46a144d1ce4de85ac, type: 3}
+  equation: {fileID: 21300000, guid: c41f1f7ce82cba84d85661e86b9e2592, type: 3}
   equationDescription: "      On the left side of the equation is the derivative
     of the vector field <b><i>F</i></b> with respect to a shift in the direction
     of the unit vector <b><i>u</i></b>. \n<size=45>    </size>Each term on the right

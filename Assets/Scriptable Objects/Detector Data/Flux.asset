@@ -33,17 +33,17 @@ MonoBehaviour:
     product of their magnitudes. If they are perpendicular, it is zero. If they point
     in opposite directions, the product is negative."
   detector: "      The surface integral is being taken over the surface of the sphere.
-    At each point, the set of green vectors shows the value of the field while theorange
-    and purple vectors show the result of the dot product between the normal and
-    the field (technically, the projection of the field onto the normal). What happens
-    to the projection vector when its field vector points directly out from the surface?\n<size=45>   
-    </size>The orange on the detector shows points where the dot product is positive,
-    while the purple shows where it is negative. What do the colors look like at
-    points where the divergence is zero?\n<size=45>    </size>If you think of the
-    field as showing fluid flow, then think about how the field is passing through
-    the surface\u2014is it, over the whole surface, going inwards or outwards? This
-    flow is proportional to the flux. Divide that by the volume inside the sphere,
-    and you have the average divergence. \n<size=45>    </size>This detector can
-    be resized. Try using that and the limit part of the governing equation to estimate
-    the divergence. "
+    At each point, the set of green vectors shows the value of the field while the
+    orange and purple vectors show the result of the dot product between the normal
+    and the field (technically, the projection of the field onto the normal). What
+    happens to the projection vector when its field vector points directly out from
+    the surface?\n<size=45>    </size>The orange on the detector shows points where
+    the dot product is positive, while the purple shows where it is negative. What
+    do the colors look like at points where the divergence is zero?\n<size=45>   
+    </size>If you think of the field as showing fluid flow, then think about how
+    the field is passing through the surface\u2014is it, over the whole surface,
+    going inwards or outwards? This flow is proportional to the flux. Divide that
+    by the volume inside the sphere, and you have the average divergence. \n<size=45>   
+    </size>This detector can be resized. Try using that and the limit part of the
+    governing equation to estimate the divergence. "
   detectorPrefab: {fileID: 1718279740705519841, guid: 2acd5422a7718f74ea9db62e378e30b8, type: 3}

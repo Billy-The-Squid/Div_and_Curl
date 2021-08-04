@@ -21,14 +21,14 @@ MonoBehaviour:
     down to a single point. "
   equation: {fileID: 21300000, guid: bddadeb4d40b4824092308450018c833, type: 3}
   equationDescription: "      The left side of the equation is the dot product of
-    the curl (represented as the cross product of <b>nabla</b> and the field) and
-    the normal, a unit vector perpendicular to the loop. This gives us a single component
-    of the curl. \n<size=45>    </size><i>A</i> is the area enclosed by the loop.
-    \n<size=45>    </size>The integral is a <b>closed line</b> integral, and <b>d<i>s</i></b>
-    is a small portion of that line. \n<size=45>    </size>The <b>dot product</b>
-    measures how much two vectors align with each other. If <b><i>F</i></b> and <b>d<i>s</i></b>
-    point in the same direction, it is the product of their magnitudes. If they are
-    perpendicular, it is zero. "
+    the curl (represented as the cross product of <b>nabla</b> (the upside-down triangle)
+    and the field) and the normal, a unit vector perpendicular to the loop. This
+    gives us a single component of the curl. \n<size=45>    </size><i>A</i> is the
+    area enclosed by the loop. \n<size=45>    </size>The integral is a <b>closed
+    line</b> integral, and <b>d<i>s</i></b> is a small portion of that line. \n<size=45>   
+    </size>The <b>dot product</b> measures how much two vectors align with each other.
+    If <b><i>F</i></b> and <b>d<i>s</i></b> point in the same direction, it is the
+    product of their magnitudes. If they are perpendicular, it is zero. "
   detector: "      As you take a line integral in a circle, how much does the field
     align with that loop? \n<size=45>    </size>The central arrow shows just the
     component of the curl that points perpendicular to the loop. Along the edge,
