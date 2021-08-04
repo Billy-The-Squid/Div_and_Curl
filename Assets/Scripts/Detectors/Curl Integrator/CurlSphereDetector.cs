@@ -156,7 +156,7 @@ public class CurlSphereDetector : FieldDetector
         totalCurlArray = new Vector3[1];
         // RETYPE
 
-        detectorReadout = new VectorReadout("Curl / Volume");
+        detectorReadout = new VectorReadout("Ave. Curl");
 
         base.Start();
     }

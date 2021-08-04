@@ -103,7 +103,7 @@ public class CurlLoopDetector : FieldDetector
 
         localField.enabled = axisDisplay.enabled = inField;
 
-        detectorReadout = new FloatReadout("Curl / Area (Component)");
+        detectorReadout = new FloatReadout("Ave. Curl (Component)");
 
         // Initializing the compute buffers
         contributionsBuffer = new ComputeBuffer(zone.resolution, sizeof(float));
